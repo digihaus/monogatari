@@ -12,7 +12,6 @@ function MonogatariFontManager() {
   this._fontLoader = new Monogatari.FontLoader();
 };
 
-
 MonogatariFontManager.prototype.loadFont = function( family ) {
   if ( !this.fonts.contains( family ) ) {
     var fontAsset = new Monogatari.FontAsset();
@@ -57,8 +56,4 @@ MonogatariFontManager.prototype.onloadFontFailed = function( family ) {
 
 MonogatariFontManager.prototype.unloadAll = function() {
   fonts.clear();
-};
-
-MonogatariFontManager.prototype.isAllAssetsLoaded = function() {
-  return this.isAllFontsReady() ? true : false;
 };
