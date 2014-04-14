@@ -133,7 +133,7 @@ Monogatari.GameObject = Class.extend( {
 
       // if is a component to be rendered, need to update engine transformations to Three.js transformations
       if ( this._isRenderable ) {
-        if ( typeof ( comp.getMesh ) === 'function' ) {
+        if ( typeof ( comp.getMesh ) === 'function' && comp.getMesh() ) {
           comp.getMesh().position = node.position;
           comp.getMesh().rotation.z = node.getEulerRotation();
           comp.getMesh().scale = node.scale;

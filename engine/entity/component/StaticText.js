@@ -1,7 +1,7 @@
 // @Requires[core/Monogatari.js]
 // @Requires[core/String.js]
 // @Requires[engine/entity/component/Font2D.js]
-// @Requires[engine/AssetManager.js]
+// @Requires[engine/FontManager.js]
 
 Monogatari.StaticText = Monogatari.Font2D.extend( {
   init : function( sceneId, text, fontSize, fontFamily, width, height ) {
@@ -36,7 +36,7 @@ Monogatari.StaticText = Monogatari.Font2D.extend( {
   },
 
   update : function() {
-    if ( Monogatari.AssetManager.isFontReady( this.fontFamily ) ) {
+    if ( Monogatari.FontManager.isFontReady( this.fontFamily ) ) {
       if ( this.componentState == Monogatari.Constants.COMPONENT_STATE_INITIALIZING ) {
         this.parse();
         this.componentState = Monogatari.Constants.COMPONENT_STATE_BUFFERING;
@@ -65,7 +65,7 @@ Monogatari.StaticText = Monogatari.Font2D.extend( {
         this.componentState = Monogatari.Constants.COMPONENT_STATE_READY;
       }
     } else {
-      Monogatari.AssetManager.loadFont( this.fontFamily );
+      Monogatari.FontManager.loadFont( this.fontFamily );
     }
   },
 

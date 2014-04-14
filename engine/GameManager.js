@@ -2,8 +2,9 @@
 // @Requires[core/Timer.js]
 // @Requires[core/String.js]
 
-// @Requires[engine/AssetManager.js]
+// @Requires[engine/AudioManager.js]
 // @Requires[engine/EventManager.js]
+// @Requires[engine/FontManager.js]
 // @Requires[engine/SceneManager.js]
 // @Requires[engine/ObjectManager.js]
 // @Requires[engine/PhysicsManager.js]
