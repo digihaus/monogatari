@@ -1,8 +1,28 @@
 // @Requires[core/Monogatari.js]
+// @Requires[core/Constants.js]
 
 // Utility functions for use as static methods.
 Monogatari.Util = new MonogatariUtil();
-function MonogatariUtil() {};
+
+function MonogatariUtil() {
+  this._browserDetect = {};
+
+  this._browserDetect.agent = window.navigator.userAgent;
+  this._browserDetect.version = window.navigator.appVersion;
+  this._browserDetect.plataform = window.navigator.platform;
+
+  var agent = this._browserDetect.agent;
+
+  this._browserDetect.isFirefox = ( agent.indexOf( "Firefox" ) > -1 );
+  this._browserDetect.isOpera = ( window.opera != null );
+  // Chrome on Android returns true but is a completely different browser with different abilities
+  this._browserDetect.isChrome = ( agent.indexOf( "Chrome" ) > -1 );
+  // if the browser is safari for iOS devices (iPad, iPhone, and iPad).
+  this._browserDetect.isIOS = agent.indexOf( "iPod" ) > -1 || agent.indexOf( "iPhone" ) > -1 || agent.indexOf( "iPad" ) > -1;
+  this._browserDetect.isAndroid = ( agent.indexOf( "Android" ) > -1 );
+  this._browserDetect.isBlackberry = ( agent.indexOf( "Blackberry" ) > -1 );
+  this._browserDetect.isIE = ( agent.indexOf( "MSIE" ) > -1 );
+};
 
 MonogatariUtil.prototype.createUniqueId = function() {
   // from: http://stackoverflow.com/a/2117523
@@ -57,4 +77,22 @@ MonogatariUtil.prototype.store = function( key, val, isObject ) {
     localStorage.setItem( key, JSON.stringify( val ) );
   else
     localStorage.setItem( key, val );
+};
+
+MonogatariUtil.prototype.getBrowser = function() {
+  // Chrome on Android returns true but is a completely different browser with different abilities
+  if ( this._browserDetect.isAndroid )
+    return Monogatari.Constants.BROWSER_ANDROID;
+  if ( this._browserDetect.isChrome )
+    return Monogatari.Constants.BROWSER_CHROME;
+  if ( this._browserDetect.isFirefox )
+    return Monogatari.Constants.BROWSER_FIREFOX;
+  if ( this._browserDetect.isIOS )
+    return Monogatari.Constants.BROWSER_IOS;
+  if ( this._browserDetect.isOpera )
+    return Monogatari.Constants.BROWSER_OPERA;
+  if ( this._browserDetect.isBlackberry )
+    return Monogatari.Constants.BROWSER_BLACKBERRY;
+  if ( this._browserDetect.isIE )
+    return Monogatari.Constants.BROWSER_IE;
 };

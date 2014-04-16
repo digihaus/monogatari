@@ -3,6 +3,14 @@
 Monogatari.Constants = new MonogatariConstants();
 function MonogatariConstants() {
 
+  this.BROWSER_ANDROID = 1;
+  this.BROWSER_CHROME = 2;
+  this.BROWSER_FIREFOX = 3;
+  this.BROWSER_IOS = 4;
+  this.BROWSER_OPERA = 5;
+  this.BROWSER_BLACKBERRY = 6;
+  this.BROWSER_IE = 7;
+
   this.MODE_DEBUG = 1;
   this.MODE_RELEASE = 2;
 
@@ -33,7 +41,7 @@ function MonogatariConstants() {
   // component state
   this.COMPONENT_STATE_INITIALIZING = 0;
   this.COMPONENT_STATE_BUFFERING = 1;
-  this.COMPONENT_STATE_READY = 2; 
+  this.COMPONENT_STATE_READY = 2;
 
   // components
   this.COMPONENT_NODE = 1;
@@ -53,7 +61,8 @@ function MonogatariConstants() {
   this.COMPONENT_CUSTOM = -1;
 
   this.FONT_CHARS_SIMPLE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ";
-  // this.FONT_CHARS_EXTENDED = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ηΗαινσϊΑΙΝΣΪΰθμςωΐΘΜÒΩδλοφόΔΛΟΦάγυρΓΥΡβκξτϋΒΚΞΤΫ_()-,.[]!?@$*";
+  // this.FONT_CHARS_EXTENDED =
+  // "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ηΗαινσϊΑΙΝΣΪΰθμςωΐΘΜÒΩδλοφόΔΛΟΦάγυρΓΥΡβκξτϋΒΚΞΤΫ_()-,.[]!?@$*";
 
   this.REGEXP_URL = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
   this.REGEXP_NUMBERS_ONLY = /^\s*\d+\s*$/;
