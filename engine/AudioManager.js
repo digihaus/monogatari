@@ -3,15 +3,16 @@
 // @Requires[lib/Sound.js]
 
 Monogatari.AudioManager = new MonogatariAudioManager();
+Monogatari._Sound = createjs.Sound;
 
 function MonogatariAudioManager() {
-  createjs.Sound.registerPlugins( [ createjs.WebAudioPlugin, createjs.HTMLAudioPlugin ] );
+  Monogatari._Sound.registerPlugins( [ createjs.WebAudioPlugin, createjs.HTMLAudioPlugin ] );
 
   this.queue = new createjs.LoadQueue();
 
-  createjs.Sound.alternateExtensions = [ "mp3" ];
+  Monogatari._Sound.alternateExtensions = [ "mp3" ];
 
-  this.queue.installPlugin( createjs.Sound );
+  this.queue.installPlugin( Monogatari._Sound );
 
   this.queue.addEventListener( "complete", this.loadComplete );
   this.queue.addEventListener( "fileload", this.fileComplete );
@@ -24,7 +25,7 @@ MonogatariAudioManager.prototype.loadComplete = function( event ) {
 };
 
 MonogatariAudioManager.prototype.fileComplete = function( event ) {
-  console.log( "File loading complete" );
+  console.log( "File loading complete: " + event.src );
 };
 
 MonogatariAudioManager.prototype.handleFileError = function( event ) {
@@ -32,7 +33,7 @@ MonogatariAudioManager.prototype.handleFileError = function( event ) {
 };
 
 MonogatariAudioManager.prototype.handleProgress = function( event ) {
-  console.log( "Loading... " + ( queue.progress.toFixed( 2 ) * 100 ) + "%" );
+  console.log( "Loading... " + ( this.queue.progress.toFixed( 2 ) * 100 ) + "%" );
 };
 
 MonogatariAudioManager.prototype.loadAudio = function( _id, _source ) {
@@ -44,6 +45,12 @@ MonogatariAudioManager.prototype.loadAudio = function( _id, _source ) {
   this.queue.loadFile( item, true );
 };
 
-MonogatariAudioManager.prototype.play = function( id ) {
-  soundInstance = createjs.Sound.play( id );
+MonogatariAudioManager.prototype.isLoaded = function( id ) {
+  return ( this.queue._loadItemsById[ id ] || this.queue._loadItemsBySrc[ src ] ) ? true : false;
+};
+
+// returns a SoundInstance object  
+// http://www.createjs.com/Docs/SoundJS/classes/SoundInstance.html
+MonogatariAudioManager.prototype.get = function( id ) {
+  return Monogatari._Sound.createInstance( id );
 };
