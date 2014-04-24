@@ -6,6 +6,9 @@
 <script>
     scriptLoader.load( [ 'engine/GameManager.js', 'core/io/Keyboard.js'], '../', function() {
         Monogatari.GameManager.init();
+        Monogatari.SceneManager.createScene( 'mainScene' );
+        Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
+
         var go = Monogatari.ObjectManager.create( 'world' );
 
         go.update = function() {
