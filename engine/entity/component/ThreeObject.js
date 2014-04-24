@@ -1,9 +1,10 @@
 // @Requires[core/Monogatari.js]
 // @Requires[core/Constants.js]
+// @Requires[engine/entity/component/Component.js]
 // @Requires[engine/SceneManager.js]
 // @Requires[lib/Three.js]
 
-Monogatari.ThreeObject = Class.extend( {
+Monogatari.ThreeObject = Monogatari.Component.extend( {
   init : function( sceneId, material, geometry ) {
     this._sceneId = ( sceneId ) ? sceneId : null;
     this._texture = null;

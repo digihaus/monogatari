@@ -1,9 +1,10 @@
 // @Requires[core/Monogatari.js]
 // @Requires[core/Constants.js]
 // @Requires[core/Math.js]
+// @Requires[engine/entity/component/Component.js]
 // @Requires[lib/Three.js]
 
-Monogatari.Node = Class.extend( {
+Monogatari.Node = Monogatari.Component.extend( {
   init : function( position, rotation, scale ) {
     this.position = ( position ) ? position : new THREE.Vector3( 0, 0, 0 );
     this.rotation = ( rotation ) ? rotation : new THREE.Vector3( 0, 1, 0 ); // new THREE.Euler()

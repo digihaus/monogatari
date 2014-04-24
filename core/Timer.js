@@ -49,7 +49,7 @@ MonogatariFrames.prototype.getFps = function() {
   if ( delta >= 1000 ) {
     this._fps = this._ticks;
     this._ticks = 0;
-    this._lastTime = Date.now();
+    this._lastTime = now;
   }
 
   this._ticks++;

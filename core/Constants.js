@@ -7,9 +7,10 @@ function MonogatariConstants() {
   this.BROWSER_CHROME = 2;
   this.BROWSER_FIREFOX = 3;
   this.BROWSER_IOS = 4;
-  this.BROWSER_OPERA = 5;
-  this.BROWSER_BLACKBERRY = 6;
-  this.BROWSER_IE = 7;
+  this.BROWSER_SAFARI = 5;
+  this.BROWSER_OPERA = 6;
+  this.BROWSER_BLACKBERRY = 7;
+  this.BROWSER_IE = 8;
 
   this.MODE_DEBUG = 1;
   this.MODE_RELEASE = 2;
@@ -38,23 +39,29 @@ function MonogatariConstants() {
   this.ASSET_STATE_LOADED = 2;
   this.ASSET_STATE_FAILED = 3;
 
+  // audio state
+  this.AUDIO_STATE_STOPED = 0;
+  this.AUDIO_STATE_PLAYING = 1;
+  this.AUDIO_STATE_PAUSED = 2;
+  this.AUDIO_STATE_FINISHED = 3;
+
   // component state
   this.COMPONENT_STATE_INITIALIZING = 0;
   this.COMPONENT_STATE_BUFFERING = 1;
   this.COMPONENT_STATE_READY = 2;
+  this.COMPONENT_STATE_FAILED = 3;
 
   // components
+  this.COMPONENT_BASE = 0;
   this.COMPONENT_NODE = 1;
   this.COMPONENT_THREE_OBJECT = 2;
   this.COMPONENT_RIGID_BODY = 3;
   this.COMPONENT_SPRITE = 4;
-  this.COMPONENT_TILEMAP = 5;
-  this.COMPONENT_STATIC_TEXT = 6;
-  this.COMPONENT_FLY_TEXT = 7;
+  this.COMPONENT_STATIC_TEXT = 5;
+  this.COMPONENT_AUDIO_SOURCE = 6;
 
   // this.COMPONENT_PARTICLE_EMITTER = 1;
   // this.COMPONENT_AUDIO_LISTENER = 1;
-  // this.COMPONENT_AUDIO_SOURCE = 1;
   // this.COMPONENT_PACKAGE_SENDER = 1;
   // this.COMPONENT_PACKAGE_LISTENER = 1;
 
