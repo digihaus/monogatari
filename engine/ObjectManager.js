@@ -16,8 +16,8 @@ MonogatariObjectManager.prototype.add = function( object ) {
 
 MonogatariObjectManager.prototype.create = function( id, update ) {
   var object = new Monogatari.GameObject( id, update );
-  // by default, every Game Object has a Node component (position, rotation, scale), by the name of "node"
-  object.addComponent( 'node', new Monogatari.Node() );
+  // by default, every Game Object has a Node component (position, rotation, scale)
+  object.addComponent( Monogatari.Constants.COMPONENT_NODE, new Monogatari.Node() );
   return this._objects.put( id, object ).value;
 };
 
@@ -118,10 +118,10 @@ MonogatariObjectManager.prototype.update = function() {
 MonogatariObjectManager.prototype.getGlobalPosition = function( id ) {
   if ( this._objects.contains( id ) ) {
     if ( this._objects.get( id ).parent === 'trunk' ) {
-      return this._objects.get( id ).value.findComponent( 'node' ).position;
+      return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position;
     } else {
       var parentPosition = Monogatari.ObjectManager.getGlobalPosition( this._objects.get( id ).parent );
-      var position = this._objects.get( id ).value.findComponent( 'node' ).position.clone();
+      var position = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone();
 
       position.add( parentPosition.getX(), parentPosition.getY(), parentPosition.getZ() );
 
@@ -135,10 +135,10 @@ MonogatariObjectManager.prototype.getGlobalPosition = function( id ) {
 MonogatariObjectManager.prototype.getGlobalRotation = function( id ) {
   if ( this._objects.contains( id ) ) {
     if ( this._objects.get( id ).parent === 'trunk' ) {
-      return this._objects.get( id ).value.findComponent( 'node' ).rotation;
+      return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation;
     } else {
       var parentRotation = Monogatari.ObjectManager.getGlobalRotation( this._objects.get( id ).parent );
-      var rotation = this._objects.get( id ).value.findComponent( 'node' ).rotation.clone();
+      var rotation = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone();
 
       rotation.add( parentRotation.getX(), parentRotation.getY(), parentRotation.getZ() );
 
@@ -152,10 +152,10 @@ MonogatariObjectManager.prototype.getGlobalRotation = function( id ) {
 MonogatariObjectManager.prototype.getGlobalScale = function( id ) {
   if ( this._objects.contains( id ) ) {
     if ( this._objects.get( id ).parent === 'trunk' ) {
-      return this._objects.get( id ).value.findComponent( 'node' ).scale;
+      return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
     } else {
       var parentScale = Monogatari.ObjectManager.getGlobalScale( this._objects.get( id ).parent );
-      var scale = this._objects.get( id ).value.findComponent( 'node' ).scale.clone();
+      var scale = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone();
 
       scale.add( parentScale.getX(), parentScale.getY(), parentScale.getZ() );
 
@@ -169,13 +169,13 @@ MonogatariObjectManager.prototype.getGlobalScale = function( id ) {
 MonogatariObjectManager.prototype.getGlobalNode = function( id ) {
   if ( this._objects.contains( id ) ) {
     if ( this._objects.get( id ).parent === 'trunk' ) {
-      return this._objects.get( id ).value.findComponent( 'node' ).scale;
+      return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
     } else {
       var parentNode = Monogatari.ObjectManager.getGlobalNode( this._objects.get( id ).parent );
       var node = new Node( 
-            this._objects.get( id ).value.findComponent( 'node' ).position.clone(), 
-            this._objects.get( id ).value.findComponent( 'node' ).rotation.clone(), 
-            this._objects.get( id ).value.findComponent( 'node' ).scale.clone() );
+            this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone(), 
+            this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone(), 
+            this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone() );
 
       node.position.add( parentNode.position.getX(), parentNode.position.getY(), parentNode.position.getZ() );
       node.rotation.add( parentNode.rotation.getX(), parentNode.rotation.getY(), parentNode.rotation.getZ() );

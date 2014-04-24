@@ -28,13 +28,13 @@
       id : 'knight'
     } );
 
-    knight.addComponent( 'node', new Monogatari.Node() );
+    knight.addComponent( new Monogatari.Node() );
 
     var sprite = new Monogatari.Sprite( 'mainScene', 'assets/sprite-knight.png', 32, 32, 4, 3 );
     sprite.getMaterial().transparent = true;
 
-    knight.addComponent( 'sprite-knight', sprite );
-    knight.addComponent( 'rigid-body', rb1 );
+    knight.addComponent( sprite );
+    knight.addComponent( rb1 );
 
     //ball1
     var ball = Monogatari.ObjectManager.create( 'ball1' );
@@ -54,9 +54,9 @@
       id : 'ball1'
     } );
 
-    ball.addComponent( 'node', new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
-    ball.addComponent( 'sprite', new Monogatari.Sprite( 'mainScene', 'assets/earth.png', 24, 24 ) );
-    ball.addComponent( 'rigid-body', rb2 );
+    ball.addComponent( new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
+    ball.addComponent( new Monogatari.Sprite( 'mainScene', 'assets/earth.png', 24, 24 ) );
+    ball.addComponent( rb2 );
 
     //ball2
     var ball2 = Monogatari.ObjectManager.create( 'ball2' );
@@ -76,9 +76,9 @@
       id : 'ball2'
     } );
 
-    ball2.addComponent( 'node', new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
-    ball2.addComponent( 'sprite', new Monogatari.Sprite( 'mainScene', 'assets/earth.png', 24, 24 ) );
-    ball2.addComponent( 'rigid-body', rb3 );
+    ball2.addComponent( new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
+    ball2.addComponent( new Monogatari.Sprite( 'mainScene', 'assets/earth.png', 24, 24 ) );
+    ball2.addComponent( rb3 );
 
     // ground
     var groundBodyDef = new b2BodyDef();

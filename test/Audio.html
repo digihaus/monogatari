@@ -12,10 +12,10 @@
 
             var music = Monogatari.ObjectManager.create( 'music' );
 
-            music.addComponent( 'audio', new Monogatari.Audio('assets/heat-on-the-road.ogg') );
+            music.addComponent( new Monogatari.Audio('assets/heat-on-the-road.ogg') );
 
             music.update = function(){
-              this.findComponent( 'audio' ).play()
+              this.findComponent( Monogatari.Constants.COMPONENT_AUDIO_SOURCE ).play()
             }
 
             Monogatari.ObjectManager.connect( 'world', 'music' );

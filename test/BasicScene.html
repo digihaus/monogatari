@@ -13,16 +13,16 @@
 
             var go = Monogatari.ObjectManager.create( 'knight' );
 
-            go.addComponent( 'node', new Monogatari.Node( new THREE.Vector3( 300, 300, 0 ) ) );
+            go.addComponent( new Monogatari.Node( new THREE.Vector3( 300, 300, 0 ) ) );
 
             var sprite = new Monogatari.Sprite(  'mainScene', 'assets/sprite-knight.png', 32, 32, 4, 3);
             sprite.getMaterial().transparent = true;
 
-            go.addComponent( 'sprite-knight',  sprite);
+            go.addComponent( sprite );
 
             go.update = function(){
-                var node = this.findComponent( 'node' );
-                var sprite = this.findComponent( 'sprite-knight' );
+                var node = this.findComponent( Monogatari.Constants.COMPONENT_AUDIO_SOURCE );
+                var sprite = this.findComponent( Monogatari.Constants.COMPONENT_SPRITE );
                 var animationSpeed = 200;
 
                 if ( Monogatari.Time.compare( sprite.lastUpdate ) > animationSpeed ) {

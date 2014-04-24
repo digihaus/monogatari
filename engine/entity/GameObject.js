@@ -29,9 +29,9 @@ Monogatari.GameObject = Class.extend( {
     this.updateComponents();
   },
 
-  addComponent : function( id, component ) {
+  addComponent : function( component ) {
     this.checkComponent( component );
-    return this._components.put( id, component );
+    return this._components.put( component.componentType, component );
   },
 
   checkComponent : function( component ) {
@@ -41,11 +41,11 @@ Monogatari.GameObject = Class.extend( {
     if ( component.componentType === Monogatari.Constants.COMPONENT_THREE_OBJECT 
         || component.componentType === Monogatari.Constants.COMPONENT_SPRITE
         || component.componentType === Monogatari.Constants.COMPONENT_STATIC_TEXT )
-    this._isRenderable = true;
+      this._isRenderable = true;
   },
 
-  findComponent : function( id ) {
-    return this._components.get( id );
+  findComponent : function( type ) {
+    return this._components.get( type );
   },
 
   removeComponent : function( id ) {
@@ -58,6 +58,7 @@ Monogatari.GameObject = Class.extend( {
     this._components.clear();
   },
 
+  // deprecated
   findComponentByType : function( type ) {
     var comp;
 
@@ -72,30 +73,7 @@ Monogatari.GameObject = Class.extend( {
   },
 
   hasComponent : function( type ) {
-    var comp;
-
-    this._componentIterator.first();
-
-    while ( this._componentIterator.hasNext() ) {
-      comp = this._componentIterator.next();
-      if ( comp.componentType === type )
-        return true;
-    }
-    return false;
-  },
-
-  listComponentsByType : function( type ) {
-    var list = new Array();
-    var comp = null;
-
-    this._componentIterator.first();
-
-    while ( this._componentIterator.hasNext() ) {
-      comp = this._componentIterator.next();
-      if ( comp.componentType === type )
-        list[ list.length ] = comp;
-    }
-    return list;
+    return ( this._components.contains( type ) ) ? true : false;
   },
 
   listComponentsToRender : function() {
@@ -116,7 +94,7 @@ Monogatari.GameObject = Class.extend( {
   updateComponents : function() {
     var comp;
 
-    var node = this.findComponent( 'node' );
+    var node = this.findComponent( Monogatari.Constants.COMPONENT_NODE );
 
     // update object position from Box2D to Monogatari based on physics simulation (if applicable)
     // only affect X and Y for safety reasons, messing with Z on 2D is probably not expected
@@ -150,15 +128,15 @@ Monogatari.GameObject = Class.extend( {
   },
 
   setPosition : function( x, y, z ) {
-    this.findComponent( 'node' ).position.set( x, y, z );
+    this.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.set( x, y, z );
   },
 
   setRotation : function( x, y, z ) {
-    this.findComponent( 'node' ).rotation.set( x, y, z );
+    this.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.set( x, y, z );
   },
 
   setScale : function( x, y, z ) {
-    this.findComponent( 'node' ).scale.set( x, y, z );
+    this.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.set( x, y, z );
   },
 
   toJSON : function() {}
