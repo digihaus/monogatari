@@ -3,7 +3,8 @@
 // @Requires[lib/Three.js]
 
 /**
- * This is an utilitary class to hold the THREE camera itself and the information of which scenes should be rendered in which camera
+ * This is an utilitary class to hold the THREE camera itself and the information of which scenes should be rendered in
+ * which camera
  */
 
 Monogatari.Camera2D = Class.extend( {

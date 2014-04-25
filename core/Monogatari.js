@@ -21,7 +21,8 @@ Monogatari.round = roundHack; // Math.round;
 Monogatari.ceil = ceilHack; // Math.ceil;
 Monogatari.floor = floorHack; // Math.floor;
 
-Monogatari.Random = chance; // exposes the Chance.js to the engine context, just for consistency (does this use more memory?)
+// exposes the Chance.js to the engine context, just for consistency (does this use more memory?)
+Monogatari.Random = chance;
 
 // function hacks
 // from: http://mudcu.be/journal/2011/11/bitwise-gems-and-other-optimizations/

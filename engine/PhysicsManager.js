@@ -53,7 +53,8 @@ MonogatariPhysicsManager.prototype.update = function() {
     var fps = Monogatari.Frames.getFps();
 
     // The more iterations, the more accurate the calculations
-    this.world.Step( ( fps ) ? 1 / fps : Monogatari.Constants.FRAME_RATE_60FPS, // frame rate at which to update physics( 1 / FPS or 1.0 / 60.0 )
+    this.world.Step( ( fps ) ? 1 / fps : Monogatari.Constants.FRAME_RATE_60FPS, // frame rate at which to update
+                                                                                // physics( 1 / FPS or 1.0 / 60.0 )
     this.velocityIterations, // number of velocity iterations to calculate each physics update
     this.positionIterations // number of position iterations to calculate each physics update
     );

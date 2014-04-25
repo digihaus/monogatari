@@ -3,7 +3,7 @@
 
 /* this is the base class all engine components should extend */
 Monogatari.Component = Class.extend( {
-  init : function(){
+  init : function() {
     this.componentType = Monogatari.Constants.COMPONENT_BASE;
   }
 } );

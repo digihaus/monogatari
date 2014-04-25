@@ -36,7 +36,7 @@ MonogatariFontManager.prototype.isAllLoaded = function() {
   while ( this._fontIterator.hasNext() ) {
     font = this._fontIterator.next();
 
-    if( font && font.status != Monogatari.Constants.ASSET_STATE_LOADED )
+    if ( font && font.status != Monogatari.Constants.ASSET_STATE_LOADED )
       return false;
   }
 
