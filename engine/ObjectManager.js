@@ -17,7 +17,7 @@ MonogatariObjectManager.prototype.add = function( object ) {
 MonogatariObjectManager.prototype.create = function( id, update ) {
   var object = new Monogatari.GameObject( id, update );
   // by default, every Game Object has a Node component (position, rotation, scale)
-  object.addComponent( Monogatari.Constants.COMPONENT_NODE, new Monogatari.Node() );
+  object.addComponent( new Monogatari.Node() );
   return this._objects.put( id, object ).value;
 };
 

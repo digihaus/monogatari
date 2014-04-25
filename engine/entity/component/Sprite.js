@@ -54,10 +54,11 @@ Monogatari.Sprite = Monogatari.ThreeObject.extend( {
   setFrame : function( frame ) {
     this._frame = frame ? frame : 1;
 
-    this.col = (Math.ceil( this._frame / this.cols ))-1;
-    this.row = (this._frame -1) % this.cols;
+    this.col = ( Math.ceil( this._frame / this.cols ) ) - 1;
+    this.row = ( this._frame - 1 ) % this.cols;
 
-    //console.log("Frame:"+ this._frame + " Col:" + this.col +" Row:" + this.row + " OffsetX:" + this.row / this.cols +" OffsetY:" + this.col / this.rows);
+    // console.log("Frame:"+ this._frame + " Col:" + this.col +" Row:" + this.row + " OffsetX:" + this.row / this.cols
+    // +" OffsetY:" + this.col / this.rows);
 
     this._texture.offset.x = this.row / this.cols;
     this._texture.offset.y = this.col / this.rows;
