@@ -17,52 +17,52 @@ Monogatari.Font2D = Monogatari.ThreeObject.extend( {
 
     this.maxWidth = this.fontSize;
 
-    // this map stores the buffered font (with given specifications) 
+    // this map stores the buffered font (with given specifications)
     // on multiple canvases (one for each character)
     this.fontMap = new Monogatari.Map();
 
     this.componentType = Monogatari.Constants.COMPONENT_FONT;
+  },
+
+  parse : function() {
+    var canvas = null;
+    var context = null;
+
+    var canvasBuffer = null;
+    var contextBuffer = null;
+
+    var w = 0, h = this.fontSize * 2;
+
+    canvasBuffer = document.createElement( 'canvas' );
+    canvasBuffer.width = w;
+    canvasBuffer.height = h;
+
+    contextBuffer = canvasBuffer.getContext( "2d" );
+
+    for ( var i = 0, len = Monogatari.Constants.FONT_CHARS_SIMPLE.length; i < len; i++ ) {
+      w = contextBuffer.measureText( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ] ).width + ( this.fontSize / 2 );
+
+      this.maxWidth = Monogatari.max( w, this.maxWidth );
+
+      canvas = document.createElement( 'canvas' );
+      canvas.width = w;
+      canvas.height = h;
+
+      context = canvas.getContext( "2d" );
+      context.clearRect( 0, 0, w, h );
+
+      context.strokeStyle = this.strokeColor;
+      context.fillStyle = this.fillColor;
+
+      context.font = this.fontSize + "px " + this.fontFamily;
+
+      context.fillText( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ], 0, h / 2 );
+
+      this.fontMap.put( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ], canvas );
+    }
+  },
+
+  clone : function() {
+    return new Monogatari.Font2D( this.fontSize, this.fontFamily, this.strokeColor, this.fillColor );
   }
 } );
-
-Monogatari.Font2D.prototype.parse = function() {
-  var canvas = null;
-  var context = null;
-
-  var canvasBuffer = null;
-  var contextBuffer = null;
-
-  var w = 0, h = this.fontSize * 2;
-
-  canvasBuffer = document.createElement( 'canvas' );
-  canvasBuffer.width = w;
-  canvasBuffer.height = h;
-
-  contextBuffer = canvasBuffer.getContext( "2d" );
-
-  for ( var i = 0, len = Monogatari.Constants.FONT_CHARS_SIMPLE.length; i < len; i++ ) {
-    w = contextBuffer.measureText( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ] ).width + ( this.fontSize / 2 );
-
-    this.maxWidth = Monogatari.max( w, this.maxWidth );
-
-    canvas = document.createElement( 'canvas' );
-    canvas.width = w;
-    canvas.height = h;
-
-    context = canvas.getContext( "2d" );
-    context.clearRect( 0, 0, w, h );
-
-    context.strokeStyle = this.strokeColor;
-    context.fillStyle = this.fillColor;
-
-    context.font = this.fontSize + "px " + this.fontFamily;
-
-    context.fillText( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ], 0, h / 2 );
-
-    this.fontMap.put( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ], canvas );
-  }
-};
-
-Monogatari.Font2D.prototype.clone = function() {
-  return new Monogatari.Font2D( this.fontSize, this.fontFamily, this.strokeColor, this.fillColor );
-};

@@ -9,7 +9,6 @@ Monogatari.FontManager = new MonogatariFontManager();
 function MonogatariFontManager() {
   this.fonts = new Monogatari.Map();
   this._fontIterator = this.fonts.iterator();
-  this._fontLoader = new Monogatari.FontLoader();
 };
 
 MonogatariFontManager.prototype.load = function( family ) {
@@ -20,7 +19,7 @@ MonogatariFontManager.prototype.load = function( family ) {
     fontAsset.status = Monogatari.Constants.ASSET_STATE_LOADING;
     this.fonts.put( family, fontAsset );
 
-    this._fontLoader.load( family, this.onload, this.onloadFailed );
+    Monogatari.FontLoader.load( family, this.onload, this.onloadFailed );
   }
 };
 

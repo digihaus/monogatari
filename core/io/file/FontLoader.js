@@ -1,9 +1,11 @@
 // @Requires[core/Monogatari.js]
 // @Requires[lib/Webfont.js]
 
-Monogatari.FontLoader = function() {};
+Monogatari.FontLoader = new MonogatariFontLoader();
 
-Monogatari.FontLoader.prototype.load = function( family, callback, callbackFail, context ) {
+function MonogatariFontLoader() {};
+
+MonogatariFontLoader.prototype.load = function( family, callback, callbackFail, context ) {
 
   var ctx = context || this;
 
