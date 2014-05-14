@@ -7,22 +7,6 @@
 Monogatari.SceneManager = new MonogatariSceneManager();
 
 function MonogatariSceneManager() {
-  // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
-  this._renderer = Detector.webgl ? new THREE.WebGLRenderer( {
-    antialias : true
-  } ) : new THREE.CanvasRenderer();
-
-  // Set the background color of the renderer, with full opacity
-  this._renderer.setClearColor( 0xFFFFFF, 1 );
-
-  // Get the size of the inner window (content area) to create a full size renderer
-  this._canvasWidth = window.innerWidth - 25;
-  this._canvasHeight = window.innerHeight - 25;
-
-  this._z = Monogatari.max( this._canvasWidth, this._canvasHeight );
-
-  // Set the renderers size to the content areas size
-  this._renderer.setSize( this._canvasWidth, this._canvasHeight );
 
   this._cameras = new Monogatari.Map();
   this._cameraIterator = this._cameras.iterator();
@@ -33,8 +17,25 @@ function MonogatariSceneManager() {
   // this._lightIterator = this._lights.iterator();
 };
 
-MonogatariSceneManager.prototype.init = function() {
-  var body = document.getElementsByTagName( 'body' )[ 0 ];
+MonogatariSceneManager.prototype.init = function( bgcolor, width, height, target ) {
+  // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
+  this._renderer = Detector.webgl ? new THREE.WebGLRenderer( {
+    antialias : false
+  } ) : new THREE.CanvasRenderer();
+
+  // Set the background color of the renderer, with full opacity
+  this._renderer.setClearColor( ( bgcolor ) ? bgcolor : 0xFFFFFF, 1 );
+
+  // if no dimensions are provided, get the size of the inner window (content area) to create a full size renderer
+  this._canvasWidth = ( width ) ? width : window.innerWidth - 25;
+  this._canvasHeight = ( height ) ? height : window.innerHeight - 25;
+
+  this._z = Monogatari.max( this._canvasWidth, this._canvasHeight );
+
+  // Set the renderers size to the content areas size
+  this._renderer.setSize( this._canvasWidth, this._canvasHeight );
+
+  var body = ( target ) ? target : document.getElementsByTagName( 'body' )[ 0 ];
   body.appendChild( this._renderer.domElement );
 };
 
@@ -66,11 +67,9 @@ MonogatariSceneManager.prototype.createCamera = function( cameraId, sceneId, wid
   if ( !height )
     height = this._canvasHeight;
 
-  var z = Monogatari.max( width, height );
-
   if ( scene ) {
     // left, right, top, bottom, near, far
-    var camera = new Monogatari.Camera2D( width / -2, width / 2, height / 2, height / -2, 1, z );
+    var camera = new Monogatari.Camera2D( width / -2, width / 2, height / 2, height / -2, 1, Monogatari.max( width, height ) );
 
     camera.addScene( sceneId );
     this._cameras.put( cameraId, camera );

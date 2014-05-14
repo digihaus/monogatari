@@ -1,4 +1,4 @@
 1 - Install Node.js
-2 - npm Install grunt
+2 - npm install grunt
 3 - npm install grunt-contrib-uglify
 4 - grunt

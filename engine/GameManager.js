@@ -13,8 +13,8 @@ Monogatari.GameManager = new MonogatariGameManager();
 
 function MonogatariGameManager() {};
 
-MonogatariGameManager.prototype.init = function() {
-  Monogatari.SceneManager.init();
+MonogatariGameManager.prototype.init = function( bgcolor, width, height, target ) {
+  Monogatari.SceneManager.init( bgcolor, width, height, target );
 };
 
 MonogatariGameManager.prototype.update = function() {
