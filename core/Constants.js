@@ -72,8 +72,8 @@ function MonogatariConstants() {
   // "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ηΗαινσϊΑΙΝΣΪΰθμςωΐΘΜÒΩδλοφόΔΛΟΦάγυρΓΥΡβκξτϋΒΚΞΤΫ_()-,.[]!?@$*";
 
   this.REGEXP_URL = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-  this.REGEXP_NUMBERS_ONLY = /^\s*\d+\s*$/;
   this.REGEXP_BETWEEN_SQUARE_BRACKETS = /\[[\w|\W]+\]/;
+  this.REGEXP_ENDLINE = /\r\n|\r|\n/;
 
   this.PHYSICS_BODYTYPE_STATIC = 1;
   this.PHYSICS_BODYTYPE_KINEMATIC = 2;
