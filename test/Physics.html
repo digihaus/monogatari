@@ -20,7 +20,7 @@
     rb1.setBounciness( 1 );
     rb1.setPosition( new THREE.Vector2( 3, 1 ) );
 
-    rb1.materialDef.shape.SetAsBox( 0.3, 0.3 );
+    rb1.materialDef.shape.SetAsBox( 0.5, 0.5 );
 
     rb1.body = Monogatari.PhysicsManager.createBody( rb1.bodyDef );
     rb1.body.CreateFixture( rb1.materialDef );
@@ -30,7 +30,7 @@
 
     knight.addComponent( new Monogatari.Node() );
 
-    var sprite = new Monogatari.Sprite( 'mainScene', 'assets/sprite-knight.png', 32, 32, 4, 3 );
+    var sprite = new Monogatari.Sprite( 'mainScene', 'assets/zombies.png', 64, 64, 1, 3 );
     sprite.getMaterial().transparent = true;
 
     knight.addComponent( sprite );
@@ -46,7 +46,7 @@
     rb2.setBounciness( 1 );
     rb2.setPosition( new THREE.Vector2( 2.7, 0.5 ) );
 
-    rb2.materialDef.shape.SetAsBox( 0.15, 0.15 );
+    rb2.materialDef.shape.SetAsBox( 0.5, 0.5 );
 
     rb2.body = Monogatari.PhysicsManager.createBody( rb2.bodyDef );
     rb2.body.CreateFixture( rb2.materialDef );
@@ -55,7 +55,7 @@
     } );
 
     ball.addComponent( new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
-    ball.addComponent( new Monogatari.Sprite( 'mainScene', 'assets/earth.png', 24, 24 ) );
+    ball.addComponent( new Monogatari.Sprite( 'mainScene',  'assets/zombies.png', 64, 64, 1, 3 ) );
     ball.addComponent( rb2 );
 
     //ball2
@@ -68,7 +68,7 @@
     rb3.setBounciness( 1 );
     rb3.setPosition( new THREE.Vector2( 1, 0.5 ) );
 
-    rb3.materialDef.shape.SetAsBox( 0.15, 0.15 );
+    rb3.materialDef.shape.SetAsBox( 0.5, 0.5 );
 
     rb3.body = Monogatari.PhysicsManager.createBody( rb3.bodyDef );
     rb3.body.CreateFixture( rb3.materialDef );
@@ -77,7 +77,7 @@
     } );
 
     ball2.addComponent( new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
-    ball2.addComponent( new Monogatari.Sprite( 'mainScene', 'assets/earth.png', 24, 24 ) );
+    ball2.addComponent( new Monogatari.Sprite( 'mainScene',  'assets/zombies.png', 64, 64, 1, 3 ) );
     ball2.addComponent( rb3 );
 
     // ground
