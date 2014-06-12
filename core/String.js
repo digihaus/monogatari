@@ -5,8 +5,7 @@ Monogatari.String = new MonogatariString();
 function MonogatariString() {};
 
 /**
- * Substring from left to right
- * 
+ * @description Substring from left to right
  * @param String str = source text
  * @param int n = how many characters will be returned
  * @return String
@@ -22,8 +21,7 @@ MonogatariString.prototype.left = function( str, n ) {
 };
 
 /**
- * Substring from right to left
- * 
+ * @description Substring from right to left
  * @param String str = source text
  * @param int n = how many characters will be returned
  * @return String
@@ -61,8 +59,7 @@ MonogatariString.prototype.getFileExtension = function( src ) {
 };
 
 /**
- * Checks if a string is surrounded by square brackets
- * 
+ * @description  Checks if a string is surrounded by square brackets
  * @param {string} str string to check.
  * @return {boolean} True if {@code str} is surrounded by square brackets
  */
@@ -71,8 +68,7 @@ MonogatariString.prototype.isBetweenSquareBraquets = function( str ) {
 };
 
 /**
- * Checks if a string contains a URL.
- * 
+ * @description Checks if a string contains a URL.
  * @param {string} str string to check.
  * @return {boolean} True if {@code str} consists of an url
  */
@@ -81,9 +77,8 @@ MonogatariString.prototype.isUrl = function( str ) {
 };
 
 /**
- * Checks if a string contains only letters.
- * 
  * @from goog.string
+ * @description Checks if a string contains only letters.
  * @param {string} str string to check.
  * @return {boolean} True if {@code str} consists entirely of letters.
  */
@@ -92,9 +87,8 @@ MonogatariString.prototype.isAlpha = function( str ) {
 };
 
 /**
- * Checks if a string contains only numbers.
- * 
  * @from goog.string
+ * @description Checks if a string contains only numbers.
  * @param {*} str string to check. If not a string, it will be casted to one.
  * @return {boolean} True if {@code str} is numeric.
  */
@@ -103,9 +97,8 @@ MonogatariString.prototype.isNumeric = function( str ) {
 };
 
 /**
- * Checks if a string contains only numbers or letters.
- * 
  * @from goog.string
+ * @description Checks if a string contains only numbers or letters.
  * @param {string} str string to check.
  * @return {boolean} True if {@code str} is alphanumeric.
  */
@@ -114,10 +107,9 @@ MonogatariString.prototype.isAlphaNumeric = function( str ) {
 };
 
 /**
- * Returns the non-overlapping occurrences of subStr in str. If either str or subStr evalutes to false, then returns
- * zero.
- * 
  * @from goog.string
+ * @description Returns the non-overlapping occurrences of subStr in str. If either str or subStr evalutes to false,
+ *              then returns zero.
  * @param {string} str The string to look in.
  * @param {string} subStr The string to look for.
  * @return {number} Number of occurrences of ss in s.
@@ -127,9 +119,29 @@ MonogatariString.prototype.countOf = function( str, subStr ) {
 };
 
 /**
- * Trims white spaces to the left and right of a string.
- * 
+ * @from PlayCanvas.string.format
+ * @description Return a string with {n} replaced with the n-th argument
+ * @param {String} s The string to format
+ * @param {Object} [arguments] All other arguments are substituted into the string
+ * @returns {String} The formatted string
+ * @example var s = pc.string.format("Hello {0}", "world"); console.log(s); // Prints "Hello world"
+ */
+MonogatariString.prototype.format = function( str ) {
+  var regexp, args = Monogatari.Array.flat( arguments );
+
+  // drop first argument
+  args.shift();
+
+  for ( var i = 0, len = args.length; i < len; i++ ) {
+    regexp = new RegExp( '\\{' + i + '\\}', 'gi' );
+    str = str.replace( regexp, args[ i ] );
+  }
+  return str;
+};
+
+/**
  * @from goog.string
+ * @description Trims white spaces to the left and right of a string.
  * @param {string} str The string to trim.
  * @return {string} A trimmed copy of {@code str}.
  */
