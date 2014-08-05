@@ -52,14 +52,14 @@ MonogatariSceneManager.prototype.getCamera = function( id ) {
 };
 
 MonogatariSceneManager.prototype.createScene = function( sceneId ) {
-  this._scenes.put( sceneId ? sceneId : 'main', new THREE.Scene() );
+  this._scenes.put( sceneId ? sceneId : Monogatari.Constants.DEFAULT_SCENE_ID, new THREE.Scene() );
 };
 
 MonogatariSceneManager.prototype.createCamera = function( cameraId, sceneId, width, height ) {
-  var scene = this._scenes.get( ( sceneId ) ? sceneId : 'main' );
+  var scene = this._scenes.get( ( sceneId ) ? sceneId : Monogatari.Constants.DEFAULT_SCENE_ID );
 
   if ( !cameraId )
-    cameraId = 'main';
+    cameraId = Monogatari.Constants.DEFAULT_CAMERA_ID;
 
   if ( !width )
     width = this._canvasWidth;

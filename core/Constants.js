@@ -68,8 +68,7 @@ function MonogatariConstants() {
   this.COMPONENT_CUSTOM = -1;
 
   this.FONT_CHARS_SIMPLE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ";
-  // this.FONT_CHARS_EXTENDED =
-  // "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ηΗαινσϊΑΙΝΣΪΰθμςωΐΘΜÒΩδλοφόΔΛΟΦάγυρΓΥΡβκξτϋΒΚΞΤΫ_()-,.[]!?@$*";
+  // this.FONT_CHARS_EXTENDED = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ηΗαινσϊΑΙΝΣΪΰθμςωΐΘΜÒΩδλοφόΔΛΟΦάγυρΓΥΡβκξτϋΒΚΞΤΫ_()-,.[]!?@$*";
 
   this.REGEXP_URL = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
   this.REGEXP_BETWEEN_SQUARE_BRACKETS = /\[[\w|\W]+\]/;
@@ -78,4 +77,7 @@ function MonogatariConstants() {
   this.PHYSICS_BODYTYPE_STATIC = 1;
   this.PHYSICS_BODYTYPE_KINEMATIC = 2;
   this.PHYSICS_BODYTYPE_DYNAMIC = 3;
+  
+  this.DEFAULT_CAMERA_ID = 'default_camera_id';
+  this.DEFAULT_SCENE_ID = 'default_scene_id';
 };
