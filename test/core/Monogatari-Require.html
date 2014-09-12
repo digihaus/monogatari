@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Monogatari RequireJS Test</title>
+		<script src="../../lib/Require.js"></script>
+        <script>
+			require.config({
+				baseUrl: '../../'
+			});
+			require(['core/Monogatari'], function() {
+				console.log(Monogatari.Random);
+			});
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>
