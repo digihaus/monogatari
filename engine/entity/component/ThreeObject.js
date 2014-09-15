@@ -59,4 +59,5 @@ Monogatari.ThreeObject = Monogatari.Component.extend( {
   attachToScene : function() {
     Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( this._mesh );
   }
+  
 } );

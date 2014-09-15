@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>First Three/Monogatari Scene</title>
+        <script type="text/javascript" src="../lib/ScriptLoader.js"></script>
+        <script>
+        scriptLoader.load( [ 'engine/GameManager.js', 'engine/entity/component/ParticleEmitter.js', 'engine/entity/component/Sprite.js' ], '../',
+          function() {
+            Monogatari.GameManager.init();
+            Monogatari.SceneManager.createScene();
+            Monogatari.SceneManager.createCamera();
+
+            var go = Monogatari.ObjectManager.create( 'snow' );
+            var bg = Monogatari.ObjectManager.create( 'background' );
+
+            go.addComponent( new Monogatari.Node( new THREE.Vector3( 0, 
+                                                                     Monogatari.SceneManager._canvasHalfHeight, 
+                                                                     0 ) ) );
+
+            var emitter = new Monogatari.ParticleEmitter(Monogatari.Constants.DEFAULT_SCENE_ID, 512);
+            var sprite = new Monogatari.Sprite( Monogatari.Constants.DEFAULT_SCENE_ID,'assets/meow.png', 512, 512 );
+
+            go.addComponent( emitter );
+            bg.addComponent( sprite );
+
+            go.update = function(){
+                var node = this.findComponent( Monogatari.Constants.COMPONENT_NODE );
+                var pe = this.findComponent( Monogatari.Constants.COMPONENT_PARTICLE_EMITTER );
+
+                // add some rotation to the system
+                pe._particleSystem.rotation.x += 0.005;
+
+                var pCount = pe._particleCount;
+                while (pCount--) {
+
+                  // get the particle
+                  var particle = pe._particleSystem.geometry.vertices[pCount];
+
+                  // check if we need to reset
+                  if (particle.y < -Monogatari.SceneManager._canvasHalfHeight) {
+                    particle.y = Monogatari.SceneManager._canvasHalfHeight;
+                    particle.velocity.y = 0;
+
+                  }
+
+                  // update the velocity with
+                  particle.velocity.y -= Math.random() * .1;
+
+                }
+
+                // flag to the particle system
+                // that we've changed its vertices.
+                 pe._particleSystem.geometry.__dirtyVertices = true;
+
+            }
+
+            Monogatari.ObjectManager.connect( 'world', 'snow' );
+            Monogatari.ObjectManager.connect( 'world', 'bg' );
+
+            Monogatari.GameManager.run();
+          });
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>

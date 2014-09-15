@@ -11,7 +11,7 @@
             Monogatari.SceneManager.createScene( 'mainScene' );
             Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
 
-            var go = Monogatari.ObjectManager.create( 'knight' );
+            var go = Monogatari.ObjectManager.create( 'zombie' );
 
             go.addComponent( new Monogatari.Node( new THREE.Vector3( 300, 300, 0 ) ) );
 
@@ -21,7 +21,7 @@
             go.addComponent( sprite );
 
             go.update = function(){
-                var node = this.findComponent( Monogatari.Constants.COMPONENT_AUDIO_SOURCE );
+                var node = this.findComponent( Monogatari.Constants.COMPONENT_NODE );
                 var sprite = this.findComponent( Monogatari.Constants.COMPONENT_SPRITE );
                 var animationSpeed = 200;
 
@@ -31,7 +31,7 @@
                 }
             }
 
-            Monogatari.ObjectManager.connect( 'world', 'knight' );
+            Monogatari.ObjectManager.connect( 'world', 'zombie' );
 
             Monogatari.GameManager.run();
           });

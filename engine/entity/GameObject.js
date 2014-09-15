@@ -40,6 +40,7 @@ Monogatari.GameObject = Class.extend( {
 
     if ( component.componentType === Monogatari.Constants.COMPONENT_THREE_OBJECT 
         || component.componentType === Monogatari.Constants.COMPONENT_SPRITE
+        || component.componentType === Monogatari.Constants.COMPONENT_PARTICLE_EMITTER
         || component.componentType === Monogatari.Constants.COMPONENT_STATIC_TEXT )
       this._isRenderable = true;
   },
