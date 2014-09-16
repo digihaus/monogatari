@@ -20,6 +20,8 @@ Monogatari.StaticText = Monogatari.Font2D.extend( {
     this._buffer.width = this.w;
     this._buffer.height = this.h;
 
+    this._texture = new THREE.Texture();
+
     this.componentType = Monogatari.Constants.COMPONENT_STATIC_TEXT;
     this.componentState = Monogatari.Constants.COMPONENT_STATE_INITIALIZING;
   },
@@ -43,9 +45,7 @@ Monogatari.StaticText = Monogatari.Font2D.extend( {
       }
 
       if ( this.componentState === Monogatari.Constants.COMPONENT_STATE_BUFFERING ) {
-        // leaks?
-        // poderia inicializar a variável na criação do objeto e só atribuir o novo canvas a textura, a lib permite isso?
-        this._texture = new THREE.Texture( this.renderIntoBuffer() );
+        this._texture.image = this.renderIntoBuffer();
         // this line makes the textures created during execution to work properly
         this._texture.needsUpdate = true;
         this._texture.flipY = true;
