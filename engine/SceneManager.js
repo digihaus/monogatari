@@ -84,8 +84,8 @@ MonogatariSceneManager.prototype.createCamera = function( cameraId, sceneId, wid
 };
 
 MonogatariSceneManager.prototype.addSceneToCamera = function( cameraId, sceneId ) {
-  var camera = this._cameras.get( cameraId );
-  var scene = this._scenes.get( sceneId );
+  var camera = this._cameras.get( cameraId ),
+      scene = this._scenes.get( sceneId );
 
   if ( scene && camera )
     camera.addScene( sceneId );

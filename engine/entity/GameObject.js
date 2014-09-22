@@ -78,8 +78,8 @@ Monogatari.GameObject = Class.extend( {
   },
 
   listComponentsToRender : function() {
-    var list = new Array();
-    var comp;
+    var list = new Array(), comp;
+
     this._componentIterator.first();
 
     while ( this._componentIterator.hasNext() ) {

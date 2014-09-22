@@ -28,13 +28,13 @@
                 var pe = this.findComponent( Monogatari.Constants.COMPONENT_PARTICLE_EMITTER );
 
                 // add some rotation to the system
-                pe._particleSystem.rotation.x += 0.005;
+                pe._mesh.rotation.x += 0.005;
 
                 var pCount = pe._particleCount;
                 while (pCount--) {
 
                   // get the particle
-                  var particle = pe._particleSystem.geometry.vertices[pCount];
+                  var particle = pe._mesh.geometry.vertices[pCount];
 
                   // check if we need to reset
                   if (particle.y < -Monogatari.SceneManager._canvasHalfHeight) {
@@ -50,7 +50,7 @@
 
                 // flag to the particle system
                 // that we've changed its vertices.
-                 pe._particleSystem.geometry.__dirtyVertices = true;
+                 pe._mesh.geometry.__dirtyVertices = true;
 
             }
 

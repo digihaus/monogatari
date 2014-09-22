@@ -7,6 +7,7 @@ Monogatari.Gamepad = new MonogatariGamepad();
 function MonogatariGamepad() {
   this.supports = !!navigator.webkitGetGamepads;
   this.gamePads = new Monogatari.Map();
+  this._pressed = new Int16Array( 32 );
 
   this.deadZone = 0.25;
 
@@ -25,17 +26,15 @@ function MonogatariGamepad() {
 
   this.GAMEPAD_L_STICK_BUTTON = 11;
   this.GAMEPAD_R_STICK_BUTTON = 12;
-  this.GAMEPAD_L_STICK_X = 13;
-  this.GAMEPAD_L_STICK_Y = 14;
-  this.GAMEPAD_R_STICK_X = 15;
-  this.GAMEPAD_R_STICK_Y = 16;
+  this.GAMEPAD_L_STICK = 13;
+  this.GAMEPAD_R_STICK = 14;
 
-  this.GAMEPAD_VENDOR = 17;
+  this.GAMEPAD_VENDOR = 15;
 
-  this.GAMEPAD_UP = 18;
-  this.GAMEPAD_DOWN = 19;
-  this.GAMEPAD_LEFT = 20;
-  this.GAMEPAD_RIGHT = 21;
+  this.GAMEPAD_UP = 16;
+  this.GAMEPAD_DOWN = 17;
+  this.GAMEPAD_LEFT = 18;
+  this.GAMEPAD_RIGHT = 19;
 
   this.update = function(){
     if ( this.supports ) {

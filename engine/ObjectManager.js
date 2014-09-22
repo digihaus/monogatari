@@ -85,8 +85,7 @@ MonogatariObjectManager.prototype.toJSON = function() {};
 
 // array containing all game objects ids with components of given type
 MonogatariObjectManager.prototype.listIdsByComponentType = function( type ) {
-  var list = new Array();
-  var obj;
+  var list = new Array(), obj;
 
   this._iterator.first();
 
@@ -171,8 +170,8 @@ MonogatariObjectManager.prototype.getGlobalNode = function( id ) {
     if ( this._objects.get( id ).parent === 'trunk' ) {
       return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
     } else {
-      var parentNode = Monogatari.ObjectManager.getGlobalNode( this._objects.get( id ).parent );
-      var node = new Node( 
+      var parentNode = Monogatari.ObjectManager.getGlobalNode( this._objects.get( id ).parent ),
+          node = new Node( 
             this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone(), 
             this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone(), 
             this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone() );

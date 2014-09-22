@@ -49,8 +49,7 @@ Monogatari.Map = Class.extend( {
   },
 
   concat : function( map ) {
-    var keys = map.getKeys();
-    var values = map.getValues();
+    var keys = map.getKeys(), values = map.getValues();
 
     for ( var i = 0, len = keys.length; i < len; i++ )
       this.put( keys[ i ], values[ i ] );

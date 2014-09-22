@@ -75,8 +75,8 @@ Monogatari.StaticText = Monogatari.Font2D.extend( {
 
     var context = this._buffer.getContext( "2d" );
     if ( this.text.length > 0 ) {
-      var c = this.fontMap.get( this.text[ 0 ] );
-      var words = this.text.split( " " );
+      var c = this.fontMap.get( this.text[ 0 ] ),
+          words = this.text.split( " " );
 
       // the position(x,y) and scale(width, height) of a single character
       var cX = 0, cY = 0, cW = 0, cH = 0;

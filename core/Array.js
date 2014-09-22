@@ -6,8 +6,8 @@ function MonogatariArray() {};
 
 // http://stackoverflow.com/questions/4554252/typed-arrays-in-gecko-2-float32array-concatenation-and-expansion
 MonogatariArray.prototype.float32Concat = function( first, second ) {
-  var firstLength = first.length;
-  var result = new Float32Array( firstLength + second.length );
+  var firstLength = first.length,
+      result = new Float32Array( firstLength + second.length );
 
   result.set( first );
   result.set( second, firstLength );
@@ -19,9 +19,9 @@ MonogatariArray.prototype.quicksort = function( array ) {
   if ( array.length == 0 )
     return new Array();
 
-  var head = new Array();
-  var tail = new Array();
-  var pivot = array[ 0 ];
+  var head = new Array(),
+      tail = new Array(),
+      pivot = array[ 0 ];
 
   for ( var i = 1, len = array.length; i < len; i++ )
     ( array[ i ] < pivot ) ? head[ head.length ] = array[ i ] : tail[ tail.length ] = array[ i ];
@@ -30,11 +30,11 @@ MonogatariArray.prototype.quicksort = function( array ) {
 };
 
 MonogatariArray.prototype.unique = function( array ) {
-  var newArr = [];
-  var found;
+  var newArr = [], 
+      found = false;
 
   for ( var x = 0, len = array.length; x < len; x++ ) {
-    found = undefined;
+    found = false;
     for ( var y = 0; y < newArr.length; y++ ) {
       if ( Monogatari.Util.equals( array[ x ], newArr[ y ] ) ) {
         found = true;
@@ -112,8 +112,8 @@ MonogatariArray.prototype.remove = function( array, from, to ) {
 };
 
 MonogatariArray.prototype.equals = function( arr1, arr2 ) {
-  var len1 = arr1.length;
-  var len2 = arr2.length;
+  var len1 = arr1.length,
+      len2 = arr2.length;
 
   if ( len1 != len2 )
     return false;

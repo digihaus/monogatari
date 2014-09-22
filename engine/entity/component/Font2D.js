@@ -25,13 +25,12 @@ Monogatari.Font2D = Monogatari.ThreeObject.extend( {
   },
 
   parse : function() {
-    var canvas = null;
-    var context = null;
-
-    var canvasBuffer = null;
-    var contextBuffer = null;
-
-    var w = 0, h = this.fontSize * 2;
+    var canvas = null,
+        context = null,
+        canvasBuffer = null,
+        contextBuffer = null,
+        w = 0, 
+        h = this.fontSize * 2;
 
     canvasBuffer = document.createElement( 'canvas' );
     canvasBuffer.width = w;
