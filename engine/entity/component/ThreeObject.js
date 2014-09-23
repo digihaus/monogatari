@@ -34,7 +34,7 @@ Monogatari.ThreeObject = Monogatari.Component.extend( {
   },
 
   updateMesh : function() {
-    if ( material && geometry ) {
+    if ( this._material && this._geometry ) {
       this._mesh.geometry = this._geometry;
       this._mesh.material = this._material;
     }
@@ -56,8 +56,8 @@ Monogatari.ThreeObject = Monogatari.Component.extend( {
     return this._sceneId;
   },
 
-  attachToScene : function() {
-    Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( this._mesh );
+  attachToScene : function( object ) {
+    Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( object ? object : this._mesh );
   }
-  
+
 } );
