@@ -1,61 +1,61 @@
-define(['core/Monogatari', 'core/Constants', 'engine/entity/component/Component', 'engine/SceneManager', 'lib/Three'], function() {
-	
-	Monogatari.ThreeObject = Monogatari.Component.extend( {
-	  init : function( sceneId, material, geometry ) {
-		this._sceneId = ( sceneId ) ? sceneId : null;
-		this._texture = null;
-		this._material = ( material ) ? material : null;
-		this._geometry = ( geometry ) ? geometry : null;
-		this._mesh = ( material && geometry ) ? new THREE.Mesh( this._geometry, this._material ) : null;
+define( [ 'core/Monogatari', 'core/Constants', 'engine/entity/component/Component', 'engine/SceneManager', 'lib/Three' ], function() {
 
-		this.componentType = Monogatari.Constants.COMPONENT_THREE_OBJECT;
-	  },
+  Monogatari.ThreeObject = Monogatari.Component.extend( {
+    init : function( sceneId, material, geometry ) {
+      this._sceneId = ( sceneId ) ? sceneId : null;
+      this._texture = null;
+      this._material = ( material ) ? material : null;
+      this._geometry = ( geometry ) ? geometry : null;
+      this._mesh = ( material && geometry ) ? new THREE.Mesh( this._geometry, this._material ) : null;
 
-	  setMaterial : function( material ) {
-		this._material = ( material ) ? material : null;
-		this.updateMesh();
-	  },
+      this.componentType = Monogatari.Constants.COMPONENT_THREE_OBJECT;
+    },
 
-	  getMaterial : function() {
-		return this._material;
-	  },
+    setMaterial : function( material ) {
+      this._material = ( material ) ? material : null;
+      this.updateMesh();
+    },
 
-	  setGeometry : function( geometry ) {
-		this._geometry = ( geometry ) ? geometry : null;
-		this.updateMesh();
-	  },
+    getMaterial : function() {
+      return this._material;
+    },
 
-	  getGeometry : function() {
-		return this._geometry;
-	  },
+    setGeometry : function( geometry ) {
+      this._geometry = ( geometry ) ? geometry : null;
+      this.updateMesh();
+    },
 
-	  updateMesh : function() {
-		if ( this._material && this._geometry ) {
-		  this._mesh.geometry = this._geometry;
-		  this._mesh.material = this._material;
-		}
-	  },
+    getGeometry : function() {
+      return this._geometry;
+    },
 
-	  getMesh : function() {
-		return this._mesh;
-	  },
+    updateMesh : function() {
+      if ( this._material && this._geometry ) {
+        this._mesh.geometry = this._geometry;
+        this._mesh.material = this._material;
+      }
+    },
 
-	  getTexture : function() {
-		return this._texture;
-	  },
+    getMesh : function() {
+      return this._mesh;
+    },
 
-	  setSceneId : function( sceneId ) {
-		this._sceneId = ( sceneId ) ? sceneId : null;
-	  },
+    getTexture : function() {
+      return this._texture;
+    },
 
-	  getSceneId : function() {
-		return this._sceneId;
-	  },
+    setSceneId : function( sceneId ) {
+      this._sceneId = ( sceneId ) ? sceneId : null;
+    },
 
-	  attachToScene : function( object ) {
-		Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( object ? object : this._mesh );
-	  }
+    getSceneId : function() {
+      return this._sceneId;
+    },
 
-	} );
+    attachToScene : function( object ) {
+      Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( object ? object : this._mesh );
+    }
 
-});
+  } );
+
+} );

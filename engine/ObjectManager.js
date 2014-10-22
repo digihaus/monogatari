@@ -1,4 +1,4 @@
-define(['core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', 'engine/entity/component/Node'], function() {
+define( [ 'core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', 'engine/entity/component/Node' ], function() {
 
   Monogatari.ObjectManager = new MonogatariObjectManager();
 
@@ -20,9 +20,9 @@ define(['core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', '
 
   MonogatariObjectManager.prototype.get = function( id ) {
     if ( this._objects.contains( id ) )
-    return this._objects.get( id ).value;
+      return this._objects.get( id ).value;
     else
-    return null;
+      return null;
   };
 
   MonogatariObjectManager.prototype.getObjectIterator = function() {
@@ -87,10 +87,10 @@ define(['core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', '
     this._iterator.first();
 
     while ( this._iterator.hasNext() ) {
-    obj = this._iterator.next();
+      obj = this._iterator.next();
 
-    if ( obj && obj.hasComponent( type ) )
-      list.push( obj.id );
+      if ( obj && obj.hasComponent( type ) )
+        list.push( obj.id );
     }
 
     return list;
@@ -102,27 +102,27 @@ define(['core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', '
     this._iterator.first();
 
     while ( this._iterator.hasNext() ) {
-    obj = this._iterator.next();
-    if ( obj && obj.isActive ) {
-      obj.update();
-      obj.postUpdate();
-    }
+      obj = this._iterator.next();
+      if ( obj && obj.isActive ) {
+        obj.update();
+        obj.postUpdate();
+      }
     }
   };
 
   // leaks?
   MonogatariObjectManager.prototype.getGlobalPosition = function( id ) {
     if ( this._objects.contains( id ) ) {
-    if ( this._objects.get( id ).parent === 'trunk' ) {
-      return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position;
-    } else {
-      var parentPosition = Monogatari.ObjectManager.getGlobalPosition( this._objects.get( id ).parent );
-      var position = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone();
+      if ( this._objects.get( id ).parent === 'trunk' ) {
+        return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position;
+      } else {
+        var parentPosition = Monogatari.ObjectManager.getGlobalPosition( this._objects.get( id ).parent );
+        var position = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone();
 
-      position.add( parentPosition.getX(), parentPosition.getY(), parentPosition.getZ() );
+        position.add( parentPosition.getX(), parentPosition.getY(), parentPosition.getZ() );
 
-      return position;
-    }
+        return position;
+      }
     }
     return null;
   };
@@ -130,16 +130,16 @@ define(['core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', '
   // leaks?
   MonogatariObjectManager.prototype.getGlobalRotation = function( id ) {
     if ( this._objects.contains( id ) ) {
-    if ( this._objects.get( id ).parent === 'trunk' ) {
-      return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation;
-    } else {
-      var parentRotation = Monogatari.ObjectManager.getGlobalRotation( this._objects.get( id ).parent );
-      var rotation = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone();
+      if ( this._objects.get( id ).parent === 'trunk' ) {
+        return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation;
+      } else {
+        var parentRotation = Monogatari.ObjectManager.getGlobalRotation( this._objects.get( id ).parent );
+        var rotation = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone();
 
-      rotation.add( parentRotation.getX(), parentRotation.getY(), parentRotation.getZ() );
+        rotation.add( parentRotation.getX(), parentRotation.getY(), parentRotation.getZ() );
 
-      return rotation;
-    }
+        return rotation;
+      }
     }
     return null;
   };
@@ -147,16 +147,16 @@ define(['core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', '
   // leaks?
   MonogatariObjectManager.prototype.getGlobalScale = function( id ) {
     if ( this._objects.contains( id ) ) {
-    if ( this._objects.get( id ).parent === 'trunk' ) {
-      return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
-    } else {
-      var parentScale = Monogatari.ObjectManager.getGlobalScale( this._objects.get( id ).parent );
-      var scale = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone();
+      if ( this._objects.get( id ).parent === 'trunk' ) {
+        return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
+      } else {
+        var parentScale = Monogatari.ObjectManager.getGlobalScale( this._objects.get( id ).parent );
+        var scale = this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone();
 
-      scale.add( parentScale.getX(), parentScale.getY(), parentScale.getZ() );
+        scale.add( parentScale.getX(), parentScale.getY(), parentScale.getZ() );
 
-      return scale;
-    }
+        return scale;
+      }
     }
     return null;
   };
@@ -164,23 +164,22 @@ define(['core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', '
   // leaks?
   MonogatariObjectManager.prototype.getGlobalNode = function( id ) {
     if ( this._objects.contains( id ) ) {
-    if ( this._objects.get( id ).parent === 'trunk' ) {
-      return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
-    } else {
-      var parentNode = Monogatari.ObjectManager.getGlobalNode( this._objects.get( id ).parent ),
-        node = new Monogatari.Node( 
-        this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone(), 
-        this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone(), 
-        this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone() );
+      if ( this._objects.get( id ).parent === 'trunk' ) {
+        return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
+      } else {
+        var parentNode = Monogatari.ObjectManager.getGlobalNode( this._objects.get( id ).parent ), 
+            node = new Monogatari.Node( this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone(), 
+                                        this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone(), 
+                                        this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone() );
 
-      node.position.add( parentNode.position.getX(), parentNode.position.getY(), parentNode.position.getZ() );
-      node.rotation.add( parentNode.rotation.getX(), parentNode.rotation.getY(), parentNode.rotation.getZ() );
-      node.scale.add( parentNode.scale.getX(), parentNode.scale.getY(), parentNode.scale.getZ() );
+        node.position.add( parentNode.position.getX(), parentNode.position.getY(), parentNode.position.getZ() );
+        node.rotation.add( parentNode.rotation.getX(), parentNode.rotation.getY(), parentNode.rotation.getZ() );
+        node.scale.add( parentNode.scale.getX(), parentNode.scale.getY(), parentNode.scale.getZ() );
 
-      return node;
-    }
+        return node;
+      }
     }
     return null;
   };
 
-});
+} );

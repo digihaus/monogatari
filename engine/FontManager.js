@@ -1,54 +1,54 @@
-define(['core/Monogatari', 'core/Constants', 'core/collection/Map', 'core/io/file/FontLoader', 'engine/entity/asset/FontAsset'], function() {
-	Monogatari.FontManager = new MonogatariFontManager();
+define( [ 'core/Monogatari', 'core/Constants', 'core/collection/Map', 'core/io/file/FontLoader', 'engine/entity/asset/FontAsset' ], function() {
+  Monogatari.FontManager = new MonogatariFontManager();
 
-	function MonogatariFontManager() {
-	  this.fonts = new Monogatari.Map();
-	  this._fontIterator = this.fonts.iterator();
-	};
+  function MonogatariFontManager() {
+    this.fonts = new Monogatari.Map();
+    this._fontIterator = this.fonts.iterator();
+  };
 
-	MonogatariFontManager.prototype.load = function( family ) {
-	  if ( !this.fonts.contains( family ) ) {
-		var fontAsset = new Monogatari.FontAsset();
+  MonogatariFontManager.prototype.load = function( family ) {
+    if ( !this.fonts.contains( family ) ) {
+      var fontAsset = new Monogatari.FontAsset();
 
-		fontAsset.family = family;
-		fontAsset.status = Monogatari.Constants.ASSET_STATE_LOADING;
-		this.fonts.put( family, fontAsset );
+      fontAsset.family = family;
+      fontAsset.status = Monogatari.Constants.ASSET_STATE_LOADING;
+      this.fonts.put( family, fontAsset );
 
-		Monogatari.FontLoader.load( family, this.onload, this.onloadFailed );
-	  }
-	};
+      Monogatari.FontLoader.load( family, this.onload, this.onloadFailed );
+    }
+  };
 
-	MonogatariFontManager.prototype.isLoaded = function( family ) {
-	  var font = this.fonts.get( family );
-	  return ( font && font.status === Monogatari.Constants.ASSET_STATE_LOADED ) ? true : false;
-	};
+  MonogatariFontManager.prototype.isLoaded = function( family ) {
+    var font = this.fonts.get( family );
+    return ( font && font.status === Monogatari.Constants.ASSET_STATE_LOADED ) ? true : false;
+  };
 
-	MonogatariFontManager.prototype.isAllLoaded = function() {
-	  var font;
+  MonogatariFontManager.prototype.isAllLoaded = function() {
+    var font;
 
-	  this._fontIterator.first();
+    this._fontIterator.first();
 
-	  while ( this._fontIterator.hasNext() ) {
-		font = this._fontIterator.next();
+    while ( this._fontIterator.hasNext() ) {
+      font = this._fontIterator.next();
 
-		if ( font && font.status != Monogatari.Constants.ASSET_STATE_LOADED )
-		  return false;
-	  }
+      if ( font && font.status != Monogatari.Constants.ASSET_STATE_LOADED )
+        return false;
+    }
 
-	  return true;
-	};
+    return true;
+  };
 
-	MonogatariFontManager.prototype.onload = function( family ) {
-	  var fontAsset = Monogatari.FontManager.fonts.get( family );
-	  fontAsset.status = Monogatari.Constants.ASSET_STATE_LOADED;
-	};
+  MonogatariFontManager.prototype.onload = function( family ) {
+    var fontAsset = Monogatari.FontManager.fonts.get( family );
+    fontAsset.status = Monogatari.Constants.ASSET_STATE_LOADED;
+  };
 
-	MonogatariFontManager.prototype.onloadFailed = function( family ) {
-	  var fontAsset = Monogatari.FontManager.fonts.get( family );
-	  fontAsset.status = Monogatari.Constants.ASSET_STATE_FAILED;
-	};
+  MonogatariFontManager.prototype.onloadFailed = function( family ) {
+    var fontAsset = Monogatari.FontManager.fonts.get( family );
+    fontAsset.status = Monogatari.Constants.ASSET_STATE_FAILED;
+  };
 
-	MonogatariFontManager.prototype.unloadAll = function() {
-	  fonts.clear();
-	};
-});
+  MonogatariFontManager.prototype.unloadAll = function() {
+    fonts.clear();
+  };
+} );
