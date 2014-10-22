@@ -1,4 +1,5 @@
 define(['core/Monogatari', 'core/Constants', 'core/Math', 'engine/entity/component/Component', 'lib/Three'], function() {
+
 	Monogatari.Node = Monogatari.Component.extend( {
 	  init : function( position, rotation, scale ) {
 		this.position = ( position ) ? position : new THREE.Vector3( 0, 0, 0 );
@@ -15,21 +16,20 @@ define(['core/Monogatari', 'core/Constants', 'core/Math', 'engine/entity/compone
 	  },
 
 	  getEulerRotation : function( axis ) {
-		var a = ( axis ) ? axis : Monogatari.Math.getYAlignedVector();
-		var angle = this.rotation.angleTo( a );
+		var a = ( axis ) ? axis : Monogatari.Math.getYAlignedVector(),
+			angle = this.rotation.angleTo( a );
 
 		return ( this.rotation.y * a.x > this.rotation.x * a.y ) ? -angle : angle;
 	  },
 
 	  getEulerRotationToTarget : function( target, axis ) {
-		var node = this.clone();
+		var node = this.clone(),
+			a = ( axis ) ? axis : Monogatari.Math.getYAlignedVector(),
+			angle = this.rotation.angleTo( a );
 
 		node.position.y = -node.position.y;
 		node.rotation = target.sub( node.position );
 		node.rotation.normalize();
-
-		var a = ( axis ) ? axis : Monogatari.Math.getYAlignedVector();
-		var angle = this.rotation.angleTo( a );
 
 		return ( node.rotation.y * a.x > node.rotation.x * a.y ) ? -angle : angle;
 	  },

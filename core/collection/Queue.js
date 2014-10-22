@@ -7,18 +7,16 @@ define(['core/Monogatari'], function() {
 	  put : function( element ) {
 		this._values.push( element );
 	  },
-
+	  
 	  read : function() {
-		var length = this._values.length;
-		var elements = new Array();
+		var length = this._values.length, elements = new Array();
 		for ( var i = 0; i < length; i++ )
 		  elements.push( this._values.shift() );
 		return elements;
 	  },
 
 	  contains : function( element ) {
-		var length = this._values.length;
-		var elements = new Array();
+		var length = this._values.length, elements = new Array();
 		for ( var i = 0; i < length; i++ ) {
 		  if ( elements[ i ] === element ) {
 			return true;

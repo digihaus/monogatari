@@ -1,4 +1,5 @@
 define(['core/Monogatari', 'core/collection/Three', 'engine/entity/GameObject', 'engine/entity/component/Node'], function() {
+
 	Monogatari.ObjectManager = new MonogatariObjectManager();
 
 	function MonogatariObjectManager() {
@@ -81,8 +82,7 @@ define(['core/Monogatari', 'core/collection/Three', 'engine/entity/GameObject', 
 
 	// array containing all game objects ids with components of given type
 	MonogatariObjectManager.prototype.listIdsByComponentType = function( type ) {
-	  var list = new Array();
-	  var obj;
+	  var list = new Array(), obj;
 
 	  this._iterator.first();
 
@@ -167,8 +167,8 @@ define(['core/Monogatari', 'core/collection/Three', 'engine/entity/GameObject', 
 		if ( this._objects.get( id ).parent === 'trunk' ) {
 		  return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
 		} else {
-		  var parentNode = Monogatari.ObjectManager.getGlobalNode( this._objects.get( id ).parent );
-		  var node = new Node( 
+		  var parentNode = Monogatari.ObjectManager.getGlobalNode( this._objects.get( id ).parent ),
+			  node = new Node( 
 				this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone(), 
 				this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone(), 
 				this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone() );
@@ -182,4 +182,5 @@ define(['core/Monogatari', 'core/collection/Three', 'engine/entity/GameObject', 
 	  }
 	  return null;
 	};
+
 });

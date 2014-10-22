@@ -4,6 +4,7 @@
 // this class provides the basic buffering for fonts
 // classes that extend Font2D should call parse() at some point to proper buffering
 define(['core/Monogatari', 'core/Constants', 'core/String', 'engine/entity/component/ThreeObject'], function() {
+
 	Monogatari.Font2D = Monogatari.ThreeObject.extend( {
 	  init : function( fontSize, fontFamily, strokeColor, fillColor ) {
 		this.fontSize = ( fontSize ) ? fontSize : 10;
@@ -21,13 +22,12 @@ define(['core/Monogatari', 'core/Constants', 'core/String', 'engine/entity/compo
 	  },
 
 	  parse : function() {
-		var canvas = null;
-		var context = null;
-
-		var canvasBuffer = null;
-		var contextBuffer = null;
-
-		var w = 0, h = this.fontSize * 2;
+		var canvas = null,
+			context = null,
+			canvasBuffer = null,
+			contextBuffer = null,
+			w = 0, 
+			h = this.fontSize * 2;
 
 		canvasBuffer = document.createElement( 'canvas' );
 		canvasBuffer.width = w;
@@ -62,4 +62,5 @@ define(['core/Monogatari', 'core/Constants', 'core/String', 'engine/entity/compo
 		return new Monogatari.Font2D( this.fontSize, this.fontFamily, this.strokeColor, this.fillColor );
 	  }
 	} );
+
 });

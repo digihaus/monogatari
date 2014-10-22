@@ -1,5 +1,6 @@
 define(['core/Monogatari'], function() {
 	Monogatari.Constants = new MonogatariConstants();
+	
 	function MonogatariConstants() {
 
 	  this.BROWSER_ANDROID = 1;
@@ -58,8 +59,8 @@ define(['core/Monogatari'], function() {
 	  this.COMPONENT_SPRITE = 4;
 	  this.COMPONENT_STATIC_TEXT = 5;
 	  this.COMPONENT_AUDIO_SOURCE = 6;
+	  this.COMPONENT_PARTICLE_EMITTER = 7;
 
-	  // this.COMPONENT_PARTICLE_EMITTER = 1;
 	  // this.COMPONENT_AUDIO_LISTENER = 1;
 	  // this.COMPONENT_PACKAGE_SENDER = 1;
 	  // this.COMPONENT_PACKAGE_LISTENER = 1;

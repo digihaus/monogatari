@@ -154,15 +154,15 @@ define(['core/Monogatari', 'core/Constants'], function() {
 	MonogatariString.prototype.utf8_encode = function( string ) {
 	  string = ( string + '' ).replace( /\r\n/g, "\n" ).replace( /\r/g, "\n" );
 
-	  var utftext = "";
-	  var start, end;
-	  var stringl = 0;
+	  var utftext = "",
+		  start = 0,
+		  end = 0,
+		  stringl = 0;
 
-	  start = end = 0;
 	  stringl = string.length;
 	  for ( var n = 0; n < stringl; n++ ) {
-		var c1 = string.charCodeAt( n );
-		var enc = null;
+		var c1 = string.charCodeAt( n ),
+			enc = null;
 
 		if ( c1 < 128 ) {
 		  end++;

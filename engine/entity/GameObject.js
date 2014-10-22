@@ -1,4 +1,5 @@
 define(['core/Monogatari', 'core/Constants', 'core/Timer', 'core/Util', 'lib/Three', 'engine/SceneManager'], function() {
+
 	Monogatari.GameObject = Class.extend( {
 	  init : function( id, update ) {
 		this._components = new Monogatari.Map();
@@ -34,6 +35,7 @@ define(['core/Monogatari', 'core/Constants', 'core/Timer', 'core/Util', 'lib/Thr
 
 		if ( component.componentType === Monogatari.Constants.COMPONENT_THREE_OBJECT 
 			|| component.componentType === Monogatari.Constants.COMPONENT_SPRITE
+			|| component.componentType === Monogatari.Constants.COMPONENT_PARTICLE_EMITTER
 			|| component.componentType === Monogatari.Constants.COMPONENT_STATIC_TEXT )
 		  this._isRenderable = true;
 	  },
@@ -71,8 +73,8 @@ define(['core/Monogatari', 'core/Constants', 'core/Timer', 'core/Util', 'lib/Thr
 	  },
 
 	  listComponentsToRender : function() {
-		var list = new Array();
-		var comp;
+		var list = new Array(), comp;
+
 		this._componentIterator.first();
 
 		while ( this._componentIterator.hasNext() ) {

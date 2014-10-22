@@ -1,4 +1,5 @@
 define(['core/Monogatari', 'core/Constants', 'engine/entity/component/Component', 'engine/SceneManager', 'lib/Three'], function() {
+	
 	Monogatari.ThreeObject = Monogatari.Component.extend( {
 	  init : function( sceneId, material, geometry ) {
 		this._sceneId = ( sceneId ) ? sceneId : null;
@@ -29,7 +30,7 @@ define(['core/Monogatari', 'core/Constants', 'engine/entity/component/Component'
 	  },
 
 	  updateMesh : function() {
-		if ( material && geometry ) {
+		if ( this._material && this._geometry ) {
 		  this._mesh.geometry = this._geometry;
 		  this._mesh.material = this._material;
 		}
@@ -51,8 +52,10 @@ define(['core/Monogatari', 'core/Constants', 'engine/entity/component/Component'
 		return this._sceneId;
 	  },
 
-	  attachToScene : function() {
-		Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( this._mesh );
+	  attachToScene : function( object ) {
+		Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( object ? object : this._mesh );
 	  }
+
 	} );
+
 });

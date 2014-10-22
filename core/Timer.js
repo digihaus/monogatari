@@ -12,8 +12,8 @@ define(['core/Monogatari'], function() {
 	// this should be accessed ONLY on the Game Manager Update
 	MonogatariTime.prototype.tick = function() {
 	  // use Date.now() instead of new Date().getTime(), avoids one object allocation
-	  var now = Date.now();
-	  var delta = now - this._last;
+	  var now = Date.now(),
+		  delta = now - this._last;
 
 	  if ( this.time > this._cycleTime )
 		this.time = 0;
@@ -42,8 +42,8 @@ define(['core/Monogatari'], function() {
 	};
 
 	MonogatariFrames.prototype.getFps = function() {
-	  var now = Monogatari.Time.getTime();
-	  var delta = now - this._lastTime;
+	  var now = Monogatari.Time.getTime(),
+		  delta = now - this._lastTime;
 
 	  if ( delta >= 1000 ) {
 		this._fps = this._ticks;

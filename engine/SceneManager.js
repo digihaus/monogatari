@@ -25,6 +25,9 @@ define(['core/Monogatari', 'core/Math', 'core/collection/Map', 'engine/render/Ca
 	  this._canvasWidth = ( width ) ? width : window.innerWidth - 25;
 	  this._canvasHeight = ( height ) ? height : window.innerHeight - 25;
 
+	  this._canvasHalfWidth = this._canvasWidth /2;
+	  this._canvasHalfHeight = this._canvasHeight /2; 
+
 	  this._z = Monogatari.max( this._canvasWidth, this._canvasHeight );
 
 	  // Set the renderers size to the content areas size
@@ -66,7 +69,7 @@ define(['core/Monogatari', 'core/Math', 'core/collection/Map', 'engine/render/Ca
 		// left, right, top, bottom, near, far
 		var camera = new Monogatari.Camera2D( width / -2, width / 2, height / 2, height / -2, 1, Monogatari.max( width, height ) );
 
-		camera.addScene( sceneId );
+		camera.addScene( ( sceneId ) ? sceneId : Monogatari.Constants.DEFAULT_SCENE_ID );
 		this._cameras.put( cameraId, camera );
 
 	  } else {
@@ -76,8 +79,8 @@ define(['core/Monogatari', 'core/Math', 'core/collection/Map', 'engine/render/Ca
 	};
 
 	MonogatariSceneManager.prototype.addSceneToCamera = function( cameraId, sceneId ) {
-	  var camera = this._cameras.get( cameraId );
-	  var scene = this._scenes.get( sceneId );
+	  var camera = this._cameras.get( cameraId ),
+		  scene = this._scenes.get( sceneId );
 
 	  if ( scene && camera )
 		camera.addScene( sceneId );

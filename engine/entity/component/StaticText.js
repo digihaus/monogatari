@@ -17,6 +17,8 @@ define(['core/Monogatari', 'core/String', 'engine/entity/component/Font2D', 'eng
 		this._buffer.width = this.w;
 		this._buffer.height = this.h;
 
+		this._texture = new THREE.Texture();
+
 		this.componentType = Monogatari.Constants.COMPONENT_STATIC_TEXT;
 		this.componentState = Monogatari.Constants.COMPONENT_STATE_INITIALIZING;
 	  },
@@ -40,9 +42,7 @@ define(['core/Monogatari', 'core/String', 'engine/entity/component/Font2D', 'eng
 		  }
 
 		  if ( this.componentState === Monogatari.Constants.COMPONENT_STATE_BUFFERING ) {
-			// leaks?
-			// poderia inicializar a variável na criação do objeto e só atribuir o novo canvas a textura, a lib permite isso?
-			this._texture = new THREE.Texture( this.renderIntoBuffer() );
+			this._texture.image = this.renderIntoBuffer();
 			// this line makes the textures created during execution to work properly
 			this._texture.needsUpdate = true;
 			this._texture.flipY = true;
@@ -72,8 +72,8 @@ define(['core/Monogatari', 'core/String', 'engine/entity/component/Font2D', 'eng
 
 		var context = this._buffer.getContext( "2d" );
 		if ( this.text.length > 0 ) {
-		  var c = this.fontMap.get( this.text[ 0 ] );
-		  var words = this.text.split( " " );
+		  var c = this.fontMap.get( this.text[ 0 ] ),
+			  words = this.text.split( " " );
 
 		  // the position(x,y) and scale(width, height) of a single character
 		  var cX = 0, cY = 0, cW = 0, cH = 0;
@@ -112,4 +112,5 @@ define(['core/Monogatari', 'core/String', 'engine/entity/component/Font2D', 'eng
 	  }
 
 	} );
+
 });

@@ -33,8 +33,8 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 
 	  remove : function( id ) {
 		if ( id != 'trunk' && this.contains( id ) ) {
-		  var node = this.get( id );
-		  var parent = this.get( node.parent );
+		  var node = this.get( id ), 
+			  parent = this.get( node.parent );
 
 		  if ( parent.id != 'trunk' )
 			this.disconnect( id );
@@ -51,8 +51,8 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 
 	  removeFromCache : function( id ) {
 		if ( id != 'trunk' && this.contains( id ) ) {
-		  var node = this.get( id );
-		  var parent = this.get( node.parent );
+		  var node = this.get( id ), 
+			  parent = this.get( node.parent );
 
 		  if ( parent.id != 'trunk' )
 			this.disconnect( id );
@@ -79,8 +79,8 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 
 	  connect : function( parentId, childId ) {
 		if ( this.contains( parentId ) && this.contains( childId ) ) {
-		  var p = this.get( parentId );
-		  var c = this.get( childId );
+		  var p = this.get( parentId ), 
+			  c = this.get( childId );
 
 		  c.parent = parentId;
 		  c.order = p.order + 1;
@@ -92,9 +92,9 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 	  },
 
 	  disconnect : function( nodeId ) {
-		var node = this.get( nodeId );
-		var parent = this.get( node.parent );
-		var index = ( parent.children.length > 0 ) ? Monogatari.Array.inArray( parent.children, nodeId ) : -1;
+		var node = this.get( nodeId ),
+			parent = this.get( node.parent ),
+			index = ( parent.children.length > 0 ) ? Monogatari.Array.inArray( parent.children, nodeId ) : -1;
 
 		if ( index > -1 )
 		  Monogatari.Array.remove( parent.children, index );
@@ -104,9 +104,9 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 	  },
 
 	  listAncestors : function( id, maxDepth ) {
-		var result = new Array();
-		var node = this.get( id );
-		var d = maxDepth || this._depth;
+		var result = new Array(),
+			node = this.get( id ),
+			d = maxDepth || this._depth;
 
 		for ( var i = 0; i < d; i++ ) {
 		  if ( node.parent ) {
@@ -120,9 +120,9 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 	  },
 
 	  listSuccessors : function( id ) {
-		var result = new Array();
-		var node = this.get( id );
-		var child = null;
+		var result = new Array(),
+			node = this.get( id ),
+			child = null;
 
 		if ( node ) {
 		  for ( var i = 0, len = node.children.length; i < len; i++ ) {
@@ -161,9 +161,9 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 	  },
 
 	  listChildrenOf : function( id ) {
-		var result = new Array();
-		var node = this.get( id );
-		var child = null;
+		var result = new Array(),
+			node = this.get( id ),
+			child = null;
 
 		if ( node ) {
 		  for ( var i = 0, len = node.children.length; i < len; i++ ) {
@@ -178,9 +178,9 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 	  },
 
 	  listChildrenValuesOf : function( id ) {
-		var result = new Array();
-		var node = this.get( id );
-		var child = null;
+		var result = new Array(),
+			node = this.get( id ),
+			child = null;
 
 		if ( node ) {
 		  for ( var i = 0, len = node.children.length; i < len; i++ ) {
@@ -196,8 +196,8 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 
 	  // expensive function, use carefully depending on your tree!
 	  isParentOf : function( id, childId ) {
-		var result = false;
-		var node = this.get( id );
+		var result = false,
+			node = this.get( id );
 
 		if ( node ) {
 		  for ( var i = 0, len = node.children.length; i < len; i++ ) {
@@ -232,4 +232,5 @@ define(['core/Monogatari', 'core/collection/Map'], function() {
 	  this.children = new Array();
 	  this.order = ( order ) ? order : 1;
 	};
+
 });
