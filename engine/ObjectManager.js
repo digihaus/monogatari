@@ -1,4 +1,4 @@
-define(['core/Monogatari', 'core/collection/Three', 'engine/entity/GameObject', 'engine/entity/component/Node'], function() {
+define(['core/Monogatari', 'core/collection/Tree', 'engine/entity/GameObject', 'engine/entity/component/Node'], function() {
 
 	Monogatari.ObjectManager = new MonogatariObjectManager();
 

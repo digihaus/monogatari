@@ -1,8 +1,10 @@
-/* this is the base class all engine components should extend */
+/**
+* This is the base Class all engine Components should extend.
+*/
 define(['core/Monogatari', 'core/Constants'], function() {
-	Monogatari.Component = Class.extend( {
+	Monogatari.Component = Class.extend({
 	  init : function() {
 		this.componentType = Monogatari.Constants.COMPONENT_BASE;
 	  }
-	} );
+	});
 });

@@ -1,4 +1,4 @@
-define(['core/Monogatari', 'core/Constants', 'engine/entity/component/Component.js', 'engine/AudioManager'], function() {
+define(['core/Monogatari', 'core/Constants', 'engine/entity/component/Component', 'engine/AudioManager'], function() {
 	Monogatari.Audio = Monogatari.Component.extend( {
 	  init : function( source ) {
 		this.source = ( source ) ? source : null;
@@ -60,5 +60,5 @@ define(['core/Monogatari', 'core/Constants', 'engine/entity/component/Component.
 		  this.audioState = Monogatari.Constants.AUDIO_STATE_STOPED;
 		}
 	  }
-	} );
+	});
 });

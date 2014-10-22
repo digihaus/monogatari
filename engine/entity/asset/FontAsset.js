@@ -5,4 +5,4 @@ define(['core/Monogatari'], function() {
 	  this.status;
 	  this.color;
 	};
-}):
+});

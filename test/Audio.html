@@ -2,26 +2,28 @@
 <html>
     <head>
         <title>Audio Test</title>
-        <script type="text/javascript" src="../lib/ScriptLoader.js"></script>
+        <script src="../lib/Require.js"></script>
         <script>
-        scriptLoader.load( [ 'engine/GameManager.js', 'engine/entity/component/Audio.js' ], '../',
-          function() {
-            Monogatari.GameManager.init();
-            Monogatari.SceneManager.createScene( 'mainScene' );
-            Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
+			require.config({
+				baseUrl: '../'
+			});
+			require(['engine/GameManager', 'engine/entity/component/Audio'], function() {
+				Monogatari.GameManager.init();
+				Monogatari.SceneManager.createScene( 'mainScene' );
+				Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
 
-            var music = Monogatari.ObjectManager.create( 'music' );
+				var music = Monogatari.ObjectManager.create( 'music' );
 
-            music.addComponent( new Monogatari.Audio('assets/heat-on-the-road.ogg') );
+				music.addComponent( new Monogatari.Audio('assets/heat-on-the-road.ogg') );
 
-            music.update = function(){
-              this.findComponent( Monogatari.Constants.COMPONENT_AUDIO_SOURCE ).play()
-            }
+				music.update = function(){
+				  this.findComponent( Monogatari.Constants.COMPONENT_AUDIO_SOURCE ).play()
+				}
 
-            Monogatari.ObjectManager.connect( 'world', 'music' );
+				Monogatari.ObjectManager.connect( 'world', 'music' );
 
-            Monogatari.GameManager.run();
-          });
+				Monogatari.GameManager.run();
+			});
         </script>
     </head>
     <body>
