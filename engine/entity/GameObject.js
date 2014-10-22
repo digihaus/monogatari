@@ -93,9 +93,8 @@ Monogatari.GameObject = Class.extend( {
   },
 
   updateComponents : function() {
-    var comp;
-
-    var node = this.findComponent( Monogatari.Constants.COMPONENT_NODE );
+    var comp, 
+        node = this.findComponent( Monogatari.Constants.COMPONENT_NODE );
 
     // update object position from Box2D to Monogatari based on physics simulation (if applicable)
     // only affect X and Y for safety reasons, messing with Z on 2D is probably not expected

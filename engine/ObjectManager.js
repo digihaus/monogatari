@@ -171,7 +171,7 @@ MonogatariObjectManager.prototype.getGlobalNode = function( id ) {
       return this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale;
     } else {
       var parentNode = Monogatari.ObjectManager.getGlobalNode( this._objects.get( id ).parent ),
-          node = new Node( 
+          node = new Monogatari.Node( 
             this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.clone(), 
             this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.clone(), 
             this._objects.get( id ).value.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.clone() );
