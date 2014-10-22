@@ -1,18 +1,19 @@
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>First Tree/Monogatari Scene</title>
-        <script type="text/javascript" src="../lib/ScriptLoader.js"></script>
+        <script src="../lib/Require.js"></script>
         <script>
-        scriptLoader.load( [ 'engine/GameManager.js', 'engine/entity/component/Sprite.js' ], '../',
-          function() {
-            Monogatari.GameManager.init();
-            Monogatari.SceneManager.createScene( 'mainScene' );
-            Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
-            var sprite = new Monogatari.Sprite( 'mainScene','assets/meow.png', 512, 512 );
-            Monogatari.GameManager.run();
-          });
+			require.config({
+				baseUrl: '../'
+			});
+			require(['engine/GameManager', 'engine/entity/component/Sprite'], function() {
+				Monogatari.GameManager.init();
+				Monogatari.SceneManager.createScene( 'mainScene' );
+				Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
+				var sprite = new Monogatari.Sprite( 'mainScene','assets/meow.png', 512, 512 );
+				Monogatari.GameManager.run();
+			});
         </script>
     </head>
     <body>

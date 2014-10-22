@@ -1,34 +1,35 @@
-// @Requires[core/Monogatari.js]
-// @Requires[core/Timer.js]
-// @Requires[core/String.js]
+define(['core/Monogatari',
+		'core/Timer',
+		'core/String', 
+		'engine/EventManager', 
+		'engine/AudioManager', 
+		'engine/FontManager', 
+		'engine/SceneManager', 
+		'engine/ObjectManager', 
+		'engine/PhysicsManager'], 
+		function() {
+		
+	Monogatari.GameManager = new MonogatariGameManager();
 
-// @Requires[engine/EventManager.js]
-// @Requires[engine/AudioManager.js]
-// @Requires[engine/FontManager.js]
-// @Requires[engine/SceneManager.js]
-// @Requires[engine/ObjectManager.js]
-// @Requires[engine/PhysicsManager.js]
+	function MonogatariGameManager() {};
 
-Monogatari.GameManager = new MonogatariGameManager();
+	MonogatariGameManager.prototype.init = function( bgcolor, width, height, target ) {
+	  Monogatari.SceneManager.init( bgcolor, width, height, target );
+	};
 
-function MonogatariGameManager() {};
+	MonogatariGameManager.prototype.update = function() {
+	  Monogatari.Time.tick();
+	  Monogatari.PhysicsManager.update();
+	  Monogatari.ObjectManager.update();
+	};
 
-MonogatariGameManager.prototype.init = function( bgcolor, width, height, target ) {
-  Monogatari.SceneManager.init( bgcolor, width, height, target );
-};
+	MonogatariGameManager.prototype.render = function() {
+	  Monogatari.SceneManager.render();
+	};
 
-MonogatariGameManager.prototype.update = function() {
-  Monogatari.Time.tick();
-  Monogatari.PhysicsManager.update();
-  Monogatari.ObjectManager.update();
-};
-
-MonogatariGameManager.prototype.render = function() {
-  Monogatari.SceneManager.render();
-};
-
-MonogatariGameManager.prototype.run = function() {
-  requestAnimationFrame( Monogatari.GameManager.run );
-  Monogatari.GameManager.update();
-  Monogatari.GameManager.render();
-};
+	MonogatariGameManager.prototype.run = function() {
+	  requestAnimationFrame( Monogatari.GameManager.run );
+	  Monogatari.GameManager.update();
+	  Monogatari.GameManager.render();
+	};
+});

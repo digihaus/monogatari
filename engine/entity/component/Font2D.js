@@ -1,67 +1,66 @@
-// @Requires[core/Monogatari.js]
-// @Requires[core/Constants.js]
-// @Requires[core/String.js]
-// @Requires[engine/entity/component/ThreeObject.js]
-
 // https://github.com/typekit/webfontloader
 // http://stemkoski.github.io/Three.js/Texture-From-Canvas.html
 
 // this class provides the basic buffering for fonts
 // classes that extend Font2D should call parse() at some point to proper buffering
-Monogatari.Font2D = Monogatari.ThreeObject.extend( {
-  init : function( fontSize, fontFamily, strokeColor, fillColor ) {
-    this.fontSize = ( fontSize ) ? fontSize : 10;
-    this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
-    this.strokeColor = ( strokeColor ) ? strokeColor : "#000";
-    this.fillColor = ( fillColor ) ? fillColor : "#000";
+define(['core/Monogatari', 'core/Constants', 'core/String', 'engine/entity/component/ThreeObject'], function() {
 
-    this.maxWidth = this.fontSize;
+	Monogatari.Font2D = Monogatari.ThreeObject.extend( {
+	  init : function( fontSize, fontFamily, strokeColor, fillColor ) {
+		this.fontSize = ( fontSize ) ? fontSize : 10;
+		this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
+		this.strokeColor = ( strokeColor ) ? strokeColor : "#000";
+		this.fillColor = ( fillColor ) ? fillColor : "#000";
 
-    // this map stores the buffered font (with given specifications)
-    // on multiple canvases (one for each character)
-    this.fontMap = new Monogatari.Map();
+		this.maxWidth = this.fontSize;
 
-    this.componentType = Monogatari.Constants.COMPONENT_FONT;
-  },
+		// this map stores the buffered font (with given specifications)
+		// on multiple canvases (one for each character)
+		this.fontMap = new Monogatari.Map();
 
-  parse : function() {
-    var canvas = null,
-        context = null,
-        canvasBuffer = null,
-        contextBuffer = null,
-        w = 0, 
-        h = this.fontSize * 2;
+		this.componentType = Monogatari.Constants.COMPONENT_FONT;
+	  },
 
-    canvasBuffer = document.createElement( 'canvas' );
-    canvasBuffer.width = w;
-    canvasBuffer.height = h;
+	  parse : function() {
+		var canvas = null,
+			context = null,
+			canvasBuffer = null,
+			contextBuffer = null,
+			w = 0, 
+			h = this.fontSize * 2;
 
-    contextBuffer = canvasBuffer.getContext( "2d" );
+		canvasBuffer = document.createElement( 'canvas' );
+		canvasBuffer.width = w;
+		canvasBuffer.height = h;
 
-    for ( var i = 0, len = Monogatari.Constants.FONT_CHARS_SIMPLE.length; i < len; i++ ) {
-      w = contextBuffer.measureText( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ] ).width + ( this.fontSize / 2 );
+		contextBuffer = canvasBuffer.getContext( "2d" );
 
-      this.maxWidth = Monogatari.max( w, this.maxWidth );
+		for ( var i = 0, len = Monogatari.Constants.FONT_CHARS_SIMPLE.length; i < len; i++ ) {
+		  w = contextBuffer.measureText( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ] ).width + ( this.fontSize / 2 );
 
-      canvas = document.createElement( 'canvas' );
-      canvas.width = w;
-      canvas.height = h;
+		  this.maxWidth = Monogatari.max( w, this.maxWidth );
 
-      context = canvas.getContext( "2d" );
-      context.clearRect( 0, 0, w, h );
+		  canvas = document.createElement( 'canvas' );
+		  canvas.width = w;
+		  canvas.height = h;
 
-      context.strokeStyle = this.strokeColor;
-      context.fillStyle = this.fillColor;
+		  context = canvas.getContext( "2d" );
+		  context.clearRect( 0, 0, w, h );
 
-      context.font = this.fontSize + "px " + this.fontFamily;
+		  context.strokeStyle = this.strokeColor;
+		  context.fillStyle = this.fillColor;
 
-      context.fillText( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ], 0, h / 2 );
+		  context.font = this.fontSize + "px " + this.fontFamily;
 
-      this.fontMap.put( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ], canvas );
-    }
-  },
+		  context.fillText( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ], 0, h / 2 );
 
-  clone : function() {
-    return new Monogatari.Font2D( this.fontSize, this.fontFamily, this.strokeColor, this.fillColor );
-  }
-} );
+		  this.fontMap.put( Monogatari.Constants.FONT_CHARS_SIMPLE[ i ], canvas );
+		}
+	  },
+
+	  clone : function() {
+		return new Monogatari.Font2D( this.fontSize, this.fontFamily, this.strokeColor, this.fillColor );
+	  }
+	} );
+
+});
