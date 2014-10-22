@@ -2,13 +2,13 @@
 <html>
 <head>
 <title>Static Text Test</title>
-
 <link href='http://fonts.googleapis.com/css?family=Caesar+Dressing' rel='stylesheet' type='text/css'>
-
-<script type="text/javascript" src="../lib/ScriptLoader.js"></script>
+<script src="../lib/Require.js"></script>
 <script>
-  scriptLoader.load( [ 'engine/GameManager.js', 'engine/entity/component/Node.js', 'engine/entity/component/StaticText.js', 'core/io/Keyboard.js' ], '../',
-      function() {
+	require.config({
+		baseUrl: '../'
+	});
+	require(['engine/GameManager', 'engine/entity/component/Node', 'engine/entity/component/StaticText', 'core/io/Keyboard'], function() {
         // <Initializing Engine>
         Monogatari.GameManager.init();
         Monogatari.SceneManager.createScene( 'mainScene' );
@@ -30,7 +30,7 @@
         Monogatari.ObjectManager.connect( 'world', 'dialog' );
         Monogatari.GameManager.run();
         // </game logic>
-      } );
+	});
 </script>
 </head>
 <body>
