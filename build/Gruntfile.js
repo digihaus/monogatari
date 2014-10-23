@@ -3,22 +3,24 @@ module.exports = function (grunt) {
 	requirejs: {
 	  compile: {
 		options: {
-		  baseUrl: "../",
-		  name: "engine/GameManager",
-		  out: "../monogatari.js"
+		  baseUrl: '../',
+		  name: 'engine/GameManager',
+		  out: './temp.js'
 		}
 	  }
 	},
 	uglify: {
      dist: {
-		src: ['../monogatari.js'],
-        dest: '../monogatari-min.js'
+	   src: ['./temp.js'],
+       dest: '../monogatari-min.js',
      }
-   }
+    },
+	clean: ['./temp.js']
   });
 
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('default',['requirejs', 'uglify']);
+  grunt.registerTask('default',['requirejs', 'uglify', 'clean']);
 };
