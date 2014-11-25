@@ -2,35 +2,36 @@
 <html>
 <head>
 <title>Static Text Test</title>
-<link href='http://fonts.googleapis.com/css?family=Caesar+Dressing' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Caesar+Dressing'
+  rel='stylesheet' type='text/css'>
 <script src="../lib/Require.js"></script>
 <script>
-	require.config({
-		baseUrl: '../'
-	});
-	require(['engine/GameManager', 'engine/entity/component/Node', 'engine/entity/component/StaticText', 'core/io/Keyboard'], function() {
-        // <Initializing Engine>
-        Monogatari.GameManager.init();
-        Monogatari.SceneManager.createScene( 'mainScene' );
-        Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
-        // </Initializing Engine>
+  require.config( {
+    baseUrl : '../'
+  } );
+  require( [ 'engine/GameManager', 'engine/entity/component/Node', 'engine/entity/component/StaticText', 'core/io/Keyboard' ], function() {
+    // <Initializing Engine>
+    Monogatari.GameManager.init();
+    Monogatari.SceneManager.createScene( 'mainScene' );
+    Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
+    // </Initializing Engine>
 
-        // <Initializing Game Objects/Components>
-        var world = Monogatari.ObjectManager.create( 'world' );
+    // <Initializing Game Objects/Components>
+    var world = Monogatari.ObjectManager.create( 'world' );
 
-        var go = Monogatari.ObjectManager.create( 'dialog' );
+    var go = Monogatari.ObjectManager.create( 'dialog' );
 
-        var t = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+    var t = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
 
-        go.addComponent( new Monogatari.Node( new THREE.Vector3( 0, 0, 0 ) ) );
-        go.addComponent( new Monogatari.StaticText( 'mainScene', t, 12, "Caesar Dressing" ) );
-        // </Initializing Game Objects/Components>
+    go.addComponent( new Monogatari.Node( new THREE.Vector3( 0, 0, 0 ) ) );
+    go.addComponent( new Monogatari.StaticText( 'mainScene', t, 12, "Caesar Dressing" ) );
+    // </Initializing Game Objects/Components>
 
-        // <game logic>
-        Monogatari.ObjectManager.connect( 'world', 'dialog' );
-        Monogatari.GameManager.run();
-        // </game logic>
-	});
+    // <game logic>
+    Monogatari.ObjectManager.connect( 'world', 'dialog' );
+    Monogatari.GameManager.run();
+    // </game logic>
+  } );
 </script>
 </head>
 <body>

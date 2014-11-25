@@ -4,44 +4,46 @@
 <title>Random (with Chance.js)</title>
 <script src="../lib/Require.js"></script>
 <script>
-	require.config({
-		baseUrl: '../'
-	});
-	require(['core/Monogatari'], function() {
-		console.log( "bool" );
-		console.log( Monogatari.Random.bool() );
-		console.log( " " );
+  require.config( {
+    baseUrl : '../'
+  } );
+  require( [ 'core/Monogatari' ], function() {
+    console.log( "bool" );
+    console.log( Monogatari.Random.bool() );
+    console.log( " " );
 
-		console.log( "float (min and max)" );
-		console.log( Monogatari.Random.floating( {
-		  min : 0,
-		  max : 100
-		} ) );
-		console.log( " " );
+    console.log( "float (min and max)" );
+    console.log( Monogatari.Random.floating( {
+      min : 0,
+      max : 100
+    } ) );
+    console.log( " " );
 
-		console.log( "string" );
-		console.log( Monogatari.Random.string() );
-		console.log( " " );
+    console.log( "string" );
+    console.log( Monogatari.Random.string() );
+    console.log( " " );
 
-		console.log( "dices ( 4, 6, 8, 10, 12, 20, 30(?), 100)" );
-		console.log( Monogatari.Random.d4() );
-		console.log( Monogatari.Random.d6() );
-		console.log( Monogatari.Random.d8() );
-		console.log( Monogatari.Random.d10() );
-		console.log( Monogatari.Random.d12() );
-		console.log( Monogatari.Random.d20() );
-		console.log( Monogatari.Random.d30() );
-		console.log( Monogatari.Random.d100() ); 
-		console.log( " " );
+    console.log( "dices ( 4, 6, 8, 10, 12, 20, 30(?), 100)" );
+    console.log( Monogatari.Random.d4() );
+    console.log( Monogatari.Random.d6() );
+    console.log( Monogatari.Random.d8() );
+    console.log( Monogatari.Random.d10() );
+    console.log( Monogatari.Random.d12() );
+    console.log( Monogatari.Random.d20() );
+    console.log( Monogatari.Random.d30() );
+    console.log( Monogatari.Random.d100() );
+    console.log( " " );
 
-		console.log( "rpg 5d6" );
-		console.log( Monogatari.Random.rpg('5d6') );
-		console.log( " " );
+    console.log( "rpg 5d6" );
+    console.log( Monogatari.Random.rpg( '5d6' ) );
+    console.log( " " );
 
-		console.log( "rpg 3d34 sum" );
-		console.log( Monogatari.Random.rpg('3d34', {sum: true}) );
-		console.log( " " );
-	});
+    console.log( "rpg 3d34 sum" );
+    console.log( Monogatari.Random.rpg( '3d34', {
+      sum : true
+    } ) );
+    console.log( " " );
+  } );
 </script>
 </head>
 <body>

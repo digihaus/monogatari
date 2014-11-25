@@ -19,8 +19,8 @@ define( [ 'core/Monogatari', 'core/Timer', 'core/String', 'engine/EventManager',
   };
 
   MonogatariGameManager.prototype.run = function() {
-    requestAnimationFrame( Monogatari.GameManager.run );
-    Monogatari.GameManager.update();
-    Monogatari.GameManager.render();
+    requestAnimationFrame( this.run.bind(this) );
+    this.update();
+    this.render();
   };
 } );

@@ -4,146 +4,146 @@
 <title>Physics test</title>
 <script src="../lib/Require.js"></script>
 <script>
-	require.config({
-		baseUrl: '../'
-	});
-	require(['engine/GameManager', 'engine/entity/component/Sprite', 'engine/entity/component/RigidBody'], function() {
-		Monogatari.GameManager.init();
-		Monogatari.SceneManager.createScene( 'mainScene' );
-		Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
-		Monogatari.PhysicsManager.createWorld( new THREE.Vector2( 0, -10 ), true );
+  require.config( {
+    baseUrl : '../'
+  } );
+  require( [ 'engine/GameManager', 'engine/entity/component/Sprite', 'engine/entity/component/RigidBody' ], function() {
+    Monogatari.GameManager.init();
+    Monogatari.SceneManager.createScene( 'mainScene' );
+    Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
+    Monogatari.PhysicsManager.createWorld( new THREE.Vector2( 0, -10 ), true );
 
-		// knight
-		var knight = Monogatari.ObjectManager.create( 'knight' );
-		var rb1 = new Monogatari.RigidBody( 50 );
+    // knight
+    var knight = Monogatari.ObjectManager.create( 'knight' );
+    var rb1 = new Monogatari.RigidBody( 50 );
 
-		rb1.setType( Monogatari.Constants.PHYSICS_BODYTYPE_DYNAMIC );
-		rb1.setDensity( 1 );
-		rb1.setFriction( 0 );
-		rb1.setBounciness( 1 );
-		rb1.setPosition( new THREE.Vector2( 3, 1 ) );
+    rb1.setType( Monogatari.Constants.PHYSICS_BODYTYPE_DYNAMIC );
+    rb1.setDensity( 1 );
+    rb1.setFriction( 0 );
+    rb1.setBounciness( 1 );
+    rb1.setPosition( new THREE.Vector2( 3, 1 ) );
 
-		rb1.materialDef.shape.SetAsBox( 0.5, 0.5 );
+    rb1.materialDef.shape.SetAsBox( 0.5, 0.5 );
 
-		rb1.body = Monogatari.PhysicsManager.createBody( rb1.bodyDef );
-		rb1.body.CreateFixture( rb1.materialDef );
-		rb1.body.SetUserData( {
-		  id : 'knight'
-		} );
+    rb1.body = Monogatari.PhysicsManager.createBody( rb1.bodyDef );
+    rb1.body.CreateFixture( rb1.materialDef );
+    rb1.body.SetUserData( {
+      id : 'knight'
+    } );
 
-		knight.addComponent( new Monogatari.Node() );
+    knight.addComponent( new Monogatari.Node() );
 
-		var sprite = new Monogatari.Sprite( 'mainScene', 'assets/zombies.png', 64, 64, 1, 3 );
-		sprite.getMaterial().transparent = true;
+    var sprite = new Monogatari.Sprite( 'mainScene', 'assets/zombies.png', 64, 64, 1, 3 );
+    sprite.getMaterial().transparent = true;
 
-		knight.addComponent( sprite );
-		knight.addComponent( rb1 );
+    knight.addComponent( sprite );
+    knight.addComponent( rb1 );
 
-		//ball1
-		var ball = Monogatari.ObjectManager.create( 'ball1' );
-		var rb2 = new Monogatari.RigidBody( 50 );
+    //ball1
+    var ball = Monogatari.ObjectManager.create( 'ball1' );
+    var rb2 = new Monogatari.RigidBody( 50 );
 
-		rb2.setType( Monogatari.Constants.PHYSICS_BODYTYPE_DYNAMIC );
-		rb2.setDensity( 1 );
-		rb2.setFriction( 0 );
-		rb2.setBounciness( 1 );
-		rb2.setPosition( new THREE.Vector2( 2.7, 0.5 ) );
+    rb2.setType( Monogatari.Constants.PHYSICS_BODYTYPE_DYNAMIC );
+    rb2.setDensity( 1 );
+    rb2.setFriction( 0 );
+    rb2.setBounciness( 1 );
+    rb2.setPosition( new THREE.Vector2( 2.7, 0.5 ) );
 
-		rb2.materialDef.shape.SetAsBox( 0.5, 0.5 );
+    rb2.materialDef.shape.SetAsBox( 0.5, 0.5 );
 
-		rb2.body = Monogatari.PhysicsManager.createBody( rb2.bodyDef );
-		rb2.body.CreateFixture( rb2.materialDef );
-		rb2.body.SetUserData( {
-		  id : 'ball1'
-		} );
+    rb2.body = Monogatari.PhysicsManager.createBody( rb2.bodyDef );
+    rb2.body.CreateFixture( rb2.materialDef );
+    rb2.body.SetUserData( {
+      id : 'ball1'
+    } );
 
-		ball.addComponent( new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
-		ball.addComponent( new Monogatari.Sprite( 'mainScene',  'assets/zombies.png', 64, 64, 1, 3 ) );
-		ball.addComponent( rb2 );
+    ball.addComponent( new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
+    ball.addComponent( new Monogatari.Sprite( 'mainScene', 'assets/zombies.png', 64, 64, 1, 3 ) );
+    ball.addComponent( rb2 );
 
-		//ball2
-		var ball2 = Monogatari.ObjectManager.create( 'ball2' );
-		var rb3 = new Monogatari.RigidBody( 50 );
+    //ball2
+    var ball2 = Monogatari.ObjectManager.create( 'ball2' );
+    var rb3 = new Monogatari.RigidBody( 50 );
 
-		rb3.setType( Monogatari.Constants.PHYSICS_BODYTYPE_DYNAMIC );
-		rb3.setDensity( 1 );
-		rb3.setFriction( 0 );
-		rb3.setBounciness( 1 );
-		rb3.setPosition( new THREE.Vector2( 1, 0.5 ) );
+    rb3.setType( Monogatari.Constants.PHYSICS_BODYTYPE_DYNAMIC );
+    rb3.setDensity( 1 );
+    rb3.setFriction( 0 );
+    rb3.setBounciness( 1 );
+    rb3.setPosition( new THREE.Vector2( 1, 0.5 ) );
 
-		rb3.materialDef.shape.SetAsBox( 0.5, 0.5 );
+    rb3.materialDef.shape.SetAsBox( 0.5, 0.5 );
 
-		rb3.body = Monogatari.PhysicsManager.createBody( rb3.bodyDef );
-		rb3.body.CreateFixture( rb3.materialDef );
-		rb3.body.SetUserData( {
-		  id : 'ball2'
-		} );
+    rb3.body = Monogatari.PhysicsManager.createBody( rb3.bodyDef );
+    rb3.body.CreateFixture( rb3.materialDef );
+    rb3.body.SetUserData( {
+      id : 'ball2'
+    } );
 
-		ball2.addComponent( new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
-		ball2.addComponent( new Monogatari.Sprite( 'mainScene',  'assets/zombies.png', 64, 64, 1, 3 ) );
-		ball2.addComponent( rb3 );
+    ball2.addComponent( new Monogatari.Node( new THREE.Vector3( 1, 1, 0 ) ) );
+    ball2.addComponent( new Monogatari.Sprite( 'mainScene', 'assets/zombies.png', 64, 64, 1, 3 ) );
+    ball2.addComponent( rb3 );
 
-		// ground
-		var groundBodyDef = new b2BodyDef();
+    // ground
+    var groundBodyDef = new b2BodyDef();
 
-		groundBodyDef.type = b2Body.b2_staticBody;
-		groundBodyDef.position.Set(0, -10);
+    groundBodyDef.type = b2Body.b2_staticBody;
+    groundBodyDef.position.Set( 0, -10 );
 
-		var groundBody = Monogatari.PhysicsManager.createBody( groundBodyDef );
+    var groundBody = Monogatari.PhysicsManager.createBody( groundBodyDef );
 
-		var groundfixDef = new b2FixtureDef();
-		groundfixDef.density = 1.0;
-		groundfixDef.friction = 0.5;
-		groundfixDef.restitution = 0.0;
+    var groundfixDef = new b2FixtureDef();
+    groundfixDef.density = 1.0;
+    groundfixDef.friction = 0.5;
+    groundfixDef.restitution = 0.0;
 
-		groundfixDef.shape = new b2PolygonShape();
-		groundfixDef.shape.SetAsBox( 100, 0.5 );
+    groundfixDef.shape = new b2PolygonShape();
+    groundfixDef.shape.SetAsBox( 100, 0.5 );
 
-		groundBody.CreateFixture( groundfixDef );
+    groundBody.CreateFixture( groundfixDef );
 
-		var boxBodyDef = new b2BodyDef();
+    var boxBodyDef = new b2BodyDef();
 
-		boxBodyDef.type = b2Body.b2_dynamicBody;
-		boxBodyDef.position.Set(0, 2);
+    boxBodyDef.type = b2Body.b2_dynamicBody;
+    boxBodyDef.position.Set( 0, 2 );
 
-		// left wall
-		var lWallBodyDef = new b2BodyDef();
+    // left wall
+    var lWallBodyDef = new b2BodyDef();
 
-		lWallBodyDef.type = b2Body.b2_staticBody;
-		lWallBodyDef.position.Set(0, 0);
+    lWallBodyDef.type = b2Body.b2_staticBody;
+    lWallBodyDef.position.Set( 0, 0 );
 
-		var lWallBody = Monogatari.PhysicsManager.createBody( lWallBodyDef );
+    var lWallBody = Monogatari.PhysicsManager.createBody( lWallBodyDef );
 
-		var lWallFixDef = new b2FixtureDef();
-		lWallFixDef.density = 1.0;
-		lWallFixDef.friction = 0.5;
-		lWallFixDef.restitution = 0.0;
+    var lWallFixDef = new b2FixtureDef();
+    lWallFixDef.density = 1.0;
+    lWallFixDef.friction = 0.5;
+    lWallFixDef.restitution = 0.0;
 
-		lWallFixDef.shape = new b2PolygonShape();
-		lWallFixDef.shape.SetAsBox( 0.5, 100 );
+    lWallFixDef.shape = new b2PolygonShape();
+    lWallFixDef.shape.SetAsBox( 0.5, 100 );
 
-		lWallBody.CreateFixture( lWallFixDef );
+    lWallBody.CreateFixture( lWallFixDef );
 
-		// right wall
-		var rWallBodyDef = new b2BodyDef();
+    // right wall
+    var rWallBodyDef = new b2BodyDef();
 
-		rWallBodyDef.type = b2Body.b2_staticBody;
-		rWallBodyDef.position.Set(12, 0);
+    rWallBodyDef.type = b2Body.b2_staticBody;
+    rWallBodyDef.position.Set( 12, 0 );
 
-		var rWallBody = Monogatari.PhysicsManager.createBody( rWallBodyDef );
+    var rWallBody = Monogatari.PhysicsManager.createBody( rWallBodyDef );
 
-		var rWallFixDef = new b2FixtureDef();
-		rWallFixDef.density = 1.0;
-		rWallFixDef.friction = 0.5;
-		rWallFixDef.restitution = 0.0;
+    var rWallFixDef = new b2FixtureDef();
+    rWallFixDef.density = 1.0;
+    rWallFixDef.friction = 0.5;
+    rWallFixDef.restitution = 0.0;
 
-		rWallFixDef.shape = new b2PolygonShape();
-		rWallFixDef.shape.SetAsBox( 0.5, 100 );
+    rWallFixDef.shape = new b2PolygonShape();
+    rWallFixDef.shape.SetAsBox( 0.5, 100 );
 
-		rWallBody.CreateFixture( rWallFixDef );
+    rWallBody.CreateFixture( rWallFixDef );
 
-		Monogatari.GameManager.run();
-	});
+    Monogatari.GameManager.run();
+  } );
 </script>
 </head>
 <body>
