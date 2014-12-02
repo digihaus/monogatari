@@ -1,22 +1,28 @@
-define( [ "core/Monogatari", "core/collection/Iterator" ], function() {
+define( [ "core/Monogatari", "core/Util", "core/collection/Iterator" ], function() {
   Monogatari.Pool = Class.extend( {
     init : function( type, size ) {
       this._values = [];
-      this._freeIndexes = [];
+      this._inUse = [];
       this.type = type ? type : null;
 
-      this.grow( size );
+      this.grow( size || 10 );
     },
 
     size : function() {
       return this._values.length;
     },
 
+    avaliableValues : function() {
+      return this._values.length - this._inUse.length;
+    }
+
+    valuesInUse : function() {
+      return this._inUse.length;
+    }
+
     grow : function( amount ) {
       if( amount && typeof amount === "number"){
         for( var i = 0, i < amount; i++ ){
-          this._freeIndexes.push( this._values.length );
-
           if ( this.type && typeof this.type === "object" ) {
             this._values.push( new Monogatari.PoolNode( this._values.length, new this.type(), false ) );
           } else if ( this.type === "number" ) {
@@ -34,22 +40,20 @@ define( [ "core/Monogatari", "core/collection/Iterator" ], function() {
     },
 
     getFree : function(){
-      if( this._freeIndexes.length === 0 )
+      if( this._inUse.length === this._values.length )
         this.grow( Monogatari.floor(this._values.length / 2) );
 
-      // get and remove head from freeIndexes
-      var index = this._freeIndexes.remove(0);
-      // retrieve the alive from the elements array
-      var obj = this._values[index];
-      // mark the object alive so we use it when iterating on the pool
-      obj.alive = true;
-
-      return obj;
+      for(var i = 0, len = this._values.length; i < len; i++){
+        if( this._values[i].alive === false ){
+          this._values[i].alive = true;
+          return this._values[i];
+        }
+      }
     },
 
     free : function( index ) {
       this._values[index].reset();
-      this._freeIndexes.push(index);
+      this._inUse.remove( index );
     },
 
     isEmpty : function() {
@@ -58,7 +62,7 @@ define( [ "core/Monogatari", "core/collection/Iterator" ], function() {
 
     clear : function() {
       this._values.length = 0;
-      this._freeIndexes.length = 0;
+      this._inUse.length = 0;
     },
 
     toArray : function() {
@@ -70,7 +74,7 @@ define( [ "core/Monogatari", "core/collection/Iterator" ], function() {
     },
 
     iterator : function() {
-      
+      return new Monogatari.PoolIterator( this._inUse, this._values );
     }
 
   } );

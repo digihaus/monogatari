@@ -112,4 +112,35 @@ define( [ 'core/Monogatari', 'core/Array' ], function() {
     }
   } );
 
+  Monogatari.PoolIterator = Class.extend( {
+    init : function( inUse, values ) {
+      this.index = -1;
+
+      this.hasNext = function() {
+        return this.index + 1 < inUse.length;
+      };
+
+      this.hasPrevious = function() {
+        return this.index > 0;
+      };
+
+      this.next = function() {
+        return values[ inUse[ ++this.index ] ];
+      };
+
+      this.previous = function() {
+        return values[ inUse[ --this.index ] ];
+      };
+
+      this.first = function() {
+        this.index = -1;
+        return ( inUse.length > 0 ) ? values[ inUse[ 0 ] ] : null;
+      };
+
+      this.last = function() {
+        this.index = inUse.length - 1;
+        return ( inUse.length > 0 ) ? values[ inUse[ this.index ] ] : null;
+      };
+    }
+  } );
 } );
