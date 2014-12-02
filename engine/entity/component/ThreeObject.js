@@ -54,8 +54,15 @@ define( [ 'core/Monogatari', 'core/Constants', 'engine/entity/component/Componen
 
     attachToScene : function( object ) {
       Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( object ? object : this._mesh );
-    }
+    },
 
+    show : function() {
+      this._mesh.material.visible = true;
+    },
+
+    hide : function() {
+      this._mesh.material.visible = false;
+    }
   } );
 
 } );

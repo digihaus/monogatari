@@ -1,19 +1,19 @@
 //Based on code by John Resig
 define( [ 'core/Monogatari', 'core/Array' ], function() {
   Monogatari.Iterator = Class.extend( {
-    init : function( obj ) {
-      if ( obj instanceof Array ) {
+    init : function( values ) {
+      if ( values instanceof Array ) {
         this.index = -1;
 
         this.hasNext = function() {
-          return this.index + 1 < obj.length;
+          return this.index + 1 < values.length;
         };
 
         this.next = function() {
-          return obj[ ++this.index ];
+          return values[ ++this.index ];
         };
       } else {
-        console.log( "Unable to iterate: " + obj );
+        console.log( "Unable to iterate: " + values );
         return null;
       }
     }
@@ -111,4 +111,5 @@ define( [ 'core/Monogatari', 'core/Array' ], function() {
       };
     }
   } );
+
 } );
