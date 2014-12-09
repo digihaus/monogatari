@@ -14,15 +14,15 @@ define( [ "core/Monogatari", "core/Util", "core/collection/Iterator" ], function
 
     avaliableValues : function() {
       return this._values.length - this._inUse.length;
-    }
+    },
 
     valuesInUse : function() {
       return this._inUse.length;
-    }
+    },
 
     grow : function( amount ) {
       if( amount && typeof amount === "number"){
-        for( var i = 0, i < amount; i++ ){
+        for( var i = 0; i < amount; i++ ){
           if ( this.type && typeof this.type === "object" ) {
             this._values.push( new Monogatari.PoolNode( this._values.length, new this.type(), false ) );
           } else if ( this.type === "number" ) {
@@ -46,6 +46,7 @@ define( [ "core/Monogatari", "core/Util", "core/collection/Iterator" ], function
       for(var i = 0, len = this._values.length; i < len; i++){
         if( this._values[i].alive === false ){
           this._values[i].alive = true;
+          this._inUse.push(i);
           return this._values[i];
         }
       }

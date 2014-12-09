@@ -24,7 +24,7 @@ define( [ 'core/Monogatari', 'core/collection/Map' ], function() {
     },
 
     isEmpty : function() {
-      return ( this.size() == 0 );
+      return ( this.size() === 0 );
     },
 
     getDepth : function() {
