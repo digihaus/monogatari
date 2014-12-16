@@ -13,7 +13,7 @@ module.exports = function (grunt) {
     uglify: {
       dist: {
         src: ['./temp.js'],
-        dest: '../monogatari-<%= pkg.version %>-min.js',
+        dest: '../monogatari-<%= pkg.version %>.min.js',
       }
     },
     clean: ['./temp.js']
