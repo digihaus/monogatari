@@ -1,6 +1,6 @@
 {
   "name": "Monogatari",
-  "version": "v0.1.0-dev",
+  "version": "0.1.0dev",
   "description": "HTML5/JS Game Engine",
   "main": "Gruntfile.js",
   "devDependencies": {
