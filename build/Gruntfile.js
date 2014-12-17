@@ -24,9 +24,9 @@ module.exports = function (grunt) {
 
     jshint: {
       all: {
-        src: '../core/**.js',
+        src: ['../core/**.js', '../engine/**.js'],
         options: {
-          bitwise: true,
+          bitwise: false,
           camelcase: true,
           curly: true,
           eqeqeq: true,
@@ -43,12 +43,15 @@ module.exports = function (grunt) {
           undef: true,
           unused: true,
           trailing: true,
-          maxlen: 120,
+          maxlen: 400,
           globals: {
             'window': true,
+            'console': true,
+            'document': true,
             'Monogatari': true,
             'localStorage': true,
             'THREE': true,
+            'Detector': true,
             'define': true
           }
         }

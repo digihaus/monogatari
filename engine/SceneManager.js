@@ -1,16 +1,13 @@
 define( [ 'core/Monogatari', 'core/Math', 'core/collection/Map', 'engine/render/Camera2D', 'lib/Detector' ], function() {
-  Monogatari.SceneManager = new MonogatariSceneManager();
 
   function MonogatariSceneManager() {
-
     this._cameras = new Monogatari.Map();
     this._cameraIterator = this._cameras.iterator();
-
     this._scenes = new Monogatari.Map();
 
     // this._lights = new Monogatari.Map();
     // this._lightIterator = this._lights.iterator();
-  };
+  }
 
   MonogatariSceneManager.prototype.init = function( bgcolor, width, height, target ) {
     // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
@@ -56,15 +53,15 @@ define( [ 'core/Monogatari', 'core/Math', 'core/collection/Map', 'engine/render/
   MonogatariSceneManager.prototype.createCamera = function( cameraId, sceneId, width, height ) {
     var scene = this._scenes.get( ( sceneId ) ? sceneId : Monogatari.Constants.DEFAULT_SCENE_ID );
 
-    if ( !cameraId )
+    if ( !cameraId ) {
       cameraId = Monogatari.Constants.DEFAULT_CAMERA_ID;
-
-    if ( !width )
+    }
+    if ( !width ) {
       width = this._canvasWidth;
-
-    if ( !height )
+    }
+    if ( !height ) {
       height = this._canvasHeight;
-
+    }
     if ( scene ) {
       // left, right, top, bottom, near, far
       var camera = new Monogatari.Camera2D( width / -2, width / 2, height / 2, height / -2, 1, Monogatari.max( width, height ) );
@@ -73,7 +70,7 @@ define( [ 'core/Monogatari', 'core/Math', 'core/collection/Map', 'engine/render/
       this._cameras.put( cameraId, camera );
 
     } else {
-      console.log( "Scene not found:" + sceneId );
+      console.log( 'Scene not found:' + sceneId );
       return;
     }
   };
@@ -81,8 +78,9 @@ define( [ 'core/Monogatari', 'core/Math', 'core/collection/Map', 'engine/render/
   MonogatariSceneManager.prototype.addSceneToCamera = function( cameraId, sceneId ) {
     var camera = this._cameras.get( cameraId ), scene = this._scenes.get( sceneId );
 
-    if ( scene && camera )
+    if ( scene && camera ) {
       camera.addScene( sceneId );
+    }
   };
 
   MonogatariSceneManager.prototype.update = function() {
@@ -103,9 +101,13 @@ define( [ 'core/Monogatari', 'core/Math', 'core/collection/Map', 'engine/render/
       while ( camera._sceneIterator.hasNext() ) {
         scene = this._scenes.get( camera._sceneIterator.next() );
 
-        if ( scene )
+        if ( scene ) {
           this._renderer.render( scene, camera.cam );
+        }
       }
     }
   };
+
+  Monogatari.SceneManager = new MonogatariSceneManager();
+
 } );
