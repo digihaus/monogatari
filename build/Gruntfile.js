@@ -1,5 +1,6 @@
 module.exports = function (grunt) {
   grunt.initConfig({
+
     requirejs: {
       compile: {
         options: {
@@ -9,17 +10,54 @@ module.exports = function (grunt) {
         }
       }
     },
+
     pkg: grunt.file.readJSON('package.json'),
+
     uglify: {
       dist: {
         src: ['./temp.js'],
         dest: '../monogatari-<%= pkg.version %>.min.js',
       }
     },
-    clean: ['./temp.js']
+
+    clean: ['./temp.js'],
+
+    jshint: {
+      all: {
+        src: '../core/**.js',
+        options: {
+          bitwise: true,
+          camelcase: true,
+          curly: true,
+          eqeqeq: true,
+          forin: true,
+          immed: true,
+          indent: 4,
+          latedef: true,
+          newcap: true,
+          noarg: true,
+          noempty: true,
+          nonew: true,
+          quotmark: 'single',
+          regexp: true,
+          undef: true,
+          unused: true,
+          trailing: true,
+          maxlen: 120,
+          globals: {
+            'window': true,
+            'Monogatari': true,
+            'localStorage': true,
+            'THREE': true,
+            'define': true
+          }
+        }
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-clean');
 

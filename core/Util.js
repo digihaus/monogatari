@@ -1,6 +1,5 @@
 // Utility functions for use as static methods.
 define( [ 'core/Monogatari', 'core/Constants' ], function() {
-  Monogatari.Util = new MonogatariUtil();
 
   function MonogatariUtil() {
     this._browserDetect = {};
@@ -11,16 +10,16 @@ define( [ 'core/Monogatari', 'core/Constants' ], function() {
 
     var agent = this._browserDetect.agent;
 
-    this._browserDetect.isFirefox = ( agent.indexOf( "Firefox" ) > -1 );
+    this._browserDetect.isFirefox = ( agent.indexOf( 'Firefox' ) > -1 );
     this._browserDetect.isOpera = ( window.opera != null );
     // Chrome on Android returns true but is a completely different browser with different abilities
-    this._browserDetect.isChrome = ( agent.indexOf( "Chrome" ) > -1 );
+    this._browserDetect.isChrome = ( agent.indexOf( 'Chrome' ) > -1 );
     // if the browser is safari for iOS devices (iPad, iPhone, and iPad).
-    this._browserDetect.isIOS = agent.indexOf( "iPod" ) > -1 || agent.indexOf( "iPhone" ) > -1 || agent.indexOf( "iPad" ) > -1;
-    this._browserDetect.isAndroid = ( agent.indexOf( "Android" ) > -1 );
-    this._browserDetect.isBlackberry = ( agent.indexOf( "Blackberry" ) > -1 );
-    this._browserDetect.isIE = ( agent.indexOf( "MSIE" ) > -1 );
-  };
+    this._browserDetect.isIOS = agent.indexOf( 'iPod' ) > -1 || agent.indexOf( 'iPhone' ) > -1 || agent.indexOf( 'iPad' ) > -1;
+    this._browserDetect.isAndroid = ( agent.indexOf( 'Android' ) > -1 );
+    this._browserDetect.isBlackberry = ( agent.indexOf( 'Blackberry' ) > -1 );
+    this._browserDetect.isIE = ( agent.indexOf( 'MSIE' ) > -1 );
+  }
 
   MonogatariUtil.prototype.createUniqueId = function() {
     // from: http://stackoverflow.com/a/2117523
@@ -31,33 +30,44 @@ define( [ 'core/Monogatari', 'core/Constants' ], function() {
   };
 
   MonogatariUtil.prototype.equals = function( obj, other ) {
-    if ( obj === null || other === null )
+    if ( obj === null || other === null ) {
       return obj === null && other === null;
-    if ( typeof obj === "string" )
+    }
+    if ( typeof obj === 'string' ) {
       return obj === other;
-    if ( typeof obj !== "object" )
+    }
+    if ( typeof obj !== 'object' ) {
       return obj === other;
-    if ( obj.equals instanceof Function )
+    }
+    if ( obj.equals instanceof Function ) {
       return obj.equals( other );
+    }
     return obj === other;
   };
 
   MonogatariUtil.prototype.parseUnitSize = function( text ) {
     var len = text.length - 2;
-    if ( len < 0 )
+    if ( len < 0 ) {
       return text;
-    if ( text.indexOf( "pt" ) === len )
+    }
+    if ( text.indexOf( 'pt' ) === len ) {
       return parseFloat( text.substring( 0, len ) ) * 1.25;
-    if ( text.indexOf( "pc" ) === len )
+    }
+    if ( text.indexOf( 'pc' ) === len ) {
       return parseFloat( text.substring( 0, len ) ) * 15;
-    if ( text.indexOf( "mm" ) === len )
+    }
+    if ( text.indexOf( 'mm' ) === len ) {
       return parseFloat( text.substring( 0, len ) ) * 3.543307;
-    if ( text.indexOf( "cm" ) === len )
+    }
+    if ( text.indexOf( 'cm' ) === len ) {
       return parseFloat( text.substring( 0, len ) ) * 35.43307;
-    if ( text.indexOf( "in" ) === len )
+    }
+    if ( text.indexOf( 'in' ) === len ) {
       return parseFloat( text.substring( 0, len ) ) * 90;
-    if ( text.indexOf( "px" ) === len )
+    }
+    if ( text.indexOf( 'px' ) === len ) {
       return parseFloat( text.substring( 0, len ) );
+    }
     return parseFloat( text );
   };
 
@@ -71,27 +81,39 @@ define( [ 'core/Monogatari', 'core/Constants' ], function() {
   // store('obj', {'hello': 'world'}, true);
 
   MonogatariUtil.prototype.store = function( key, val, isObject ) {
-    if ( isObject )
+    if ( isObject ) {
       localStorage.setItem( key, JSON.stringify( val ) );
-    else
+    }
+    else {
       localStorage.setItem( key, val );
+    }
   };
 
   MonogatariUtil.prototype.getBrowser = function() {
     // Chrome on Android returns true but is a completely different browser with different abilities
-    if ( this._browserDetect.isAndroid )
+    if ( this._browserDetect.isAndroid ) {
       return Monogatari.Constants.BROWSER_ANDROID;
-    if ( this._browserDetect.isChrome )
+    }
+    if ( this._browserDetect.isChrome ) {
       return Monogatari.Constants.BROWSER_CHROME;
-    if ( this._browserDetect.isFirefox )
+    }
+    if ( this._browserDetect.isFirefox ) {
       return Monogatari.Constants.BROWSER_FIREFOX;
-    if ( this._browserDetect.isIOS )
+    }
+    if ( this._browserDetect.isIOS ) {
       return Monogatari.Constants.BROWSER_IOS;
-    if ( this._browserDetect.isOpera )
+    }
+    if ( this._browserDetect.isOpera ) {
       return Monogatari.Constants.BROWSER_OPERA;
-    if ( this._browserDetect.isBlackberry )
+    }
+    if ( this._browserDetect.isBlackberry ) {
       return Monogatari.Constants.BROWSER_BLACKBERRY;
-    if ( this._browserDetect.isIE )
+    }
+    if ( this._browserDetect.isIE ) {
       return Monogatari.Constants.BROWSER_IE;
+    }
   };
+
+  Monogatari.Util = new MonogatariUtil();
+
 } );
