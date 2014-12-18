@@ -119,22 +119,28 @@ define( [ 'core/Monogatari', 'core/Timer', 'core/Array' ], function() {
     for ( var i = 0, len = this._pressed.length; i < len; i++ )
       this._pressed[ i ] = -1;
 
-  };
+    };
 
-  MonogatariKeyboard.prototype.isDown = function( keyCode ) {
-    return ( this._pressed[ keyCode ] === -1 ) ? null : this._pressed[ keyCode ];
-  };
+    MonogatariKeyboard.prototype.isDown = function( keyCode ) {
+      return ( this._pressed[ keyCode ] === -1 ) ? null : this._pressed[ keyCode ];
+    };
 
-  MonogatariKeyboard.prototype.onKeyDown = function( event ) {
-    if ( event.keyCode == this.KEY_BACKSPACE || event.keyCode == this.KEY_UP_ARROW || event.keyCode == this.KEY_DOWN_ARROW
-        || event.keyCode == this.KEY_LEFT_ARROW || event.keyCode == this.KEY_RIGHT_ARROW || event.keyCode == this.KEY_PAGE_UP
-        || event.keyCode == this.KEY_PAGE_DOWN || event.keyCode == this.KEY_SPACE )
-      event.preventDefault();
+    MonogatariKeyboard.prototype.onKeyDown = function( event ) {
+      if ( event.keyCode == this.KEY_BACKSPACE ||
+        event.keyCode == this.KEY_UP_ARROW ||
+        event.keyCode == this.KEY_DOWN_ARROW ||
+        event.keyCode == this.KEY_LEFT_ARROW ||
+        event.keyCode == this.KEY_RIGHT_ARROW ||
+        event.keyCode == this.KEY_PAGE_UP ||
+        event.keyCode == this.KEY_PAGE_DOWN ||
+        event.keyCode == this.KEY_SPACE ) {
+          event.preventDefault();
+        }
 
-    this._pressed[ event.keyCode ] = Monogatari.Time.time;
-  };
+        this._pressed[ event.keyCode ] = Monogatari.Time.time;
+      };
 
-  MonogatariKeyboard.prototype.onKeyUp = function( event ) {
-    this._pressed[ event.keyCode ] = -1;
-  };
-} );
+      MonogatariKeyboard.prototype.onKeyUp = function( event ) {
+        this._pressed[ event.keyCode ] = -1;
+      };
+    } );

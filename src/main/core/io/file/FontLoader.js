@@ -1,25 +1,24 @@
-define( [ 'core/Monogatari', 'lib/Webfont' ], function() {
-  Monogatari.FontLoader = new MonogatariFontLoader();
+define( [ 'lib/Webfont' ], function(webfont) {
 
-  function MonogatariFontLoader() {};
+  return {
 
-  MonogatariFontLoader.prototype.load = function( family, callback, callbackFail, context ) {
+    load: function( family, callback, callbackFail, context ) {
 
-    var ctx = context || this;
+      var ctx = context || this;
 
-    WebFont.load( {
-      google : {
-        families : [ family ]
-      },
+      webfont.load( {
+        google : {
+          families : [ family ]
+        },
+        fontactive : function( fontFamily, fontDescription ) {
+          callback.apply( ctx, [ fontFamily, fontDescription ] );
+        },
+        fontinactive : function( fontFamily, fontDescription ) {
+          callbackFail.apply( ctx, [ fontFamily, fontDescription ] );
+        }
+      } );
+    }
 
-      fontactive : function( fontFamily, fontDescription ) {
-        callback.apply( ctx, [ fontFamily, fontDescription ] );
-      },
+  }
 
-      fontinactive : function( fontFamily, fontDescription ) {
-        callbackFail.apply( ctx, [ fontFamily, fontDescription ] );
-      }
-    } );
-
-  };
 } );
