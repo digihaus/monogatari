@@ -1,77 +1,139 @@
-/**
- * Math functions for use as static methods.
- */
-define( [ 'core/Monogatari', 'core/Constants', 'core/Util', 'lib/Three' ], function() {
-  Monogatari.Math = new MonogatariMath();
-  function MonogatariMath() {
-    // base normalized axis aligned vectors
-    this._X_ALIGNED_VECTOR = new THREE.Vector3( 1, 0, 0 );
-    this._Y_ALIGNED_VECTOR = new THREE.Vector3( 0, 1, 0 );
-    this._Z_ALIGNED_VECTOR = new THREE.Vector3( 0, 0, 1 );
+define( [ 'lib/Three' ], function( three ) {
 
-    this._ONE = new THREE.Vector3( 1, 1, 1 );
-    this._ZERO = new THREE.Vector3( 0, 0, 0 );
-  };
+  var _X_ALIGNED_VECTOR = new three.Vector3( 1, 0, 0 );
+  var _Y_ALIGNED_VECTOR =  new three.Vector3( 0, 1, 0 );
+  var _Z_ALIGNED_VECTOR = new three.Vector3( 0, 0, 1 );
+  var _ONE = new three.Vector3( 1, 1, 1 );
+  var _ZERO = new three.Vector3( 0, 0, 0 );
 
-  MonogatariMath.prototype.getXAlignedVector = function() {
-    return this._X_ALIGNED_VECTOR;
-  };
+  return {
 
-  MonogatariMath.prototype.getYAlignedVector = function() {
-    return this._Y_ALIGNED_VECTOR;
-  };
+    RADTODEG: 57.295779513082,
 
-  MonogatariMath.prototype.getZAlignedVector = function() {
-    return this._Z_ALIGNED_VECTOR;
-  };
+    DEGTORAD: 0.0174532925199,
 
-  MonogatariMath.prototype.getVectorOne = function() {
-    return this._ONE;
-  };
+    SQRT_2: 1.41421356237,
 
-  MonogatariMath.prototype.getVectorZero = function() {
-    return this._ZERO;
-  };
+    PI: 3.14159265358979,
 
-  /**
-   * Converts the given degrees to radians.
-   *
-   * @return float
-   */
-  MonogatariMath.prototype.toRadians = function( a ) {
-    return a * Monogatari.Constants.DEGTORAD;
-  };
+    PI_2: 6.28318530717958, // 2 * PI
 
-  /**
-   * Converts the given radians to degrees.
-   *
-   * @return float
-   */
-  MonogatariMath.prototype.toDegrees = function( a ) {
-    return a * Monogatari.Constants.RADTODEG;
-  };
+    PI_OVER_180: 0.0174532925199, // 433, // PI / 180
 
-  MonogatariMath.prototype.decimalToBinary = function( num ) {
-    return num.toString( 2 );
-  };
+    PI_OVER_360: 0.0087266462599, // 716, // PI / 360
 
-  MonogatariMath.prototype.decimalToOctal = function( num ) {
-    return num.toString( 8 );
-  };
+    ONE_DEGREE: this.PI_OVER_180,  // same as PI_OVER_180, just for coding convenience
 
-  MonogatariMath.prototype.decimalToHex = function( num ) {
-    return num.toString( 16 );
-  };
+    getXAlignedVector: function() {
+      return _X_ALIGNED_VECTOR;
+    },
 
-  MonogatariMath.prototype.binaryToDecimal = function( num ) {
-    return parseInt( num, 2 );
-  };
+    getYAlignedVector: function() {
+      return _Y_ALIGNED_VECTOR;
+    },
 
-  MonogatariMath.prototype.octalToDecimal = function( num ) {
-    return parseInt( num, 8 );
-  };
+    getZAlignedVector: function() {
+      return _Z_ALIGNED_VECTOR;
+    },
 
-  MonogatariMath.prototype.hexToDecimal = function( num ) {
-    return parseInt( num, 16 );
-  };
+    getVectorOne: function() {
+      return _ONE;
+    },
+
+    getVectorZero: function() {
+      return _ZERO;
+    },
+
+    toRadians: function( a ) {
+      return a * this.DEGTORAD;
+    },
+
+    toDegrees: function( a ) {
+      return a * this.RADTODEG;
+    },
+
+    decimalToBinary: function( num ) {
+      return num.toString( 2 );
+    },
+
+    decimalToOctal: function( num ) {
+      return num.toString( 8 );
+    },
+
+    decimalToHex: function( num ) {
+      return num.toString( 16 );
+    },
+
+    binaryToDecimal: function( num ) {
+      return parseInt( num, 2 );
+    },
+
+    octalToDecimal: function( num ) {
+      return parseInt( num, 8 );
+    },
+
+    hexToDecimal: function( num ) {
+      return parseInt( num, 16 );
+    },
+
+    // function hacks
+    // from: http://mudcu.be/journal/2011/11/bitwise-gems-and-other-optimizations/
+
+    roundHack: function( n ) {
+      return n + ( n < 0 ? -0.5 : 0.5 ) >> 0;
+    },
+
+    ceilHack: function( n ) {
+      return n + ( n < 0 ? 0 : 1 ) >> 0;
+    },
+
+    floorHack: function( n ) {
+      // return n + ( n < 0 ? -1 : 0 ) >> 0;
+      return n | 0;
+    },
+
+    absHack: function( n ) {
+      return n > 0 ? n : -n;
+    },
+
+    minHack: function( a, b ) {
+      return ( a < b ) ? a : b;
+    },
+
+    maxHack: function( a, b ) {
+      return ( a > b ) ? a : b;
+    },
+
+    // Reduce scope traversal
+
+    acos: Math.acos,
+
+    sqrt: Math.sqrt,
+
+    sin: Math.sin,
+
+    cos: Math.cos,
+
+    tan: Math.tan,
+
+    atan: Math.atan,
+
+    atan2: Math.atan2,
+
+    pow: Math.pow,
+
+    min: this.minHack, // Math.min
+
+    max: this.maxHack, // Math.max
+
+    abs: this.absHack, // Math.abs
+
+    round: this.roundHack, // Math.round
+
+    ceil: this.ceilHack, // Math.ceil
+
+    floor: this.floorHack, // Math.floor
+
+  }
+
 } );
