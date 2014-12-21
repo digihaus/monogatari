@@ -7,7 +7,7 @@ define( [ 'lib/Webfont' ], function(webfont) {
       var ctx = context || this;
 
       webfont.load( {
-        google : {
+        google: {
           families : [ family ]
         },
         fontactive : function( fontFamily, fontDescription ) {

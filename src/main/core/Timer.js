@@ -1,60 +1,56 @@
-define( [ 'core/Monogatari' ], function() {
+define( function() {
 
-  function MonogatariTime() {
-    this._last = 0;
-    this._cycleTime = 1e9; // exponential notation, 1e9 = 1 with nine zeros
+  var _time = 0;
+  var _lastTime = 0;
+  var _maxStep = 60;
+  var _cycleTime = 1e9; // exponential notation, 1e9 = 1 with nine zeros
+  var _lastFrameTime = 0;
+  var _frameTicks = 0;
+  var _fps = 0;
 
-    this.time = 0;
-    this.maxStep = 60;
+  return {
+
+    // This should be accessed ONLY on the Game Manager Update
+    tick: function() {
+      // Use Date.now() instead of new Date().getTime(), avoids one object allocation
+      var now = Date.now();
+      var delta = now - _lastTime;
+
+      if ( _time > _cycleTime ) {
+        time = 0;
+      }
+
+      _time += Monogatari.min( delta, _maxStep );
+      _lastTime = now;
+    },
+
+    getTime: function() {
+      if ( _time > _cycleTime ) {
+        _time = 0;
+      }
+
+      return _time;
+    },
+
+    // Returns the difference in milliseconds from the given time, to current Monogatari time
+    compare: function( time ) {
+      return ( time > _time ) ? _time + _cycleTime - time : _time - time;
+    },
+
+    getFps: function() {
+      var now = this.getTime();
+      var delta = now - _lastFrameTime;
+
+      if ( delta >= 1000 ) {
+        _fps = _frameTicks;
+        _frameTicks = 0;
+        _lastFrameTime = now;
+      }
+
+      _frameTicks++;
+      return _fps;
+    }
+
   }
 
-  // This should be accessed ONLY on the Game Manager Update
-  MonogatariTime.prototype.tick = function() {
-
-    // Use Date.now() instead of new Date().getTime(), avoids one object allocation
-    var now = Date.now(), delta = now - this._last;
-
-    if ( this.time > this._cycleTime ) {
-      this.time = 0;
-    }
-
-    this.time += Monogatari.min( delta, this.maxStep );
-    this._last = now;
-  };
-
-  MonogatariTime.prototype.getTime = function() {
-    if ( this.time > this._cycleTime ) {
-      this.time = 0;
-    }
-
-    return this.time;
-  };
-
-  // Returns the difference in milliseconds from the given time, to current Monogatari time
-  MonogatariTime.prototype.compare = function( time ) {
-    return ( time > this.time ) ? this.time + this._cycleTime - time : this.time - time;
-  };
-
-  function MonogatariFrames() {
-    this._lastTime = 0;
-    this._ticks = 0;
-    this._fps = 0;
-  }
-
-  MonogatariFrames.prototype.getFps = function() {
-    var now = Monogatari.Time.getTime(), delta = now - this._lastTime;
-
-    if ( delta >= 1000 ) {
-      this._fps = this._ticks;
-      this._ticks = 0;
-      this._lastTime = now;
-    }
-
-    this._ticks++;
-    return this._fps;
-  };
-
-  Monogatari.Time = new MonogatariTime();
-  Monogatari.Frames = new MonogatariFrames();
-  
 } );

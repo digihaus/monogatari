@@ -5,7 +5,7 @@ module.exports = function (grunt) {
       compile: {
         options: {
           baseUrl: '../src/main',
-		      paths: {
+          paths: {
             requireLib: 'lib/Require'
           },
           name: 'GameManager',
@@ -26,12 +26,16 @@ module.exports = function (grunt) {
 
     clean: ['./temp.js'],
 
+    nodeunit: {
+      all: ['../src/test/**/*Test.js'],
+    },
+
     jshint: {
       all: {
         src: ['../src/main/*.js',
-              '../src/main/core/*.js',
-              '../src/main/entity/*.js',
-              '../src/main/render/*.js'],
+        '../src/main/core/*.js',
+        '../src/main/entity/*.js',
+        '../src/main/render/*.js'],
         options: {
           bitwise: false,
           camelcase: true,
@@ -81,6 +85,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  grunt.registerTask('default',['requirejs', 'uglify', 'clean']);
+  grunt.registerTask('default', ['requirejs', 'uglify', 'clean']);
 };

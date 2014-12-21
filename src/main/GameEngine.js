@@ -1,7 +1,29 @@
-define( [ 'manager/SceneManager',
+define( [ 'core/io/Keyboard',
+          'core/io/Mouse',
+          'manager/SceneManager',
           'manager/PhysicsManager',
           'manager/ObjectManager',
-          'core/Timer' ], function(scene, physics, object, timer) {
+          'core/Timer' ], function(keyboard, mouse, scene, physics, object, timer) {
+
+  window.addEventListener( 'keyup', function( event ) {
+    keyboard.onKeyUp( event );
+  }, false );
+
+  window.addEventListener( 'keydown', function( event ) {
+    keyboard.onKeyDown( event );
+  }, false );
+
+  window.addEventListener( 'mousemove', function( event ) {
+    mouse.onMouseMove( event );
+  }, false );
+  
+  window.addEventListener( 'mousedown', function( event ) {
+    mouse.onMouseDown( event );
+  }, false );
+
+  window.addEventListener( 'mouseup', function( event ) {
+    mouse.onMouseUp( event );
+  }, false );
 
   return {
 
