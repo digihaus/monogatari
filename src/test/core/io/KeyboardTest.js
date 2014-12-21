@@ -6,20 +6,22 @@ requirejs.config({
 
 var kb = requirejs('core/io/Keyboard');
 
-var evt = {};
-evt.keyCode = kb.KEY_BACKSPACE;
-evt.preventDefault = function() {};
+var eventStub = {};
+
+eventStub.preventDefault = function() {};
 
 exports.test = function(test) {
   test.expect(3);
 
-  test.ok(kb.isDown(kb.KEY_BACKSPACE) == null, 'key is aready down');
+  eventStub.keyCode = kb.KEY_BACKSPACE;
+
+  test.ok(kb.isDown(kb.KEY_BACKSPACE) == null, 'key should not be down');
 
   kb.onKeyDown(evt);
   test.ok(kb.isDown(kb.KEY_BACKSPACE) != null, 'key should be down');
 
   kb.onKeyUp(evt);
-  test.ok(kb.isDown(kb.KEY_BACKSPACE) == null, 'key shouw not be down');
+  test.ok(kb.isDown(kb.KEY_BACKSPACE) == null, 'key should not be down');
 
   test.done();
 };

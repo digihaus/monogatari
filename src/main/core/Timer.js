@@ -3,7 +3,7 @@ define( function() {
   var _time = 0;
   var _lastTime = 0;
   var _maxStep = 60;
-  var _cycleTime = 1e9; // exponential notation, 1e9 = 1 with nine zeros
+  var _cycleTime = 1e9;
   var _lastFrameTime = 0;
   var _frameTicks = 0;
   var _fps = 0;

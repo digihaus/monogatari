@@ -1,9 +1,9 @@
 define( [ 'core/io/Keyboard',
           'core/io/Mouse',
+          'core/Timer',
           'manager/SceneManager',
           'manager/PhysicsManager',
-          'manager/ObjectManager',
-          'core/Timer' ], function(keyboard, mouse, scene, physics, object, timer) {
+          'manager/ObjectManager'], function(keyboard, mouse, timer, scene, physics, object) {
 
   window.addEventListener( 'keyup', function( event ) {
     keyboard.onKeyUp( event );
@@ -16,7 +16,7 @@ define( [ 'core/io/Keyboard',
   window.addEventListener( 'mousemove', function( event ) {
     mouse.onMouseMove( event );
   }, false );
-  
+
   window.addEventListener( 'mousedown', function( event ) {
     mouse.onMouseDown( event );
   }, false );
