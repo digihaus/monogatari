@@ -1,4 +1,4 @@
-define( [ 'core/Timer' ], function( timer ) {
+define( function() {
 
   var _pressed = new Int16Array( 256 );
 
@@ -113,7 +113,7 @@ define( [ 'core/Timer' ], function( timer ) {
       return ( _pressed[ keyCode ] == -1 ) ? null : _pressed[ keyCode ];
     },
 
-    onKeyDown: function( event ) {
+    onKeyDown: function( event, timer ) {
 
       if ( event.keyCode == this.KEY_BACKSPACE ||
             event.keyCode == this.KEY_UP_ARROW ||
