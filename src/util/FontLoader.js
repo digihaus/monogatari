@@ -1,4 +1,4 @@
-define( [ 'lib/Webfont' ], function(webfont) {
+define( [ '../lib/Webfont' ], function(webfont) {
 
   return {
 

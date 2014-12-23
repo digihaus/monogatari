@@ -1,10 +1,10 @@
-define( [ 'lib/Three' ], function( three ) {
+define( [ '../lib/Three' ], function() {
 
-  var _X_ALIGNED_VECTOR = new three.Vector3( 1, 0, 0 );
-  var _Y_ALIGNED_VECTOR =  new three.Vector3( 0, 1, 0 );
-  var _Z_ALIGNED_VECTOR = new three.Vector3( 0, 0, 1 );
-  var _ONE = new three.Vector3( 1, 1, 1 );
-  var _ZERO = new three.Vector3( 0, 0, 0 );
+  var _X_ALIGNED_VECTOR = new THREE.Vector3( 1, 0, 0 );
+  var _Y_ALIGNED_VECTOR =  new THREE.Vector3( 0, 1, 0 );
+  var _Z_ALIGNED_VECTOR = new THREE.Vector3( 0, 0, 1 );
+  var _ONE = new THREE.Vector3( 1, 1, 1 );
+  var _ZERO = new THREE.Vector3( 0, 0, 0 );
 
   return {
 

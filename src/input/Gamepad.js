@@ -1,5 +1,5 @@
-define( [ 'core/Timer',
-          'core/collection/Map' ], function( timer, map ) {
+define( [ 'Timer',
+          'collection/Map' ], function( timer, map ) {
 
   var _gamePads = new map();
   var _pressed = new Int16Array( 32 );

@@ -10,7 +10,7 @@ module.exports = function (grunt) {
           },
           name: 'Monogatari',
           include: ['requireLib'],
-          out: './temp.js'
+          out: 'temp.js'
         }
       }
     },
@@ -19,12 +19,12 @@ module.exports = function (grunt) {
 
     uglify: {
       dist: {
-        src: ['./temp.js'],
-        dest: '../monogatari-<%= pkg.version %>.min.js',
+        src: ['temp.js'],
+        dest: 'build/monogatari-<%= pkg.version %>.min.js',
       }
     },
 
-    clean: ['./temp.js'],
+    clean: ['temp.js'],
 
     jshint: {
       all: {

@@ -1,29 +1,6 @@
-// Utility functions for use as static methods.
 define( function() {
 
-  var browser = {};
-
-  browser.agent = window.navigator.userAgent;
-  browser.version = window.navigator.appVersion;
-  browser.plataform = window.navigator.platform;
-
-  var agent = browser.agent;
-
-  browser.isFirefox = ( agent.indexOf( 'Firefox' ) > -1 );
-  browser.isOpera = ( window.opera !== null );
-
-  // Chrome on Android returns true but is a completely different browser with different abilities
-  browser.isChrome = ( agent.indexOf( 'Chrome' ) > -1 );
-
-  // if the browser is safari for iOS devices (iPad, iPhone, and iPad).
-  browser.isIOS = agent.indexOf( 'iPod' ) > -1 || agent.indexOf( 'iPhone' ) > -1 || agent.indexOf( 'iPad' ) > -1;
-  browser.isAndroid = ( agent.indexOf( 'Android' ) > -1 );
-  browser.isBlackberry = ( agent.indexOf( 'Blackberry' ) > -1 );
-  browser.isIE = ( agent.indexOf( 'MSIE' ) > -1 );
-
   return {
-
-    browser: browser,
 
     createUniqueId: function() {
       // from: http://stackoverflow.com/a/2117523
@@ -86,8 +63,7 @@ define( function() {
     store: function( key, val, isObject ) {
       if ( isObject ) {
         localStorage.setItem( key, JSON.stringify( val ) );
-      }
-      else {
+      } else {
         localStorage.setItem( key, val );
       }
     }

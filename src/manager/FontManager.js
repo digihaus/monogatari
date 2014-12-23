@@ -1,5 +1,12 @@
 define( [ 'core/Monogatari', 'core/Constants', 'core/collection/Map', 'core/io/file/FontLoader', 'entity/asset/FontAsset' ], function() {
 
+  var _fontAsset = function() {
+    this.name;
+    this.family;
+    this.status;
+    this.color;
+  };
+
   function MonogatariFontManager() {
     this.fonts = new Monogatari.Map();
     this._fontIterator = this.fonts.iterator();
@@ -7,7 +14,7 @@ define( [ 'core/Monogatari', 'core/Constants', 'core/collection/Map', 'core/io/f
 
   MonogatariFontManager.prototype.load = function( family ) {
     if ( !this.fonts.contains( family ) ) {
-      var fontAsset = new Monogatari.FontAsset();
+      var fontAsset = new _fontAsset();
 
       fontAsset.family = family;
       fontAsset.status = Monogatari.Constants.ASSET_STATE_LOADING;

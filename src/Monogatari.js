@@ -1,5 +1,5 @@
-define( [ 'core/io/Keyboard',
-          'core/io/Mouse',
+define( [ 'input/Keyboard',
+          'input/Mouse',
           'core/Timer',
           'manager/SceneManager',
           'manager/PhysicsManager',
@@ -25,6 +25,26 @@ define( [ 'core/io/Keyboard',
     mouse.onMouseUp( event );
   }, false );
 
+  var _browser = {};
+
+  _browser.agent = window.navigator.userAgent;
+  _browser.version = window.navigator.appVersion;
+  _browser.plataform = window.navigator.platform;
+
+  var _agent = _browser.agent;
+
+  _browser.isFirefox = ( _agent.indexOf( 'Firefox' ) > -1 );
+  _browser.isOpera = ( window.opera !== null );
+
+  // Chrome on Android returns true but is a completely different browser with different abilities
+  _browser.isChrome = ( _agent.indexOf( 'Chrome' ) > -1 );
+
+  // if the browser is safari for iOS devices (iPad, iPhone, and iPad).
+  _browser.isIOS = _agent.indexOf( 'iPod' ) > -1 || _agent.indexOf( 'iPhone' ) > -1 || _agent.indexOf( 'iPad' ) > -1;
+  _browser.isAndroid = ( _agent.indexOf( 'Android' ) > -1 );
+  _browser.isBlackberry = ( _agent.indexOf( 'Blackberry' ) > -1 );
+  _browser.isIE = ( _agent.indexOf( 'MSIE' ) > -1 );
+
   return {
 
     init: function( bgcolor, width, height, target ) {
@@ -46,6 +66,8 @@ define( [ 'core/io/Keyboard',
       this.update();
       this.render();
     },
+
+    browser: _browser,
 
     // exposes the Chance.js to the engine context, just for consistency (does this use more memory?)
     // TODO CHECK
@@ -70,28 +92,6 @@ define( [ 'core/io/Keyboard',
     AUDIO_STATE_PLAYING: 1,
     AUDIO_STATE_PAUSED: 2,
     AUDIO_STATE_FINISHED: 3,
-
-    // component state
-    COMPONENT_STATE_INITIALIZING: 0,
-    COMPONENT_STATE_BUFFERING: 1,
-    COMPONENT_STATE_READY: 2,
-    COMPONENT_STATE_FAILED: 3,
-
-    // components
-    COMPONENT_BASE: 0,
-    COMPONENT_NODE: 1,
-    COMPONENT_THREE_OBJECT: 2,
-    COMPONENT_RIGID_BODY: 3,
-    COMPONENT_SPRITE: 4,
-    COMPONENT_STATIC_TEXT: 5,
-    COMPONENT_AUDIO_SOURCE: 6,
-    COMPONENT_PARTICLE_EMITTER: 7,
-
-    // COMPONENT_AUDIO_LISTENER: 1,
-    // COMPONENT_PACKAGE_SENDER: 1,
-    // COMPONENT_PACKAGE_LISTENER: 1,
-
-    COMPONENT_CUSTOM: -1,
 
     FONT_CHARS_SIMPLE: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ",
     // FONT_CHARS_EXTENDED:
