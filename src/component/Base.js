@@ -3,7 +3,9 @@
 */
 define( function() {
 
-  var Component = {};
+  var Component = function( type ) {
+    this.componentType = ( type ) ? type : Component.BASE;
+  };
 
   // state
   Component.STATE_INITIALIZING = 0;
@@ -25,10 +27,6 @@ define( function() {
   //Component.PACKAGE_LISTENER = 1;
 
   Component.CUSTOM = -1;
-
-  Component.prototype = function( type ) {
-    this.componentType = ( type ) ? type : Component.BASE;
-  };
 
   return Component;
 

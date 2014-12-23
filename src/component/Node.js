@@ -1,14 +1,14 @@
-define( [ 'component/Base', 'core/Math', '../lib/Three' ], function( _Base, _Math, _Three ) {
+define( [ 'component/Base', 'core/Math', '../../lib/Three' ], function( _Base, _Math, _Three ) {
 
   var Node = function ( position, rotation, scale ) {
-    _Base.call(this, _Base.NODE);
+    _Base.call( this, _Base.NODE );
 
     this.position = ( position ) ? position : new THREE.Vector3( 0, 0, 0 );
     this.rotation = ( rotation ) ? rotation : new THREE.Vector3( 0, 1, 0 ); // new THREE.Euler()
     this.scale = ( scale ) ? scale : new THREE.Vector3( 1, 1, 1 );
   };
 
-  Node.prototype = Object.create(_Base.prototype);
+  Node.prototype = Object.create( _Base.prototype );
 
   Node.prototype.negate = function() {
     this.position.negate();

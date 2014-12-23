@@ -1,4 +1,4 @@
-define( [ '../lib/Three' ], function() {
+define( [ '../../lib/Three' ], function() {
 
   var _X_ALIGNED_VECTOR = new THREE.Vector3( 1, 0, 0 );
   var _Y_ALIGNED_VECTOR =  new THREE.Vector3( 0, 1, 0 );

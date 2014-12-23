@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test</title>
+<script src="../lib/Require.js"></script>
+<script>
+  require.config( {
+    baseUrl : '../src'
+  } );
+  require( [ 'component/Node' ], function( _Node ) {
+    var n = new _Node();
+    console.log(n);
+  } );
+</script>
+</head>
+<body>
+
+</body>
+</html>
