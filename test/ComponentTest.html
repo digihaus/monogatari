@@ -8,9 +8,13 @@
     baseUrl : '../src'
   } );
   require( [ 'component/Node' ], function( _Node ) {
+    console.log( 'test start [component/Node]' );
+
     var n = new _Node();
-    console.log(n)
-    console.log('euler rotation:' + n.getEulerRotation());
+    console.log( n )
+    console.log( 'euler rotation:' + n.getEulerRotation() );
+
+    console.log( 'test result [component/Node] OK' );
   } );
 </script>
 </head>

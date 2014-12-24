@@ -5,26 +5,6 @@ define( [ 'input/Keyboard',
           'manager/PhysicsManager',
           'manager/ObjectManager'], function(keyboard, mouse, timer, scene, physics, object) {
 
-  window.addEventListener( 'keyup', function( event ) {
-    keyboard.onKeyUp( event );
-  }, false );
-
-  window.addEventListener( 'keydown', function( event ) {
-    keyboard.onKeyDown( event );
-  }, false );
-
-  window.addEventListener( 'mousemove', function( event ) {
-    mouse.onMouseMove( event );
-  }, false );
-
-  window.addEventListener( 'mousedown', function( event ) {
-    mouse.onMouseDown( event );
-  }, false );
-
-  window.addEventListener( 'mouseup', function( event ) {
-    mouse.onMouseUp( event );
-  }, false );
-
   var _browser = {};
 
   _browser.agent = window.navigator.userAgent;
@@ -49,6 +29,27 @@ define( [ 'input/Keyboard',
 
     init: function( bgcolor, width, height, target ) {
       scene.init( bgcolor, width, height, target );
+
+      window.addEventListener( 'keyup', function( event ) {
+        keyboard.onKeyUp( event );
+      }, false );
+
+      window.addEventListener( 'keydown', function( event ) {
+        keyboard.onKeyDown( event );
+      }, false );
+
+      window.addEventListener( 'mousemove', function( event ) {
+        mouse.onMouseMove( event );
+      }, false );
+
+      window.addEventListener( 'mousedown', function( event ) {
+        mouse.onMouseDown( event );
+      }, false );
+
+      window.addEventListener( 'mouseup', function( event ) {
+        mouse.onMouseUp( event );
+      }, false );
+
     },
 
     update: function() {
@@ -94,6 +95,8 @@ define( [ 'input/Keyboard',
     AUDIO_STATE_FINISHED: 3,
 
     FONT_CHARS_SIMPLE: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ",
+
+    // TODO resolver minificação com acentos
     // FONT_CHARS_EXTENDED:
     // "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789������������������������������������������������_()-,.[]!?@$*",
 

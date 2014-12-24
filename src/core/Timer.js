@@ -1,4 +1,4 @@
-define( function() {
+define( [ 'core/Math' ], function( _Math ) {
 
   var _time = 0;
   var _lastTime = 0;
@@ -20,7 +20,7 @@ define( function() {
         time = 0;
       }
 
-      _time += Monogatari.min( delta, _maxStep );
+      _time += _Math.min( delta, _maxStep );
       _lastTime = now;
     },
 

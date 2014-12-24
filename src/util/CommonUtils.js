@@ -26,7 +26,7 @@ define( function() {
       return obj === other;
     },
 
-    parseUnitSize: function( text ) {
+    parseUnitSizeToPixel: function( text ) {
       var len = text.length - 2;
       if ( len < 0 ) {
         return text;

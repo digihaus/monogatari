@@ -1,4 +1,4 @@
-define( [ 'Timer', '../lib/Three' ], function( _Timer, _Three ) {
+define( [ '../../lib/Three' ], function() {
 
   var _pressed = new Int8Array( 6 );
   var _buffer = new THREE.Vector3( 0, 0, 0 );
@@ -26,9 +26,9 @@ define( [ 'Timer', '../lib/Three' ], function( _Timer, _Three ) {
       _position.set( event.clientX, event.clientY, 0 );
     },
 
-    onMouseDown: function( event ) {
+    onMouseDown: function( event, timer ) {
       event.preventDefault();
-      _pressed[ event.button ] = _Timer.time;
+      _pressed[ event.button ] = timer.time;
     },
 
     onMouseUp: function( event ) {
