@@ -1,31 +1,31 @@
 define( [ 'lib/Sound' ], function( sound ) {
 
-  var AudioLoader = function() {
-    createjs.Sound.registerPlugins( [ createjs.WebAudioPlugin, createjs.HTMLAudioPlugin ] );
+  createjs.Sound.registerPlugins( [ createjs.WebAudioPlugin, createjs.HTMLAudioPlugin ] );
 
-    this.queue = new createjs.LoadQueue();
+  createjs.Sound.alternateExtensions = [ 'mp3' ];
 
-    createjs.Sound.alternateExtensions = [ 'mp3' ];
+  var AudioLoader = {};
 
-    this.queue.installPlugin( createjs.Sound );
-  };
+  AudioLoader.queue = new createjs.LoadQueue();
 
-  AudioLoader.prototype.load = function( source ) {
+  AudioLoader.queue.installPlugin( createjs.Sound );
+
+  AudioLoader.load = function( source ) {
     if ( source ) {
       var item = {
         src : source
       };
-      this.queue.loadFile( item, true );
+      AudioLoader.queue.loadFile( item, true );
     }
   };
 
-  AudioLoader.prototype.isLoaded = function( id ) {
-    return ( this.queue._loadItemsById[ id ] || this.queue._loadItemsBySrc[ id ] ) ? true : false;
+  AudioLoader.isLoaded = function( id ) {
+    return ( AudioLoader.queue._loadItemsById[ id ] || AudioLoader.queue._loadItemsBySrc[ id ] ) ? true : false;
   };
 
   // returns a SoundInstance object
   // http://www.createjs.com/Docs/SoundJS/classes/SoundInstance.html
-  AudioLoader.prototype.get = function( id ) {
+  AudioLoader.get = function( id ) {
     return createjs.Sound.createInstance( id );
   };
 
