@@ -1,4 +1,4 @@
-define( [ 'component/Base', 'core/Math', '../../lib/Three' ], function( _Base, _Math, _Three ) {
+define( [ 'component/Base', 'core/Math', 'lib/Three' ], function( _Base, _Math, _Three ) {
 
   var Node = function ( position, rotation, scale ) {
     _Base.call( this, _Base.NODE );

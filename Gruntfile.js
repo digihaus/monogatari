@@ -6,7 +6,8 @@ module.exports = function (grunt) {
         options: {
           baseUrl: 'src/',
           paths: {
-            requireLib: '../lib/Require'
+            requireLib: 'lib/Require',
+            lib: 'lib'
           },
           name: 'Monogatari',
           include: ['requireLib'],
