@@ -20,6 +20,8 @@ define( [ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
     }
   };
 
+  Audio.prototype = Object.create( _Base.prototype );
+
   Audio.STATE_STOPED = 0;
   Audio.STATE_PLAYING = 1;
   Audio.STATE_PAUSED = 2;

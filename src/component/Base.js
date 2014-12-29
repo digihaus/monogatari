@@ -4,7 +4,7 @@
 define( function() {
 
   var Component = function( type ) {
-    this.componentType = ( type ) ? type : Component.BASE;
+    this.type = ( type ) ? type : Component.BASE;
   };
 
   // state
