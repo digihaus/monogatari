@@ -1,4 +1,4 @@
-define( [ 'core/Monogatari' ], function() {
+define( function() {
   Monogatari.Queue = Class.extend( {
     init : function() {
       this._values = new Array();

@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-define( [ "core/Monogatari", "util/CommonUtils" ], function( _CommonUtils ) {
+define( [ "util/CommonUtils" ], function( _CommonUtils ) {
 
   Monogatari.LinkedList = Class.extend( {
     init : function() {

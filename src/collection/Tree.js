@@ -1,8 +1,8 @@
 //Árvore permite que cada nó possua apenas um pai, porém N filhos.
 //Cada nó conhece seu pai (para navegar de baixo pra cima), e seus filhos (caso se aplique, para navegar de cima pra baixo).
 //Para criar a hierarquia liga-se um nó a outro com um método connect(), Ex. tree.connect(pai, filho)
-define( [ 'core/Monogatari', 'core/collection/Map' ], function() {
-  Monogatari.Tree = Monogatari.Map.extend( {
+define( [  'collection/Map', 'util/ArrayUtils', 'collection/Iterator' ], function( _Map, _Array, _Iterator ) {
+  Monogatari.Tree = _Map.extend( {
     init : function() {
       this._depth = 1;
       this._super();
@@ -89,11 +89,11 @@ define( [ 'core/Monogatari', 'core/collection/Map' ], function() {
     },
 
     disconnect : function( nodeId ) {
-      var node = this.get( nodeId ), parent = this.get( node.parent ), index = ( parent.children.length > 0 ) ? Monogatari.Array.inArray(
+      var node = this.get( nodeId ), parent = this.get( node.parent ), index = ( parent.children.length > 0 ) ? _Array.inArray(
           parent.children, nodeId ) : -1;
 
       if ( index > -1 )
-        Monogatari.Array.remove( parent.children, index );
+        _Array.remove( parent.children, index );
 
       node.parent = 'trunk';
       node.order = 1;
@@ -205,11 +205,7 @@ define( [ 'core/Monogatari', 'core/collection/Map' ], function() {
     },
 
     iterator : function() {
-      return new Monogatari.TreeIterator( this._keys, this._values );
-    },
-
-    nodeIterator : function() {
-      return new Monogatari.MapIterator( this._keys, this._values );
+      return new _Iterator.TreeIterator( this._keys, this._values );
     }
   } );
 

@@ -2,7 +2,7 @@
  * Map is an ordered Collection of elements paired by a key (index) and a value. A map cannot contain duplicate keys,
  * each key can map to one value or null. By inserting a value with an existing key, the index will be overwritten.
  */
-define( [ 'core/Monogatari', 'core/Array', 'core/collection/Iterator' ], function() {
+define( [  'util/ArrayUtils', 'collection/Iterator' ], function( _Array, _Iterator ) {
   Monogatari.Map = Class.extend( {
     init : function( keys, values ) {
       this._keys = ( keys ) ? keys : new Array();
@@ -10,7 +10,7 @@ define( [ 'core/Monogatari', 'core/Array', 'core/collection/Iterator' ], functio
     },
 
     contains : function( key ) {
-      return Monogatari.Array.inArray( key, this._keys );
+      return _Array.inArray( key, this._keys );
     },
 
     get : function( key ) {
@@ -124,7 +124,7 @@ define( [ 'core/Monogatari', 'core/Array', 'core/collection/Iterator' ], functio
     },
 
     iterator : function() {
-      return new Monogatari.MapIterator( this._keys, this._values );
+      return new _Iterator.MapIterator( this._keys, this._values );
     }
   } );
 } );

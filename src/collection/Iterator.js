@@ -1,5 +1,5 @@
 //Based on code by John Resig
-define( [ 'core/Monogatari', 'core/Array' ], function() {
+define( function() {
   Monogatari.Iterator = Class.extend( {
     init : function( values ) {
       if ( values instanceof Array ) {

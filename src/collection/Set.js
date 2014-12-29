@@ -2,7 +2,7 @@
  * Set is an ordered Collection of elements. A set cannot contain duplicate values. By inserting an existing value, the
  * collection will remain unchanged.
  */
-define( [ 'core/Monogatari', 'core/collection/Iterator' ], function() {
+define( [  'util/ArrayUtils', 'collection/Iterator' ], function( _Array, _Iterator ) {
   Monogatari.Set = Class.extend( {
     init : function() {
       this._values = new Array();
@@ -22,7 +22,7 @@ define( [ 'core/Monogatari', 'core/collection/Iterator' ], function() {
     },
 
     indexOf : function( value ) {
-      return Monogatari.Array.indexOf( value, this._values );
+      return _Array.indexOf( value, this._values );
     },
 
     size : function() {
@@ -57,7 +57,7 @@ define( [ 'core/Monogatari', 'core/collection/Iterator' ], function() {
     },
 
     iterator : function() {
-      return new Monogatari.ArrayListIterator( this._values );
+      return new _Iterator.ArrayListIterator( this._values );
     }
   } );
 } );
