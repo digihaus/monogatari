@@ -57,7 +57,7 @@ define( [ 'core/Monogatari', 'core/collection/Iterator' ], function() {
     },
 
     iterator : function() {
-      return new Monogatari.ListIterator( this._values );
+      return new Monogatari.ArrayListIterator( this._values );
     }
   } );
 } );

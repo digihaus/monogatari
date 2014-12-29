@@ -3,8 +3,8 @@
  * List is an ordered Collection of elements. This collection allows duplicates and null values. Iterator goes through
  * like a linked list, and ListIterator works like a doubly linked list
  */
-define( [ 'core/Monogatari', 'core/collection/Iterator' ], function() {
-  Monogatari.List = Class.extend( {
+define( [ 'collection/Iterator', 'util/CommonUtils' ], function( _Iterator, _CommonUtils ) {
+  Monogatari.ArrayList = Class.extend( {
     init : function( array ) {
       this._values = ( Monogatari.Array.isArray( array ) ) ? array : new Array();
     },
@@ -47,33 +47,27 @@ define( [ 'core/Monogatari', 'core/collection/Iterator' ], function() {
 
     find : function( value ) {
       for ( var i = 0, len = this._values.length; i < len; ++i )
-        if ( Monogatari.Util.equals( value, this._values[ i ] ) )
+        if ( _CommonUtils.equals( value, this._values[ i ] ) )
           return this._values[ i ];
       return null;
     },
 
     indexOf : function( value ) {
       for ( var i = 0, len = this._values.length; i < len; ++i )
-        if ( Monogatari.Util.equals( value, this._values[ i ] ) )
+        if ( _CommonUtils.equals( value, this._values[ i ] ) )
           return i;
       return -1;
     },
 
     lastIndexOf : function( value ) {
       for ( var i = this._values.length - 1; i >= 0; --i )
-        if ( Monogatari.Util.equals( value, this._values[ i ] ) )
+        if ( _CommonUtils.equals( value, this._values[ i ] ) )
           return i;
       return -1;
     },
 
-    // linked list iterator
     iterator : function() {
-      return new Monogatari.Iterator( this._values );
-    },
-
-    // doubly linked list iterator
-    listIterator : function() {
-      return new Monogatari.ListIterator( this._values );
+      return new _Iterator.ArrayListIterator( this._values );
     }
   } );
 } );
