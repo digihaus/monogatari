@@ -1,4 +1,5 @@
 define( [ 'core/Monogatari', 'core/Constants', 'entity/component/ThreeObject' ], function() {
+
   Monogatari.Sprite = Monogatari.ThreeObject.extend( {
     init : function( sceneId, source, width, height, rows, cols ) {
 

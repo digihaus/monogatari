@@ -1,139 +1,131 @@
-define( [ '../../lib/Three' ], function() {
+define( [ 'lib/Three' ], function( _Three ) {
 
-  var _X_ALIGNED_VECTOR = new THREE.Vector3( 1, 0, 0 );
-  var _Y_ALIGNED_VECTOR =  new THREE.Vector3( 0, 1, 0 );
-  var _Z_ALIGNED_VECTOR = new THREE.Vector3( 0, 0, 1 );
-  var _ONE = new THREE.Vector3( 1, 1, 1 );
-  var _ZERO = new THREE.Vector3( 0, 0, 0 );
+  var Math = {};
 
-  return {
+  var X_ALIGNED_VECTOR = new THREE.Vector3( 1, 0, 0 );
+  var Y_ALIGNED_VECTOR =  new THREE.Vector3( 0, 1, 0 );
+  var Z_ALIGNED_VECTOR = new THREE.Vector3( 0, 0, 1 );
+  var ONE = new THREE.Vector3( 1, 1, 1 );
+  var ZERO = new THREE.Vector3( 0, 0, 0 );
 
-    RADTODEG: 57.295779513082,
+  // function hacks
+  // from: http://mudcu.be/journal/2011/11/bitwise-gems-and-other-optimizations/
+  var roundHack = function( n ) {
+    return n + ( n < 0 ? -0.5 : 0.5 ) >> 0;
+  };
+  var ceilHack = function( n ) {
+    return n + ( n < 0 ? 0 : 1 ) >> 0;
+  };
+  var floorHack = function( n ) {
+    // return n + ( n < 0 ? -1 : 0 ) >> 0;
+    return n | 0;
+  };
+  var absHack = function( n ) {
+    return n > 0 ? n : -n;
+  };
+  var minHack = function( a, b ) {
+    return ( a < b ) ? a : b;
+  };
+  var maxHack = function( a, b ) {
+    return ( a > b ) ? a : b;
+  };
 
-    DEGTORAD: 0.0174532925199,
+  Math.RADTODEG = 57.295779513082;
 
-    SQRT_2: 1.41421356237,
+  Math.DEGTORAD = 0.0174532925199;
 
-    PI: 3.14159265358979,
+  Math.SQRT_2 = 1.41421356237;
 
-    PI_2: 6.28318530717958, // 2 * PI
+  Math.PI = 3.14159265358979;
 
-    PI_OVER_180: 0.0174532925199, // 433, // PI / 180
+  Math.PI_2 = 6.28318530717958; // 2 * PI
 
-    PI_OVER_360: 0.0087266462599, // 716, // PI / 360
+  Math.PI_OVER_180 = 0.0174532925199; // PI / 180
 
-    ONE_DEGREE: this.PI_OVER_180,  // same as PI_OVER_180, just for coding convenience
+  Math.PI_OVER_360 = 0.0087266462599; // PI / 360
 
-    getXAlignedVector: function() {
-      return _X_ALIGNED_VECTOR;
-    },
+  Math.ONE_DEGREE = Math.PI_OVER_180;  // same as PI_OVER_180, just for coding convenience
 
-    getYAlignedVector: function() {
-      return _Y_ALIGNED_VECTOR;
-    },
+  Math.getXAlignedVector = function() {
+    return X_ALIGNED_VECTOR;
+  };
 
-    getZAlignedVector: function() {
-      return _Z_ALIGNED_VECTOR;
-    },
+  Math.getYAlignedVector = function() {
+    return Y_ALIGNED_VECTOR;
+  };
 
-    getVectorOne: function() {
-      return _ONE;
-    },
+  Math.getZAlignedVector = function() {
+    return Z_ALIGNED_VECTOR;
+  };
 
-    getVectorZero: function() {
-      return _ZERO;
-    },
+  Math.getVectorOne = function() {
+    return ONE;
+  };
 
-    toRadians: function( a ) {
-      return a * this.DEGTORAD;
-    },
+  Math.getVectorZero = function() {
+    return ZERO;
+  };
 
-    toDegrees: function( a ) {
-      return a * this.RADTODEG;
-    },
+  Math.toRadians = function( a ) {
+    return a * this.DEGTORAD;
+  };
 
-    decimalToBinary: function( num ) {
-      return num.toString( 2 );
-    },
+  Math.toDegrees = function( a ) {
+    return a * this.RADTODEG;
+  };
 
-    decimalToOctal: function( num ) {
-      return num.toString( 8 );
-    },
+  Math.decimalToBinary = function( num ) {
+    return num.toString( 2 );
+  };
 
-    decimalToHex: function( num ) {
-      return num.toString( 16 );
-    },
+  Math.decimalToOctal = function( num ) {
+    return num.toString( 8 );
+  };
 
-    binaryToDecimal: function( num ) {
-      return parseInt( num, 2 );
-    },
+  Math.decimalToHex = function( num ) {
+    return num.toString( 16 );
+  };
 
-    octalToDecimal: function( num ) {
-      return parseInt( num, 8 );
-    },
+  Math.binaryToDecimal = function( num ) {
+    return parseInt( num, 2 );
+  };
 
-    hexToDecimal: function( num ) {
-      return parseInt( num, 16 );
-    },
+  Math.octalToDecimal = function( num ) {
+    return parseInt( num, 8 );
+  };
 
-    // function hacks
-    // from: http://mudcu.be/journal/2011/11/bitwise-gems-and-other-optimizations/
+  Math.hexToDecimal = function( num ) {
+    return parseInt( num, 16 );
+  };
 
-    roundHack: function( n ) {
-      return n + ( n < 0 ? -0.5 : 0.5 ) >> 0;
-    },
+  Math.acos = Math.acos;
 
-    ceilHack: function( n ) {
-      return n + ( n < 0 ? 0 : 1 ) >> 0;
-    },
+  Math.sqrt = Math.sqrt;
 
-    floorHack: function( n ) {
-      // return n + ( n < 0 ? -1 : 0 ) >> 0;
-      return n | 0;
-    },
+  Math.sin = Math.sin;
 
-    absHack: function( n ) {
-      return n > 0 ? n : -n;
-    },
+  Math.cos = Math.cos;
 
-    minHack: function( a, b ) {
-      return ( a < b ) ? a : b;
-    },
+  Math.tan = Math.tan;
 
-    maxHack: function( a, b ) {
-      return ( a > b ) ? a : b;
-    },
+  Math.atan = Math.atan;
 
-    // Reduce scope traversal
+  Math.atan2 = Math.atan2;
 
-    acos: Math.acos,
+  Math.pow = Math.pow;
 
-    sqrt: Math.sqrt,
+  Math.min = minHack; // Math.min
 
-    sin: Math.sin,
+  Math.max = maxHack; // Math.max
 
-    cos: Math.cos,
+  Math.abs = absHack; // Math.abs
 
-    tan: Math.tan,
+  Math.round = roundHack; // Math.round
 
-    atan: Math.atan,
+  Math.ceil = ceilHack; // Math.ceil
 
-    atan2: Math.atan2,
+  Math.floor = floorHack; // Math.floor
 
-    pow: Math.pow,
-
-    min: this.minHack, // Math.min
-
-    max: this.maxHack, // Math.max
-
-    abs: this.absHack, // Math.abs
-
-    round: this.roundHack, // Math.round
-
-    ceil: this.ceilHack, // Math.ceil
-
-    floor: this.floorHack, // Math.floor
-
-  }
+  return Math;
 
 } );
