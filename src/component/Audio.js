@@ -4,7 +4,6 @@ define( [ 'component/Base', 'util/AudioLoader' ], function( _Base, _AudioLoader 
     _Base.call( this, _Base.AUDIO_SOURCE );
 
     if ( source ) {
-      this.loader = new _AudioLoader();
       this.source = source ;
       this.soundInstance = null;
       this.componentState = _Base.STATE_INITIALIZING;
@@ -13,7 +12,6 @@ define( [ 'component/Base', 'util/AudioLoader' ], function( _Base, _AudioLoader 
       console.log( 'No audio source informed.' );
       this.componentState = _Base.STATE_FAILED;
     }
-
   };
 
   Audio.STATE_STOPED = 0;
@@ -23,15 +21,13 @@ define( [ 'component/Base', 'util/AudioLoader' ], function( _Base, _AudioLoader 
 
   Audio.prototype.update = function() {
       if ( this.componentState === _Base.STATE_INITIALIZING ) {
-        this.loader.load( this.source );
+        _AudioLoader.load( this.source );
         this.componentState = _Base.STATE_BUFFERING;
       }
-
-      if ( this.componentState === _Base.STATE_BUFFERING && this.loader.isLoaded( this.source ) ) {
-        this.soundInstance = this.loader.get( this.source );
+      if ( this.componentState === _Base.STATE_BUFFERING && _AudioLoader.isLoaded( this.source ) ) {
+        this.soundInstance = _AudioLoader.get( this.source );
         this.componentState = _Base.STATE_READY;
       }
-
       if ( this.soundInstance && this.soundInstance.playState === createjs.Sound.PLAY_FINISHED ) {
         this.audioState = Audio.STATE_FINISHED;
       }
