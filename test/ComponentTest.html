@@ -28,12 +28,15 @@
 
     var playSound = function() {
       audio.update();
-      audio.play();
-      requestAnimationFrame( playSound );
+      if( audio.isLoaded() ) {
+        audio.play();
+        console.log( '=> component/Audio RESULT OK' );
+      } else {
+        requestAnimationFrame( playSound );
+      }
     }
-    playSound();
 
-    console.log( '=> component/Audio RESULT OK' );
+    playSound();
   } );
 
 </script>
