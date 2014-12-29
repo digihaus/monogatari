@@ -6,6 +6,7 @@
 // without too much trouble.
 // Box2D is tuned for meters, kilograms, and seconds
 define( [ 'component/Base', 'lib/Box2d' ], function() {
+  
   Monogatari.RigidBody = Monogatari.Component.extend( {
     init : function( conversionFactor ) {
       this.bodyDef = new b2BodyDef();
@@ -22,6 +23,10 @@ define( [ 'component/Base', 'lib/Box2d' ], function() {
 
       this.componentType = Monogatari.Constants.COMPONENT_RIGID_BODY;
     },
+
+    this.BODYTYPE_STATIC: 1,
+    this.BODYTYPE_KINEMATIC: 2,
+    this.BODYTYPE_DYNAMIC: 3,
 
     // in kg/m^2.
     setDensity : function( density ) {
@@ -84,13 +89,13 @@ define( [ 'component/Base', 'lib/Box2d' ], function() {
     // If you try to set the mass of a dynamic body to zero, it will automatically acquire a mass of one kilogram.
     setType : function( type ) {
       switch ( type ) {
-      case Monogatari.Constants.PHYSICS_BODYTYPE_STATIC:
+      case this.PHYSICS_BODYTYPE_STATIC:
         this.bodyDef.type = b2Body.b2_staticBody;
         break;
-      case Monogatari.Constants.PHYSICS_BODYTYPE_KINEMATIC:
+      case this.PHYSICS_BODYTYPE_KINEMATIC:
         this.bodyDef.type = b2Body.b2_kinectBody;
         break;
-      case Monogatari.Constants.PHYSICS_BODYTYPE_DYNAMIC:
+      case this.PHYSICS_BODYTYPE_DYNAMIC:
         this.bodyDef.type = b2Body.b2_dynamicBody;
         break;
       default:

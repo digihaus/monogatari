@@ -94,11 +94,8 @@ define( [ 'input/Keyboard',
 
     REGEXP_URL: /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/,
     REGEXP_BETWEEN_SQUARE_BRACKETS: /\[[\w|\W]+\]/,
-    REGEXP_ENDLINE: /\r\n|\r|\n/,
+    REGEXP_ENDLINE: /\r\n|\r|\n/
 
-    PHYSICS_BODYTYPE_STATIC: 1,
-    PHYSICS_BODYTYPE_KINEMATIC: 2,
-    PHYSICS_BODYTYPE_DYNAMIC: 3,
   }
 
 } );
