@@ -1,6 +1,6 @@
-define( [ 'core/Monogatari', 'core/Constants', 'lib/Sound' ], function() {
+define( [ 'lib/Sound' ], function( sound ) {
 
-  function MonogatariAudioManager() {
+  var AudioLoader = function() {
     createjs.Sound.registerPlugins( [ createjs.WebAudioPlugin, createjs.HTMLAudioPlugin ] );
 
     this.queue = new createjs.LoadQueue();
@@ -10,39 +10,38 @@ define( [ 'core/Monogatari', 'core/Constants', 'lib/Sound' ], function() {
     this.queue.installPlugin( createjs.Sound );
 
     this.queue.addEventListener( 'complete', function( ) {
-      Monogatari.EventManager.notify( 'AudioManager.allAudioLoaded' );
+      _EventManager.notify( 'AudioManager.allAudioLoaded' );
     } );
     this.queue.addEventListener( 'fileload', function( event ) {
-      Monogatari.EventManager.notify( 'AudioManager.audioFileLoaded', event.result.src );
+      _EventManager.notify( 'AudioManager.audioFileLoaded', event.result.src );
     } );
     this.queue.addEventListener( 'error', function( event ) {
-      Monogatari.EventManager.notify( 'AudioManager.audioFailed', event );
+      _EventManager.notify( 'AudioManager.audioFailed', event );
     } );
     this.queue.addEventListener( 'progress', function( ) {
-      Monogatari.EventManager.notify( 'AudioManager.audioLoading', ( Monogatari.AudioManager.queue.progress.toFixed( 2 ) * 100 ) );
+      _EventManager.notify( 'AudioManager.audioLoading', ( this.queue.progress.toFixed( 2 ) * 100 ) );
     } );
   }
 
-  MonogatariAudioManager.prototype.load = function( _source ) {
+  AudioLoader.prototype.load = function( _source ) {
     if ( _source ) {
       var item = {
         src : _source
       };
-
       this.queue.loadFile( item, true );
     }
   };
 
-  MonogatariAudioManager.prototype.isLoaded = function( id ) {
+  AudioLoader.prototype.isLoaded = function( id ) {
     return ( this.queue._loadItemsById[ id ] || this.queue._loadItemsBySrc[ id ] ) ? true : false;
   };
 
   // returns a SoundInstance object
   // http://www.createjs.com/Docs/SoundJS/classes/SoundInstance.html
-  MonogatariAudioManager.prototype.get = function( id ) {
+  AudioLoader.prototype.get = function( id ) {
     return createjs.Sound.createInstance( id );
   };
 
-  Monogatari.AudioManager = new MonogatariAudioManager();
+  return AudioLoader;
 
 } );

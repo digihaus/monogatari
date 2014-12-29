@@ -88,12 +88,6 @@ define( [ 'input/Keyboard',
     ASSET_STATE_LOADED: 2,
     ASSET_STATE_FAILED: 3,
 
-    // audio state
-    AUDIO_STATE_STOPED: 0,
-    AUDIO_STATE_PLAYING: 1,
-    AUDIO_STATE_PAUSED: 2,
-    AUDIO_STATE_FINISHED: 3,
-
     FONT_CHARS_SIMPLE: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ",
 
     // TODO resolver minificação com acentos

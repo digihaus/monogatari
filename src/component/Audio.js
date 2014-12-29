@@ -1,17 +1,25 @@
-define( [ 'core/Monogatari', 'core/Constants', 'entity/component/Component', 'AudioManager' ], function() {
+define( [ 'component/Base', 'util/AudioLoader' ], function( _Base, _AudioLoader ) {
+
+  var Audio = function( source ) {
+    _Base.call( this, _Base.AUDIO_SOURCE );
+
+    if ( !this.source ) {
+      console.log( 'No audio source informed.' );
+    }
+
+    this.source = ( source ) ? source : null;
+    this.soundInstance = null;
+    this.componentState = ( this.source ) ? _Base.STATE_INITIALIZING : _Base.STATE_FAILED;
+    this.audioState = Audio.STATE_STOPED;
+  };
+
+  Audio.STATE_STOPED = 0;
+  Audio.STATE_PLAYING = 1;
+  Audio.STATE_PAUSED = 2;
+  Audio.STATE_FINISHED = 3;
+
+
   Monogatari.Audio = Monogatari.Component.extend( {
-    init : function( source ) {
-      this.source = ( source ) ? source : null;
-      this.soundInstance = null;
-
-      if ( !this.source )
-        console.log( "No source informed" );
-
-      this.componentState = ( this.source ) ? Monogatari.Constants.COMPONENT_STATE_INITIALIZING : Monogatari.Constants.COMPONENT_STATE_FAILED;
-      this.audioState = Monogatari.Constants.AUDIO_STATE_STOPED;
-
-      this.componentType = Monogatari.Constants.COMPONENT_AUDIO_SOURCE;
-    },
 
     update : function() {
       if ( this.componentState === Monogatari.Constants.COMPONENT_STATE_INITIALIZING ) {
