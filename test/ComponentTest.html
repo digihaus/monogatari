@@ -7,32 +7,31 @@
 <script>
 
   require( [ 'component/Node' ], function( _Node ) {
-    console.log( '=> component/Node START TEST' );
-
     var n = new _Node();
-    console.log( n )
 
     if(n.getEulerRotation() === 0 ) {
-      console.log( '=> component/Node RESULT OK' );
+      console.log( 'TEST component/Node > OK', n );
     } else {
-      console.error( '=> component/Node RESULT ERROR' );
+      console.error( 'TEST component/Node > ERROR', n );
     }
   } );
 
   require( [ 'component/Audio' ], function( _Audio ) {
-    console.log( '=> component/Audio START TEST' );
+    var audio = new _Audio( 'myid', 'assets/heat-on-the-road.ogg' );
 
-    var audio = new _Audio( 'assets/heat-on-the-road.ogg' );
-
-    console.log( audio );
+    var frames = 0;
 
     var playSound = function() {
-      audio.update();
-      if( audio.isLoaded() ) {
-        audio.play();
-        console.log( '=> component/Audio RESULT OK' );
+      if(frames < 100) {
+        frames++;
+        if( audio.isLoaded() ) {
+          audio.start();
+          console.log( 'TEST component/Audio > OK', audio );
+        } else {
+          requestAnimationFrame( playSound );
+        }
       } else {
-        requestAnimationFrame( playSound );
+        console.log( 'TEST component/Audio > ERROR', audio );
       }
     }
 

@@ -5,7 +5,7 @@
 // objects between soup cans and buses in size should work well. Static objects may be up to 50 meters big
 // without too much trouble.
 // Box2D is tuned for meters, kilograms, and seconds
-define( [ 'core/Monogatari', 'core/Constants', 'entity/component/Component', 'lib/Box2d' ], function() {
+define( [ 'component/Base', 'lib/Box2d' ], function() {
   Monogatari.RigidBody = Monogatari.Component.extend( {
     init : function( conversionFactor ) {
       this.bodyDef = new b2BodyDef();

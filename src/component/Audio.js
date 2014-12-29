@@ -1,16 +1,22 @@
-define( [ 'component/Base', 'util/AudioLoader' ], function( _Base, _AudioLoader ) {
+define( [ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
 
-  var Audio = function( source ) {
+  var Audio = function( id, source ) {
     _Base.call( this, _Base.AUDIO_SOURCE );
 
-    if ( source ) {
-      this.source = source ;
-      this.soundInstance = null;
-      this.componentState = _Base.STATE_INITIALIZING;
-      this.audioState = Audio.STATE_STOPED;
+    if ( id && source ) {
+      this.id = id;
+      this.source = source;
+      this.instance = null;
+      this.state = Audio.STATE_STOPED;
+
+      createjs.Sound.registerSound( this.source, this.id );
+      createjs.Sound.alternateExtensions = [ 'mp3' ];
+      createjs.Sound.on( 'fileload', function( event ) {
+        this.instance = createjs.Sound.createInstance( this.id );
+      }, this );
+
     } else {
-      console.log( 'No audio source informed.' );
-      this.componentState = _Base.STATE_FAILED;
+      console.log( 'Audio component fail.' );
     }
   };
 
@@ -19,49 +25,39 @@ define( [ 'component/Base', 'util/AudioLoader' ], function( _Base, _AudioLoader 
   Audio.STATE_PAUSED = 2;
   Audio.STATE_FINISHED = 3;
 
-  Audio.prototype.update = function() {
-      if ( this.componentState === _Base.STATE_INITIALIZING ) {
-        _AudioLoader.load( this.source );
-        this.componentState = _Base.STATE_BUFFERING;
-      }
-      if ( this.componentState === _Base.STATE_BUFFERING && _AudioLoader.isLoaded( this.source ) ) {
-        this.soundInstance = _AudioLoader.get( this.source );
-        this.componentState = _Base.STATE_READY;
-      }
-      if ( this.soundInstance && this.soundInstance.playState === createjs.Sound.PLAY_FINISHED ) {
-        this.audioState = Audio.STATE_FINISHED;
-      }
-  };
-
   Audio.prototype.isLoaded = function() {
-    return ( this.componentState === _Base.STATE_READY ) ? true : false;
+    return createjs.Sound.loadComplete( this.source );
   };
 
-  Audio.prototype.play = function( options ) {
-    if ( this.soundInstance && this.isLoaded() && this.audioState != Audio.STATE_PLAYING ) {
-      this.soundInstance.play( options );
-      this.audioState = Audio.STATE_PLAYING;
+  Audio.prototype.start = function( options ) {
+    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_PLAYING ) {
+      this.instance.play( options );
+      this.state = Audio.STATE_PLAYING;
+
+      this.instance.on( 'complete', function( event) {
+          this.state = Audio.STATE_FINISHED;
+      } );
     }
   };
 
   Audio.prototype.pause = function() {
-    if ( this.soundInstance && this.isLoaded() && this.audioState != Audio.STATE_PAUSED ) {
-      this.soundInstance.pause();
-      this.audioState = Audio.STATE_PAUSED;
+    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_PAUSED ) {
+      this.instance.pause();
+      this.state = Audio.STATE_PAUSED;
     }
   };
 
   Audio.prototype.resume = function() {
-    if ( this.soundInstance && this.isLoaded() && this.audioState != Audio.STATE_PLAYING ) {
-      this.soundInstance.resume();
-      this.audioState = Audio.STATE_PLAYING;
+    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_PLAYING ) {
+      this.instance.resume();
+      this.state = Audio.STATE_PLAYING;
     }
   };
 
   Audio.prototype.stop = function() {
-    if ( this.soundInstance && this.isLoaded() && this.audioState != Audio.STATE_STOPED ) {
-      this.soundInstance.stop();
-      this.audioState = Audio.STATE_STOPED;
+    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_STOPED ) {
+      this.instance.stop();
+      this.state = Audio.STATE_STOPED;
     }
   };
 
