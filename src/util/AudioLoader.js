@@ -8,25 +8,12 @@ define( [ 'lib/Sound' ], function( sound ) {
     createjs.Sound.alternateExtensions = [ 'mp3' ];
 
     this.queue.installPlugin( createjs.Sound );
+  };
 
-    this.queue.addEventListener( 'complete', function( ) {
-      _EventManager.notify( 'AudioManager.allAudioLoaded' );
-    } );
-    this.queue.addEventListener( 'fileload', function( event ) {
-      _EventManager.notify( 'AudioManager.audioFileLoaded', event.result.src );
-    } );
-    this.queue.addEventListener( 'error', function( event ) {
-      _EventManager.notify( 'AudioManager.audioFailed', event );
-    } );
-    this.queue.addEventListener( 'progress', function( ) {
-      _EventManager.notify( 'AudioManager.audioLoading', ( this.queue.progress.toFixed( 2 ) * 100 ) );
-    } );
-  }
-
-  AudioLoader.prototype.load = function( _source ) {
-    if ( _source ) {
+  AudioLoader.prototype.load = function( source ) {
+    if ( source ) {
       var item = {
-        src : _source
+        src : source
       };
       this.queue.loadFile( item, true );
     }
