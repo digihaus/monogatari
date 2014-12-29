@@ -79,8 +79,6 @@ define( [ 'input/Keyboard',
     MODE_DEBUG: 1,
     MODE_RELEASE: 2,
 
-    FRAME_RATE_60FPS: 0.016666666667, // 1.0 second / 60.0 frames
-
     ONE_MEGABYTE: 1048576, // 1024 kilobytes * 1024 bytes
 
     // asset state
@@ -101,9 +99,6 @@ define( [ 'input/Keyboard',
     PHYSICS_BODYTYPE_STATIC: 1,
     PHYSICS_BODYTYPE_KINEMATIC: 2,
     PHYSICS_BODYTYPE_DYNAMIC: 3,
-
-    DEFAULT_CAMERA_ID: 'default_camera_id',
-    DEFAULT_SCENE_ID: 'default_scene_id',
   }
 
 } );

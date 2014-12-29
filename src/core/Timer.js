@@ -1,5 +1,7 @@
 define( [ 'core/Math' ], function( _Math ) {
 
+  Timer.FRAME_RATE_60FPS: 0.016666666667, // 1.0 second / 60.0 frames
+
   var _time = 0;
   var _lastTime = 0;
   var _maxStep = 60;

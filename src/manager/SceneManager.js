@@ -1,19 +1,26 @@
-define( [ 'core/Monogatari', 'entity/component/Sprite', 'core/Math', 'core/collection/Map', 'render/Camera2D', 'lib/Detector' ], function() {
+define( [ 'core/collection/Map', 
+          'render/Camera2D', 
+          'lib/Detector', 
+          'lib/Three', 
+          'core/Math' ], function( _Map, _Camera2D, _Detector, _Three, _Math ) {
 
   function MonogatariSceneManager() {
-    this._cameras = new Monogatari.Map();
+    this._cameras = new _Map();
     this._cameraIterator = this._cameras.iterator();
-    this._scenes = new Monogatari.Map();
+    this._scenes = new _Map();
 
     // this._lights = new Monogatari.Map();
     // this._lightIterator = this._lights.iterator();
   }
 
+  MonogatariSceneManager.DEFAULT_CAMERA_ID = 'default_camera_id';
+  MonogatariSceneManager.DEFAULT_SCENE_ID = 'default_scene_id';
+
   MonogatariSceneManager.prototype.init = function( bgcolor, width, height, target ) {
     // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
-    this._renderer = Detector.webgl ? new THREE.WebGLRenderer( {
+    this._renderer = _Detector.webgl ? new _Three.WebGLRenderer( {
       antialias : false
-    } ) : new THREE.CanvasRenderer();
+    } ) : new _Three.CanvasRenderer();
 
     // Set the background color of the renderer, with full opacity
     this._renderer.setClearColor( ( bgcolor ) ? bgcolor : 0xFFFFFF, 1 );
@@ -25,7 +32,7 @@ define( [ 'core/Monogatari', 'entity/component/Sprite', 'core/Math', 'core/colle
     this._canvasHalfWidth = this._canvasWidth / 2;
     this._canvasHalfHeight = this._canvasHeight / 2;
 
-    this._z = Monogatari.max( this._canvasWidth, this._canvasHeight );
+    this._z = _Math.max( this._canvasWidth, this._canvasHeight );
 
     // Set the renderers size to the content areas size
     this._renderer.setSize( this._canvasWidth, this._canvasHeight );
@@ -47,14 +54,14 @@ define( [ 'core/Monogatari', 'entity/component/Sprite', 'core/Math', 'core/colle
   };
 
   MonogatariSceneManager.prototype.createScene = function( sceneId ) {
-    this._scenes.put( sceneId ? sceneId : Monogatari.Constants.DEFAULT_SCENE_ID, new THREE.Scene() );
+    this._scenes.put( sceneId ? sceneId : this.DEFAULT_SCENE_ID, new _Three.Scene() );
   };
 
   MonogatariSceneManager.prototype.createCamera = function( cameraId, sceneId, width, height ) {
-    var scene = this._scenes.get( ( sceneId ) ? sceneId : Monogatari.Constants.DEFAULT_SCENE_ID );
+    var scene = this._scenes.get( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID );
 
     if ( !cameraId ) {
-      cameraId = Monogatari.Constants.DEFAULT_CAMERA_ID;
+      cameraId = this.DEFAULT_CAMERA_ID;
     }
     if ( !width ) {
       width = this._canvasWidth;
@@ -64,9 +71,9 @@ define( [ 'core/Monogatari', 'entity/component/Sprite', 'core/Math', 'core/colle
     }
     if ( scene ) {
       // left, right, top, bottom, near, far
-      var camera = new Monogatari.Camera2D( width / -2, width / 2, height / 2, height / -2, 1, Monogatari.max( width, height ) );
+      var camera = new _Camera2D( width / -2, width / 2, height / 2, height / -2, 1, _Math.max( width, height ) );
 
-      camera.addScene( ( sceneId ) ? sceneId : Monogatari.Constants.DEFAULT_SCENE_ID );
+      camera.addScene( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID );
       this._cameras.put( cameraId, camera );
 
     } else {

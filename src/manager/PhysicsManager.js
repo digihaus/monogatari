@@ -1,4 +1,6 @@
-define( [ 'core/Monogatari', 'core/Constants', 'core/Timer', 'core/collection/Map', 'lib/Three', 'lib/Box2d', 'EventManager' ], function() {
+define( [ 'manager/EventManager', 
+          'core/Timer', 
+          'lib/Box2d' ], function( _EventManager, _Timer, _Box2d) {
 
   function MonogatariPhysicsManager() {
     this.world = null;
@@ -21,12 +23,12 @@ define( [ 'core/Monogatari', 'core/Constants', 'core/Timer', 'core/collection/Ma
 
     listener.BeginContact = function( contact ) {
       // console.log(contact.GetFixtureA().GetBody().GetUserData());
-      Monogatari.EventManager.notify( 'PhysicsManager.beginContact', contact );
+      _EventManager.notify( 'PhysicsManager.beginContact', contact );
     };
 
     listener.EndContact = function( contact ) {
       // console.log(contact.GetFixtureA().GetBody().GetUserData());
-      Monogatari.EventManager.notify( 'PhysicsManager.endContact', contact );
+      _EventManager.notify( 'PhysicsManager.endContact', contact );
     };
 
     /*
@@ -42,10 +44,10 @@ define( [ 'core/Monogatari', 'core/Constants', 'core/Timer', 'core/collection/Ma
 
   MonogatariPhysicsManager.prototype.update = function() {
     if ( this.world ) {
-      var fps = Monogatari.Frames.getFps();
+      var fps = _Timer.getFps();
 
       // The more iterations, the more accurate the calculations
-      this.world.Step( ( fps ) ? 1 / fps : Monogatari.Constants.FRAME_RATE_60FPS, // frame rate at which to update
+      this.world.Step( ( fps ) ? 1 / fps : _Timer.FRAME_RATE_60FPS, // frame rate at which to update
       // physics( 1 / FPS or 1.0 / 60.0 )
       this.velocityIterations, // number of velocity iterations to calculate each physics update
       this.positionIterations // number of position iterations to calculate each physics update

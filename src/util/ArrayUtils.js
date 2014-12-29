@@ -1,4 +1,4 @@
-define( [ 'core/Utils' ], function( utils ) {
+define( [ 'core/CommonUtils' ], function( _CommonUtils ) {
 
   return {
 
@@ -36,7 +36,7 @@ define( [ 'core/Utils' ], function( utils ) {
       for ( var x = 0, len = array.length; x < len; x++ ) {
         found = false;
         for ( var y = 0; y < newArr.length; y++ ) {
-          if ( utils.equals( array[ x ], newArr[ y ] ) ) {
+          if ( _CommonUtils.equals( array[ x ], newArr[ y ] ) ) {
             found = true;
             break;
           }

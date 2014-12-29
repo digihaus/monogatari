@@ -1,4 +1,4 @@
-define( [ 'core/Monogatari', 'core/Constants', 'core/collection/Map' ], function() {
+define( [ 'collection/Map' ], function( _Map ) {
 
   Monogatari.Event = function( type, handler ) {
     this.type = type;
@@ -14,7 +14,7 @@ define( [ 'core/Monogatari', 'core/Constants', 'core/collection/Map' ], function
   };
 
   function MonogatariEventManager() {
-    this._listeners = new Monogatari.Map();
+    this._listeners = new Map();
     this._iterator = this._listeners.iterator();
   }
 
@@ -41,5 +41,4 @@ define( [ 'core/Monogatari', 'core/Constants', 'core/collection/Map' ], function
   };
 
   Monogatari.EventManager = new MonogatariEventManager();
-
 } );
