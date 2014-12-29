@@ -9,8 +9,8 @@ define( [ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
       this.instance = null;
       this.state = Audio.STATE_STOPED;
 
-      createjs.Sound.registerSound( this.source, this.id );
       createjs.Sound.alternateExtensions = [ 'mp3' ];
+      createjs.Sound.registerSound( this.source, this.id );
       createjs.Sound.on( 'fileload', function( event ) {
         this.instance = createjs.Sound.createInstance( this.id );
       }, this );
@@ -19,6 +19,8 @@ define( [ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
       console.log( 'Audio component fail.' );
     }
   };
+
+  Audio.prototype = Object.create( _Base.prototype );
 
   Audio.STATE_STOPED = 0;
   Audio.STATE_PLAYING = 1;
@@ -34,7 +36,7 @@ define( [ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
       this.instance.play( options );
       this.state = Audio.STATE_PLAYING;
 
-      this.instance.on( 'complete', function( event) {
+      this.instance.on( 'complete', function( event ) {
           this.state = Audio.STATE_FINISHED;
       } );
     }
