@@ -1,4 +1,4 @@
-define( [ 'core/Monogatari', 'core/Constants', 'entity/component/Component', 'SceneManager', 'lib/Three' ], function() {
+define( [ 'component/Base', 'SceneManager', 'lib/Three' ], function( _Base, _Scene, _Three ) {
 
   Monogatari.ThreeObject = Monogatari.Component.extend( {
     init : function( sceneId, material, geometry ) {
