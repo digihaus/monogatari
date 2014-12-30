@@ -15,13 +15,14 @@ define( function() {
 
   // types
   Component.BASE = 0;
-  Component.NODE = 1;
-  Component.BASE_THREE = 2;
-  Component.RIGID_BODY = 3;
-  Component.SPRITE = 4;
-  Component.STATIC_TEXT = 5;
-  Component.AUDIO_SOURCE = 6;
-  Component.PARTICLE_EMITTER = 7;
+  Component.BASE_THREE = 1;
+  Component.BASE_FONT = 2;
+  Component.NODE = 3;
+  Component.RIGID_BODY = 4;
+  Component.SPRITE = 5;
+  Component.STATIC_TEXT = 6;
+  Component.AUDIO_SOURCE = 7;
+  Component.PARTICLE_EMITTER = 8;
   //Component.AUDIO_LISTENER = 1;
   //Component.PACKAGE_SENDER = 1;
   //Component.PACKAGE_LISTENER = 1;

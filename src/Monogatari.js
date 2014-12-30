@@ -25,7 +25,9 @@ define( [ 'input/Keyboard',
   _browser.isBlackberry = ( _agent.indexOf( 'Blackberry' ) > -1 );
   _browser.isIE = ( _agent.indexOf( 'MSIE' ) > -1 );
 
-// TODO VERIFICAR
+  // TODO Verificar de quem seria essa responsabilidade
+  // Não pode ser do componente pois ele teria que acessar o SceneManager diretamente
+  // provavelmente seja responsabilidade do próprio SceneManager
   attachToScene = function( object ) {
     Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( object ? object : this._mesh );
   };
@@ -80,22 +82,8 @@ define( [ 'input/Keyboard',
     Random: chance,
 
     // Constants
-
     MODE_DEBUG: 1,
     MODE_RELEASE: 2,
-
-    ONE_MEGABYTE: 1048576, // 1024 kilobytes * 1024 bytes
-
-    // asset state
-    ASSET_STATE_LOADING: 1,
-    ASSET_STATE_LOADED: 2,
-    ASSET_STATE_FAILED: 3,
-
-    FONT_CHARS_SIMPLE: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ",
-
-    // TODO resolver minificação com acentos
-    // FONT_CHARS_EXTENDED:
-    // "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789������������������������������������������������_()-,.[]!?@$*",
 
     REGEXP_URL: /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/,
     REGEXP_BETWEEN_SQUARE_BRACKETS: /\[[\w|\W]+\]/,

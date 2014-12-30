@@ -46,6 +46,8 @@ define( [ 'lib/Three' ], function( _Three ) {
 
   Math.ONE_DEGREE = Math.PI_OVER_180;  // same as PI_OVER_180, just for coding convenience
 
+  Math.ONE_MEGABYTE = 1048576; // 1024 kilobytes * 1024 bytes
+
   Math.getXAlignedVector = function() {
     return X_ALIGNED_VECTOR;
   };
