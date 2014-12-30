@@ -28,6 +28,43 @@
     }
   } );
 
+  require( [ 'collection/ArrayList' ], function( _ArrayList ) {
+    var a = new _ArrayList();
+
+    a.put('A');
+    a.put('B');
+    a.put('C');
+    a.put('D');
+    a.put('E');
+
+    var iter = a.iterator();
+
+    if( iter.last() === 'E' &&
+        iter.first() === 'A') {
+      console.log( 'TEST collection/ArrayList 1 > OK', a );
+    } else {
+      console.log( 'TEST collection/ArrayList 1 > ERROR', a );
+    }
+
+    a.put( 'F' );
+
+    if( iter.last() === 'F' &&
+        iter.first() === 'A' ) {
+      console.log( 'TEST collection/ArrayList 2 > OK', a );
+    } else {
+      console.log( 'TEST collection/ArrayList 2 > ERROR', a );
+    }
+
+    a.clear();
+
+    if( a.isEmpty() ) {
+      console.log( 'TEST collection/ArrayList 3 > OK', a );
+    } else {
+      console.log( 'TEST collection/ArrayList 3 > ERROR', a );
+    }
+
+  } );
+
 </script>
 </head>
 <body>

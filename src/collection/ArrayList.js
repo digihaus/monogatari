@@ -1,12 +1,10 @@
-/**
- * List is an ordered Collection of elements. This collection allows duplicates and null values.
- * Iterator goes through like a linked list, and ListIterator works like a doubly linked list,
- */
-define( [ 'collection/Iterator', 'util/CommonUtils' ], function( _Iterator, _CommonUtils ) {
+define( [ 'collection/Base', 'util/CommonUtils' ], function( _Base, _CommonUtils ) {
 
   var ArrayList = function ( array ) {
-    this.values = ( Object.prototype.toString.apply( array ) === '[object Array]' ) ? array : new Array();
+    _Base.call( this, array );
   };
+
+  ArrayList.prototype = Object.create( _Base.prototype );
 
   ArrayList.prototype.size = function() {
     return this.values.length;
