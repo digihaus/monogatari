@@ -7,16 +7,25 @@
 <script>
 
   require( [ 'collection/Base' ], function( _Collection ) {
-
     var c = new _Collection( new Array( 'A', 'B', 'C', 'D', 'E' ) );
+
     var iter = c.iterator();
 
-    console.log( iter.last() )
+    if( iter.last() === 'E' &&
+        iter.first() === 'A' ) {
+      console.log( 'TEST collection/Base 1 > OK', c );
+    } else {
+      console.log( 'TEST collection/Base 1 > ERROR', c );
+    }
 
     c.values.push( 'F' );
 
-    console.log( iter.last() );
-    
+    if( iter.last() === 'F' &&
+        iter.first() === 'A' ) {
+      console.log( 'TEST collection/Base 2 > OK', c );
+    } else {
+      console.log( 'TEST collection/Base 2 > ERROR', c );
+    }
   } );
 
 </script>
