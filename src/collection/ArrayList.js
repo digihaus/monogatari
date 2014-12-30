@@ -1,73 +1,76 @@
-// portions of the code based on PROCESSING.JS - 1.4.0 by John Resig
 /**
- * List is an ordered Collection of elements. This collection allows duplicates and null values. Iterator goes through
- * like a linked list, and ListIterator works like a doubly linked list
+ * List is an ordered Collection of elements. This collection allows duplicates and null values.
+ * Iterator goes through like a linked list, and ListIterator works like a doubly linked list,
  */
 define( [ 'collection/Iterator', 'util/CommonUtils' ], function( _Iterator, _CommonUtils ) {
-  Monogatari.ArrayList = Class.extend( {
-    init : function( array ) {
-      this._values = ( Monogatari.Array.isArray( array ) ) ? array : new Array();
-    },
 
-    put : function( value ) {
-      this._values.push( value );
-    },
+  var ArrayList = function ( array ) {
+    this.values = ( Object.prototype.toString.apply( array ) === '[object Array]' ) ? array : new Array();
+  };
 
-    size : function() {
-      return this._values.length;
-    },
+  ArrayList.prototype.size = function() {
+    return this.values.length;
+  };
 
-    get : function( index ) {
-      return this._values[ index ];
-    },
+  ArrayList.prototype.put = function( value ) {
+    this.values.push( value );
+  };
 
-    remove : function( index ) {
-      return this._values.splice( index, 1 );
-    },
+  ArrayList.prototype.get = function( index ) {
+    return this.values[ index ];
+  };
 
-    isEmpty : function() {
-      return !this._values.length;
-    },
+  ArrayList.prototype.remove = function( index ) {
+    return this.values.splice( index, 1 );
+  };
 
-    clear : function() {
-      this._values.length = 0;
-    },
+  ArrayList.prototype.isEmpty = function() {
+    return !this.values.length;
+  };
 
-    toArray : function() {
-      return this._values.slice( 0 );
-    },
+  ArrayList.prototype.clear = function() {
+    this.values.length = 0;
+  };
 
-    toJSON : function() {
-      return JSON.stringify( this._values );
-    },
+  ArrayList.prototype.toArray = function() {
+    return this.values.slice( 0 );
+  };
 
-    contains : function( value ) {
-      return this.indexOf( value ) > -1;
-    },
+  ArrayList.prototype.toJSON = function() {
+    return JSON.stringify( this.values );
+  };
 
-    find : function( value ) {
-      for ( var i = 0, len = this._values.length; i < len; ++i )
-        if ( _CommonUtils.equals( value, this._values[ i ] ) )
-          return this._values[ i ];
-      return null;
-    },
+  ArrayList.prototype.contains = function( value ) {
+    return this.indexOf( value ) > -1;
+  };
 
-    indexOf : function( value ) {
-      for ( var i = 0, len = this._values.length; i < len; ++i )
-        if ( _CommonUtils.equals( value, this._values[ i ] ) )
-          return i;
-      return -1;
-    },
-
-    lastIndexOf : function( value ) {
-      for ( var i = this._values.length - 1; i >= 0; --i )
-        if ( _CommonUtils.equals( value, this._values[ i ] ) )
-          return i;
-      return -1;
-    },
-
-    iterator : function() {
-      return new _Iterator.ArrayListIterator( this._values );
+  ArrayList.prototype.find = function( value ) {
+    for ( var i = 0, len = this.values.length; i < len; ++i ) {
+      if ( _CommonUtils.equals( value, this.values[ i ] ) ) {
+        return this.values[ i ];
+      }
     }
-  } );
+    return null;
+  };
+
+  ArrayList.prototype.indexOf = function( value ) {
+    for ( var i = 0, len = this.values.length; i < len; ++i ) {
+      if ( _CommonUtils.equals( value, this.values[ i ] ) ) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+  ArrayList.prototype.lastIndexOf = function( value ) {
+    for ( var i = this.values.length - 1; i >= 0; --i ) {
+      if ( _CommonUtils.equals( value, this.values[ i ] ) ) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+  return ArrayList;
+
 } );

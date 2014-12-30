@@ -44,6 +44,12 @@
     console.log( 'TEST component/Sprite > OK', sprite);
   } );
 
+  require( [ 'component/StaticText' ], function ( _StaticText ) {
+    var text = new _StaticText( 'mainScene', 'OROMIO', 12, "Caesar Dressing" );
+
+    console.log( 'TEST component/StaticText > OK', text);
+  } );
+
 </script>
 </head>
 <body>

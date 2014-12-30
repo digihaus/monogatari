@@ -1,4 +1,4 @@
-define( [ 'component/Base', 'component/BaseFont', 'component/Three' ], function( _Base, _BaseFont, _Three ) {
+define( [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( _Base, _BaseFont, _Three ) {
 
   var StaticText = function( sceneId, text, fontSize, fontFamily, width, height ) {
     _BaseFont.call( this, fontSize, fontFamily );
