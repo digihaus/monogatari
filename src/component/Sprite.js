@@ -1,8 +1,8 @@
-define( [ 'component/BaseThree', 'lib/Three' ], function( _BaseThree, _Three ) {
+define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Base, _BaseThree, _Three ) {
 
   var Sprite = function( sceneId, source, width, height, rows, cols ) {
     _BaseThree.call( this );
-    this.type = _BaseThree.SPRITE;
+    this.type = _Base.SPRITE;
 
     this.sceneId = sceneId ? sceneId : null;
     this.texture = THREE.ImageUtils.loadTexture( ( source ) ? source : 'assets/bad-texture.png' );
