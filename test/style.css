@@ -1,0 +1,15 @@
+.pass:before {
+  content: 'PASSED ';
+  color:  cyan;
+  font-weight: bold;
+}
+.fail:before {
+  content: 'FAILED ';
+  color: red;
+  font-weight: bold;
+}
+body {
+  font-family: 'Verdana';
+  background: black;
+  color: white;
+}

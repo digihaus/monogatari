@@ -3,17 +3,13 @@
 <head>
 <title>Component Test</title>
 <script src="../lib/Require.js"></script>
-<script src="config.js"></script>
+<script src="setup.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css" />
 <script>
 
   require( [ 'component/Node' ], function( _Node ) {
     var n = new _Node();
-
-    if(n.getEulerRotation() === 0 ) {
-      console.log( 'TEST component/Node > OK', n );
-    } else {
-      console.error( 'TEST component/Node > ERROR', n );
-    }
+    assert( n.getEulerRotation() === 0, 'Node getEulerRotation()' );
   } );
 
   require( [ 'component/Audio' ], function( _Audio ) {

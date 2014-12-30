@@ -3,7 +3,8 @@
 <head>
 <title>Collection Unit Tests</title>
 <script src="../lib/Require.js"></script>
-<script src="config.js"></script>
+<script src="setup.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css" />
 <script>
 
   require( [ 'collection/Base' ], function( _Collection ) {
@@ -11,26 +12,15 @@
 
     var iter = c.iterator();
 
-    if( iter.last() === 'E' &&
-        iter.first() === 'A' ) {
-      console.log( 'TEST collection/Base 1 > OK', c );
-    } else {
-      console.log( 'TEST collection/Base 1 > ERROR', c );
-    }
+    assert( iter.last() === 'E', 'Base iterator.last() 1' );
 
     c.values.push( 'F' );
-
-    if( iter.last() === 'F' &&
-        iter.first() === 'A' ) {
-      console.log( 'TEST collection/Base 2 > OK', c );
-    } else {
-      console.log( 'TEST collection/Base 2 > ERROR', c );
-    }
+    
+    assert( iter.last() === 'F', 'Base iterator.last() 2' );
   } );
 
   require( [ 'collection/ArrayList' ], function( _ArrayList ) {
     var a = new _ArrayList();
-
     a.put('A');
     a.put('B');
     a.put('C');
@@ -39,30 +29,15 @@
 
     var iter = a.iterator();
 
-    if( iter.last() === 'E' &&
-        iter.first() === 'A') {
-      console.log( 'TEST collection/ArrayList 1 > OK', a );
-    } else {
-      console.log( 'TEST collection/ArrayList 1 > ERROR', a );
-    }
+    assert( iter.last() === 'E', 'ArrayList iterator.last() 1' );
 
     a.put( 'F' );
 
-    if( iter.last() === 'F' &&
-        iter.first() === 'A' ) {
-      console.log( 'TEST collection/ArrayList 2 > OK', a );
-    } else {
-      console.log( 'TEST collection/ArrayList 2 > ERROR', a );
-    }
+    assert( iter.last() === 'F', 'ArrayList iterator.last() 2' );
 
     a.clear();
 
-    if( a.isEmpty() ) {
-      console.log( 'TEST collection/ArrayList 3 > OK', a );
-    } else {
-      console.log( 'TEST collection/ArrayList 3 > ERROR', a );
-    }
-
+    assert( a.isEmpty(), 'ArrayList isEmpty()' );
   } );
 
 </script>
