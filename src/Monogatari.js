@@ -25,6 +25,11 @@ define( [ 'input/Keyboard',
   _browser.isBlackberry = ( _agent.indexOf( 'Blackberry' ) > -1 );
   _browser.isIE = ( _agent.indexOf( 'MSIE' ) > -1 );
 
+// TODO VERIFICAR
+  attachToScene = function( object ) {
+    Monogatari.SceneManager.getScene( this._sceneId ? this._sceneId : Monogatari.Constants.DEFAULT_SCENE_ID ).add( object ? object : this._mesh );
+  };
+
   return {
 
     init: function( bgcolor, width, height, target ) {

@@ -16,7 +16,7 @@ define( function() {
   // types
   Component.BASE = 0;
   Component.NODE = 1;
-  Component.THREE_OBJECT = 2;
+  Component.BASE_THREE = 2;
   Component.RIGID_BODY = 3;
   Component.SPRITE = 4;
   Component.STATIC_TEXT = 5;
