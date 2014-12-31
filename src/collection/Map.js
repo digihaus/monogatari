@@ -1,130 +1,83 @@
-/**
- * Map is an ordered Collection of elements paired by a key (index) and a value. A map cannot contain duplicate keys,
- * each key can map to one value or null. By inserting a value with an existing key, the index will be overwritten.
- */
-define( [  'util/ArrayUtils', 'collection/Iterator' ], function( _Array, _Iterator ) {
-  Monogatari.Map = Class.extend( {
-    init : function( keys, values ) {
-      this._keys = ( keys ) ? keys : new Array();
-      this._values = ( values ) ? values : {};
-    },
+define( [ 'collection/Base', 'core/Common' ], function( _Base, _Common ) {
 
-    contains : function( key ) {
-      return _Array.inArray( key, this._keys );
-    },
+  var Map = function() {
+    _Base.call( this );
+    this.keySet = [];
+  };
 
-    get : function( key ) {
-      return ( this.contains( key ) ) ? this._values[ key ] : null;
-    },
+  Map.prototype = Object.create( _Base.prototype );
 
-    put : function( key, value ) {
-      var k = ( key ) ? key : this.size();
+  Map.prototype.indexOf = function( key ) {
+    _Common.indexOf( key, this.keys ) > -1;
+  };
 
-      if ( !this.contains( k ) )
-        this._keys.push( k );
+  Map.prototype.contains = function( key ) {
+    this.indexOf( key ) > -1;
+  };
 
-      // if a value is provided, add it to the values array
-      if ( value )
-        this._values[ k ] = value;
-      else
-      // if a value is NOT provided AND there is no cached value on it, set the value to null
-      // otherwise the cached value is returned
-      if ( !this._values[ k ] )
-        this._values[ k ] = null;
+  Map.prototype.size = function() {
+    return this.keySet.length;
+  };
 
-      return this._values[ k ];
-    },
-
-    size : function() {
-      return this._keys.length;
-    },
-
-    // set null to a cached value
-    nullify : function( key ) {
-      if ( this._values[ key ] )
-        this._values[ key ] = null;
-    },
-
-    concat : function( map ) {
-      var keys = map.getKeys(), values = map.getValues();
-
-      for ( var i = 0, len = keys.length; i < len; i++ )
-        this.put( keys[ i ], values[ i ] );
-    },
-
-    // this function removes the key from array, but maintain the value cached
-    remove : function( key ) {
-      if ( this.contains( key ) )
-        for ( var i = 0, len = this._keys.length; i < len; i++ )
-          if ( this._keys[ i ] === key )
-            this._keys.splice( i, 1 );
-    },
-
-    // this function removes the key and the value cached from both arrays
-    removeFromCache : function( key ) {
-      if ( this.contains( key ) ) {
-        // set null to avoid circle references
-        this._values[ key ] = null;
-
-        // remove the item
-        delete this._values[ key ];
-
-        // remove the key
-        for ( var i = 0, len = this._keys.length; i < len; i++ )
-          if ( this._keys[ i ] === key )
-            this._keys.splice( i, 1 );
+  Map.prototype.put = function( key, value ) {
+    if( key ) {
+      if( !this.contains( key ) ) {
+        this.keySet.push( key );
       }
-    },
+      this.values[ key ] = value;
+    }
+  };
 
-    // this function removes all keys and values cached, allowing the GC to clear memory
-    clear : function() {
-      this._values.length = 0;
-      this._values = {};
-      this._keys.length = 0;
-    },
+  // TODO fazer test unitário pra ver se retorna null corretamente
+  Map.prototype.get = function( key ) {
+    return this.values[ key ];
+  };
 
-    isEmpty : function() {
-      return ( this.size() === 0 );
-    },
+  Map.prototype.remove = function( key ) {
+    var keyIndex = this.indexOf( key );
+    if ( keyIndex >= 0 ) {
+      this.keySet.splice( keyIndex, 1 );
+      delete this.values[ key ];
+    }
+  };
 
-    call : function( key, args ) {
-      if ( this.contains( key ) && typeof ( this._values[ key ] ) === "function" )
-        this._values[ key ]( args );
-    },
+  Map.prototype.isEmpty = function() {
+    return this.size() === 0;
+  };
 
-    getKeys : function() {
-      return this._keys;
-    },
+  // TODO ARRUMAR
+  Map.prototype.iterator = Class.extend( {
+    init : function( keys, values ) {
+      this.index = -1;
 
-    getValues : function() {
-      var v = new Array();
+      this.hasNext = function() {
+        return this.index + 1 < keys.length;
+      };
 
-      for ( var i = 0, len = this.size(); i < len; i++ )
-        v[ i ] = this._values[ this._keys[ i ] ];
+      this.hasPrevious = function() {
+        return this.index > 0;
+      };
 
-      return v;
-    },
+      this.next = function() {
+        return values[ keys[ ++this.index ] ];
+      };
 
-    toArray : function() {
-      return this.getValues();
-    },
+      this.previous = function() {
+        return values[ keys[ --this.index ] ];
+      };
 
-    // stringify only the active elements
-    toJSON : function() {
-      var v = {};
+      this.first = function() {
+        this.index = -1;
+        return ( keys.length > 0 ) ? values[ keys[ 0 ] ] : null;
+      };
 
-      for ( var i = 0, len = this.size(); i < len; i++ )
-        v[ this._keys[ i ] ] = this._values[ this._keys[ i ] ];
-
-      return JSON.stringify( v );
-    },
-
-    clone : function() {
-      return new Monogatari.Map( this._keys, this._values );
-    },
-
-    iterator : function() {
-      return new _Iterator.MapIterator( this._keys, this._values );
+      this.last = function() {
+        this.index = keys.length - 1;
+        return ( keys.length > 0 ) ? values[ keys[ this.index ] ] : null;
+      };
     }
   } );
+
+  return Map;
+
 } );

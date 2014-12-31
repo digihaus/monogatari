@@ -48,38 +48,6 @@ define( function() {
     }
   } );
 
-  Monogatari.MapIterator = Class.extend( {
-    init : function( keys, values ) {
-      this.index = -1;
-
-      this.hasNext = function() {
-        return this.index + 1 < keys.length;
-      };
-
-      this.hasPrevious = function() {
-        return this.index > 0;
-      };
-
-      this.next = function() {
-        return values[ keys[ ++this.index ] ];
-      };
-
-      this.previous = function() {
-        return values[ keys[ --this.index ] ];
-      };
-
-      this.first = function() {
-        this.index = -1;
-        return ( keys.length > 0 ) ? values[ keys[ 0 ] ] : null;
-      };
-
-      this.last = function() {
-        this.index = keys.length - 1;
-        return ( keys.length > 0 ) ? values[ keys[ this.index ] ] : null;
-      };
-    }
-  } );
-
   Monogatari.TreeIterator = Class.extend( {
     init : function( keys, values ) {
       this.index = -1;

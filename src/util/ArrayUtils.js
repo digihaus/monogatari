@@ -61,46 +61,7 @@ define( [ 'core/CommonUtils' ], function( _CommonUtils ) {
         return null;
       }
     },
-
-    isArray: function( a ) {
-      return Object.prototype.toString.apply( a ) === '[object Array]';
-    },
-
-    /**
-    * inArray( value, array [, fromIndex] )
-    *
-    * @parameter value - The value to search for.
-    * @parameter array - An array through which to search.
-    * @parameter fromIndex - The index of the array at which to begin the search. The default is 0, which will search the
-    *            whole array.
-    * @returns index of given value on the array, -1 if not found;
-    */
-    indexOf: function( value, array, i ) {
-      var len;
-
-      if ( this.isArray( array ) ) {
-        if ( array.indexOf && typeof array.indexOf === "function" ) {
-          return array.indexOf( value, i );
-        }
-
-        len = array.length;
-        i = i ? i < 0 ? max( 0, len + i ) : i : 0;
-
-        for ( ; i < len; i++ ) {
-          // Skip accessing in sparse arrays
-          if ( i in array && array[ i ] === value ) {
-            return i;
-          }
-        }
-      }
-
-      return -1;
-    },
-
-    inArray: function( value, array, i ) {
-      return ( this.indexOf( value, array, i ) >= 0 ) ? true : false;
-    },
-
+    
     /**
     * @link http://ejohn.org/blog/javascript-array-remove/
     * @example Remove the second item from the array = array.remove(1);

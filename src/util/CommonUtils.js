@@ -2,30 +2,6 @@ define( function() {
 
   return {
 
-    createUniqueId: function() {
-      // from: http://stackoverflow.com/a/2117523
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace( /[xy]/g, function( c ) {
-        var r = Math.random() * 16 | 0, v = c === 'x' ? r : ( r & 0x3 | 0x8 );
-        return v.toString( 16 );
-      } );
-    },
-
-    equals: function( obj, other ) {
-      if ( obj === null || other === null ) {
-        return obj === null && other === null;
-      }
-      if ( typeof obj === 'string' ) {
-        return obj === other;
-      }
-      if ( typeof obj !== 'object' ) {
-        return obj === other;
-      }
-      if ( obj.equals instanceof Function ) {
-        return obj.equals( other );
-      }
-      return obj === other;
-    },
-
     parseUnitSizeToPixel: function( text ) {
       var len = text.length - 2;
       if ( len < 0 ) {
@@ -50,10 +26,6 @@ define( function() {
         return parseFloat( text.substring( 0, len ) );
       }
       return parseFloat( text );
-    },
-
-    typeOf: function( obj ) {
-      return Object.prototype.toString.apply( obj );
     },
 
     // store('num', '1');

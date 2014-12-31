@@ -1,4 +1,4 @@
-define( [ 'collection/Base', 'util/CommonUtils' ], function( _Base, _CommonUtils ) {
+define( [ 'collection/Base', 'core/Common' ], function( _Base, _Common ) {
 
   var ArrayList = function ( array ) {
     _Base.call( this, array );
@@ -34,39 +34,46 @@ define( [ 'collection/Base', 'util/CommonUtils' ], function( _Base, _CommonUtils
     return this.values.slice( 0 );
   };
 
-  ArrayList.prototype.toJSON = function() {
-    return JSON.stringify( this.values );
+  ArrayList.prototype.indexOf = function( value ) {
+    return _Common.indexOf( value, this.values );
   };
 
   ArrayList.prototype.contains = function( value ) {
     return this.indexOf( value ) > -1;
   };
 
-  ArrayList.prototype.find = function( value ) {
-    for ( var i = 0, len = this.values.length; i < len; ++i ) {
-      if ( _CommonUtils.equals( value, this.values[ i ] ) ) {
-        return this.values[ i ];
-      }
-    }
-    return null;
-  };
+  ArrayList.prototype.iterator = function() {
+    var Iterator = function( array ) {
+      var index = -1;
 
-  ArrayList.prototype.indexOf = function( value ) {
-    for ( var i = 0, len = this.values.length; i < len; ++i ) {
-      if ( _CommonUtils.equals( value, this.values[ i ] ) ) {
-        return i;
-      }
-    }
-    return -1;
-  };
+      this.hasNext = function() {
+        return index + 1 < array.length;
+      };
 
-  ArrayList.prototype.lastIndexOf = function( value ) {
-    for ( var i = this.values.length - 1; i >= 0; --i ) {
-      if ( _CommonUtils.equals( value, this.values[ i ] ) ) {
-        return i;
-      }
-    }
-    return -1;
+      this.next = function() {
+        return array[ ++index ];
+      };
+
+      this.hasPrevious = function() {
+        return index > 0;
+      };
+
+      this.previous = function() {
+        return array[ --index ];
+      };
+
+      this.first = function() {
+        index = -1;
+        return ( array.length > 0 ) ? array[ 0 ] : null;
+      };
+
+      this.last = function() {
+        index = array.length - 1;
+        return ( array.length > 0 ) ? array[ index ] : null;
+      };
+    };
+
+    return new Iterator( this.values );
   };
 
   return ArrayList;
