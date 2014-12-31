@@ -28,7 +28,6 @@ define( [ 'collection/Base', 'core/Common' ], function( _Base, _Common ) {
     }
   };
 
-  // TODO fazer test unitário pra ver se retorna null corretamente
   Map.prototype.get = function( key ) {
     return this.values[ key ];
   };
@@ -45,9 +44,8 @@ define( [ 'collection/Base', 'core/Common' ], function( _Base, _Common ) {
     return this.size() === 0;
   };
 
-  // TODO ARRUMAR
-  Map.prototype.iterator = Class.extend( {
-    init : function( keys, values ) {
+  Map.prototype.iterator = function() {
+    var Iterator = function( keys, values ) {
       this.index = -1;
 
       this.hasNext = function() {
@@ -75,8 +73,10 @@ define( [ 'collection/Base', 'core/Common' ], function( _Base, _Common ) {
         this.index = keys.length - 1;
         return ( keys.length > 0 ) ? values[ keys[ this.index ] ] : null;
       };
-    }
-  } );
+    };
+
+    return new Iterator( this.keySet, this.values );
+  };
 
   return Map;
 

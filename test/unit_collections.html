@@ -9,8 +9,7 @@
 
   require( [ 'collection/Base' ], function( _Collection ) {
     var c = new _Collection( new Array( 'A', 'B', 'C', 'D', 'E' ) );
-
-    assert( c.values.length === 5, 'Base values.size()' );
+    assert( c.values.length === 5, 'Base length', c );
   } );
 
   require( [ 'collection/ArrayList' ], function( _ArrayList ) {
@@ -21,17 +20,16 @@
     a.put('D');
     a.put('E');
 
+    assert( a.size() === 5, 'ArrayList size', a);
+    assert( a.get( 2 ) === 'C', 'ArrayList put/get' );
+
     var iter = a.iterator();
 
-    assert( iter.last() === 'E', 'ArrayList iterator.last() 1' );
-
-    a.put( 'F' );
-
-    assert( iter.last() === 'F', 'ArrayList iterator.last() 2' );
+    assert( iter.last() === 'E', 'ArrayList iterator.last' );
 
     a.clear();
 
-    assert( a.isEmpty(), 'ArrayList isEmpty()' );
+    assert( a.isEmpty(), 'ArrayList clear/isEmpty' );
   } );
 
   require( [ 'collection/Map' ], function( _Map ) {
@@ -39,7 +37,8 @@
 
     m.put( 'bolovo', 'oromio' );
 
-    assert( m.get('bolovo') == 'oromio', 'Map put/get' );
+    assert( m.get('bolovo') == 'oromio', 'Map put/get', m );
+    assert( m.get('test') == undefined, 'Map get undefined' );
   } );
 
 </script>

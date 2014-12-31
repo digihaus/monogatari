@@ -5,10 +5,14 @@ require.config( {
   }
 } );
 
-function assert( outcome, description ) {
-    var output = document.getElementById('test');
+function assert( outcome, description, object ) {
     var div = document.createElement('div');
     div.className = outcome ? 'pass' : 'fail';
     div.appendChild( document.createTextNode( description ) );
-    output.appendChild(div);
+
+    document.getElementById('test').appendChild(div);
+
+    if( object ) {
+      console.log( description, object );
+    }
 };

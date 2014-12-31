@@ -27,15 +27,18 @@ define( [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math'
 
   // TODO resolver minificação com acentos
   //Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ';
-  Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çÇáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜãõñÃÕÑâêîôûÂÊÎÔÛ_()-,.[]!?@$*',
+  Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çÇáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜãõñÃÕÑâêîôûÂÊÎÔÛ_()-,.[]!?@$* ',
 
   Font.prototype.load = function() {
+    var callback = this.onLoad;
+    var context = this;
+
     WebFont.load( {
       google: {
         families : [ this.fontFamily ]
       },
       fontactive: function(familyName, fvd) {
-        this.onLoad();
+        callback.apply( context );
       }
     } );
   }

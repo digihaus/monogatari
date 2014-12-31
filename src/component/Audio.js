@@ -7,7 +7,7 @@ define( [ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
       this.id = id;
       this.source = source;
       this.instance = null;
-      this.state = Audio.STATE_STOPED;
+      this.state = Audio.STATE_STOPPED;
 
       createjs.Sound.alternateExtensions = [ 'mp3' ];
       createjs.Sound.registerSound( this.source, this.id );
@@ -22,7 +22,7 @@ define( [ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
 
   Audio.prototype = Object.create( _Base.prototype );
 
-  Audio.STATE_STOPED = 0;
+  Audio.STATE_STOPPED = 0;
   Audio.STATE_PLAYING = 1;
   Audio.STATE_PAUSED = 2;
   Audio.STATE_FINISHED = 3;
@@ -57,9 +57,9 @@ define( [ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
   };
 
   Audio.prototype.stop = function() {
-    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_STOPED ) {
+    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_STOPPED ) {
       this.instance.stop();
-      this.state = Audio.STATE_STOPED;
+      this.state = Audio.STATE_STOPPED;
     }
   };
 
