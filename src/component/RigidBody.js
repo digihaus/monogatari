@@ -5,108 +5,111 @@
 // objects between soup cans and buses in size should work well. Static objects may be up to 50 meters big
 // without too much trouble.
 // Box2D is tuned for meters, kilograms, and seconds
-define( [ 'component/Base', 'lib/Box2d' ], function() {
-  
-  Monogatari.RigidBody = Monogatari.Component.extend( {
-    init : function( conversionFactor ) {
-      this.bodyDef = new b2BodyDef();
-      this.materialDef = new b2FixtureDef();
-      this.body = null;
+define( [ 'component/Base', 'lib/Box2d' ], function( _Base, _Box2d ) {
 
-      // conversionFactor is the value used to multiply the position from physics world (meters)
-      // to screen coordinates (pixels)
-      // if no value is presented, the factor will be 1 (probably not what you expect)
-      this.conversionFactor = ( conversionFactor ) ? conversionFactor : 1;
+  var RigidBody = function( conversionFactor ) {
+    _Base.call( this, _Base.NODE );
 
-      this.materialDef.shape = new b2PolygonShape();
-      this.materialDef.shape.SetAsBox( 0.5, 0.5 );
+    this.bodyDef = new b2BodyDef();
+    this.materialDef = new b2FixtureDef();
+    this.body = null;
 
-      this.componentType = Monogatari.Constants.COMPONENT_RIGID_BODY;
-    },
+    // conversionFactor is the value used to multiply the position from physics world (meters)
+    // to screen coordinates (pixels)
+    // if no value is presented, the factor will be 1 (probably not what you expect)
+    this.conversionFactor = ( conversionFactor ) ? conversionFactor : 1;
 
-    this.BODYTYPE_STATIC: 1,
-    this.BODYTYPE_KINEMATIC: 2,
-    this.BODYTYPE_DYNAMIC: 3,
+    this.materialDef.shape = new b2PolygonShape();
+    this.materialDef.shape.SetAsBox( 0.5, 0.5 );
+  }
 
-    // in kg/m^2.
-    setDensity : function( density ) {
-      this.materialDef.density = density;
-    },
+  RigidBody.prototype = Object.create( _Base.prototype );
 
-    // usually in the range [0,1].
-    setFriction : function( friction ) {
-      this.materialDef.friction = friction;
-    },
+  RigidBody.STATIC = 1;
+  RigidBody.KINEMATIC = 2;
+  RigidBody.DYNAMIC = 3;
 
-    // usually in the range [0,1].
-    setBounciness : function( bounciness ) {
-      this.materialDef.restitution = bounciness;
-    },
+  // in kg/m^2.
+  RigidBody.prototype.setDensity = function( density ) {
+    this.materialDef.density = density;
+  };
 
-    // coordinates in physics world, NOT in pixels or game world, a proper scale is required to draw
-    setPosition : function( position ) {
-      this.bodyDef.position.x = position.x;
-      this.bodyDef.position.y = position.y;
-    },
+  // usually in the range [0,1].
+  RigidBody.prototype.setFriction = function( friction ) {
+    this.materialDef.friction = friction;
+  };
 
-    // in radians
-    setRotation : function( angle ) {
-      this.bodyDef.angle = angle;
-    },
+  // usually in the range [0,1].
+  RigidBody.prototype.setBounciness = function( bounciness ) {
+    this.materialDef.restitution = bounciness;
+  };
 
-    // The shape, this must be set
-    setShape : function( shape ) {
-      this.materialDef.shape = shape;
-    },
+  // coordinates in physics world, NOT in pixels or game world, a proper scale is required to draw
+  RigidBody.prototype.setPosition = function( position ) {
+    this.bodyDef.position.x = position.x;
+    this.bodyDef.position.y = position.y;
+  };
 
-    // prevent the collision to be resolved by Box2D, but retains collision information
-    setSensor : function( isSensor ) {
-      this.materialDef.isSensor = isSensor;
-    },
+  // in radians
+  RigidBody.prototype.setRotation = function( angle ) {
+    this.bodyDef.angle = angle;
+  };
 
-    // expensive! use with care!
-    setPreventTunneling : function( preventTunneling ) {
-      this.bodyDef.bullet = preventTunneling;
-    },
+  // The shape, this must be set
+  RigidBody.prototype.setShape = function( shape ) {
+    this.materialDef.shape = shape;
+  };
 
-    // b2_staticBody A static body has does not move under simulation and behaves as if it has infinite mass.
-    // Internally,
-    // Box2D stores zero for the mass and the inverse mass. Static bodies can be moved manually by the user. A static
-    // body
-    // has zero velocity. Static bodies do not collide with other static or kinematic bodies.
-    //
-    // b2_kinematicBody A kinematic body moves under simulation according to its velocity. Kinematic bodies do not
-    // respond
-    // to forces. They can be moved manually by the user, but normally a kinematic body is moved by setting its
-    // velocity.
-    // A kinematic body behaves as if it has infinite mass, however, Box2D stores zero for the mass and the inverse
-    // mass.
-    // Kinematic bodies do not collide with other static or kinematic bodies.
-    //
-    // b2_dynamicBody A dynamic body is fully simulated. They can be moved manually by the user, but normally they move
-    // according to forces. A dynamic body can collide with all body types. A dynamic body always has finite, non-zero
-    // mass.
-    // If you try to set the mass of a dynamic body to zero, it will automatically acquire a mass of one kilogram.
-    setType : function( type ) {
-      switch ( type ) {
-      case this.PHYSICS_BODYTYPE_STATIC:
-        this.bodyDef.type = b2Body.b2_staticBody;
-        break;
-      case this.PHYSICS_BODYTYPE_KINEMATIC:
-        this.bodyDef.type = b2Body.b2_kinectBody;
-        break;
-      case this.PHYSICS_BODYTYPE_DYNAMIC:
-        this.bodyDef.type = b2Body.b2_dynamicBody;
-        break;
-      default:
-        this.bodyDef.type = b2Body.b2_staticBody;
-        break;
-      }
-    },
+  // prevent the collision to be resolved by Box2D, but retains collision information
+  RigidBody.prototype.setSensor = function( isSensor ) {
+    this.materialDef.isSensor = isSensor;
+  };
 
-    // constraints
-    setAllowRotation : function( allowRotation ) {
-      this.bodyDef.fixedRotation = !allowRotation;
+  // expensive! use with care!
+  RigidBody.prototype.setPreventTunneling = function( preventTunneling ) {
+    this.bodyDef.bullet = preventTunneling;
+  };
+
+  // b2_staticBody A static body has does not move under simulation and behaves as if it has infinite mass.
+  // Internally,
+  // Box2D stores zero for the mass and the inverse mass. Static bodies can be moved manually by the user. A static
+  // body
+  // has zero velocity. Static bodies do not collide with other static or kinematic bodies.
+  //
+  // b2_kinematicBody A kinematic body moves under simulation according to its velocity. Kinematic bodies do not
+  // respond
+  // to forces. They can be moved manually by the user, but normally a kinematic body is moved by setting its
+  // velocity.
+  // A kinematic body behaves as if it has infinite mass, however, Box2D stores zero for the mass and the inverse
+  // mass.
+  // Kinematic bodies do not collide with other static or kinematic bodies.
+  //
+  // b2_dynamicBody A dynamic body is fully simulated. They can be moved manually by the user, but normally they move
+  // according to forces. A dynamic body can collide with all body types. A dynamic body always has finite, non-zero
+  // mass.
+  // If you try to set the mass of a dynamic body to zero, it will automatically acquire a mass of one kilogram.
+  RigidBody.prototype.setType = function( type ) {
+    switch ( type ) {
+    case RigidBody.STATIC:
+      this.bodyDef.type = b2Body.b2_staticBody;
+      break;
+    case RigidBody.KINEMATIC:
+      this.bodyDef.type = b2Body.b2_kinectBody;
+      break;
+    case RigidBody.DYNAMIC:
+      this.bodyDef.type = b2Body.b2_dynamicBody;
+      break;
+    default:
+      this.bodyDef.type = b2Body.b2_staticBody;
+      break;
     }
-  } );
+  };
+
+  // constraints
+  RigidBody.prototype.setAllowRotation = function( allowRotation ) {
+    this.bodyDef.fixedRotation = !allowRotation;
+  };
+
+  return RigidBody;
+
 } );

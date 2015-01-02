@@ -43,7 +43,6 @@
   require( [ 'component/Sprite' ], function( _Sprite ) {
     var sprite = new _Sprite( 'mainScene', 'assets/zombies.png', 64, 64, 1, 3 );
     assert( sprite != null, 'Sprite created', sprite );
-
   } );
 
   require( [ 'component/StaticText' ], function ( _StaticText ) {
@@ -51,6 +50,11 @@
     assert( test != null, 'StaticText created', text );
 
     text.load();
+  } );
+
+  require( [ 'component/RigidBody' ], function ( _RigidBody ) {
+    var body = new _RigidBody();
+    assert( body != null, 'RigidBody created', body );
   } );
 
 </script>
