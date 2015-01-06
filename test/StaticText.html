@@ -4,12 +4,9 @@
 <title>Static Text Test</title>
 <link href='http://fonts.googleapis.com/css?family=Caesar+Dressing'
   rel='stylesheet' type='text/css'>
-<script src="../lib/Require.js"></script>
+<script src="../monogatari-0.0.1-dev.min.js"></script>
 <script>
-  require.config( {
-    baseUrl : '../'
-  } );
-  require( [ 'engine/GameManager', 'engine/entity/component/Node', 'engine/entity/component/StaticText', 'core/io/Keyboard' ], function() {
+  require( [ 'engine/GameManager' ], function() {
     // <Initializing Engine>
     Monogatari.GameManager.init();
     Monogatari.SceneManager.createScene( 'mainScene' );

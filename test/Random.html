@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Random (with Chance.js)</title>
-<script src="../lib/Require.js"></script>
+<script src="../monogatari-0.0.1-dev.min.js"></script>
 <script>
-  require.config( {
-    baseUrl : '../'
-  } );
-  require( [ 'core/Monogatari' ], function() {
+  require( [ 'engine/GameManager' ], function() {
     console.log( "bool" );
     console.log( Monogatari.Random.bool() );
     console.log( " " );
@@ -48,5 +44,6 @@
 </head>
 <body>
   <h1>Random (with Chance.js)</h1>
+  <h2>check console</h2>
 </body>
 </html>

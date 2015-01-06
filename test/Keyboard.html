@@ -2,12 +2,9 @@
 <html>
 <head>
 <title>Keyboard Test</title>
-<script src="../lib/Require.js"></script>
+<script src="../monogatari-0.0.1-dev.min.js"></script>
 <script>
-  require.config( {
-    baseUrl : '../'
-  } );
-  require( [ 'engine/GameManager', 'core/io/Keyboard' ], function() {
+  require( [ 'engine/GameManager' ], function() {
     Monogatari.GameManager.init();
     Monogatari.SceneManager.createScene( 'mainScene' );
     Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
@@ -34,6 +31,6 @@
 </script>
 </head>
 <body>
-
+<h2>Use WASD and check console</h2>
 </body>
 </html>

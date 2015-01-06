@@ -1,4 +1,18 @@
-define( [ 'core/Monogatari', 'core/Timer', 'core/String', 'engine/EventManager', 'engine/AudioManager', 'engine/FontManager', 'engine/SceneManager', 'engine/ObjectManager', 'engine/PhysicsManager' ], function() {
+define( [ 'core/Monogatari',
+          'core/Timer',
+          'core/String',
+          'core/io/Keyboard',
+          'engine/entity/component/Audio',
+          'engine/entity/component/Sprite',
+          'engine/entity/component/RigidBody',
+          'engine/entity/component/Node',
+          'engine/entity/component/StaticText',
+          'engine/EventManager',
+          'engine/AudioManager',
+          'engine/FontManager',
+          'engine/SceneManager',
+          'engine/ObjectManager',
+          'engine/PhysicsManager' ], function() {
 
   Monogatari.GameManager = new MonogatariGameManager();
 

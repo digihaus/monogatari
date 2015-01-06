@@ -2,11 +2,8 @@
 <html>
 <head>
 <title>First Tree/Monogatari Scene</title>
-<script src="../lib/Require.js"></script>
+<script src="../monogatari-0.0.1-dev.min.js"></script>
 <script>
-  require.config( {
-    baseUrl : '../'
-  } );
   require( [ 'engine/GameManager', 'engine/entity/component/Sprite' ], function() {
     Monogatari.GameManager.init();
     Monogatari.SceneManager.createScene( 'mainScene' );

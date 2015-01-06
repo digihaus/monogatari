@@ -2,12 +2,9 @@
 <html>
 <head>
 <title>Physics test</title>
-<script src="../lib/Require.js"></script>
+<script src="../monogatari-0.0.1-dev.min.js"></script>
 <script>
-  require.config( {
-    baseUrl : '../'
-  } );
-  require( [ 'engine/GameManager', 'engine/entity/component/Sprite', 'engine/entity/component/RigidBody' ], function() {
+  require( [ 'engine/GameManager' ], function() {
     Monogatari.GameManager.init();
     Monogatari.SceneManager.createScene( 'mainScene' );
     Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
