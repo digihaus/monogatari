@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Collection Unit Tests</title>
+<script src="../lib/Require.js"></script>
+<script src="setup.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script>
+
+  require( [ 'collection/Base' ], function( _Collection ) {
+    var c = new _Collection( new Array( 'A', 'B', 'C', 'D', 'E' ) );
+    assert( c.values.length === 5, 'Base length', c );
+  } );
+
+  require( [ 'collection/ArrayList' ], function( _ArrayList ) {
+    var a = new _ArrayList();
+    a.put('A');
+    a.put('B');
+    a.put('C');
+    a.put('D');
+    a.put('E');
+
+    assert( a.size() === 5, 'ArrayList size', a);
+    assert( a.get( 2 ) === 'C', 'ArrayList put/get' );
+
+    var iter = a.iterator();
+
+    assert( iter.last() === 'E', 'ArrayList iterator.last' );
+
+    a.clear();
+
+    assert( a.isEmpty(), 'ArrayList clear/isEmpty' );
+  } );
+
+  require( [ 'collection/Map' ], function( _Map ) {
+    var m = new _Map();
+
+    m.put( 'bolovo', 'oromio' );
+
+    assert( m.get('bolovo') == 'oromio', 'Map put/get', m );
+    assert( m.get('test') == undefined, 'Map get undefined' );
+  } );
+
+</script>
+</head>
+<body>
+<div id="test">
+</div>
+</body>
+</html>
