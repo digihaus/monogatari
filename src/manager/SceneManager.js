@@ -117,4 +117,8 @@ define( [ 'core/collection/Map',
 
   Monogatari.SceneManager = new MonogatariSceneManager();
 
+  Monogatari.SceneManager.attachToScene = function( gameObject, sceneId ){
+    // encontra todos os componentes renderizáveis e registra na cena
+  } ;
+
 } );

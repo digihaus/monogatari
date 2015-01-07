@@ -8,8 +8,9 @@ define( [ 'core/Monogatari', 'core/Constants', 'core/Timer', 'core/Util', 'lib/T
       this.isVisible = true;
       this.isActive = true;
 
-      this._isRenderable = false;
-      this._hasPhysics = false;
+// TODO remover
+//      this._isRenderable = false;
+//      this._hasPhysics = false;
 
       this.uid = Monogatari.Util.createUniqueId();
       this.id = id || this.uid;
@@ -48,6 +49,7 @@ define( [ 'core/Monogatari', 'core/Constants', 'core/Timer', 'core/Util', 'lib/T
 
     removeComponent : function( id ) {
       this._components.remove( id );
+      // checkComponents pra ver se removeu um componente com física ou render
     },
 
     clearComponents : function() {

@@ -4,6 +4,9 @@ define( [ 'core/Common' ], function( _Common ) {
     this.values = _Common.isArray( array ) ? array : [];
   };
 
-  return Base;
+  Base.prototype.isEmpty = function() {
+    return ( this.values.length === 0 );
+  };
 
+  return Base;
 } );
