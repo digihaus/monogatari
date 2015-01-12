@@ -5,14 +5,27 @@ require.config( {
   }
 } );
 
-function assert( outcome, description, package, object ) {
-    var div = document.createElement( 'div' );
-    div.className = outcome ? 'pass' : 'fail';
-    div.appendChild( document.createTextNode( description ) );
+function assert( outcome, description, target, object ) {
+    var resultDiv = document.createElement( 'div' );
+    resultDiv.className = outcome ? 'pass' : 'fail';
+    resultDiv.appendChild( document.createTextNode( description ) );
 
-    document.getElementById( package ).appendChild( div );
+    var testDiv = document.getElementById( 'test' );
+
+    if( document.getElementById( target ) == null ) {
+      var targetDiv = document.createElement( 'div' );
+      var targetTitle = document.createElement( 'h3' );
+
+      targetTitle.id = target;
+      targetTitle.appendChild( document.createTextNode( target ) );
+
+      targetDiv.appendChild( targetTitle );
+      testDiv.appendChild( targetDiv );
+    }
+
+    document.getElementById( target ).appendChild( resultDiv );
 
     if( object ) {
-      console.log( package, description, object );
+      console.log( target, description, object );
     }
 };

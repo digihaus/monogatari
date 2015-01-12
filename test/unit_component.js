@@ -16,7 +16,7 @@ require( [ 'component/Audio' ], function( _Audio ) {
   var run = function() {
     if( frames == 100 ) {
 
-      assert( audio.isLoaded(), 'Audio isLoaded', 'component' );
+      assert( audio.isLoaded(), 'Audio is loaded', 'component' );
 
       if( audio.isLoaded() ) {
         audio.start();
