@@ -5,14 +5,14 @@ require.config( {
   }
 } );
 
-function assert( outcome, description, target, object ) {
+function assert( outcome, description, package, object ) {
     var div = document.createElement( 'div' );
     div.className = outcome ? 'pass' : 'fail';
     div.appendChild( document.createTextNode( description ) );
 
-    document.getElementById( target ).appendChild( div );
+    document.getElementById( package ).appendChild( div );
 
     if( object ) {
-      console.log( description, object );
+      console.log( package, description, object );
     }
 };
