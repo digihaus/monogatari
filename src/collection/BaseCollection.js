@@ -1,12 +1,12 @@
 define( [ 'core/Common' ], function( _Common ) {
 
-  var Base = function( array ){
+  var BaseCollection = function( array ){
     this.values = _Common.isArray( array ) ? array : [];
   };
 
-  Base.prototype.isEmpty = function() {
+  BaseCollection.prototype.isEmpty = function() {
     return ( this.values.length === 0 );
   };
 
-  return Base;
+  return BaseCollection;
 } );

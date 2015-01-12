@@ -1,10 +1,10 @@
-define( [ 'collection/Base', 'core/Common' ], function( _Base, _Common ) {
+define( [ 'collection/BaseCollection', 'core/Common' ], function( _BaseCollection, _Common ) {
 
   var ArrayList = function ( array ) {
-    _Base.call( this, array );
+    _BaseCollection.call( this, array );
   };
 
-  ArrayList.prototype = Object.create( _Base.prototype );
+  ArrayList.prototype = Object.create( _BaseCollection.prototype );
 
   ArrayList.prototype.size = function() {
     return this.values.length;

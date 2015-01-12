@@ -7,9 +7,10 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <script>
 
-  require( [ 'collection/Base' ], function( _Collection ) {
+  require( [ 'collection/BaseCollection' ], function( _Collection ) {
     var c = new _Collection( new Array( 'A', 'B', 'C', 'D', 'E' ) );
-    assert( c.values.length === 5, 'Base length', c );
+    assert( c.values.length === 5, 'BaseCollection length', c );
+    assert( !c.isEmpty(), 'BaseCollection is not Empty', c );
   } );
 
   require( [ 'collection/ArrayList' ], function( _ArrayList ) {

@@ -1,11 +1,11 @@
-define( [ 'collection/Base', 'core/Common' ], function( _Base, _Common ) {
+define( [ 'collection/BaseCollection', 'core/Common' ], function( _BaseCollection, _Common ) {
 
   var Map = function() {
-    _Base.call( this );
+    _BaseCollection.call( this );
     this.keySet = [];
   };
 
-  Map.prototype = Object.create( _Base.prototype );
+  Map.prototype = Object.create( _BaseCollection.prototype );
 
   Map.prototype.indexOf = function( key ) {
     _Common.indexOf( key, this.keys ) > -1;
