@@ -1,47 +1,97 @@
-//Árvore permite que cada nó possua apenas um pai, porém N filhos.
-//Cada nó conhece seu pai (para navegar de baixo pra cima), e seus filhos (caso se aplique, para navegar de cima pra baixo).
-//Para criar a hierarquia liga-se um nó a outro com um método connect(), Ex. tree.connect(pai, filho)
-define( [  'collection/Base', 'core/Common'  ], function( _Base, _Common ) {
+define( [ 'core/Common' ], function( _Common ) {
 
-  var TreeNode = function( id, value, parentId ) {
-    this.id = ( id ) ? id : _Common.createUniqueId();
-    this.value = ( value ) ? value : null;
-    this.parentId = ( parentId ) ? parentId : 'trunk';
+  var TreeNode = function( data, parent ) {
+    this.data = data;
+    this.parent = parent;
+    this.children = [];
   };
 
-  var Tree = function(){
-    _Base.call( this );
+  var Tree = function() {
+    this.root = new TreeNode( 'root' );
   };
 
-  Tree.prototype.put = function( id, value, parentId ) {
-    // validar se o Id já existe
-    // verificar se o parent existe na arvore (se ele não existe o parent é o trunk)
-    var node = new TreeNode( id, value, parentId );
-    this.values.push( node );
+  Tree.prototype.find = function ( data, startNode ) {
+    var sNode = startNode ? startNode : this.root;
+    return this.findAux( data, sNode );
   };
 
-  Tree.prototype.get = function( id ){
-    // pegar o value com id
+  Tree.prototype.findAux = function( data, currentNode ) {
+    if( _Common.equals( data, currentNode.data ) ) {
+      return currentNode;
+    } else {
+      for( var i = 0; i < currentNode.children.length; i++ ) {
+        var result = this.findAux( data, currentNode.children[i] );
+        if( result ) {
+          return result;
+        }
+      }
+      return null;
+    }
   };
 
-  Tree.prototype.remove = function( id ){
-    // validar se o Id já existe
-    // ao remover, matar filhos recursivamente
+  Tree.prototype.put = function( data, parent ) {
+    var pNode;
+    if( parent ) {
+      pNode = this.find( parent );
+    }
+    pNode = pNode ? pNode : this.root;
+    pNode.children.push( new TreeNode( data, pNode ) );
   };
 
-  Tree.prototype.clear = function(){
-    this.values.length = 0;
+  Tree.prototype.remove = function( data ) {
+    var node = this.find( data );
+    if( node ) {
+      // remove reference from parent children
+      var children = node.parent.children;
+      var index;
+      for( var i = 0; i < children.length; i++ ) {
+        if( _Common.equals( children.length[i], data ) ) {
+          index = i;
+        }
+      }
+      node.parent.children = children.splice( index, 1 );
+      // remove own references
+      node.parent = null;
+      node.children.length = 0;
+    }
   };
 
-  Tree.prototype.move = function( id, parentId ){
-    // validar se o Id e parentId existe já existe
-    // se id inválido o pai vira trunk
-    // acha o nó e muda o parent
+  Tree.prototype.clear = function() {
+    this.root.children.length = 0;
   };
 
-  Tree.prototype.listChildren = function( id ){
-    // encontra os nós que tem "id" como pai
-    // new array
+  Tree.prototype.move = function( data, parent ) {
+    remove( data );
+    put( data, parent );
   };
+
+  Tree.prototype.listChildren = function( data ) {
+    var node = this.find( data );
+    if( node ) {
+      return node.children;
+    } else {
+      return null;
+    }
+  };
+
+  Tree.prototype.listDescendants = function( data ) {
+    var node = this.find( data );
+    if( node ) {
+      return this.listDescendantsAux( node, [] );
+    } else {
+      return null;
+    }
+  }
+
+  Tree.prototype.listDescendantsAux = function( node, result ) {
+    result.push( node );
+    for( var i = 0; i < node.children.length; i++ ) {
+      result = this.listDescendantsAux( node.children[i], result );
+    }
+    return result;
+  }
+
+
+  return Tree;
 
 } );
