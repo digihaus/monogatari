@@ -45,5 +45,11 @@ require( [ 'collection/Tree' ], function( _Tree ) {
   var descendants = tree.listDescendants( elem0_1 );
 
   assert( descendants.length == 2, 'Tree descendants', 'collection/Tree', descendants );
-  
+
+  tree.remove( elem1_1 );
+
+  descendants = tree.listDescendants( elem0_1 );
+
+  assert( descendants.length ==1, 'Tree remove', 'collection/Tree', descendants );
+
 } );

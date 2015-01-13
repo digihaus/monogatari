@@ -42,14 +42,13 @@ define( [ 'core/Common' ], function( _Common ) {
     var node = this.find( data );
     if( node ) {
       // remove reference from parent children
-      var children = node.parent.children;
       var index;
-      for( var i = 0; i < children.length; i++ ) {
-        if( _Common.equals( children.length[i], data ) ) {
+      for( var i = 0; i < node.parent.children.length; i++ ) {
+        if( _Common.equals( node.parent.children[i].data, data ) ) {
           index = i;
         }
       }
-      node.parent.children = children.splice( index, 1 );
+      node.parent.children.splice( index, 1 );
       // remove own references
       node.parent = null;
       node.children.length = 0;
