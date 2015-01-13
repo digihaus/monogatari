@@ -1,10 +1,8 @@
-define( [ 'collection/BaseCollection', 'core/Common' ], function( _BaseCollection, _Common ) {
+define( ['core/Common' ], function( _Common ) {
 
   var ArrayList = function ( array ) {
-    _BaseCollection.call( this, array );
+    this.values = _Common.isArray( array ) ? array : [];
   };
-
-  ArrayList.prototype = Object.create( _BaseCollection.prototype );
 
   ArrayList.prototype.size = function() {
     return this.values.length;

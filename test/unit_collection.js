@@ -1,10 +1,3 @@
-require( [ 'collection/BaseCollection' ], function( _Collection ) {
-  var c = new _Collection( new Array( 'A', 'B', 'C', 'D', 'E' ) );
-  
-  assert( c.values.length === 5, 'BaseCollection length', 'collection', c );
-  assert( !c.isEmpty(), 'BaseCollection is not Empty', 'collection', c );
-} );
-
 require( [ 'collection/ArrayList' ], function( _ArrayList ) {
   var a = new _ArrayList();
   a.put('A');
@@ -32,4 +25,25 @@ require( [ 'collection/Map' ], function( _Map ) {
 
   assert( m.get('bolovo') == 'oromio', 'Map put/get', 'collection', m );
   assert( m.get('test') == undefined, 'Map get undefined', 'collection' );
+} );
+
+require( [ 'collection/Tree' ], function( _Tree ) {
+  var tree = new _Tree();
+
+  var elem0_1 = 'elem0_1';
+  var elem0_2 = 'elem0_2';
+
+  tree.put( elem0_1 );
+  tree.put( elem0_2 );
+
+  var elem1_1 = 'elem1_1';
+
+  tree.put( elem1_1, elem0_1 );
+
+  assert( tree, 'Tree created', 'collection/Tree', tree );
+
+  var descendants = tree.listDescendants( elem0_1 );
+
+  assert( descendants.length == 2, 'Tree descendants', 'collection/Tree', descendants );
+  
 } );

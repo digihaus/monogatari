@@ -1,11 +1,9 @@
-define( [ 'collection/BaseCollection', 'core/Common' ], function( _BaseCollection, _Common ) {
+define( [ 'core/Common' ], function( _Common ) {
 
   var Map = function() {
-    _BaseCollection.call( this );
     this.keySet = [];
+    this.entries = [];
   };
-
-  Map.prototype = Object.create( _BaseCollection.prototype );
 
   Map.prototype.indexOf = function( key ) {
     _Common.indexOf( key, this.keys ) > -1;
@@ -24,19 +22,19 @@ define( [ 'collection/BaseCollection', 'core/Common' ], function( _BaseCollectio
       if( !this.contains( key ) ) {
         this.keySet.push( key );
       }
-      this.values[ key ] = value;
+      this.entries[ key ] = value;
     }
   };
 
   Map.prototype.get = function( key ) {
-    return this.values[ key ];
+    return this.entries[ key ];
   };
 
   Map.prototype.remove = function( key ) {
     var keyIndex = this.indexOf( key );
     if ( keyIndex >= 0 ) {
       this.keySet.splice( keyIndex, 1 );
-      delete this.values[ key ];
+      delete this.entries[ key ];
     }
   };
 
@@ -75,7 +73,7 @@ define( [ 'collection/BaseCollection', 'core/Common' ], function( _BaseCollectio
       };
     };
 
-    return new Iterator( this.keySet, this.values );
+    return new Iterator( this.keySet, this.entries );
   };
 
   return Map;
