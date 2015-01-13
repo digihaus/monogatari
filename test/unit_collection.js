@@ -1,21 +1,21 @@
-require( [ 'collection/ArrayList' ], function( _ArrayList ) {
-  var a = new _ArrayList();
+require( [ 'collection/List' ], function( _List ) {
+  var a = new _List();
   a.put('A');
   a.put('B');
   a.put('C');
   a.put('D');
   a.put('E');
 
-  assert( a.size() === 5, 'ArrayList size', 'collection', a);
-  assert( a.get( 2 ) === 'C', 'ArrayList put/get', 'collection' );
+  assert( a.size() === 5, 'List size', 'collection', a);
+  assert( a.get( 2 ) === 'C', 'List put/get', 'collection' );
 
   var iter = a.iterator();
 
-  assert( iter.last() === 'E', 'ArrayList iterator.last', 'collection' );
+  assert( iter.last() === 'E', 'List iterator.last', 'collection' );
 
   a.clear();
 
-  assert( a.isEmpty(), 'ArrayList clear/isEmpty', 'collection' );
+  assert( a.isEmpty(), 'List clear/isEmpty', 'collection' );
 } );
 
 require( [ 'collection/Map' ], function( _Map ) {

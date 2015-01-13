@@ -1,46 +1,46 @@
 define( ['core/Common' ], function( _Common ) {
 
-  var ArrayList = function ( array ) {
+  var List = function ( array ) {
     this.values = _Common.isArray( array ) ? array : [];
   };
 
-  ArrayList.prototype.size = function() {
+  List.prototype.size = function() {
     return this.values.length;
   };
 
-  ArrayList.prototype.put = function( value ) {
+  List.prototype.put = function( value ) {
     this.values.push( value );
   };
 
-  ArrayList.prototype.get = function( index ) {
+  List.prototype.get = function( index ) {
     return this.values[ index ];
   };
 
-  ArrayList.prototype.remove = function( index ) {
+  List.prototype.remove = function( index ) {
     return this.values.splice( index, 1 );
   };
 
-  ArrayList.prototype.isEmpty = function() {
+  List.prototype.isEmpty = function() {
     return !this.values.length;
   };
 
-  ArrayList.prototype.clear = function() {
+  List.prototype.clear = function() {
     this.values.length = 0;
   };
 
-  ArrayList.prototype.toArray = function() {
+  List.prototype.toArray = function() {
     return this.values.slice( 0 );
   };
 
-  ArrayList.prototype.indexOf = function( value ) {
+  List.prototype.indexOf = function( value ) {
     return _Common.indexOf( value, this.values );
   };
 
-  ArrayList.prototype.contains = function( value ) {
+  List.prototype.contains = function( value ) {
     return this.indexOf( value ) > -1;
   };
 
-  ArrayList.prototype.iterator = function() {
+  List.prototype.iterator = function() {
     var Iterator = function( array ) {
       var index = -1;
 
@@ -74,6 +74,6 @@ define( ['core/Common' ], function( _Common ) {
     return new Iterator( this.values );
   };
 
-  return ArrayList;
+  return List;
 
 } );
