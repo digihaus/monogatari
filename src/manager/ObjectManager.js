@@ -13,9 +13,8 @@ define( [ 'core/GameObject', 'collection/Tree', 'collection/Map', 'component/Bas
   ObjectManager.prototype.put = function( object, parent ) {
     if ( this.isGameObject( object ) ) {
       this.tree.put( object, parent );
-      return this.map.put( object.id, object );
+      this.map.put( object.id, object );
     }
-    return null;
   }
 
   ObjectManager.prototype.get = function( id ) {
@@ -58,5 +57,7 @@ define( [ 'core/GameObject', 'collection/Tree', 'collection/Map', 'component/Bas
   ObjectManager.prototype.getGlobalRotation = function() {};
   ObjectManager.prototype.getGlobalScale = function() {};
   ObjectManager.prototype.getGlobalNode = function() {};
+
+  return ObjectManager;
 
 } );
