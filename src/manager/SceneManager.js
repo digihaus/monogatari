@@ -1,15 +1,15 @@
 define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'core/Math' ], function( _Map, _Camera2D, _Detector, _Three, _Math ) {
 
-  var SceneManger = function() {
+  var SceneManager = function() {
     this.cameras = new _Map();
     this.cameraIterator = this.cameras.iterator();
     this.scenes = new _Map();
   };
 
-  SceneManger.DEFAULT_CAMERA_ID = 'default_camera_id';
-  SceneManger.DEFAULT_SCENE_ID = 'default_scene_id';
+  SceneManager.DEFAULT_CAMERA_ID = 'default_camera_id';
+  SceneManager.DEFAULT_SCENE_ID = 'default_scene_id';
 
-  SceneManger.prototype.init = function( bgcolor, width, height, target ) {
+  SceneManager.prototype.init = function( bgcolor, width, height, target ) {
     // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
     this.renderer = _Detector.webgl ? new _Three.WebGLRenderer( {
       antialias : false
@@ -93,5 +93,5 @@ define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three',
     }
   };
 
-  return SceneManger;
+  return SceneManager;
 } );
