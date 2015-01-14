@@ -1,7 +1,7 @@
-define( [ 'core/collection/Map', 
-          'render/Camera2D', 
-          'lib/Detector', 
-          'lib/Three', 
+define( [ 'core/collection/Map',
+          'render/Camera2D',
+          'lib/Detector',
+          'lib/Three',
           'core/Math' ], function( _Map, _Camera2D, _Detector, _Three, _Math ) {
 
   function MonogatariSceneManager() {
@@ -118,7 +118,7 @@ define( [ 'core/collection/Map',
   Monogatari.SceneManager = new MonogatariSceneManager();
 
   Monogatari.SceneManager.attachToScene = function( gameObject, sceneId ){
-    // encontra todos os componentes renderizáveis e registra na cena
+    // TODO encontra todos os componentes renderizáveis e registra na cena
   } ;
 
 } );

@@ -1,6 +1,6 @@
-define( [ 'collection/Tree', 
-          'core/GameObject', 
-          'component/Base', 
+define( [ 'collection/Tree',
+          'core/GameObject',
+          'component/Base',
           'component/Node' ], function( _Tree, _GameObject, _Base, _Node ) {
 
   function MonogatariObjectManager() {
@@ -14,8 +14,6 @@ define( [ 'collection/Tree',
 
   MonogatariObjectManager.prototype.create = function( id, update ) {
     var object = new _GameObject( id, update );
-    // by default, every Game Object has a Node component (position, rotation, scale)
-    object.addComponent( new _Node() );
     return this._objects.put( id, object ).value;
   };
 
