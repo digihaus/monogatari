@@ -1,11 +1,11 @@
 define( [ 'collection/Map' ], function( _Map ) {
 
-  Monogatari.Event = function( type, handler ) {
+  var Event = function( type, handler ) {
     this.type = type;
     this.handler = handler;
   };
 
-  Monogatari.Message = function( from, to, type, message, handler ) {
+  var Message = function( from, to, type, message, handler ) {
     this.from = from;
     this.to = to;
     this.type = type;
@@ -13,22 +13,22 @@ define( [ 'collection/Map' ], function( _Map ) {
     this.handler = handler;
   };
 
-  function MonogatariEventManager() {
-    this._listeners = new Map();
-    this._iterator = this._listeners.iterator();
+  var EventManager = function() {
+    this.listeners = new _Map();
+    this.iterator = this.listeners.iterator();
   }
 
-  MonogatariEventManager.prototype.addListener = function( id, eventType, handler ) {
-    this._listeners.put( id, new Monogatari.Event( eventType, handler ) );
+  EventManager.prototype.addListener = function( id, eventType, handler ) {
+    this.listeners.put( id, new Event( eventType, handler ) );
   };
 
-  MonogatariEventManager.prototype.notify = function( eventType, params ) {
-    this._iterator.first();
+  EventManager.prototype.notify = function( eventType, params ) {
+    this.iterator.first();
     var evt;
 
     // iterate through listeners that observe that eventType
-    while ( this._iterator.hasNext() ) {
-      evt = this._iterator.next();
+    while ( this.iterator.hasNext() ) {
+      evt = this.iterator.next();
 
       if ( evt.type === eventType ) {
         evt.handler( params );
@@ -36,9 +36,9 @@ define( [ 'collection/Map' ], function( _Map ) {
     }
   };
 
-  MonogatariEventManager.prototype.removeListener = function( id ) {
-    this._listeners.removeFromCache( id );
+  EventManager.prototype.removeListener = function( id ) {
+    this.listeners.remove( id );
   };
 
-  Monogatari.EventManager = new MonogatariEventManager();
+  return EventManager;
 } );
