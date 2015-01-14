@@ -42,6 +42,11 @@ define( [ 'core/Common' ], function( _Common ) {
     return this.size() === 0;
   };
 
+  Map.prototype.clear = function() {
+    this.keySet.length = 0;
+    this.entries.length = 0;
+  };
+
   Map.prototype.iterator = function() {
     var Iterator = function( keys, values ) {
       this.index = -1;
