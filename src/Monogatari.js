@@ -77,8 +77,7 @@ define( [ 'input/Keyboard',
 
     browser: _browser,
 
-    // exposes the Chance.js to the engine context, just for consistency (does this use more memory?)
-    // TODO CHECK
+    // exposes the Chance.js to the engine context, just for consistency
     Random: chance,
 
     // Constants
