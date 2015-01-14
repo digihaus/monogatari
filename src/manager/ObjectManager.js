@@ -8,14 +8,14 @@ define( [ 'core/GameObject', 'collection/Tree', 'collection/Map', 'component/Bas
 
   ObjectManager.prototype.isGameObject = function( object ) {
     return ( object && object.id && object.equals instanceof Function && object.update instanceof Function ) ? true : false;
-  }
+  };
 
   ObjectManager.prototype.put = function( object, parent ) {
     if ( this.isGameObject( object ) ) {
       this.tree.put( object, parent );
       this.map.put( object.id, object );
     }
-  }
+  };
 
   ObjectManager.prototype.get = function( id ) {
     return this.map.get( id );
@@ -37,7 +37,7 @@ define( [ 'core/GameObject', 'collection/Tree', 'collection/Map', 'component/Bas
   ObjectManager.prototype.clear = function() {
     this.map.claer();
     this.tree.clear();
-  }
+  };
 
   ObjectManager.prototype.update = function() {
     var obj;
@@ -46,12 +46,12 @@ define( [ 'core/GameObject', 'collection/Tree', 'collection/Map', 'component/Bas
 
     while ( this.mapIterator.hasNext() ) {
       obj = this.mapIterator.next();
-      if ( obj && obj.isActive ) {
+      if( obj.isActive ) {
         obj.update();
       }
       obj.postUpdate();
     }
-  }
+  };
 
   ObjectManager.prototype.getGlobalPosition = function() {};
   ObjectManager.prototype.getGlobalRotation = function() {};
