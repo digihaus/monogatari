@@ -26,21 +26,21 @@ define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three',
     this.z = _Math.max( this.canvasWidth, this.canvasHeight );
 
     // set the renderer size
-    this._renderer.setSize( this.canvasWidth, this.canvasHeight );
+    this.renderer.setSize( this.canvasWidth, this.canvasHeight );
 
     // attach a canvas tag on the body
     var body = ( target ) ? target : document.getElementsByTagName( 'body' )[ 0 ];
-    body.appendChild( this._renderer.domElement );
+    body.appendChild( this.renderer.domElement );
   };
 
   // create a Three.scene
   SceneManager.prototype.createScene = function( sceneId ) {
-    this._scenes.put( sceneId ? sceneId : this.DEFAULT_SCENE_ID, new _Three.Scene() );
+    this.scenes.put( sceneId ? sceneId : this.DEFAULT_SCENE_ID, new _Three.Scene() );
   };
 
   // create a camera to a scene
   SceneManager.prototype.createCamera = function( cameraId, sceneId, width, height ) {
-    var scene = this._scenes.get( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID );
+    var scene = this.scenes.get( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID );
 
     if ( !cameraId ) {
       cameraId = this.DEFAULT_CAMERA_ID;
@@ -77,17 +77,17 @@ define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three',
     this.cameraIterator.first();
 
     // iterate all cameras
-    while ( this._cameraIterator.hasNext() ) {
-      camera = this._cameraIterator.next();
-      camera._sceneIterator.first();
+    while ( this.cameraIterator.hasNext() ) {
+      camera = this.cameraIterator.next();
+      camera.sceneIterator.first();
 
       // iterate all scenes registered to render on this camera
-      while ( camera._sceneIterator.hasNext() ) {
-        scene = this._scenes.get( camera._sceneIterator.next() );
+      while ( camera.sceneIterator.hasNext() ) {
+        scene = this.scenes.get( camera.sceneIterator.next() );
 
         // TODO render based on ObjectManager tree hierarchy  
         if ( scene ) {
-          this._renderer.render( scene, camera.cam );
+          this.renderer.render( scene, camera.cam );
         }
       }
     }
