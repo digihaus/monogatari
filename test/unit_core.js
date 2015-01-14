@@ -17,3 +17,24 @@ require( [ 'core/Timer' ], function( _Timer ) {
 
   run();
 } );
+
+require( [ 'core/GameObject' ], function( _GameObject ) {
+
+  var go = new _GameObject( 'bolovo', function() {
+    console.log( 'oromio' );
+  } );
+
+  assert( go != null, 'GameObject created', 'core/GameObject', go );
+
+  var frames = 0;
+
+  var run = function() {
+    if( frames < 100 ){
+      frames++;
+      go.update();
+      requestAnimationFrame( run );
+    }
+  }
+
+  run();
+} );

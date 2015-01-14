@@ -1,145 +1,105 @@
-define( [ 'core/Monogatari', 'core/Constants', 'core/Timer', 'core/Util', 'lib/Three', 'SceneManager' ], function() {
+define( [ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'component/Node'  ], function( _Common, _Timer, _Map, _Base, _Node ) {
 
-  Monogatari.GameObject = Class.extend( {
-    init : function( id, update ) {
-      this._components = new Monogatari.Map();
-      this._componentIterator = this._components.iterator();
+  var GameObject = function( id, update ) {
+    this.uid = _Common.createUniqueId();
+    this.id = id || this.uid;
 
-      this.isVisible = true;
-      this.isActive = true;
+    this.components = new _Map();
+    // by default, every Game Object has a Node component (position, rotation, scale)
+    this.components.put( _Base.NODE, new _Node() );
+    
+    this.componentsIter = this.components.iterator();
 
-// TODO remover
-//      this._isRenderable = false;
-//      this._hasPhysics = false;
+    this.isVisible = true;
+    this.isActive = true;
 
-      this.uid = Monogatari.Util.createUniqueId();
-      this.id = id || this.uid;
+    this.lastUpdate = 0;
 
-      this.lastUpdate = 0;
+    this.update = ( update && typeof ( update ) === 'function' ) ? update : function() {};
+  };
 
-      this.update = ( update && typeof ( update ) === 'function' ) ? update : function() {};
-    },
-
-    postUpdate : function() {
-      this.lastUpdate = Monogatari.Time.getTime();
+  GameObject.prototype.postUpdate = function() {
+    this.lastUpdate = _Timer.getTime();
+    if( this.isActive ) {
       this.updateComponents();
-    },
+    }
+  };
 
-    addComponent : function( component ) {
-      this.checkComponent( component );
-      return this._components.put( component.componentType, component );
-    },
+  GameObject.prototype.addComponent = function( component ) {
+    this.checkComponent( component );
+    return this.components.put( component.componentType, component );
+  };
 
-    checkComponent : function( component ) {
-      if ( component.componentType && component.componentType === Monogatari.Constants.COMPONENT_RIGID_BODY ) {
-        this._hasPhysics = true;
+  GameObject.prototype.findComponent = function( type ) {
+    return this.components.get( type );
+  };
+
+  GameObject.prototype.removeComponent = function( type ) {
+    this.components.remove( type );
+  };
+
+  GameObject.prototype.clearComponents = function() {
+    this.components.clear();
+  };
+
+  GameObject.prototype.hasComponent = function( type ) {
+    return ( this.components.contains( type ) ) ? true : false;
+  };
+
+  GameObject.prototype.listRenderableComponents = function() {
+    var list = [];
+    var c;
+    componentsIter.first();
+    while ( componentsIter.hasNext() ) {
+      c = componentsIter.next();
+      if ( c.isRenderable ) {
+        list.push( c );
       }
+    }
+    return list;
+  };
 
-      if ( component.componentType === Monogatari.Constants.COMPONENT_THREE_OBJECT ||
-            component.componentType === Monogatari.Constants.COMPONENT_SPRITE ||
-            component.componentType === Monogatari.Constants.COMPONENT_PARTICLE_EMITTER ||
-            component.componentType === Monogatari.Constants.COMPONENT_STATIC_TEXT ) {
-        this._isRenderable = true;
+  GameObject.prototype.updateComponents = function() {
+    var node = this.findComponent( _Base.NODE );
+    var rigidBody = this.findComponent( _Base.RIGID_BODY );
+
+    // update object position from Box2D to Monogatari based on physics simulation (if applicable)
+    // only affect X and Y for safety reasons, messing with Z on 2D is probably not expected
+    if( rigidBody ) {
+      node.position.x = rigidBody.body.GetPosition().x * rigidBody.conversionFactor;
+      node.position.y = rigidBody.body.GetPosition().y * rigidBody.conversionFactor;
+    }
+
+    var component;
+
+    this.componentIter.first();
+    while ( this.componentsIter.hasNext() ) {
+      component = this.componentsIter.next();
+      // if is a component to be rendered, need to update engine transformations to Three.js transformations
+      if ( component.isRenderable && typeof ( component.getMesh ) === 'function' ) {
+        component.getMesh().position = node.position;
+        component.getMesh().rotation.z = node.getEulerRotation();
+        component.getMesh().scale = node.scale;
       }
-    },
+    }
+  };
 
-    findComponent : function( type ) {
-      return this._components.get( type );
-    },
+  GameObject.prototype.equals = function( go ) {
+    return ( go.id === this.id ) ? true : false;
+  };
 
-    removeComponent : function( id ) {
-      this._components.remove( id );
-      // checkComponents pra ver se removeu um componente com física ou render
-    },
+  GameObject.prototype.setPosition = function( x, y, z ) {
+    this.findComponent( _Base.NODE ).position.set( x, y, z );
+  };
 
-    clearComponents : function() {
-      this._isRenderable = false;
-      this._hasPhysics = false;
-      this._components.clear();
-    },
+  GameObject.prototype.setRotation = function( x, y, z ) {
+    this.findComponent( _Base.NODE ).rotation.set( x, y, z );
+  };
 
-    // deprecated
-    findComponentByType : function( type ) {
-      var comp;
+  GameObject.prototype.setScale = function( x, y, z ) {
+    this.findComponent( _Base.NODE ).scale.set( x, y, z );
+  };
 
-      this._componentIterator.first();
+  return GameObject;
 
-      while ( this._componentIterator.hasNext() ) {
-        comp = this._componentIterator.next();
-        if ( comp.componentType === type ) {
-          return comp;
-        }
-      }
-      return null;
-    },
-
-    hasComponent : function( type ) {
-      return ( this._components.contains( type ) ) ? true : false;
-    },
-
-    listComponentsToRender : function() {
-      var list = [], comp;
-
-      this._componentIterator.first();
-
-      while ( this._componentIterator.hasNext() ) {
-        comp = this._componentIterator.next();
-        if ( comp.componentType === Monogatari.Constants.COMPONENT_THREE_OBJECT ||
-             comp.componentType === Monogatari.Constants.COMPONENT_SPRITE ||
-             comp.componentType === Monogatari.Constants.COMPONENT_STATIC_TEXT ) {
-          list[ list.length ] = comp;
-        }
-      }
-      return list;
-    },
-
-    updateComponents : function() {
-      var comp, node = this.findComponent( Monogatari.Constants.COMPONENT_NODE );
-
-      // update object position from Box2D to Monogatari based on physics simulation (if applicable)
-      // only affect X and Y for safety reasons, messing with Z on 2D is probably not expected
-      if ( this._hasPhysics ) {
-        var rigidBody = this.findComponentByType( Monogatari.Constants.COMPONENT_RIGID_BODY );
-        node.position.x = rigidBody.body.GetPosition().x * rigidBody.conversionFactor;
-        node.position.y = rigidBody.body.GetPosition().y * rigidBody.conversionFactor;
-      }
-
-      this._componentIterator.first();
-
-      while ( this._componentIterator.hasNext() ) {
-        comp = this._componentIterator.next();
-
-        // if is a component to be rendered, need to update engine transformations to Three.js transformations
-        if ( this._isRenderable ) {
-          if ( typeof ( comp.getMesh ) === 'function' && comp.getMesh() ) {
-            comp.getMesh().position = node.position;
-            comp.getMesh().rotation.z = node.getEulerRotation();
-            comp.getMesh().scale = node.scale;
-          }
-        }
-
-        if ( typeof ( comp.update ) === 'function' ) {
-          comp.update();
-        }
-      }
-    },
-
-    equals : function( go ) {
-      return ( go.id === this.id ) ? true : false;
-    },
-
-    setPosition : function( x, y, z ) {
-      this.findComponent( Monogatari.Constants.COMPONENT_NODE ).position.set( x, y, z );
-    },
-
-    setRotation : function( x, y, z ) {
-      this.findComponent( Monogatari.Constants.COMPONENT_NODE ).rotation.set( x, y, z );
-    },
-
-    setScale : function( x, y, z ) {
-      this.findComponent( Monogatari.Constants.COMPONENT_NODE ).scale.set( x, y, z );
-    },
-
-    toJSON : function() {}
-  } );
 } );
