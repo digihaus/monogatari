@@ -12,22 +12,24 @@ define( [ 'core/Common' ], function( _Common ) {
 
   Tree.prototype.find = function ( data, startNode ) {
     var sNode = startNode ? startNode : this.root;
-    return this.findAux( data, sNode );
+
+    var findAux = function( data, currentNode ) {
+      if( _Common.equals( data, currentNode.data ) ) {
+        return currentNode;
+      } else {
+        for( var i = 0; i < currentNode.children.length; i++ ) {
+          var result = findAux( data, currentNode.children[i] );
+          if( result ) {
+            return result;
+          }
+        }
+        return null;
+      }
+    };
+
+    return findAux( data, sNode );
   };
 
-  Tree.prototype.findAux = function( data, currentNode ) {
-    if( _Common.equals( data, currentNode.data ) ) {
-      return currentNode;
-    } else {
-      for( var i = 0; i < currentNode.children.length; i++ ) {
-        var result = this.findAux( data, currentNode.children[i] );
-        if( result ) {
-          return result;
-        }
-      }
-      return null;
-    }
-  };
 
   Tree.prototype.put = function( data, parent ) {
     var pNode;
@@ -75,21 +77,25 @@ define( [ 'core/Common' ], function( _Common ) {
 
   Tree.prototype.listDescendants = function( data ) {
     var node = this.find( data );
+
+    var listDescendantsAux = function( node, result ) {
+      for( var i = 0; i < node.children.length; i++ ) {
+        result.push( node.children[i] );
+        result = listDescendantsAux( node.children[i], result );
+      }
+      return result;
+    }
+
     if( node ) {
-      return this.listDescendantsAux( node, [] );
+      return listDescendantsAux( node, [] );
     } else {
       return null;
     }
-  }
+  };
 
-  Tree.prototype.listDescendantsAux = function( node, result ) {
-    result.push( node );
-    for( var i = 0; i < node.children.length; i++ ) {
-      result = this.listDescendantsAux( node.children[i], result );
-    }
-    return result;
-  }
-
+  Tree.prototype.toArray = function() {
+    return this.listDescendants( this.root );
+  };
 
   return Tree;
 
