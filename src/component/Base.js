@@ -5,6 +5,7 @@ define( function() {
 
   var Component = function( type ) {
     this.type = ( type ) ? type : Component.BASE;
+    this.isRenderable = false;
   };
 
   // state

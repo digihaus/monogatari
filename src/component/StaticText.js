@@ -3,6 +3,7 @@ define( [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( _Base
   var StaticText = function( sceneId, text, fontSize, fontFamily, width, height ) {
     _BaseFont.call( this, fontSize, fontFamily );
     this.type = _Base.STATIC_TEXT;
+    this.isRenderable = true;
 
     this.sceneId = sceneId ? sceneId : null;
     this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';

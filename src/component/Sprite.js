@@ -3,6 +3,7 @@ define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Bas
   var Sprite = function( sceneId, source, width, height, rows, cols ) {
     _BaseThree.call( this );
     this.type = _Base.SPRITE;
+    this.isRenderable = true;
 
     this.sceneId = sceneId ? sceneId : null;
     this.texture = THREE.ImageUtils.loadTexture( ( source ) ? source : 'assets/bad-texture.png' );

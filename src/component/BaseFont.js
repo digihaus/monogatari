@@ -11,6 +11,7 @@ define( [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math'
   var Font = function( size, family, strokeColor, fillColor ) {
     _BaseThree.call( this );
     this.type = _Base.BASE_FONT;
+    this.isRenderable = true;
 
     this.fontSize = ( size ) ? size : 10;
     this.fontFamily = ( family ) ? family : 'Verdana';

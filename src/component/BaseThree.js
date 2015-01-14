@@ -2,6 +2,7 @@ define( [ 'component/Base', 'lib/Three' ], function( _Base, _Three ) {
 
   var BaseThree = function( sceneId, material, geometry, type ) {
     _Base.call( this, _Base.BASE_THREE );
+    this.isRenderable = true;
 
     this.sceneId = ( sceneId ) ? sceneId : null;
     this.texture = null;
