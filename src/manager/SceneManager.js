@@ -67,8 +67,9 @@ define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three',
     }
   };
 
-  SceneManager.attachToScene = function( gameObject, sceneId ) {
+  SceneManager.prototype.attachToScene = function( gameObject, sceneId ) {
   // TODO encontra todos os componentes renderizáveis e registra na cena
+  // this.sceneManager.getScene( sceneId ? sceneId : SceneManager.DEFAULT_SCENE_ID ).add( object );
   };
 
   SceneManager.prototype.render = function() {
@@ -85,7 +86,7 @@ define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three',
       while ( camera.sceneIterator.hasNext() ) {
         scene = this.scenes.get( camera.sceneIterator.next() );
 
-        // TODO render based on ObjectManager tree hierarchy  
+        // TODO render based on ObjectManager tree hierarchy
         if ( scene ) {
           this.renderer.render( scene, camera.cam );
         }
