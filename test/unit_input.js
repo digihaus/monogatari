@@ -6,7 +6,7 @@ require( [ 'input/Keyboard', 'core/Timer' ], function( _Keyboard, _Timer ) {
 
   var event = {};
   event.keyCode = kb.BACKSPACE;
-  event.preventDefault = {};
+  event.preventDefault = function() {};
 
   kb.onKeyDown( event );
 
@@ -15,5 +15,23 @@ require( [ 'input/Keyboard', 'core/Timer' ], function( _Keyboard, _Timer ) {
   kb.onKeyUp( event );
 
   assert( kb.isDown( kb.BACKSPACE )  == null, 'Keyboard is not down', 'input', kb);
+} );
 
+require( [ 'input/Mouse', 'core/Timer' ], function( _Mouse, _Timer ) {
+  var t = new _Timer();
+  var mouse = new _Mouse( t );
+
+  assert( mouse != null, 'Mouse created', 'input', mouse );
+
+  var event = {};
+  event.button = mouse.LMB;
+  event.preventDefault = function() {};
+
+  mouse.onMouseDown( event );
+
+  assert( mouse.isDown( mouse.LMB )  != null, 'Mouse is down', 'input', mouse);
+
+  mouse.onMouseUp( event );
+
+  assert( mouse.isDown( mouse.LMB )  == null, 'Mouse is not down', 'input', mouse);
 } );
