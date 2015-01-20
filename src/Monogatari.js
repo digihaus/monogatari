@@ -26,6 +26,8 @@ define( [ 'core/Timer',
     this.physics = new _PhysicsManager();
     this.random = _Chance;
     this.browser = _browser;
+    this.keyboard = null;
+    this.mouse = null;
   };
 
   Monogatari.REGEXP_URL = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
@@ -35,21 +37,25 @@ define( [ 'core/Timer',
   Monogatari.init = function( bgcolor, width, height, target ) {
     this.scenes.init( bgcolor, width, height, target );
 
+    // keyboard input setup
+    this.keyboard = new _Keyboard( this.timer );
     window.addEventListener( 'keyup', function( event ) {
-      keyboard.onKeyUp( event );
+      this.keyboard.onKeyUp( event );
     }, false );
     window.addEventListener( 'keydown', function( event ) {
-      keyboard.onKeyDown( event );
+      this.keyboard.onKeyDown( event );
     }, false );
 
+    // mouse input setup
+    this.mouse = new _Mouse( this.timer );
     window.addEventListener( 'mousemove', function( event ) {
-      mouse.onMouseMove( event );
+      this.mouse.onMouseMove( event );
     }, false );
     window.addEventListener( 'mousedown', function( event ) {
-      mouse.onMouseDown( event );
+      this.mouse.onMouseDown( event );
     }, false );
     window.addEventListener( 'mouseup', function( event ) {
-      mouse.onMouseUp( event );
+      this.mouse.onMouseUp( event );
     }, false );
   };
 

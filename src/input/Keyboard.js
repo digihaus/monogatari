@@ -1,7 +1,6 @@
 define( function() {
 
-  var Keyboard = function( timer ) {
-    this.timer = timer;
+  var Keyboard = function() {
     this.pressed = new Int16Array( 256 );
 
     for ( var i = 0, len = this.pressed.length; i < len; i++ ) {
@@ -113,7 +112,7 @@ define( function() {
     return ( this.pressed[ keyCode ] == -1 ) ? null : this.pressed[ keyCode ];
   };
 
-  Keyboard.prototype.onKeyDown = function( event ) {
+  Keyboard.prototype.onKeyDown = function( event, timer ) {
 
     if ( event.keyCode == Keyboard.BACKSPACE ||
           event.keyCode == Keyboard.UP_ARROW ||
@@ -127,7 +126,7 @@ define( function() {
         event.preventDefault();
     }
 
-    this.pressed[ event.keyCode ] = this.timer.time;
+    this.pressed[ event.keyCode ] = timer.time;
   };
 
   Keyboard.prototype.onKeyUp = function( event ) {
