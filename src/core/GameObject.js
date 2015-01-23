@@ -47,7 +47,7 @@ define( [ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'comp
   };
 
   GameObject.prototype.listRenderableComponents = function() {
-    var list = []; //!!! new array?
+    var list = [];
     var c;
     componentsIter.first();
     while ( componentsIter.hasNext() ) {
