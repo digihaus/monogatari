@@ -1,4 +1,9 @@
-define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'core/Math' ], function( _Map, _Camera2D, _Detector, _Three, _Math ) {
+define( [ 'core/Math', 
+          'core/collection/Map', 
+          'lib/Detector', 
+          'lib/Three', 
+          'render/Camera2D', 
+          'manager/ObjectManager'], function( _Math, _Map, _Detector, _Three, _Camera2D, _ObjectManager ) {
 
   var SceneManager = function() {
     this.cameras = new _Map();
@@ -68,7 +73,15 @@ define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three',
   };
 
   SceneManager.attachToScene = function( gameObject, sceneId ) {
-  // TODO encontra todos os componentes renderizáveis e registra na cena
+    var scene = this.scenes.get( sceneId );
+
+    if( scene && _ObjectManager.isGameObject( gameObject ) ){
+      var list = gameObject.listRenderableComponents();
+      while( var i = 0, len = list.length; i < len; i++ ){
+        scene.add( list[i].mesh );
+      }
+    }
+
   };
 
   SceneManager.prototype.render = function() {
@@ -85,7 +98,6 @@ define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three',
       while ( camera.sceneIterator.hasNext() ) {
         scene = this.scenes.get( camera.sceneIterator.next() );
 
-        // TODO render based on ObjectManager tree hierarchy  
         if ( scene ) {
           this.renderer.render( scene, camera.cam );
         }

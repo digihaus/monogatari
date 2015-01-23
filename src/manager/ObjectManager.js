@@ -1,4 +1,8 @@
-define( [ 'core/GameObject', 'collection/Tree', 'collection/Map', 'component/Base', 'component/Node' ], function( _GameObject, _Tree, _Map, _Base, _Node ) {
+define( [ 'core/GameObject', 
+          'collection/Tree', 
+          'collection/Map', 
+          'component/Base', 
+          'component/Node' ], function( _GameObject, _Tree, _Map, _Base, _Node ) {
 
   var ObjectManager = function() {
     this.tree = new _Tree();
@@ -27,6 +31,8 @@ define( [ 'core/GameObject', 'collection/Tree', 'collection/Map', 'component/Bas
 
   ObjectManager.prototype.remove = function( id ) {
     var data = this.map.get( id );
+
+    // TODO remover do Map os filhos do nó da Tree
 
     if ( data ) {
       this.map.remove( id );
