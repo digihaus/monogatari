@@ -1,68 +1,20 @@
-define( [ 'core/GameObject', 
-          'collection/Tree', 
-          'collection/Map', 
-          'component/Base', 
-          'component/Node' ], function( _GameObject, _Tree, _Map, _Base, _Node ) {
+define( [ 'core/GameObject' ], function( _GameObject ) {
 
   var ObjectManager = function() {
-    this.tree = new _Tree();
-    this.map = new _Map();
-    this.mapIterator = this.map.iterator();
+    this.world = new GameObject();
   };
 
   ObjectManager.prototype.isGameObject = function( object ) {
     return ( object && object.id && object.equals instanceof Function && object.update instanceof Function ) ? true : false;
   };
 
-  ObjectManager.prototype.put = function( object, parent ) {
-    if ( this.isGameObject( object ) ) {
-      this.tree.put( object, parent );
-      this.map.put( object.id, object );
-    }
-  };
-
-  ObjectManager.prototype.get = function( id ) {
-    return this.map.get( id );
-  };
-
-  ObjectManager.prototype.size = function() {
-    return this.map.size();
-  };
-
-  ObjectManager.prototype.remove = function( id ) {
-    var data = this.map.get( id );
-
-    // TODO remover do Map os filhos do nó da Tree
-
-    if ( data ) {
-      this.map.remove( id );
-      this.tree.remove( data );
-    }
-  };
-
-  ObjectManager.prototype.clear = function() {
-    this.map.claer();
-    this.tree.clear();
-  };
-
   ObjectManager.prototype.update = function() {
-    var obj;
-
-    this.mapIterator.first();
-
-    while ( this.mapIterator.hasNext() ) {
-      obj = this.mapIterator.next();
-      if( obj.isActive ) {
-        obj.update();
-      }
-      obj.postUpdate();
-    }
+    // itera pelos GOS, partindo do world
   };
 
-  ObjectManager.prototype.getGlobalPosition = function() {};
-  ObjectManager.prototype.getGlobalRotation = function() {};
-  ObjectManager.prototype.getGlobalScale = function() {};
-  ObjectManager.prototype.getGlobalNode = function() {};
+  ObjectManager.prototype.attachToWorld = function( go ) {
+    this.world.children.push( go );
+  };
 
   return ObjectManager;
 
