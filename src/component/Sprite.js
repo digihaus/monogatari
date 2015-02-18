@@ -1,8 +1,7 @@
 define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Base, _BaseThree, _Three ) {
 
   var Sprite = function( sceneId, source, width, height, rows, cols ) {
-    _BaseThree.call( this );
-    this.type = _Base.SPRITE;
+    _BaseThree.call( this, _Base.SPRITE );
     this.isRenderable = true;
 
     this.sceneId = sceneId ? sceneId : null;

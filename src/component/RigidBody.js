@@ -8,7 +8,7 @@
 define( [ 'component/Base', 'lib/Box2d' ], function( _Base, _Box2d ) {
 
   var RigidBody = function( conversionFactor ) {
-    _Base.call( this, _Base.NODE );
+    _Base.call( this, _Base.RIGID_BODY );
 
     this.bodyDef = new b2BodyDef();
     this.materialDef = new b2FixtureDef();

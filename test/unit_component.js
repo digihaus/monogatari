@@ -1,11 +1,3 @@
-require( [ 'component/Node' ], function( _Node ) {
-  var n = new _Node();
-
-  assert( n != null, 'Node created', 'component', n );
-  assert( n.getEulerRotation() === 0, 'Node getEulerRotation', 'component' );
-
-} );
-
 require( [ 'component/Audio' ], function( _Audio ) {
   var audio = new _Audio( 'myid', 'assets/heat-on-the-road.ogg' );
 
