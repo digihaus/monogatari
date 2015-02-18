@@ -1,4 +1,4 @@
-define( [ 'core/collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'core/Math' ], function( _Map, _Camera2D, _Detector, _Three, _Math ) {
+define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'core/Math' ], function( _Map, _Camera2D, _Detector, _Three, _Math ) {
 
   var SceneManager = function() {
     this.cameras = new _Map();
