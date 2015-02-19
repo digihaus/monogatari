@@ -4,7 +4,7 @@ define( [ 'core/Common',
           'collection/Map', 
           'component/Base' ], function( _Common, _Math, _Timer, _Map, _Base ) {
 
-  var GameObject = function( id, update ) {
+  var GameObject = function( id, update, position, rotation, scale ) {
     this.uid = _Common.createUniqueId();
     this.id = id || this.uid;
 

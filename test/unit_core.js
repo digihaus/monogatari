@@ -8,7 +8,6 @@ require( [ 'core/Timer' ], function( _Timer ) {
     if( frames < 100 ){
       frames++;
       t.tick();
-      t.getFps();
       requestAnimationFrame( run );
     } else {
       assert( t.getFps() != null, 'Timer getFPS', 'core', t );
@@ -20,18 +19,26 @@ require( [ 'core/Timer' ], function( _Timer ) {
 
 require( [ 'core/GameObject' ], function( _GameObject ) {
 
-  var go = new _GameObject( 'bolovo', function() {
+  var go1 = new _GameObject( 'oromio', function() {
     console.log( 'oromio' );
   } );
 
-  assert( go != null, 'GameObject created', 'core/GameObject', go );
+  assert( go1 != null, 'GameObject created', 'core/GameObject', go1 );
+
+  var go2 = new _GameObject( 'bolovo', function() {
+    console.log( 'bolovo' );
+  } );
+
+  go1.children.push( go2 );
+
+  assert( go1.children.length > 0, 'GameObject hierarchy created', 'core/GameObject', go2 );
 
   var frames = 0;
 
   var run = function() {
     if( frames < 100 ){
       frames++;
-      go.update();
+      go1.update();
       requestAnimationFrame( run );
     }
   }
