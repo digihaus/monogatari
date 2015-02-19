@@ -2,23 +2,23 @@ define( [ 'manager/EventManager',
           'core/Timer', 
           'lib/Box2d' ], function( _EventManager, _Timer, _Box2d) {
 
-  function MonogatariPhysicsManager() {
+  function PhysicsManager() {
     this.world = null;
     this.velocityIterations = 10;
     this.positionIterations = 10;
     this.clearForcesOnUpdate = false;
   }
 
-  MonogatariPhysicsManager.prototype.createWorld = function( gravity, allowSleep ) {
+  PhysicsManager.prototype.createWorld = function( gravity, allowSleep ) {
     this.world = new b2World( new b2Vec2( gravity.x, gravity.y ), allowSleep );
     this.createListener();
   };
 
-  MonogatariPhysicsManager.prototype.createBody = function( bodyDef ) {
+  PhysicsManager.prototype.createBody = function( bodyDef ) {
     return this.world.CreateBody( bodyDef );
   };
 
-  MonogatariPhysicsManager.prototype.createListener = function() {
+  PhysicsManager.prototype.createListener = function() {
     var listener = new b2ContactListener();
 
     listener.BeginContact = function( contact ) {
@@ -32,17 +32,17 @@ define( [ 'manager/EventManager',
     };
 
     /*
-     * listener.PreSolve = function( contact, oldManifold ) { Monogatari.EventManager.notify("box2D_preSolve", {
+     * listener.PreSolve = function( contact, oldManifold ) { _EventManager.notify("box2D_preSolve", {
      * "contact": contact, "oldManifold": oldManifold } ); };
      *
-     * listener.PostSolve = function( contact, impulse ) { Monogatari.EventManager.notify("box2D_postSolve", {
+     * listener.PostSolve = function( contact, impulse ) { _EventManager.notify("box2D_postSolve", {
      * "contact": contact, "impulse": impulse } ); };
      */
 
     this.world.SetContactListener( listener );
   };
 
-  MonogatariPhysicsManager.prototype.update = function() {
+  PhysicsManager.prototype.update = function() {
     if ( this.world ) {
       var fps = _Timer.getFps();
 
@@ -60,6 +60,6 @@ define( [ 'manager/EventManager',
     }
   };
 
-  Monogatari.PhysicsManager = new MonogatariPhysicsManager();
+  return PhysicsManager;
 
 } );

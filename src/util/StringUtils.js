@@ -1,6 +1,10 @@
-define(function() {
+define( [ 'core/ArrayUtils' ], function( _ArrayUtils ) {
 
   return {
+
+    REGEXP_URL : /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+    REGEXP_BETWEEN_SQUARE_BRACKETS : /\[[\w|\W]+\]/;
+    REGEXP_ENDLINE : /\r\n|\r|\n/;
 
     /**
     * @description Substring from left to right
@@ -72,7 +76,7 @@ define(function() {
     * @return {boolean} True if {@code str} consists of an url
     */
     isUrl: function( str ) {
-      return Monogatari.Constants.REGEXP_URL.test( str );
+      return this.REGEXP_URL.test( str );
     },
 
     /**
@@ -126,7 +130,7 @@ define(function() {
     * @example var s = pc.string.format("Hello {0}", "world"); console.log(s); // Prints "Hello world"
     */
     format: function( str ) {
-      var regexp, args = Monogatari.Array.flat( arguments );
+      var regexp, args = _ArrayUtils.flat( arguments );
 
       // drop first argument
       args.shift();

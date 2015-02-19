@@ -30,10 +30,6 @@ define( [ 'core/Timer',
     this.mouse = null;
   };
 
-  Monogatari.REGEXP_URL = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-  Monogatari.REGEXP_BETWEEN_SQUARE_BRACKETS = /\[[\w|\W]+\]/;
-  Monogatari.REGEXP_ENDLINE = /\r\n|\r|\n/;
-
   Monogatari.init = function( bgcolor, width, height, target ) {
     this.scenes.init( bgcolor, width, height, target );
 
