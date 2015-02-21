@@ -1,10 +1,9 @@
 define( [ 'component/Base', 'lib/Three' ], function( _Base, _Three ) {
 
-  var BaseThree = function( sceneId, material, geometry, type ) {
+  var BaseThree = function( material, geometry, type ) {
     _Base.call( this, _Base.BASE_THREE );
     this.isRenderable = true;
 
-    this.sceneId = ( sceneId ) ? sceneId : null;
     this.texture = null;
     this.material = ( material ) ? material : null;
     this.geometry = ( geometry ) ? geometry : null;
@@ -44,14 +43,6 @@ define( [ 'component/Base', 'lib/Three' ], function( _Base, _Three ) {
 
   BaseThree.prototype.getTexture = function() {
     return this.texture;
-  };
-
-  BaseThree.prototype.setSceneId = function( sceneId ) {
-    this.sceneId = ( sceneId ) ? sceneId : null;
-  };
-
-  BaseThree.prototype.getSceneId = function() {
-    return this.sceneId;
   };
 
   BaseThree.prototype.show = function() {

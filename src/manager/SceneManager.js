@@ -1,4 +1,4 @@
-define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'core/Math' ], function( _Map, _Camera2D, _Detector, _Three, _Math ) {
+define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'core/Math' ], function( _Map, _Camera2D, _Detector, Three, _Math ) {
 
   var SceneManager = function() {
     this.cameras = new _Map();
@@ -6,21 +6,21 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'cor
     this.scenes = new _Map();
   };
 
-  SceneManager.DEFAULT_CAMERA_ID = 'default_camera_id';
-  SceneManager.DEFAULT_SCENE_ID = 'default_scene_id';
+  SceneManager.prototype.DEFAULT_CAMERA_ID = 'default_camera_id';
+  SceneManager.prototype.DEFAULT_SCENE_ID = 'default_scene_id';
 
   SceneManager.prototype.init = function( bgcolor, width, height, target ) {
     // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
-    this.renderer = _Detector.webgl ? new _Three.WebGLRenderer( {
+    this.renderer = Detector.webgl ? new THREE.WebGLRenderer( {
       antialias : false
-    } ) : new _Three.CanvasRenderer();
+    } ) : new THREE.CanvasRenderer();
 
     // Set the background color of the renderer, with full opacity
     this.renderer.setClearColor( ( bgcolor ) ? bgcolor : 0xFFFFFF, 1 );
 
     // if no dimensions are provided, get the size of the inner window (content area) to create a full size renderer
-    this.canvasWidth = ( width ) ? width : window.innerWidth - 25;
-    this.canvasHeight = ( height ) ? height : window.innerHeight - 25;
+    this.canvasWidth = ( width ) ? width : window.innerWidth - 20;
+    this.canvasHeight = ( height ) ? height : window.innerHeight - 20;
 
     // since the rendering area is actually 3D, a Z translation on camera is required.
     this.z = _Math.max( this.canvasWidth, this.canvasHeight );
@@ -31,11 +31,15 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'cor
     // attach a canvas tag on the body
     var body = ( target ) ? target : document.getElementsByTagName( 'body' )[ 0 ];
     body.appendChild( this.renderer.domElement );
+
+    this.createScene();
+    this.createCamera();
+
   };
 
-  // create a Three.scene
+  // create a THREE.scene
   SceneManager.prototype.createScene = function( sceneId ) {
-    this.scenes.put( sceneId ? sceneId : this.DEFAULT_SCENE_ID, new _Three.Scene() );
+    this.scenes.put( sceneId ? sceneId : this.DEFAULT_SCENE_ID, new THREE.Scene() );
   };
 
   // create a camera to a scene
@@ -58,7 +62,7 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'cor
       // left, right, top, bottom, near, far
       var camera = new _Camera2D( width / -2, width / 2, height / 2, height / -2, 1, _Math.max( width, height ) );
 
-      camera.addScene( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID );
+      camera.addScene( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID, scene );
       this.cameras.put( cameraId, camera );
 
     } else {
@@ -86,11 +90,10 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/Three', 'cor
     // iterate all cameras
     while ( this.cameraIterator.hasNext() ) {
       camera = this.cameraIterator.next();
-      camera.sceneIterator.first();
 
       // iterate all scenes registered to render on this camera
-      while ( camera.sceneIterator.hasNext() ) {
-        scene = this.scenes.get( camera.sceneIterator.next() );
+      for ( var i = 0, len = camera.scenes.length; i < len; i++ ) {
+        scene = this.scenes.get( camera.scenes[i] );
 
         if ( scene ) {
           this.renderer.render( scene, camera.cam );

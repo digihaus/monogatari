@@ -1,10 +1,10 @@
 define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Base, _BaseThree, _Three ) {
 
-  var Sprite = function( sceneId, source, width, height, rows, cols ) {
-    _BaseThree.call( this, _Base.SPRITE );
+  var Sprite = function( source, width, height, rows, cols ) {
+    _BaseThree.call( this, null, null, _Base.SPRITE );
+    this.componentType = _Base.SPRITE; // ???
     this.isRenderable = true;
 
-    this.sceneId = sceneId ? sceneId : null;
     this.texture = THREE.ImageUtils.loadTexture( ( source ) ? source : 'assets/bad-texture.png' );
     this.texture.wrapS = this.texture.wrapT = THREE.RepeatWrapping;
     this.texture.flipY = true;
@@ -36,7 +36,7 @@ define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Bas
     } );
     this.material.transparent = true;
 
-    this.geometry = new THREE.PlaneGeometry( this.w, this.h, 1, 1 );
+    this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
 
     this.mesh = new THREE.Mesh( this.geometry, this.material );
   }

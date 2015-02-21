@@ -13,7 +13,7 @@ define( [ 'core/Common',
     this.scale = ( scale ) ? scale : new THREE.Vector3( 1, 1, 1 );
 
     this.components = new _Map();
-    this.componentsIter = this.components.iterator();
+    this.componentsIt = this.components.iterator();
 
     this.children = [];
 
@@ -58,8 +58,7 @@ define( [ 'core/Common',
   };
 
   GameObject.prototype.addComponent = function( component ) {
-    this.checkComponent( component );
-    return this.components.put( component.componentType, component );
+    this.components.put( component.componentType, component );
   };
 
   GameObject.prototype.findComponent = function( type ) {
@@ -81,9 +80,9 @@ define( [ 'core/Common',
   GameObject.prototype.listRenderableComponents = function() {
     var list = [];
     var c;
-    componentsIter.first();
-    while ( componentsIter.hasNext() ) {
-      c = componentsIter.next();
+    this.componentsIt.first();
+    while ( this.componentsIt.hasNext() ) {
+      c = this.componentsIt.next();
       if ( c.isRenderable ) {
         list.push( c );
       }
@@ -103,9 +102,9 @@ define( [ 'core/Common',
 
     var component;
 
-    this.componentIter.first();
-    while ( this.componentsIter.hasNext() ) {
-      component = this.componentsIter.next();
+    this.componentIt.first();
+    while ( this.componentsIt.hasNext() ) {
+      component = this.componentsIt.next();
       // if is a component to be rendered, need to update engine transformations to Three.js transformations
       if ( component.isRenderable && typeof ( component.getMesh ) === 'function' ) {
         component.getMesh().position = this.position;

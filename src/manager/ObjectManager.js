@@ -1,7 +1,7 @@
 define( [ 'core/GameObject' ], function( _GameObject ) {
 
   var ObjectManager = function() {
-    this.world = new GameObject();
+    this.world = new _GameObject();
   };
 
   ObjectManager.prototype.isGameObject = function( object ) {

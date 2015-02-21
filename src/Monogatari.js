@@ -21,20 +21,21 @@ define( [ 'core/Timer',
 
   var Monogatari = function() {
     this.timer = new _Timer();
-    this.objects = new _ObjectManager();
-    this.scenes = new _SceneManager();
-    this.physics = new _PhysicsManager();
+    this.objectManager = new _ObjectManager();
+    this.sceneManager = new _SceneManager();
+    this.physicsManager = new _PhysicsManager();
     this.random = _Chance;
     this.browser = _browser;
     this.keyboard = null;
     this.mouse = null;
   };
 
-  Monogatari.init = function( bgcolor, width, height, target ) {
-    this.scenes.init( bgcolor, width, height, target );
+  Monogatari.prototype.init = function( bgcolor, width, height, target ) {
+    this.sceneManager.init( bgcolor, width, height, target );
 
     // keyboard input setup
-    this.keyboard = new _Keyboard( this.timer );
+
+    /*this.keyboard = new _Keyboard( this.timer );
     window.addEventListener( 'keyup', function( event ) {
       this.keyboard.onKeyUp( event );
     }, false );
@@ -53,19 +54,20 @@ define( [ 'core/Timer',
     window.addEventListener( 'mouseup', function( event ) {
       this.mouse.onMouseUp( event );
     }, false );
+    */
   };
 
-  Monogatari.update = function() {
+  Monogatari.prototype.update = function() {
     this.timer.tick();
-    this.physics.update();
-    this.objects.update();
+    this.physicsManager.update();
+    this.objectManager.update();
   };
 
-  Monogatari.render = function() {
-    this.scenes.render();
+  Monogatari.prototype.render = function() {
+    this.sceneManager.render();
   };
 
-  Monogatari.run = function() {
+  Monogatari.prototype.run = function() {
     requestAnimationFrame( this.run.bind( this ) );
     this.update();
     this.render();
