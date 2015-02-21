@@ -33,13 +33,13 @@ require( [ 'component/Audio' ], function( _Audio ) {
 } );
 
 require( [ 'component/Sprite' ], function( _Sprite ) {
-  var sprite = new _Sprite( 'mainScene', 'assets/zombies.png', 64, 64, 1, 3 );
+  var sprite = new _Sprite( 'assets/zombies.png', 64, 64, 1, 3 );
 
   assert( sprite != null, 'Sprite created', 'component', sprite );
 } );
 
 require( [ 'component/StaticText' ], function ( _StaticText ) {
-  var text = new _StaticText( 'mainScene', 'OROMIO', 12, "Caesar Dressing" );
+  var text = new _StaticText( 'OROMIO', 12, "Caesar Dressing" );
 
   assert( text != null, 'StaticText created', 'component', text );
 
