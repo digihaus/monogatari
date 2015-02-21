@@ -126,7 +126,7 @@ define( function() {
         event.preventDefault();
     }
 
-    this.pressed[ event.keyCode ] = timer.time;
+    this.pressed[ event.keyCode ] = timer.getTime();
   };
 
   Keyboard.prototype.onKeyUp = function( event ) {

@@ -20,7 +20,7 @@ define( [ 'core/Timer',
   _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
   var Monogatari = function() {
-    this.timer = new _Timer();
+    window.timer = new _Timer();
     this.objectManager = new _ObjectManager();
     this.sceneManager = new _SceneManager();
     this.physicsManager = new _PhysicsManager();
@@ -34,31 +34,30 @@ define( [ 'core/Timer',
     this.sceneManager.init( bgcolor, width, height, target );
 
     // keyboard input setup
-
-    /*this.keyboard = new _Keyboard( this.timer );
+    window.keyboard = new _Keyboard( this.timer );
     window.addEventListener( 'keyup', function( event ) {
-      this.keyboard.onKeyUp( event );
+      this.keyboard.onKeyUp( event, this.timer );
     }, false );
     window.addEventListener( 'keydown', function( event ) {
-      this.keyboard.onKeyDown( event );
+      this.keyboard.onKeyDown( event, this.timer );
     }, false );
 
     // mouse input setup
-    this.mouse = new _Mouse( this.timer );
+    window.mouse = new _Mouse( this.timer );
     window.addEventListener( 'mousemove', function( event ) {
-      this.mouse.onMouseMove( event );
+      this.mouse.onMouseMove( event, this.timer );
     }, false );
     window.addEventListener( 'mousedown', function( event ) {
-      this.mouse.onMouseDown( event );
+      this.mouse.onMouseDown( event, this.timer );
     }, false );
     window.addEventListener( 'mouseup', function( event ) {
-      this.mouse.onMouseUp( event );
+      this.mouse.onMouseUp( event, this.timer );
     }, false );
-    */
+
   };
 
   Monogatari.prototype.update = function() {
-    this.timer.tick();
+    window.timer.tick();
     this.physicsManager.update();
     this.objectManager.update();
   };
@@ -72,6 +71,8 @@ define( [ 'core/Timer',
     this.update();
     this.render();
   };
+
+  window.Monogatari = Monogatari;
 
   return Monogatari;
 

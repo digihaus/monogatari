@@ -1,7 +1,7 @@
 define( [ 'lib/Three' ], function( _Three ) {
 
   var Mouse = function() {
-    this.pressed = new Int8Array( 6 );
+    this.pressed = new Int16Array( 6 );
     this.buffer = new THREE.Vector3( 0, 0, 0 );
     this.position = new THREE.Vector3( 0, 0, 0 );
 
@@ -27,7 +27,7 @@ define( [ 'lib/Three' ], function( _Three ) {
 
   Mouse.prototype.onMouseDown = function( event, timer ) {
     event.preventDefault();
-    this.pressed[ event.button ] = timer.time;
+    this.pressed[ event.button ] = timer.getTime();
   };
 
   Mouse.prototype.onMouseUp = function( event ) {
@@ -36,7 +36,7 @@ define( [ 'lib/Three' ], function( _Three ) {
 
   Mouse.prototype.getMousePositionOnElement = function( e ) {
     var rect = e.getBoundingClientRect();
-    this.buffer.set( this.position.getX() - rect.left, this.position.getY() - rect.top, 0 );
+    this.buffer.set( this.position.x - rect.left, this.position.y - rect.top, 0 );
     return this.buffer;
   };
 

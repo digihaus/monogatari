@@ -4,7 +4,7 @@ define( [ 'core/Math' ], function( _Math ) {
     this.time = 0;
     this.lastTime = 0;
     this.maxStep = 60;
-    this.cycleTime = 1e9;
+    this.cycleTime = 1000000000;
     this.lastFrameTime = 0;
     this.frameTicks = 0;
     this.fps = 0;
@@ -19,7 +19,7 @@ define( [ 'core/Math' ], function( _Math ) {
     var delta = now - this.lastTime;
 
     if ( this.time > this.cycleTime ) {
-      time = 0;
+      this.time = 0;
     }
 
     this.time += _Math.min( delta, this.maxStep );

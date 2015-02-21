@@ -74,7 +74,7 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'cor
   // find all renderable components of a given Game Object and attach the on the scene to be rendered  
   SceneManager.prototype.attachToScene = function( gameObject, sceneId ) {
     var list = gameObject.listRenderableComponents();
-    var scene = this.scenes.get( sceneId ? sceneId : SceneManager.DEFAULT_SCENE_ID );
+    var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
 
     for( var  i = 0, len = list.length; i < len; i++  ){
       scene.add( list[i].getMesh() );
