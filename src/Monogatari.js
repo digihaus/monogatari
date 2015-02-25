@@ -6,8 +6,20 @@ define( [ 'core/Timer',
           'manager/ObjectManager',
           'lib/Chance',
           'core/GameObject',
-          'component/Sprite'],
-          function( _Timer, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _ObjectManager, _Chance , _GameObject, _Sprite) {
+          'component/Audio',
+          'component/Base',
+          'component/BaseThree',
+          'component/RigidBody',
+          'component/Sprite',
+          'component/StaticText',
+          'collection/List',
+          'collection/Map',
+          'util/ArrayUtils',
+          'util/CommonUtils',
+          'util/StringUtils'],
+          function( _Timer, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _ObjectManager, _Chance , 
+                    _GameObject, _Audio, _Base, _BaseThree, _RigidBody, _Sprite, _StaticText,
+                    _List, _Map, _ArrayUtils, _CommonUtils, _StringUtils) {
 
   var _browser = {};
   _browser.agent = window.navigator.userAgent;
@@ -22,6 +34,8 @@ define( [ 'core/Timer',
   _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
   var Monogatari = function() {
+
+    // core engine modules
     this.timer = new _Timer();
     this.objectManager = new _ObjectManager();
     this.sceneManager = new _SceneManager();
@@ -30,9 +44,25 @@ define( [ 'core/Timer',
     this.browser = _browser;
     this.keyboard = null;
     this.mouse = null;
+    this.gamepad = null;
 
+    // utils
+    this.arrayUtils = _ArrayUtils;
+    this.commonUtils = _CommonUtils;
+    this.stringUtils = _StringUtils;
+
+    // collections
+    this.list = _List;
+    this.map = _Map;
+
+    // engine building blocks
     this.GameObject = _GameObject;
+    this.Audio = _Audio;
+    this.Base = _Base;
+    this.BaseThree = _BaseThree;
+    this.RigidBody = _RigidBody;
     this.Sprite = _Sprite;
+    this.StaticText = _StaticText;
   };
 
   Monogatari.prototype.init = function( bgcolor, width, height, target ) {
