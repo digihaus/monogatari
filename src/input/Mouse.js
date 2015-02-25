@@ -1,7 +1,7 @@
 define( [ 'lib/Three' ], function( _Three ) {
 
   var Mouse = function() {
-    this.pressed = new Int16Array( 6 );
+    this.pressed = new Int32Array( 8 );
     this.buffer = new THREE.Vector3( 0, 0, 0 );
     this.position = new THREE.Vector3( 0, 0, 0 );
 
@@ -16,6 +16,8 @@ define( [ 'lib/Three' ], function( _Three ) {
   Mouse.B3 = 3;
   Mouse.B4 = 4;
   Mouse.B5 = 5;
+  Mouse.B6 = 6;
+  Mouse.B7 = 7;
 
   Mouse.prototype.isDown = function( button ) {
     return ( this.pressed[ button ] === -1 ) ? null : this.pressed[ button ];

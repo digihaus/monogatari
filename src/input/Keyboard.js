@@ -1,7 +1,7 @@
 define( function() {
 
   var Keyboard = function() {
-    this.pressed = new Int16Array( 256 );
+    this.pressed = new Int32Array( 256 );
 
     for ( var i = 0, len = this.pressed.length; i < len; i++ ) {
       this.pressed[ i ] = -1;

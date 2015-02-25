@@ -14,7 +14,7 @@ define( [ 'manager/EventManager',
     this.createListener();
   };
 
-  PhysicsManager.prototype.createBody = function( bodyDef ) {
+  PhysicsManager.prototype.attachToWorld = function( bodyDef ) {
     return this.world.CreateBody( bodyDef );
   };
 

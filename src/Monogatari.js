@@ -4,8 +4,10 @@ define( [ 'core/Timer',
           'manager/SceneManager',
           'manager/PhysicsManager',
           'manager/ObjectManager',
-          'lib/Chance' ],
-          function( _Timer, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _ObjectManager, _Chance ) {
+          'lib/Chance',
+          'core/GameObject',
+          'component/Sprite'],
+          function( _Timer, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _ObjectManager, _Chance , _GameObject, _Sprite) {
 
   var _browser = {};
   _browser.agent = window.navigator.userAgent;
@@ -20,7 +22,7 @@ define( [ 'core/Timer',
   _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
   var Monogatari = function() {
-    window.timer = new _Timer();
+    this.timer = new _Timer();
     this.objectManager = new _ObjectManager();
     this.sceneManager = new _SceneManager();
     this.physicsManager = new _PhysicsManager();
@@ -28,36 +30,40 @@ define( [ 'core/Timer',
     this.browser = _browser;
     this.keyboard = null;
     this.mouse = null;
+
+    this.GameObject = _GameObject;
+    this.Sprite = _Sprite;
   };
 
   Monogatari.prototype.init = function( bgcolor, width, height, target ) {
+    var ctx = this;
     this.sceneManager.init( bgcolor, width, height, target );
 
     // keyboard input setup
-    window.keyboard = new _Keyboard( this.timer );
+    this.keyboard = new _Keyboard();
     window.addEventListener( 'keyup', function( event ) {
-      this.keyboard.onKeyUp( event, this.timer );
+      ctx.keyboard.onKeyUp( event, ctx.timer );
     }, false );
     window.addEventListener( 'keydown', function( event ) {
-      this.keyboard.onKeyDown( event, this.timer );
+      ctx.keyboard.onKeyDown( event, ctx.timer );
     }, false );
 
     // mouse input setup
-    window.mouse = new _Mouse( this.timer );
+    this.mouse = new _Mouse();
     window.addEventListener( 'mousemove', function( event ) {
-      this.mouse.onMouseMove( event, this.timer );
+      ctx.mouse.onMouseMove( event, ctx.timer );
     }, false );
     window.addEventListener( 'mousedown', function( event ) {
-      this.mouse.onMouseDown( event, this.timer );
+      ctx.mouse.onMouseDown( event, ctx.timer );
     }, false );
     window.addEventListener( 'mouseup', function( event ) {
-      this.mouse.onMouseUp( event, this.timer );
+      ctx.mouse.onMouseUp( event, ctx.timer );
     }, false );
 
   };
 
   Monogatari.prototype.update = function() {
-    window.timer.tick();
+    this.timer.tick();
     this.physicsManager.update();
     this.objectManager.update();
   };
@@ -72,8 +78,6 @@ define( [ 'core/Timer',
     this.render();
   };
 
-  window.Monogatari = Monogatari;
-
-  return Monogatari;
+  return new Monogatari();
 
 } );
