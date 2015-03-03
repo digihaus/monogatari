@@ -52,8 +52,8 @@ define( [ 'core/Timer',
     this.stringUtils = _StringUtils;
 
     // collections
-    this.list = _List;
-    this.map = _Map;
+    this.List = _List;
+    this.Map = _Map;
 
     // engine building blocks
     this.GameObject = _GameObject;
