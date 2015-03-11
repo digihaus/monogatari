@@ -37,7 +37,7 @@ define( [ 'core/Timer',
 
     // core engine modules
     this.timer = new _Timer();
-    this.objectManager = new _ObjectManager();
+    this.world = new _GameObject('world');
     this.sceneManager = new _SceneManager();
     this.physicsManager = new _PhysicsManager();
     this.random = _Chance;
@@ -95,7 +95,7 @@ define( [ 'core/Timer',
   Monogatari.prototype.update = function() {
     this.timer.tick();
     this.physicsManager.update();
-    this.objectManager.update();
+    this.world.updateAll();
   };
 
   Monogatari.prototype.render = function() {

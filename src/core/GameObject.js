@@ -32,7 +32,7 @@ define( [ 'core/Common',
 //  };
 
   GameObject.prototype.postUpdate = function() {
-    this.lastUpdate = _Timer.getTime();
+    //this.lastUpdate = _Timer.getTime();
     if( this.isActive ) {
       this.updateComponents();
     }
@@ -102,7 +102,7 @@ define( [ 'core/Common',
 
     var component;
 
-    this.componentIt.first();
+    this.componentsIt.first();
     while ( this.componentsIt.hasNext() ) {
       component = this.componentsIt.next();
       // if is a component to be rendered, need to update engine transformations to Three.js transformations
@@ -116,6 +116,16 @@ define( [ 'core/Common',
 
   GameObject.prototype.equals = function( go ) {
     return ( go.id === this.id ) ? true : false;
+  };
+
+  GameObject.prototype.updateAll = function() {
+
+    for( var i = 0, len = this.children.length; i < len; i++){
+      this.children[i].updateAll();
+    }
+
+    this.update();
+    this.postUpdate();
   };
 
   return GameObject;
