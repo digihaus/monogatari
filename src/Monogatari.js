@@ -17,7 +17,7 @@ define( [ 'core/Timer',
           'util/ArrayUtils',
           'util/CommonUtils',
           'util/StringUtils'],
-          function( _Timer, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _ObjectManager, _Chance , 
+          function( _Timer, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _ObjectManager, _Chance,
                     _GameObject, _Audio, _Base, _BaseThree, _RigidBody, _Sprite, _StaticText,
                     _List, _Map, _ArrayUtils, _CommonUtils, _StringUtils) {
 
