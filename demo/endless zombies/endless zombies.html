@@ -17,6 +17,7 @@
 
           hero.update = function(){
             var sprite = this.findComponent( m.Base.SPRITE );
+
             var speed = 3;
 
             if ( m.keyboard.isDown( m.keyboard.W ) != null ){
@@ -35,7 +36,10 @@
               this.position.x += speed;
             }
 
-            //console.log(this.position);
+
+            sprite.getMesh().position.x = this.position.x;
+            sprite.getMesh().position.y = this.position.y;
+
           };
 
           m.sceneManager.attachToScene( hero );
