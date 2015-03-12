@@ -25,12 +25,6 @@ define( [ 'core/Common',
     this.update = ( update && typeof ( update ) === 'function' ) ? update : function() {};
   };
 
-//  GameObject.prototype.negate = function() {
-//    this.position.negate();
-//    this.rotation.negate();
-//    this.scale.negate();
-//  };
-
   GameObject.prototype.postUpdate = function() {
     //this.lastUpdate = _Timer.getTime();
     if( this.isActive ) {
@@ -47,12 +41,13 @@ define( [ 'core/Common',
   GameObject.prototype.getEulerRotationToTarget = function( target, axis ) {
     var position = this.position.clone();
     var rotation = this.rotation.clone();
-    var a = ( axis ) ? axis : _Math.getYAlignedVector();
-    var angle = this.rotation.angleTo( a );
 
     position.y = - position.y;
     rotation = target.sub( position );
     rotation.normalize();
+
+    var a = ( axis ) ? axis : _Math.getYAlignedVector();
+    var angle = rotation.angleTo( a );
 
     return ( rotation.y * a.x > rotation.x * a.y ) ? -angle : angle;
   };
@@ -107,9 +102,9 @@ define( [ 'core/Common',
       component = this.componentsIt.next();
       // if is a component to be rendered, need to update engine transformations to Three.js transformations
       if ( component.isRenderable && typeof ( component.getMesh ) === 'function' ) {
-        component.getMesh().position = this.position;
-        component.getMesh().rotation.z = this.getEulerRotation();
-        component.getMesh().scale = this.scale;
+        component.getMesh().position.set( this.position.x, this.position.y, this.position.z);
+        component.getMesh().rotation.z = this.rotation.z;
+        component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z);
       }
     }
   };

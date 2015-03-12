@@ -3,8 +3,16 @@
 <html>
     <head>
         <title>Endless Zombies</title>
-        <script type="text/javascript" src="../../dist/monogatari-0.1.0-dev.min.js"></script>
+        <script type="text/javascript" src="../../lib/Require.js"></script>
         <script>
+
+        require.config( {
+          baseUrl : '../../src',
+          paths: {
+              lib: '../lib'
+          }
+        } );
+
         require( [ 'Monogatari' ], function( m ) {
 
           m.init( "#000" );
@@ -17,29 +25,29 @@
 
           hero.update = function(){
             var sprite = this.findComponent( m.Base.SPRITE );
+            var mousePos = m.mouse.position.clone();
 
             var speed = 3;
 
-            if ( m.keyboard.isDown( m.keyboard.W ) != null ){
+            if ( m.keyboard.isDown( m.keyboard.W ) ){
               this.position.y += speed;
             }
 
-            if ( m.keyboard.isDown( m.keyboard.A ) != null ){
+            if ( m.keyboard.isDown( m.keyboard.A ) ){
               this.position.x -= speed;
             }
 
-            if ( m.keyboard.isDown( m.keyboard.S ) != null ){
+            if ( m.keyboard.isDown( m.keyboard.S ) ){
               this.position.y -= speed;
             }
 
-            if ( m.keyboard.isDown( m.keyboard.D ) != null ){
+            if ( m.keyboard.isDown( m.keyboard.D ) ){
               this.position.x += speed;
             }
 
+            mousePos.sub( new THREE.Vector3( ( m.sceneManager.canvasWidth / 2 ), ( m.sceneManager.canvasHeight / 2 ), 0 ) );
 
-            sprite.getMesh().position.x = this.position.x;
-            sprite.getMesh().position.y = this.position.y;
-
+            this.rotation.z  = this.getEulerRotationToTarget( mousePos );
           };
 
           m.sceneManager.attachToScene( hero );
