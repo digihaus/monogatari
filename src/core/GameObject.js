@@ -85,6 +85,10 @@ define( [ 'core/Common',
     return list;
   };
 
+  GameObject.prototype.lookAt = function( target ) {
+    this.rotation.z  = this.getEulerRotationToTarget( target );
+  };
+
   GameObject.prototype.updateComponents = function() {
     var rigidBody = this.findComponent( _Base.RIGID_BODY );
 

@@ -47,7 +47,7 @@
 
             mousePos.sub( new THREE.Vector3( ( m.sceneManager.canvasWidth / 2 ), ( m.sceneManager.canvasHeight / 2 ), 0 ) );
 
-            this.rotation.z  = this.getEulerRotationToTarget( mousePos );
+            this.lookAt( mousePos );
           };
 
           m.sceneManager.attachToScene( hero );
