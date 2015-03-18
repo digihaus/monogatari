@@ -29,7 +29,7 @@ define( [ 'lib/Three' ], function( _Three ) {
 
   Mouse.prototype.onMouseDown = function( event, timer ) {
     event.preventDefault();
-    this.pressed[ event.button ] = timer.getTime();
+    this.pressed[ event.button ] = timer.time;
   };
 
   Mouse.prototype.onMouseUp = function( event ) {

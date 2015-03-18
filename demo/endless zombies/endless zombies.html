@@ -27,7 +27,9 @@
             var sprite = this.findComponent( m.Base.SPRITE );
             var mousePos = m.mouse.position.clone();
 
-            var speed = 3;
+            console.log(m.timer.fps, m.timer.time);
+
+            var speed = 200 * 1 / m.timer.fps;
 
             if ( m.keyboard.isDown( m.keyboard.W ) ){
               this.position.y += speed;

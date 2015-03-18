@@ -1,5 +1,5 @@
-define( [ 'manager/EventManager', 
-          'core/Timer', 
+define( [ 'manager/EventManager',
+          'core/Timer',
           'lib/Box2d' ], function( _EventManager, _Timer, _Box2d) {
 
   function PhysicsManager() {
@@ -44,6 +44,7 @@ define( [ 'manager/EventManager',
 
   PhysicsManager.prototype.update = function() {
     if ( this.world ) {
+      // TODO: Pegar FPS direito do Timer
       var fps = _Timer.getFps();
 
       // The more iterations, the more accurate the calculations
