@@ -8,16 +8,16 @@ define( [ 'lib/Three' ], function( _Three ) {
     for ( var i = 0, len = this.length; i < len; i++ ) {
       this.pressed[ i ] = -1;
     }
-  };
 
-  Mouse.LMB = 0;
-  Mouse.MID = 1;
-  Mouse.RMB = 2;
-  Mouse.B3 = 3;
-  Mouse.B4 = 4;
-  Mouse.B5 = 5;
-  Mouse.B6 = 6;
-  Mouse.B7 = 7;
+    this.LMB = 0;
+    this.MID = 1;
+    this.RMB = 2;
+    this.B3 = 3;
+    this.B4 = 4;
+    this.B5 = 5;
+    this.B6 = 6;
+    this.B7 = 7;
+  };
 
   Mouse.prototype.isDown = function( button ) {
     return ( this.pressed[ button ] === -1 ) ? null : this.pressed[ button ];
