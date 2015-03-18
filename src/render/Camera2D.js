@@ -6,7 +6,8 @@ define( [ 'collection/Map', 'lib/Three' ], function( _Map, _Three ) {
   var Camera2D = function( left, right, top, bottom, near, far ) {
     // a THREE.Camera object
     this.cam = new THREE.OrthographicCamera( left, right, top, bottom, near, far );
-    this.cam.position.set( 0, 0, far );
+    // translate the point of origin (0,0,0), to the top left corner
+    this.cam.position.set( right, bottom, far );
 
     this.scenes = [];
   };

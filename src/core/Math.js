@@ -3,7 +3,7 @@ define( [ 'lib/Three' ], function( _Three ) {
   var Math = {};
 
   var X_ALIGNED_VECTOR = new THREE.Vector3( 1, 0, 0 );
-  var Y_ALIGNED_VECTOR =  new THREE.Vector3( 0, 1, 0 );
+  var Y_ALIGNED_VECTOR = new THREE.Vector3( 0, 1, 0 );
   var Z_ALIGNED_VECTOR = new THREE.Vector3( 0, 0, 1 );
   var ONE = new THREE.Vector3( 1, 1, 1 );
   var ZERO = new THREE.Vector3( 0, 0, 0 );

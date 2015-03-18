@@ -33,23 +33,30 @@ define( [ 'core/Common',
   };
 
   GameObject.prototype.getEulerRotation = function( axis ) {
-    var a = ( axis ) ? axis : _Math.getYAlignedVector();
+    var a = ( axis ) ? axis.clone() : _Math.getYAlignedVector().clone();
+    //flip Y to calculate properly according to the orthographic camera
+    a.y = -a.y;
     var angle = this.rotation.angleTo( a );
-    return ( this.rotation.y * a.x > this.rotation.x * a.y ) ? -angle : angle;
+    return ( this.rotation.y * a.x > this.rotation.x * a.y ) ? angle : -angle;
   },
 
-  GameObject.prototype.getEulerRotationToTarget = function( target, axis ) {
-    var position = this.position.clone();
-    var rotation = this.rotation.clone();
+  GameObject.prototype.lookAt = function( target ) {
+    this.rotation.z  = this.getEulerRotationToTarget( target );
+  };
 
-    position.y = - position.y;
-    rotation = target.sub( position );
+  GameObject.prototype.getEulerRotationToTarget = function( target, axis ) {
+    var rotation = this.rotation.clone();
+    var t = target.clone();
+
+    rotation = t.sub( this.position );
     rotation.normalize();
 
-    var a = ( axis ) ? axis : _Math.getYAlignedVector();
+    var a = ( axis ) ? axis.clone() : _Math.getYAlignedVector().clone();
+    //flip Y to calculate properly according to the orthographic camera
+    a.y = -a.y;
     var angle = rotation.angleTo( a );
 
-    return ( rotation.y * a.x > rotation.x * a.y ) ? -angle : angle;
+    return ( rotation.y * a.x > rotation.x * a.y ) ? angle : -angle;
   };
 
   GameObject.prototype.addComponent = function( component ) {
@@ -83,10 +90,6 @@ define( [ 'core/Common',
       }
     }
     return list;
-  };
-
-  GameObject.prototype.lookAt = function( target ) {
-    this.rotation.z  = this.getEulerRotationToTarget( target );
   };
 
   GameObject.prototype.updateComponents = function() {

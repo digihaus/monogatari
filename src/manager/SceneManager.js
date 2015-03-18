@@ -60,7 +60,7 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'cor
 
     if ( scene ) {
       // left, right, top, bottom, near, far
-      var camera = new _Camera2D( width / -2, width / 2, height / 2, height / -2, 1, _Math.max( width, height ) );
+      var camera = new _Camera2D( width / -2, width / 2, height / -2, height / 2, 1, _Math.max( width, height ) );
 
       camera.addScene( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID, scene );
       this.cameras.put( cameraId, camera );
