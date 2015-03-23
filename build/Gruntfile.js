@@ -30,6 +30,16 @@ module.exports = function (grunt) {
         files: '../src/**/*',
         tasks: ['requirejs', 'uglify']
       }
+    },
+
+    connect: {
+      server: {
+        options: {
+          port: 9000,
+          livereload: true,
+          base: "../"
+        }
+      }
     }
 
   });
@@ -37,6 +47,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   grunt.registerTask('default', ['requirejs', 'uglify']);
+
+  grunt.registerTask('live', ['connect', 'watch']);
 };
