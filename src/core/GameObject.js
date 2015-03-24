@@ -27,9 +27,9 @@ define( [ 'core/Common',
 
   GameObject.prototype.postUpdate = function() {
     //this.lastUpdate = _Timer.getTime();
-    if( this.isActive ) {
+    //if( this.isActive ) {
       this.updateComponents();
-    }
+    //}
   };
 
   GameObject.prototype.getEulerRotation = function( axis ) {
