@@ -50,13 +50,13 @@
 
           function createZombies(){
             var zombie = null;
-            var sprite = new m.Sprite( 'assets/sprites/zombies2.png', 64, 64, 1, 3 );
 
             for ( var i = 0; i < NUM_ZOMBIES; i++ ) {
+              var sprite = new m.Sprite( 'assets/sprites/zombies2.png', 64, 64, 1, 3 );
               zombie = new m.GameObject( "zombie_" + i );
               zombie.position.set( 100, 100, 0 );
-              zombie.isActive = false;
-              zombie.isVisible = false;
+              //zombie.isActive = false;
+              //zombie.isVisible = false;
               zombie.lastUpdate = 0;
 
               zombie.addComponent( sprite );
@@ -83,7 +83,7 @@
               }
 
               zombie.update = function() {
-//                if( this.isActive ) {
+                if( this.isActive ) {
                   var sprite = this.findComponent( m.Base.SPRITE );
                   var speed = ( this.speed * ( 1 / m.timer.fps ) );
 
@@ -96,7 +96,7 @@
                     sprite.nextFrame();
                     sprite.lastUpdate = m.timer.time;
                   }
-  //              }
+                }
               }
 
               m.sceneManager.attachToScene( zombie );
@@ -118,7 +118,7 @@
           }
 
           function spawnZombies(){
-            // find an inactive zombie and spawn it off-screen 
+            // find an inactive zombie set flags to active and visible and spawn it off-screen 
           };
 
           function checkCollisions(){

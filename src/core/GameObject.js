@@ -1,8 +1,7 @@
 define( [ 'core/Common', 
-          'core/Math', 
           'core/Timer', 
           'collection/Map', 
-          'component/Base' ], function( _Common, _Math, _Timer, _Map, _Base ) {
+          'component/Base' ], function( _Common, _Timer, _Map, _Base ) {
 
   var GameObject = function( id, update, position, rotation, scale ) {
     this.uid = _Common.createUniqueId();
@@ -29,7 +28,7 @@ define( [ 'core/Common',
   };
 
   GameObject.prototype.postUpdate = function() {
-    //this.lastUpdate = _Timer.getTime();
+    this.lastUpdate = _Timer.time;
     //if( this.isActive ) {
       this.updateComponents();
     //}
@@ -112,6 +111,7 @@ define( [ 'core/Common',
         component.getMesh().position.set( this.position.x, this.position.y, this.position.z);
         component.getMesh().rotation.z = this.getEulerRotation();
         component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z );
+        component.visible = this.isVisible;
       }
     }
   };
