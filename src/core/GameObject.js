@@ -12,6 +12,9 @@ define( [ 'core/Common',
     this.rotation = ( rotation ) ? rotation : new THREE.Vector3( 0, 1, 0 ); // new THREE.Euler()
     this.scale = ( scale ) ? scale : new THREE.Vector3( 1, 1, 1 );
 
+    // the Y is flipped to calculate properly according to the engine orthographic camera
+    this.axis = new THREE.Vector3( 0, -1, 0 );
+
     this.components = new _Map();
     this.componentsIt = this.components.iterator();
 
@@ -32,31 +35,27 @@ define( [ 'core/Common',
     //}
   };
 
-  GameObject.prototype.getEulerRotation = function( axis ) {
-    var a = ( axis ) ? axis.clone() : _Math.getYAlignedVector().clone();
-    //flip Y to calculate properly according to the orthographic camera
-    a.y = -a.y;
-    var angle = this.rotation.angleTo( a );
-    return ( this.rotation.y * a.x > this.rotation.x * a.y ) ? angle : -angle;
-  },
-
-  GameObject.prototype.lookAt = function( target ) {
-    this.rotation.z  = this.getEulerRotationToTarget( target );
+  GameObject.prototype.getEulerRotation = function() {
+    var angle = this.rotation.angleTo( this.axis );
+    return ( this.rotation.y * this.axis.x > this.rotation.x * this.axis.y ) ? angle : -angle;
   };
 
-  GameObject.prototype.getEulerRotationToTarget = function( target, axis ) {
+  GameObject.prototype.lookAt = function( target ) {
+    var t = target.clone();
+    this.rotation = t.sub( this.position );
+    this.rotation.normalize();
+  };
+
+  GameObject.prototype.getEulerRotationToTarget = function( target ) {
     var rotation = this.rotation.clone();
     var t = target.clone();
 
     rotation = t.sub( this.position );
     rotation.normalize();
 
-    var a = ( axis ) ? axis.clone() : _Math.getYAlignedVector().clone();
-    //flip Y to calculate properly according to the orthographic camera
-    a.y = -a.y;
-    var angle = rotation.angleTo( a );
+    var angle = rotation.angleTo( this.axis );
 
-    return ( rotation.y * a.x > rotation.x * a.y ) ? angle : -angle;
+    return ( rotation.y * this.axis.x > rotation.x * this.axis.y ) ? angle : -angle;
   };
 
   GameObject.prototype.addComponent = function( component ) {
@@ -110,8 +109,8 @@ define( [ 'core/Common',
       // if is a component to be rendered, need to update engine transformations to Three.js transformations
       if ( component.isRenderable && typeof ( component.getMesh ) === 'function' ) {
         component.getMesh().position.set( this.position.x, this.position.y, this.position.z);
-        component.getMesh().rotation.z = this.rotation.z;
-        component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z);
+        component.getMesh().rotation.z = this.getEulerRotation();
+        component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z );
       }
     }
   };

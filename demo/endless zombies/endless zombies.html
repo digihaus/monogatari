@@ -42,11 +42,11 @@
           m.world.children.push( hero );
 
           //zombies
-          var NUM_ZOMBIES = 25;
+          var NUM_ZOMBIES = 1;
           var ZOMBIE_LIFE = 2;
           var ZOMBIE_SPEED = 150;
           var ZOMBIE_ATTACK_SPEED = 400;
-          var ZOMBIE_ANIMATION_SPEED = 400;
+          var ZOMBIE_ANIMATION_SPEED = 300;
 
           function createZombies(){
             var zombie = null;
@@ -54,7 +54,7 @@
 
             for ( var i = 0; i < NUM_ZOMBIES; i++ ) {
               zombie = new m.GameObject( "zombie_" + i );
-              zombie.position.set( -2000, 2000, 0 );
+              zombie.position.set( 100, 100, 0 );
               zombie.isActive = false;
               zombie.isVisible = false;
               zombie.lastUpdate = 0;
@@ -83,18 +83,20 @@
               }
 
               zombie.update = function() {
-                var sprite = this.findComponent( m.Base.SPRITE );
-                var speed = ( this.speed * ( 1 / m.timer.fps ) );
+//                if( this.isActive ) {
+                  var sprite = this.findComponent( m.Base.SPRITE );
+                  var speed = ( this.speed * ( 1 / m.timer.fps ) );
 
-                this.lookAt( hero.position );
+                  this.lookAt( hero.position.clone() );
 
-                this.position.x += this.rotation.x * speed;
-                this.position.y += this.rotation.y * speed;
+                  this.position.x += this.rotation.x * speed;
+                  this.position.y += this.rotation.y * speed;
 
-                if ( (m.timer.time - sprite.lastUpdate ) > this.animationSpeed ) {
-                  sprite.nextFrame();
-                  sprite.lastUpdate = m.timer.time;
-                }
+                  if ( (m.timer.time - sprite.lastUpdate ) > this.animationSpeed ) {
+                    sprite.nextFrame();
+                    sprite.lastUpdate = m.timer.time;
+                  }
+  //              }
               }
 
               m.sceneManager.attachToScene( zombie );

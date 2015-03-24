@@ -13,8 +13,8 @@ define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Bas
     this.row = 0;
     this.col = 0;
 
-    // frame goes from 0 to N (like an array)
-    this.frame = 0;
+    // frame goes from 1 to N
+    this.frame = 1;
 
     // rows and cols goes from 1 to N (like array.lenght)
     this.rows = ( rows ) ? rows : 1;
@@ -48,10 +48,10 @@ define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Bas
   };
 
   Sprite.prototype.setFrame = function( frame ) {
-    this.frame = frame ? frame : 0;
+    this.frame = frame ? frame : 1;
 
-    this.col = ( Math.ceil( this.frame / this.cols ) );
-    this.row = ( this.frame ) % this.cols;
+    this.col = ( Math.ceil( this.frame / this.cols ) ) - 1;
+    this.row = ( this.frame - 1 ) % this.cols;
 
     // console.log("Frame:"+ this._frame + " Col:" + this.col +" Row:" + this.row + " OffsetX:" + this.row / this.cols
     // +" OffsetY:" + this.col / this.rows);
@@ -61,7 +61,7 @@ define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Bas
   };
 
   Sprite.prototype.nextFrame = function() {
-    this.setFrame( ( this.frame % this.numberOfFrames ) );
+    this.setFrame( ( this.frame % this.numberOfFrames ) + 1 );
   };
 
   return Sprite;
