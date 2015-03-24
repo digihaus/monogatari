@@ -87,7 +87,7 @@
                   var sprite = this.findComponent( m.Base.SPRITE );
                   var speed = ( this.speed * ( 1 / m.timer.fps ) );
 
-                  this.lookAt( hero.position.clone() );
+                  this.lookAt( hero.position );
 
                   this.position.x += this.rotation.x * speed;
                   this.position.y += this.rotation.y * speed;

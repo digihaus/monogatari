@@ -41,16 +41,17 @@ define( [ 'core/Common',
   };
 
   GameObject.prototype.lookAt = function( target ) {
-    var t = target.clone();
-    this.rotation = t.sub( this.position );
+    this.rotation.x = target.x - this.position.x;
+    this.rotation.y = target.y - this.position.y;
     this.rotation.normalize();
   };
 
   GameObject.prototype.getEulerRotationToTarget = function( target ) {
     var rotation = this.rotation.clone();
-    var t = target.clone();
 
-    rotation = t.sub( this.position );
+    rotation.x = target.x - this.position.x;
+    rotation.y = target.y - this.position.y;
+
     rotation.normalize();
 
     var angle = rotation.angleTo( this.axis );
