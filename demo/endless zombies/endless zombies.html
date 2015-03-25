@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,7 +8,7 @@
         require.config( {
           baseUrl : '../../src',
           paths: {
-              lib: '../lib' 
+              lib: '../lib'
           }
         } );
 
@@ -34,6 +33,11 @@
             if ( m.keyboard.isDown( m.keyboard.S ) ) { this.position.y += speed; }
             if ( m.keyboard.isDown( m.keyboard.D ) ) { this.position.x += speed; }
 
+            if ( m.keyboard.isDown( m.keyboard.UP_ARROW ) ) { this.position.y -= speed; }
+            if ( m.keyboard.isDown( m.keyboard.LEFT_ARROW ) ) { this.position.x -= speed; }
+            if ( m.keyboard.isDown( m.keyboard.DOWN_ARROW ) ) { this.position.y += speed; }
+            if ( m.keyboard.isDown( m.keyboard.RIGHT_ARROW ) ) { this.position.x += speed; }
+
             this.lookAt( m.mouse.position );
           };
 
@@ -53,7 +57,7 @@
 
             for ( var i = 0; i < NUM_ZOMBIES; i++ ) {
               var sprite = new m.Sprite( 'assets/sprites/zombies2.png', 64, 64, 1, 3 );
-              zombie = new m.GameObject( "zombie_" + i );
+              zombie = new m.GameObject( 'zombie_' + i );
               zombie.position.set( 100, 100, 0 );
               //zombie.isActive = false;
               //zombie.isVisible = false;
@@ -118,7 +122,7 @@
           }
 
           function spawnZombies(){
-            // find an inactive zombie set flags to active and visible and spawn it off-screen 
+            // find an inactive zombie set flags to active and visible and spawn it off-screen
           };
 
           function checkCollisions(){
@@ -127,7 +131,7 @@
           }
 
           function checkForGameOver(){
-            // check if the hero is dead and finish he game 
+            // check if the hero is dead and finish he game
           }
 
           m.world.update = function() {

@@ -1,6 +1,6 @@
-define( [ 'core/Common', 
-          'core/Timer', 
-          'collection/Map', 
+define( [ 'core/Common',
+          'core/Timer',
+          'collection/Map',
           'component/Base' ], function( _Common, _Timer, _Map, _Base ) {
 
   var GameObject = function( id, update, position, rotation, scale ) {
