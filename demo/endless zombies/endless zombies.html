@@ -27,7 +27,7 @@
           hero.addComponent(sprite);
 
           hero.update = function(){
-            var speed = 200 * 1 / m.timer.fps;
+            var speed = 200 / m.timer.fps;
 
             if ( m.keyboard.isDown( m.keyboard.W ) ) { this.position.y -= speed; }
             if ( m.keyboard.isDown( m.keyboard.A ) ) { this.position.x -= speed; }
@@ -85,7 +85,7 @@
               zombie.update = function() {
                 if( this.isActive ) {
                   var sprite = this.findComponent( m.Base.SPRITE );
-                  var speed = ( this.speed * ( 1 / m.timer.fps ) );
+                  var speed = this.speed / m.timer.fps ;
 
                   this.lookAt( hero.position );
 
