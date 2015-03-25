@@ -40,7 +40,10 @@ define( [ 'core/Timer',
     this.world = new _GameObject('world');
     this.sceneManager = new _SceneManager();
     this.physicsManager = new _PhysicsManager();
-    this.random = _Chance;
+
+    // this has a capital "R" because is treated like a class, it is instantiated instead of used directly like the managers 
+    this.Random = _Chance;
+
     this.browser = _browser;
     this.keyboard = null;
     this.mouse = null;
