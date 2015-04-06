@@ -39,6 +39,9 @@
             if ( m.keyboard.isDown( m.keyboard.DOWN_ARROW ) ) { this.position.y += speed; }
             if ( m.keyboard.isDown( m.keyboard.RIGHT_ARROW ) ) { this.position.x += speed; }
 
+            if ( m.mouse.isDown( m.mouse.LMB ) ) shoot( this.position.x, this.position.y );
+ 
+
             this.lookAt( m.mouse.position );
           };
 
@@ -56,7 +59,7 @@
           var zombies = new m.Map();
           var zombiesIt = zombies.iterator(); 
 
-          function createZombies(){
+          function bufferZombies(){
             var zombie = null;
 
             for ( var i = 0; i < NUM_ZOMBIES; i++ ) {
@@ -76,11 +79,11 @@
               zombie.animationSpeed = ZOMBIE_ANIMATION_SPEED;
 
               zombie.reset = function(){
-                zombie.isActive = false;
-                zombie.isVisible = false;
-                zombie.lastUpdate = 0;
-                zombie.position.set( -2000, 2000, 0 );
-                zombie.life = ZOMBIE_LIFE;
+                this.isActive = false;
+                this.isVisible = false;
+                this.lastUpdate = 0;
+                this.position.set( -2000, 2000, 0 );
+                this.life = ZOMBIE_LIFE;
               }
 
               zombie.attack = function(){
@@ -113,7 +116,7 @@
 
             }
           };
-          createZombies();
+          bufferZombies();
           // game objects
 
           // game specifics
@@ -164,6 +167,92 @@
             }
 
           };
+
+          // shots
+          var MAX_BULLETS = 40;
+          var BULLET_SPEED = 600;
+          var BULLET_ANIMATION_SPEED = 300;
+          var TIME_BETWEEN_SHOTS = 100;
+
+          var bullets = new m.Map();
+          var bulletIt = bullets.iterator(); 
+
+          function bufferBullets(){
+            var bullet = null;
+
+            for ( var i = 0; i < MAX_BULLETS; i++ ) {
+              var sprite = new m.Sprite( 'assets/sprites/bullet.png', 16, 16, 2, 1 );
+
+              bullet = new m.GameObject( 'bullet_' + i );
+              bullet.position.set( -2000, 2000, 0 );
+              bullet.isActive = false;
+              bullet.isVisible = false;
+
+              bullet.addComponent( sprite );
+              bullet.speed = BULLET_SPEED;
+              bullet.animationSpeed = BULLET_ANIMATION_SPEED;
+
+              bullet.reset = function() {
+                this.isActive = false;
+                this.isVisible = false;
+                this.position.set(-2000, 2000, 0);
+              };
+
+              bullet.update = function() {
+                var speed = this.speed / m.timer.fps ;
+                var sprite = this.findComponent( m.Base.SPRITE );
+
+                if ( (m.timer.time - sprite.lastUpdate ) > this.animationSpeed ) {
+                  sprite.nextFrame();
+                  sprite.lastUpdate = m.timer.time;
+                }
+
+                this.position.x += this.rotation.x * speed;
+                this.position.y += this.rotation.y * speed;
+
+                if ( this.position.x < 0 || this.position.x > m.sceneManager.canvasWidth || this.position.y < 0 || this.position.y > m.sceneManager.canvasHeight ){
+                  this.reset();
+                }
+
+              };
+
+              m.sceneManager.attachToScene( bullet );
+              m.world.children.push( bullet );
+              bullets.put( bullet.id, bullet );
+
+             }
+          };
+          bufferBullets();
+
+          var lastShot = m.timer.time;
+          function shoot( fromX, fromY ) {
+
+            if ( (m.timer.time - lastShot ) > TIME_BETWEEN_SHOTS ) {
+              bulletIt.first();
+
+              while ( bulletIt.hasNext() ) {
+                obj = bulletIt.next();
+
+                if ( obj ) {
+                  if ( !obj.isActive && !obj.isVisible ) {
+                    var sprite = obj.findComponent( m.Base.SPRITE );
+
+                    obj.isActive = true;
+                    obj.isVisible = true;
+
+                    obj.position.set(fromX, fromY, 0);
+
+                    obj.lookAt( m.mouse.position );
+
+                    lastShot = m.timer.time;
+                    return;
+                  }
+                }
+              }
+
+            }
+          }
+
 
           function checkCollisions(){
             // verifica colisão de hero com zombies
