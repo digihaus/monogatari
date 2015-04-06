@@ -107,6 +107,11 @@
                     sprite.nextFrame();
                     sprite.lastUpdate = m.timer.time;
                   }
+
+                  if ( this.position.x < -64 || this.position.x > m.sceneManager.canvasWidth + 64 || this.position.y < -64 || this.position.y > m.sceneManager.canvasHeight +64 ){
+                    this.reset();
+                  }
+
                 }
               }
 
@@ -122,6 +127,8 @@
           // game specifics
           function die() {
             hero.position.set(-2000, 2000);
+            hero.update = function() {};
+            alert( "You died!\nKilling " + score + " zombies" );
           };
 
           function collision( positionA, radiusA, positionB, radiusB ) {
@@ -261,10 +268,10 @@
             var b = null;
 
             zombieIt.first();
-            bulletIt.first();
 
             while ( zombieIt.hasNext() ) {
               z = zombieIt.next();
+
               bulletIt.first();
 
               while ( bulletIt.hasNext() ) {
@@ -293,8 +300,13 @@
 
           }
 
+          var gameOver = false;
           function checkForGameOver(){
             // check if the hero is dead and finish the game
+            if( hero.life < 100 && !gameOver){
+              die();
+              gameOver = true;
+            }
           }
 
           m.world.update = function() {
