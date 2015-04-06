@@ -25,6 +25,7 @@
 
           var sprite = new m.Sprite( 'assets/sprites/generico_tosco.png', 64, 64 );
           hero.addComponent(sprite);
+          hero.life = 100;
 
           hero.update = function(){
             var speed = 200 / m.timer.fps;
@@ -40,7 +41,6 @@
             if ( m.keyboard.isDown( m.keyboard.RIGHT_ARROW ) ) { this.position.x += speed; }
 
             if ( m.mouse.isDown( m.mouse.LMB ) ) shoot( this.position.x, this.position.y );
- 
 
             this.lookAt( m.mouse.position );
           };
@@ -57,7 +57,7 @@
           var ZOMBIE_ANIMATION_SPEED = 300;
 
           var zombies = new m.Map();
-          var zombiesIt = zombies.iterator(); 
+          var zombieIt = zombies.iterator(); 
 
           function bufferZombies(){
             var zombie = null;
@@ -131,11 +131,11 @@
           }
 
           function spawnZombies(){
-            zombiesIt.first();
+            zombieIt.first();
             var obj = null;
 
-            while ( zombiesIt.hasNext() ) {
-              obj = zombiesIt.next();
+            while ( zombieIt.hasNext() ) {
+              obj = zombieIt.next();
 
               if ( obj && !obj.isActive && !obj.isVisible) {
                 obj.isActive = true;
@@ -168,7 +168,7 @@
 
           };
 
-          // shots
+          // bullets
           var MAX_BULLETS = 40;
           var BULLET_SPEED = 600;
           var BULLET_ANIMATION_SPEED = 300;
@@ -253,14 +253,48 @@
             }
           }
 
-
+          var score = 0;
           function checkCollisions(){
+
+            // verifica colisão de zombies com bullets
+            var z = null;
+            var b = null;
+
+            zombieIt.first();
+            bulletIt.first();
+
+            while ( zombieIt.hasNext() ) {
+              z = zombieIt.next();
+              bulletIt.first();
+
+              while ( bulletIt.hasNext() ) {
+                b = bulletIt.next();
+
+                if ( collision( b.position, 8, z.position, 32 ) ) {
+                  b.reset();
+                  z.life--;
+
+                  if ( z.life <= 0 ) {
+                    z.reset();
+                    score++;
+                  }
+                }
+              }
+            }
+
             // verifica colisão de hero com zombies
-            // verifica colisão de zombies com shots
+            zombieIt.first();
+            while ( zombieIt.hasNext() ) {
+              z = zombieIt.next();
+              if ( collision( hero.position, 32, z.position, 32 ) ) {
+                z.attack();
+              }
+            }
+
           }
 
           function checkForGameOver(){
-            // check if the hero is dead and finish he game
+            // check if the hero is dead and finish the game
           }
 
           m.world.update = function() {
