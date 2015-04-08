@@ -53,7 +53,7 @@
           var NUM_ZOMBIES = 30;
           var ZOMBIE_LIFE = 2;
           var ZOMBIE_SPEED = 150;
-          var ZOMBIE_ATTACK_SPEED = 400;
+          var ZOMBIE_ATTACK_SPEED = 150;
           var ZOMBIE_ANIMATION_SPEED = 300;
 
           var zombies = new m.Map();
@@ -75,7 +75,7 @@
               zombie.lastAttackUpdate = 0;
               zombie.life = ZOMBIE_LIFE;
               zombie.speed = ZOMBIE_SPEED;
-              zombie.attackSpeed = ZOMBIE_ATTACK_SPEED;
+              zombie.attackInterval = ZOMBIE_ATTACK_SPEED;
               zombie.animationSpeed = ZOMBIE_ANIMATION_SPEED;
 
               zombie.reset = function(){
@@ -87,7 +87,7 @@
               }
 
               zombie.attack = function(){
-                if ( (m.timer.time - this.lastAttackUpdate) > this.attackSpeed ) {
+                if ( (m.timer.time - this.lastAttackUpdate) > this.attackInterval ) {
                   hero.life--;
                   this.lastAttackUpdate = m.timer.time;
                 }
@@ -240,20 +240,18 @@
               while ( bulletIt.hasNext() ) {
                 obj = bulletIt.next();
 
-                if ( obj ) {
-                  if ( !obj.isActive && !obj.isVisible ) {
-                    var sprite = obj.findComponent( m.Base.SPRITE );
+                if ( obj && !obj.isActive && !obj.isVisible ) {
+                  var sprite = obj.findComponent( m.Base.SPRITE );
 
-                    obj.isActive = true;
-                    obj.isVisible = true;
+                  obj.isActive = true;
+                  obj.isVisible = true;
 
-                    obj.position.set(fromX, fromY, 0);
+                  obj.position.set(fromX, fromY, 0);
 
-                    obj.lookAt( m.mouse.position );
+                  obj.lookAt( m.mouse.position );
 
-                    lastShot = m.timer.time;
-                    return;
-                  }
+                  lastShot = m.timer.time;
+                  return;
                 }
               }
 
@@ -303,7 +301,7 @@
           var gameOver = false;
           function checkForGameOver(){
             // check if the hero is dead and finish the game
-            if( hero.life < 100 && !gameOver){
+            if( hero.life < 0 && !gameOver){
               die();
               gameOver = true;
             }
