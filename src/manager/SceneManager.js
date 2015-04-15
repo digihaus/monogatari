@@ -19,8 +19,8 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'cor
     this.renderer.setClearColor( ( bgcolor ) ? bgcolor : 0xFFFFFF, 1 );
 
     // if no dimensions are provided, get the size of the inner window (content area) to create a full size renderer
-    this.canvasWidth = ( width ) ? width : window.innerWidth - 20;
-    this.canvasHeight = ( height ) ? height : window.innerHeight - 20;
+    this.canvasWidth = ( width ) ? width : window.innerWidth;
+    this.canvasHeight = ( height ) ? height : window.innerHeight;
 
     // since the rendering area is actually 3D, a Z translation on camera is required.
     this.z = _Math.max( this.canvasWidth, this.canvasHeight );

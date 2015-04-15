@@ -32,7 +32,7 @@ define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Bas
 
     this.material = new THREE.MeshBasicMaterial( {
       map : this.texture,
-      side : THREE.DoubleSide
+      side : THREE.BackSide
     } );
     this.material.transparent = true;
 
