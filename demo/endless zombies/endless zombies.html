@@ -110,7 +110,7 @@
                   this.position.x += this.rotation.x * speed;
                   this.position.y += this.rotation.y * speed;
 
-                  if ( (m.timer.time - sprite.lastUpdate ) > this.animationSpeed ) {
+                  if ( (m.timer.time - sprite.lastUpdate ) > this.animationSpeed && r.integer( { min : 1, max : 2 } ) ) {
                     sprite.nextFrame();
                     sprite.lastUpdate = m.timer.time;
                   }

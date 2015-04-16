@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ant farm</title>
+        <style type="text/css">
+        body {
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+        }
+        </style>
+        <script type="text/javascript" src="../../lib/Require.js"></script>
+        <script>
+
+        require.config( {
+          baseUrl : '../../src',
+          paths: {
+              lib: '../lib'
+          }
+        } );
+
+        require( [ 'Monogatari' ], function( m ) {
+
+          m.init( "#FFF" );
+          var r = new m.Random();
+
+          // ant nest
+          var nest = new m.GameObject('nest');
+          nest.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
+
+          var sprite = new m.Sprite( 'assets/sprites/nest.png', 64, 64 );
+          nest.addComponent(sprite);
+
+          m.sceneManager.attachToScene( nest );
+          m.world.children.push( nest );
+
+          var NUM_ANTS = 60;
+
+          var ants = new m.Map();
+          var antIt = ants.iterator(); 
+
+          function bufferAnts(){
+            var ant = null;
+
+            for ( var i = 0; i < NUM_ANTS; i++ ) {
+              var sprite = new m.Sprite( 'assets/sprites/ant.png', 32, 32 );
+              ant = new m.GameObject( 'ant_' + i );
+
+              ant.position.set( -2000, 3000, 1 );
+
+              ant.isActive = false;
+              ant.isVisible = false;
+              ant.target = m.mouse.position;
+              ant.withFood = false;
+
+              ant.addComponent( sprite );
+
+              ant.update = function() {
+                if( this.isActive ){
+                  var speed = 200 / m.timer.fps;
+
+                  this.position.x += this.rotation.x * speed;
+                  this.position.y += this.rotation.y * speed;
+                }
+              }
+
+              ant.reset = function(){
+                this.isActive = false;
+                this.isVisible = false;
+                this.position.set(-2000, 3000, 1);
+                this.withFood = false;
+              }
+
+              m.sceneManager.attachToScene( ant );
+              m.world.children.push( ant );
+              ants.put( ant.id, ant );
+            }
+          }
+          bufferAnts();
+
+          var MAX_FOOD = 7;
+
+          var food = new m.Map();
+          var foodIt = food.iterator(); 
+
+          function bufferFood(){
+            var candy = null;
+
+            for ( var i = 0; i < MAX_FOOD; i++ ) {
+              var sprite = new m.Sprite( 'assets/sprites/food.png', 32, 32 );
+              candy = new m.GameObject( 'food_' + i );
+
+              candy.position.set( -2000, 2000, 0 );
+
+              candy.isActive = false;
+              candy.isVisible = false;
+
+              candy.addComponent( sprite );
+
+              m.sceneManager.attachToScene( candy );
+              m.world.children.push( candy );
+              food.put( candy.id, candy );
+            }
+          }
+          bufferFood();
+
+          var TIME_BETWEEN_FOOD = 100;
+          lastFoodPlaced = m.timer.time;
+          function spawnFood(){
+            var obj;
+
+            if ( (m.timer.time - lastFoodPlaced ) > TIME_BETWEEN_FOOD ) {
+
+	            foodIt.first();
+
+	            while ( foodIt.hasNext() ) {
+	              obj = foodIt.next();
+
+	              if ( obj && !obj.isActive && !obj.isVisible ) {
+	                obj.isActive = true;
+	                obj.isVisible = true;
+
+	                obj.position.set( m.mouse.position.x, m.mouse.position.y, 0);
+
+	                lastFoodPlaced = m.timer.time;
+
+	                return;
+	              }
+	            }
+
+            }
+          }
+
+          var timeBetweenAntSpawn = 100;
+          var lastSpawn = m.timer.time;
+          function spawnAnts(){
+            var food, ant, targets = [];
+
+            if ( (m.timer.time - lastSpawn ) > timeBetweenAntSpawn ) {
+              foodIt.first();
+              while ( foodIt.hasNext() ) {
+                food = foodIt.next();
+                if ( food && food.isActive && food.isVisible ) {
+                  targets.push( food.position );
+                }
+              }
+
+              if(targets.length > 0){
+	              antIt.first();
+	              while ( antIt.hasNext() ) {
+	                ant = antIt.next();
+
+	                if ( ant && !ant.isActive && !ant.isVisible ) {
+	                  ant.isActive = true;
+	                  ant.isVisible = true;
+
+	                  ant.position.set( nest.position.x, nest.position.y, 0);
+
+	                  ant.target = targets[ r.integer( { min : 0, max : targets.length -1 } ) ];
+	                  ant.lookAt( ant.target );
+
+	                  timeBetweenAntSpawn = r.integer( { min : 50, max : 200 } );
+	                  lastSpawn = m.timer.time;
+
+	                  return;
+	                }
+	              }
+              }
+            }
+          }
+
+          function collision( positionA, radiusA, positionB, radiusB ) {
+            var dist = positionA.distanceTo( positionB );
+            var radius = radiusA + radiusB;
+            return ( dist < radius ) ? true : false;
+          }
+
+          function checkCollisions(){
+            // verifica colisão de ants com food
+            var a = null;
+            var f = null;
+
+            antIt.first();
+            while ( antIt.hasNext() ) {
+              a = antIt.next();
+              if ( a && a.isActive && a.isVisible ) {
+                foodIt.first();
+                while( foodIt.hasNext() ){
+                  f = foodIt.next();
+                  if ( collision( a.position, 16, f.position, 16 ) ) {
+                    a.withFood = true;
+                    a.target = nest.position;
+                    a.lookAt( a.target );
+                  }
+                }
+              }
+            }
+
+            antIt.first();
+            while ( antIt.hasNext() ) {
+              a = antIt.next();
+
+              if ( a && a.isActive && a.isVisible && collision( a.position, 16, nest.position, 32 ) && a.withFood ) {
+                a.reset();
+              }
+            }
+          }
+
+          m.world.update = function(){
+            if ( m.mouse.isDown( m.mouse.LMB ) ){
+              spawnFood();
+            }
+            spawnAnts();
+            checkCollisions();
+          }
+
+          m.run();
+        });
+        </script>
+</head>
+</html>
