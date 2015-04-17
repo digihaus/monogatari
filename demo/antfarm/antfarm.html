@@ -57,7 +57,7 @@
 
               ant.update = function() {
                 if( this.isActive ){
-                  var speed = 200 / m.timer.fps;
+                  var speed = 150 / m.timer.fps;
 
                   this.position.x += this.rotation.x * speed;
                   this.position.y += this.rotation.y * speed;
@@ -131,7 +131,7 @@
             }
           }
 
-          var timeBetweenAntSpawn = 100;
+          var timeBetweenAntSpawn = 150;
           var lastSpawn = m.timer.time;
           function spawnAnts(){
             var food, ant, targets = [];
@@ -159,7 +159,7 @@
 	                  ant.target = targets[ r.integer( { min : 0, max : targets.length -1 } ) ];
 	                  ant.lookAt( ant.target );
 
-	                  timeBetweenAntSpawn = r.integer( { min : 50, max : 200 } );
+	                  timeBetweenAntSpawn = r.integer( { min : 100, max : 250 } );
 	                  lastSpawn = m.timer.time;
 
 	                  return;
