@@ -16,7 +16,7 @@ define( function() {
   };
 
   Navmap.prototype.getCost = function( fromX, fromY, toX, toY ) {
-    var cost = abs( ( this.map[ fromX ][ fromY ] - this.map[ toX ][ toY ] ) );
+    var cost = Math.abs( ( this.map[ fromX ][ fromY ] - this.map[ toX ][ toY ] ) );
 
     if ( fromX === toX || fromY === toY )
       // if is a strait line (horizontal or vertical)
@@ -53,4 +53,5 @@ define( function() {
     return a;
   };
 
+  return Navmap;
 } );

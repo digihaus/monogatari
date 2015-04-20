@@ -15,12 +15,41 @@
         require.config( {
           baseUrl : '../../src',
           paths: {
-              lib: '../lib'
+              lib: '../lib',
+              demo: '../demo/antfarm/scripts'
           }
         } );
 
-        require( [ 'Monogatari' ], function( m ) {
+        require( [ 'Monogatari', 'demo/Navmap', 'demo/AStar' ], function( m, _Navmap,  _AStar ) {
 
+/*
+          var maze = [ [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
+                       [0, 9, 0, 9, 0, 9, 0, 0, 0, 0],
+                       [6, 9, 7, 9, 9, 9, 9, 9, 9, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
+                       [0, 9, 9, 9, 9, 9, 0, 9, 0, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
+                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0] ];
+
+          var navmap = new _Navmap( maze );
+          var aStar = new _AStar( navmap );
+          var path;
+
+          path = aStar.searchAStar(0, 9, 9, 9);
+          console.log( path.toArray() ); 
+          aStar.print( path );
+
+          path = aStar.searchAStar(9, 0, 0, 9);
+          console.log( path.toArray() ); 
+          aStar.print( path );
+
+          path = aStar.searchAStar(5, 9, 9, 7);
+          console.log( path.toArray() ); 
+          aStar.print( path );
+*/
           m.init( "#98FB98" );
           var r = new m.Random();
 

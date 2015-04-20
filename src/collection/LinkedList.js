@@ -152,7 +152,6 @@ define( [ "util/CommonUtils" ], function( _CommonUtils ) {
       };
 
       this.hasPrevious = function() {
-        return
         return ( this._current.prev != null );
       };
 

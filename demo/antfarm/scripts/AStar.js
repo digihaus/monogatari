@@ -1,4 +1,4 @@
-define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], function( _Three, _List, _Navmap ) {
+define( [ 'lib/Three', 'collection/List', 'demo/Navmap' ], function( _Three, _List, _Navmap ) {
   // http://www.policyalmanac.org/games/aStarTutorial.htm
 
   var AStarNode = function( position, parent, g ) {
@@ -18,8 +18,8 @@ define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], fu
     // estimates distance to target node (heuristic)
     if ( target ) {
       // A*
-      this.h = sqrt( ( target.position.x - this.position.x ) * ( target.position.x - this.position.x ) + 
-                     ( target.position.y - this.position.y ) * ( target.position.y - this.position.y ) );
+      this.h = Math.sqrt( ( target.position.x - this.position.x ) * ( target.position.x - this.position.x ) + 
+                          ( target.position.y - this.position.y ) * ( target.position.y - this.position.y ) );
     } else {
       // Dijkstra
       this.h = 0;
@@ -29,7 +29,7 @@ define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], fu
   };
 
   AStarNode.prototype.equals = function( other ) {
-    return other && this.position.equals( other.position );
+    return other && this.position.x === other.position.x && this.position.y === other.position.y;
   };
 
   var AStar = function( navmap ) {
@@ -49,16 +49,16 @@ define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], fu
   };
 
   AStar.prototype.searchAStar = function( startX, startY, targetX, targetY ) {
-    var startNode = new Monogatari.AStarNode( new THREE.Vector2( startY, startX ) );
-    var targetNode = new Monogatari.AStarNode( new THREE.Vector2( targetY, targetX ) );
+    var startNode = new AStarNode( new THREE.Vector2( startY, startX ) );
+    var targetNode = new AStarNode( new THREE.Vector2( targetY, targetX ) );
     return this._search( startNode, targetNode );
   };
 
   AStar.prototype._search = function( nodeA, nodeB ) {
     var best_node;
     // iterators
-    var it_open = this.open.listIterator();
-    var it_successors = this.successors.listIterator();
+    var it_open = this.open.iterator();
+    var it_successors = this.successors.iterator();
 
     // test the search to find if is inside the limits of given navigation map
     if ( this._insideBoundaries( nodeA, nodeB ) ) {
@@ -98,11 +98,11 @@ define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], fu
             // Test if successor is in open or closed list
             if ( this.open.contains( successor ) ) {
               inOpen = true;
-              nodeVisited = this.open.find( successor );
+              nodeVisited = successor;
             }
             if ( this.closed.contains( successor ) ) {
               inClosed = true;
-              nodeVisited = this.closed.find( successor );
+              nodeVisited = successor;
             }
             // if the node is not on open list and not in closed list, or visited node cost from start to current node(G)
             // is greater than the new node, the found node is better than the old and should replace it.
@@ -154,20 +154,20 @@ define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], fu
   };
 
   AStar.prototype.getBestOpenNode = function() {
-    var it = this.open.listIterator();
+    var it = this.open.iterator();
     var node = it.first();
     var min = Number.MAX_VALUE;
     var best_node = null;
 
     while ( it.hasNext() ) {
       node = it.next();
-      // console.log( "nodeX: " + node.position.x + " nodeY:" + node.position.y + " nodeF " + node.f );
       if ( node.f < min ) {
         min = node.f;
         best_node = node;
       }
     }
 
+    console.log( "nodeX: " + best_node.position.x + " nodeY:" + best_node.position.y + " nodeF " + best_node.f );
     this.open.remove( this.open.indexOf( best_node ) );
 
     return best_node;
@@ -185,7 +185,7 @@ define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], fu
       }
     }
 
-    return new Monogatari.List();
+    return new List();
   };
 
   AStar.prototype.buildPath = function( node ) {
@@ -213,7 +213,8 @@ define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], fu
     var i;
     var pos = [];
 
-    pos = [ [ 0, 1 ], [ 1, 1 ], [ 1, 0 ], [ 1, -1 ], [ 0, -1 ], [ -1, -1 ], [ -1, 0 ], [ -1, 1 ], [ 0, 1 ], [ 1, 1 ], [ 1, 0 ], [ 1, -1 ], [ 0, -1 ], [ -1, -1 ] ];
+    pos = [ [ 0, 1 ], [ 1, 1 ], [ 1, 0 ], [ 1, -1 ], [ 0, -1 ], [ -1, -1 ], [ -1, 0 ], [ -1, 1 ], 
+            [ 0, 1 ], [ 1, 1 ], [ 1, 0 ], [ 1, -1 ], [ 0, -1 ], [ -1, -1 ] ];
 
     if ( parent && neighbors < 8 ) {
       // find the parent node based on this node
@@ -264,4 +265,5 @@ define( [ 'lib/Three', 'collection/List', '../demo/antfarm/scripts/Navmap' ], fu
     this.successors.clear();
   };
 
+  return AStar;
 } );
