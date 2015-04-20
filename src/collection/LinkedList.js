@@ -23,10 +23,16 @@
 
 define( [ "util/CommonUtils" ], function( _CommonUtils ) {
 
+  var LinkedListNode = function( value ) {
+    this.value = ( value ) ? value : null;
+    this.next = null;
+    this.prev = null;
+  };
+
   var LinkedList = function() {
-      this._head = null;
-      this._tail = null;
-      this._size = 0;
+    this._head = null;
+    this._tail = null;
+    this._size = 0;
   };
 
   LinkedList.prototype.put = function( value ) {
@@ -50,8 +56,8 @@ define( [ "util/CommonUtils" ], function( _CommonUtils ) {
     if ( value ) {
       var node = this._head, i = 0;
 
-      while ( node.next != null ){
-        if( _CommonUtils.equals( node.value, value ) )
+      while ( node.next != null ) {
+        if ( _CommonUtils.equals( node.value, value ) )
           return true;
         node = node.next;
       }
@@ -85,95 +91,88 @@ define( [ "util/CommonUtils" ], function( _CommonUtils ) {
         while ( i++ < index )
           node = node.next;
 
-          // skip over the item to remove
-          node.prev.next = node.next;
-        }
-
-        this._size--;
-
-        return node.value;
-      } else {
-        return null;
-      }
-    };
-
-    LinkedList.prototype.clear = function() {
-      this._head = null;
-      this._tail = null;
-      this._size = 0;
-    };
-
-    LinkedList.prototype.size = function() {
-      return this._size;
-    };
-
-    LinkedList.prototype.isEmpty = function() {
-      return ( this._size > 0 );
-    };
-
-    LinkedList.prototype.toArray = function() {
-      var result = [], current = this._head;
-
-      while ( current ) {
-        result.push( current.value );
-        current = current.next;
+        // skip over the item to remove
+        node.prev.next = node.next;
       }
 
-      return result;
-    };
+      this._size--;
 
-    LinkedList.prototype.toJSON = function() {
-      return JSON.stringify( this.toArray() );
-    };
+      return node.value;
+    } else {
+      return null;
+    }
+  };
 
-    LinkedList.prototype.toString = function() {
-      return this.toArray().toString();
-    };
+  LinkedList.prototype.clear = function() {
+    this._head = null;
+    this._tail = null;
+    this._size = 0;
+  };
 
-    LinkedList.prototype.iterator = function(){
-      return new LinkedListIterator( this._head, this._tail );
+  LinkedList.prototype.size = function() {
+    return this._size;
+  };
+
+  LinkedList.prototype.isEmpty = function() {
+    return ( this._size > 0 );
+  };
+
+  LinkedList.prototype.toArray = function() {
+    var result = [], current = this._head;
+
+    while ( current ) {
+      result.push( current.value );
+      current = current.next;
     }
 
+    return result;
   };
 
-  var LinkedListNode = function( value ) {
-    this.value = ( value ) ? value : null;
-    this.next = null;
-    this.prev = null;
+  LinkedList.prototype.toJSON = function() {
+    return JSON.stringify( this.toArray() );
   };
 
-  var LinkedListIterator = function( head, tail ) {
-    this._head = head;
-    this._current = head;
-    this._tail = tail;
-
-    this.hasNext = function() {
-      return ( this._current.next != null );
-    };
-
-    this.next = function() {
-      this._current = this._current.next;
-      return this._current.value;
-    };
-
-    this.hasPrevious = function() {
-      return return ( this._current.prev != null );
-    };
-
-    this.previous = function() {
-      this._current = this._current.prev;
-      return this._current.value;
-    };
-
-    this.first = function() {
-      this._current = this._head;
-      return this._current.value;
-    };
-
-    this.last = function() {
-      this._current = this._tail;
-      return this._current.value;
-    };
+  LinkedList.prototype.toString = function() {
+    return this.toArray().toString();
   };
 
+  LinkedList.prototype.iterator = function() {
+    var Iterator = function( head, tail ) {
+      this._head = head;
+      this._current = head;
+      this._tail = tail;
+
+      this.hasNext = function() {
+        return ( this._current.next != null );
+      };
+
+      this.next = function() {
+        this._current = this._current.next;
+        return this._current.value;
+      };
+
+      this.hasPrevious = function() {
+        return
+        return ( this._current.prev != null );
+      };
+
+      this.previous = function() {
+        this._current = this._current.prev;
+        return this._current.value;
+      };
+
+      this.first = function() {
+        this._current = this._head;
+        return this._current.value;
+      };
+
+      this.last = function() {
+        this._current = this._tail;
+        return this._current.value;
+      };
+    };
+    return new Iterator( this._head, this._tail );
+  };
+
+  return LinkedList;
 } );
