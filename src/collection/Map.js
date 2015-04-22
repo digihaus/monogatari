@@ -6,7 +6,7 @@ define( [ 'core/Common' ], function( _Common ) {
   };
 
   Map.prototype.indexOf = function( key ) {
-    return _Common.indexOf( key, this.keys ) > -1;
+    return _Common.indexOf( key, this.keySet );
   };
 
   Map.prototype.contains = function( key ) {
