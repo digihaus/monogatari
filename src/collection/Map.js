@@ -6,11 +6,11 @@ define( [ 'core/Common' ], function( _Common ) {
   };
 
   Map.prototype.indexOf = function( key ) {
-    _Common.indexOf( key, this.keys ) > -1;
+    return _Common.indexOf( key, this.keys ) > -1;
   };
 
   Map.prototype.contains = function( key ) {
-    this.indexOf( key ) > -1;
+    return this.indexOf( key ) > -1;
   };
 
   Map.prototype.size = function() {
