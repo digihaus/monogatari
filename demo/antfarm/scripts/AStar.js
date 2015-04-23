@@ -1,268 +1,251 @@
-define( [ 'lib/Three', 'collection/List', 'demo/Navmap' ], function( _Three, _List, _Navmap ) {
-  // http://www.policyalmanac.org/games/aStarTutorial.htm
+// javascript-astar 0.4.0
+// http://github.com/bgrins/javascript-AStar
+// Freely distributable under the MIT License.
+// Implements the astar search algorithm in javascript using a Binary Heap.
+// Includes Binary Heap (with modifications) from Marijn Haverbeke.
+// http://eloquentjavascript.net/appendix2.html
 
-  var AStarNode = function( position, parent, g ) {
-    // vector 2 position
-    this.position = position;
-    // parent index on closed list
-    this.parent = ( parent ) ? parent : null;
-    // Cost from start to current node
-    this.g = ( g ) ? g : 0;
-    // Cost from current node to destination(heuristic), Dijkstra uses heuristic value of 0
-    this.h = 0;
-    // Cost from start to destination going through the current node (g + h)
-    this.f = 0;
-  };
+// http://www.policyalmanac.org/games/aStarTutorial.htm
 
-  AStarNode.prototype.estimate = function( target ) {
-    // estimates distance to target node (heuristic)
-    if ( target ) {
-      // A*
-      this.h = Math.sqrt( ( target.position.x - this.position.x ) * ( target.position.x - this.position.x ) + 
-                          ( target.position.y - this.position.y ) * ( target.position.y - this.position.y ) );
-    } else {
-      // Dijkstra
-      this.h = 0;
+define( function() {
+
+  function pathTo( node ) {
+    var curr = node, path = [];
+    while ( curr.parent ) {
+      path.push( curr );
+      curr = curr.parent;
     }
+    return path.reverse();
+  }
 
-    this.f = this.g + this.h;
-  };
+  function getHeap() {
+    return new BinaryHeap( function( node ) {
+      return node.f;
+    } );
+  }
 
-  AStarNode.prototype.equals = function( other ) {
-    return other && this.position.x === other.position.x && this.position.y === other.position.y;
-  };
+  var AStar = {
+    /**
+     * Perform an A* Search on a graph given a start and end node.
+     * 
+     * @param {Graph} graph
+     * @param {GridNode} start
+     * @param {GridNode} end
+     * @param {Object} [options]
+     * @param {bool} [options.closest] Specifies whether to return the path to the closest node if the target is unreachable.
+     * @param {Function} [options.heuristic] Heuristic function (see AStar.heuristics).
+     */
+    search : function( graph, start, end, options ) {
+      graph.cleanDirty();
+      options = options || {};
+      var heuristic = options.heuristic || AStar.heuristics.manhattan, closest = options.closest || false;
 
-  var AStar = function( navmap ) {
-    this.navmap = navmap;
+      var openHeap = getHeap(), closestNode = start; // set the start node to be the closest if required
 
-    // open nodes
-    this.open = new _List();
-    // processed nodes
-    this.closed = new _List();
-    // successor nodes. see buildSucessors()
-    this.successors = new _List();
-  };
+      start.h = heuristic( start, end );
 
-  AStar.prototype.searchDijkstra = function( startX, startY ) {
-    var startNode = new AStarNode( new THREE.Vector2( startX, startY ) );
-    return this._search( startNode, null );
-  };
+      openHeap.push( start );
 
-  AStar.prototype.searchAStar = function( startX, startY, targetX, targetY ) {
-    var startNode = new AStarNode( new THREE.Vector2( startY, startX ) );
-    var targetNode = new AStarNode( new THREE.Vector2( targetY, targetX ) );
-    return this._search( startNode, targetNode );
-  };
+      while ( openHeap.size() > 0 ) {
 
-  AStar.prototype._search = function( nodeA, nodeB ) {
-    var best_node;
-    // iterators
-    var it_open = this.open.iterator();
-    var it_successors = this.successors.iterator();
+        // Grab the lowest f(x) to process next. Heap keeps this sorted for us.
+        var currentNode = openHeap.pop();
 
-    // test the search to find if is inside the limits of given navigation map
-    if ( this._insideBoundaries( nodeA, nodeB ) ) {
-      // clear buffers
-      this.clearLists();
-      // estimate cost from the start to finish
-      nodeA.estimate( nodeB );
-      // add to open list the start node
-      this.open.put( nodeA );
-      // while open list has nodes to be processed
-      while ( it_open.hasNext() ) {
-        // find and remove the best open node. On the beginning will be only the start node.
-        best_node = this.getBestOpenNode();
-        // put the best node on the closed list
-        this.closed.put( best_node );
-        // test if the best node is the finish node
-        if ( best_node.equals( nodeB ) ) {
-          // creates the path
-          return this.buildPath( best_node );
-        } else {
-          var inOpen, inClosed;
-          var nodeVisited, successor;
-          // clear the successors
-          this.successors.clear();
-          // Construct the list of successor nodes
-          this.buildSuccessors( best_node, 5 );
-          // point the iterator to the first successor
-          it_successors.first();
-          // For each node in successors
-          while ( it_successors.hasNext() ) {
-            successor = it_successors.next();
-            inOpen = false;
-            inClosed = false;
-            nodeVisited = null;
-            // Calculate estimated cost to goal
-            successor.estimate( nodeB );
-            // Test if successor is in open or closed list
-            if ( this.open.contains( successor ) ) {
-              inOpen = true;
-              nodeVisited = successor;
-            }
-            if ( this.closed.contains( successor ) ) {
-              inClosed = true;
-              nodeVisited = successor;
-            }
-            // if the node is not on open list and not in closed list, or visited node cost from start to current node(G)
-            // is greater than the new node, the found node is better than the old and should replace it.
-            if ( nodeVisited === null || nodeVisited.f >= successor.f ) {
-              // if node exists, remove it from open or closed lists
-              if ( inOpen )
-                this.open.remove( this.open.indexOf( nodeVisited ) );
-              if ( inClosed )
-                this.closed.remove( this.closed.indexOf( nodeVisited ) );
-              // put the new found node on the open list
-              this.open.put( successor );
-            }
-          } // while
-          this.successors.clear();
-        } // if (goal)
-      } // while
-    } // if (boundaries)
-
-    // Returns null with no found path.
-    // In case of Dijkstra, the target node does not exist, is creates a quick reference graph for the whole navigation
-    // map on the closed list. Once done, just use findPath( rowOnNavMap, colOnNavMap ) to get a list containing the
-    // desired path
-    return null;
-  };
-
-  AStar.prototype.print = function( path ) {
-    var line = "";
-
-    for ( var i = 0; i < this.navmap.rows; i++ ) {
-      for ( var j = 0; j < this.navmap.cols; j++ ) {
-        line += ( this.findNode( path, i, j ) ) ? " * " : ( this.navmap.isWall( i, j ) ) ? " | " : " . ";
-      }
-      console.log( line );
-      line = "";
-    }
-  };
-
-  AStar.prototype.findNode = function( list, x, y ) {
-    var it = list.iterator();
-    var node;
-
-    while ( it.hasNext() ) {
-      node = it.next();
-      if ( node.position.x === x && node.position.y === y )
-        return node;
-    }
-
-    return null;
-  };
-
-  AStar.prototype.getBestOpenNode = function() {
-    var it = this.open.iterator();
-    var node = it.first();
-    var min = Number.MAX_VALUE;
-    var best_node = null;
-
-    while ( it.hasNext() ) {
-      node = it.next();
-      if ( node.f < min ) {
-        min = node.f;
-        best_node = node;
-      }
-    }
-
-    console.log( "nodeX: " + best_node.position.x + " nodeY:" + best_node.position.y + " nodeF " + best_node.f );
-    this.open.remove( this.open.indexOf( best_node ) );
-
-    return best_node;
-  };
-
-  // Dijkstra only
-  AStar.prototype.findPath = function( x, y ) {
-    var it = this.closed.iterator();
-    var node;
-
-    while ( it.hasNext() ) {
-      node = it.next();
-      if ( node.position.x === x && node.position.y === y ) {
-        return this.buildPath( node );
-      }
-    }
-
-    return new List();
-  };
-
-  AStar.prototype.buildPath = function( node ) {
-    var path = [];
-
-    path.push( node );
-    while ( node.parent ) {
-      node = this.closed.get( node.parent );
-      path.unshift( node );
-    }
-    return new _List( path );
-  };
-
-  // fills the successors with the N neighbors of a given node.
-  // 8 for all neighbors
-  AStar.prototype.buildSuccessors = function( node, neighbors ) {
-    var newNode;
-    var parent = ( node.parent ) ? this.closed[ node.parent ] : null;
-
-    var x = node.position.x;
-    var y = node.position.y;
-    var px, py;
-    var ini = 0;
-    var fim = 8;
-    var i;
-    var pos = [];
-
-    pos = [ [ 0, 1 ], [ 1, 1 ], [ 1, 0 ], [ 1, -1 ], [ 0, -1 ], [ -1, -1 ], [ -1, 0 ], [ -1, 1 ], 
-            [ 0, 1 ], [ 1, 1 ], [ 1, 0 ], [ 1, -1 ], [ 0, -1 ], [ -1, -1 ] ];
-
-    if ( parent && neighbors < 8 ) {
-      // find the parent node based on this node
-      for ( i = 0; i < 8; i++ )
-        if ( pos[ i ][ 0 ] === ( parent.position.x - x ) && pos[ i ][ 1 ] === ( parent.position.y - y ) )
-          break;
-      if ( neighbors === 5 )
-        ini = i + 2;
-      else if ( neighbors === 3 )
-        ini = i + 3;
-      fim = ini + neighbors;
-    }
-
-    for ( i = ini; i < fim; i++ ) {
-      px = x + pos[ i ][ 0 ];
-      py = y + pos[ i ][ 1 ];
-
-      if ( px >= 0 && py >= 0 && px < this.navmap.cols && py < this.navmap.rows ) {
-        // avoid walls
-        if ( !this.navmap.isWall( px, py ) ) {
-          // cost from the start node to this node
-          g = node.g + this.navmap.getCost( x, y, px, py );
-          // all successors point to parent node, used to rebuild the path
-          newNode = new AStarNode( new THREE.Vector2( px, py ), this.closed.indexOf( node ), parseFloat( g ) );
-          // console.log("successor of ("+ node.position.getX() + ", " + node.position.getY() +") -> (" + px + ", "+ py + ") cost:" + g );
-          this.successors.put( newNode );
+        // End case -- result has been found, return the traced path.
+        if ( currentNode === end ) {
+          return pathTo( currentNode );
         }
 
+        // Normal case -- move currentNode from open to closed, process each of its neighbors.
+        currentNode.closed = true;
+
+        // Find all neighbors for the current node.
+        var neighbors = graph.neighbors( currentNode );
+
+        for ( var i = 0, il = neighbors.length; i < il; ++i ) {
+          var neighbor = neighbors[ i ];
+
+          if ( neighbor.closed || neighbor.isWall() ) {
+            // Not a valid node to process, skip to next neighbor.
+            continue;
+          }
+
+          // The g score is the shortest distance from start to current node.
+          // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
+          var gScore = currentNode.g + neighbor.getCost( currentNode ), beenVisited = neighbor.visited;
+
+          if ( !beenVisited || gScore < neighbor.g ) {
+
+            // Found an optimal (so far) path to this node. Take score for node to see how good it is.
+            neighbor.visited = true;
+            neighbor.parent = currentNode;
+            neighbor.h = neighbor.h || heuristic( neighbor, end );
+            neighbor.g = gScore;
+            neighbor.f = neighbor.g + neighbor.h;
+            graph.markDirty( neighbor );
+            if ( closest ) {
+              // If the neighbour is closer than the current closestNode or if it's equally close but has
+              // a cheaper path than the current closest node then it becomes the closest node
+              if ( neighbor.h < closestNode.h || ( neighbor.h === closestNode.h && neighbor.g < closestNode.g ) ) {
+                closestNode = neighbor;
+              }
+            }
+
+            if ( !beenVisited ) {
+              // Pushing to heap will put it in proper place based on the 'f' value.
+              openHeap.push( neighbor );
+            } else {
+              // Already seen the node, but since it has been rescored we need to reorder it in the heap
+              openHeap.rescoreElement( neighbor );
+            }
+          }
+        }
+      }
+
+      if ( closest ) {
+        return pathTo( closestNode );
+      }
+
+      // No result was found - empty array signifies failure to find path.
+      return [];
+    },
+    // See list of heuristics: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+    heuristics : {
+      manhattan : function( pos0, pos1 ) {
+        var d1 = Math.abs( pos1.x - pos0.x );
+        var d2 = Math.abs( pos1.y - pos0.y );
+        return d1 + d2;
+      },
+      diagonal : function( pos0, pos1 ) {
+        var D = 1;
+        var D2 = 1.41421356237; // Math.sqrt(2);
+        var d1 = Math.abs( pos1.x - pos0.x );
+        var d2 = Math.abs( pos1.y - pos0.y );
+        return ( D * ( d1 + d2 ) ) + ( ( D2 - ( 2 * D ) ) * Math.min( d1, d2 ) );
+      }
+    },
+    cleanNode : function( node ) {
+      node.f = 0;
+      node.g = 0;
+      node.h = 0;
+      node.visited = false;
+      node.closed = false;
+      node.parent = null;
+    }
+  };
+
+  function BinaryHeap( scoreFunction ) {
+    this.content = [];
+    this.scoreFunction = scoreFunction;
+  }
+
+  BinaryHeap.prototype = {
+    push : function( element ) {
+      // Add the new element to the end of the array.
+      this.content.push( element );
+
+      // Allow it to sink down.
+      this.sinkDown( this.content.length - 1 );
+    },
+    pop : function() {
+      // Store the first element so we can return it later.
+      var result = this.content[ 0 ];
+      // Get the element at the end of the array.
+      var end = this.content.pop();
+      // If there are any elements left, put the end element at the
+      // start, and let it bubble up.
+      if ( this.content.length > 0 ) {
+        this.content[ 0 ] = end;
+        this.bubbleUp( 0 );
+      }
+      return result;
+    },
+    remove : function( node ) {
+      var i = this.content.indexOf( node );
+
+      // When it is found, the process seen in 'pop' is repeated
+      // to fill up the hole.
+      var end = this.content.pop();
+
+      if ( i !== this.content.length - 1 ) {
+        this.content[ i ] = end;
+
+        if ( this.scoreFunction( end ) < this.scoreFunction( node ) ) {
+          this.sinkDown( i );
+        } else {
+          this.bubbleUp( i );
+        }
+      }
+    },
+    size : function() {
+      return this.content.length;
+    },
+    rescoreElement : function( node ) {
+      this.sinkDown( this.content.indexOf( node ) );
+    },
+    sinkDown : function( n ) {
+      // Fetch the element that has to be sunk.
+      var element = this.content[ n ];
+
+      // When at 0, an element can not sink any further.
+      while ( n > 0 ) {
+
+        // Compute the parent element's index, and fetch it.
+        var parentN = ( ( n + 1 ) >> 1 ) - 1, parent = this.content[ parentN ];
+        // Swap the elements if the parent is greater.
+        if ( this.scoreFunction( element ) < this.scoreFunction( parent ) ) {
+          this.content[ parentN ] = element;
+          this.content[ n ] = parent;
+          // Update 'n' to continue at the new position.
+          n = parentN;
+        }
+        // Found a parent that is less, no need to sink any further.
+        else {
+          break;
+        }
+      }
+    },
+    bubbleUp : function( n ) {
+      // Look up the target element and its score.
+      var length = this.content.length, element = this.content[ n ], elemScore = this.scoreFunction( element );
+
+      while ( true ) {
+        // Compute the indices of the child elements.
+        var child2N = ( n + 1 ) << 1, child1N = child2N - 1;
+        // This is used to store the new position of the element, if any.
+        var swap = null, child1Score;
+        // If the first child exists (is inside the array)...
+        if ( child1N < length ) {
+          // Look it up and compute its score.
+          var child1 = this.content[ child1N ];
+          child1Score = this.scoreFunction( child1 );
+
+          // If the score is less than our element's, we need to swap.
+          if ( child1Score < elemScore ) {
+            swap = child1N;
+          }
+        }
+
+        // Do the same checks for the other child.
+        if ( child2N < length ) {
+          var child2 = this.content[ child2N ], child2Score = this.scoreFunction( child2 );
+          if ( child2Score < ( swap === null ? elemScore : child1Score ) ) {
+            swap = child2N;
+          }
+        }
+
+        // If the element needs to be moved, swap it, and continue.
+        if ( swap !== null ) {
+          this.content[ n ] = this.content[ swap ];
+          this.content[ swap ] = element;
+          n = swap;
+        }
+        // Otherwise, we are done.
+        else {
+          break;
+        }
       }
     }
-    // console.log( "successors: " + this.successors.size() );
-  };
-
-  AStar.prototype._insideBoundaries = function( nodeA, nodeB ) {
-    if ( nodeA.position.x > this.navmap.cols || nodeA.position.x < 0 || nodeA.position.y > this.navmap.rows || nodeA.position.y < 0 )
-      return false;
-
-    if ( nodeB )
-      if ( nodeB.position.x > this.navmap.cols || nodeB.position.x < 0 || nodeB.position.y > this.navmap.rows || nodeB.position.y < 0 )
-        return false;
-
-    return true;
-  };
-
-  AStar.prototype.clearLists = function() {
-    this.open.clear();
-    this.closed.clear();
-    this.successors.clear();
   };
 
   return AStar;

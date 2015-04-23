@@ -20,36 +20,62 @@
           }
         } );
 
-        require( [ 'Monogatari', 'demo/Navmap', 'demo/AStar' ], function( m, _Navmap,  _AStar ) {
+        require( [ 'Monogatari', 'demo/Graph', 'demo/AStar' ], function( m, _Graph,  _AStar ) {
 
-/*
-          var maze = [ [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
-                       [0, 9, 0, 9, 0, 9, 0, 0, 0, 0],
-                       [6, 9, 7, 9, 9, 9, 9, 9, 9, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
-                       [0, 9, 9, 9, 9, 9, 0, 9, 0, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 9, 0, 0] ];
 
-          var navmap = new _Navmap( maze );
-          var aStar = new _AStar( navmap );
-          var path;
+          var maze = [ [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+                       [1, 0, 1, 0, 1, 0, 1, 1, 1, 1],
+                       [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+                       [1, 0, 0, 0, 0, 0, 1, 0, 1, 1],
+                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+                       [1, 1, 0, 1, 1, 1, 1, 0, 1, 1],
+                       [1, 1, 1, 0, 1, 1, 1, 0, 1, 1] ];
 
-          path = aStar.searchAStar(0, 9, 9, 9);
-          console.log( path.toArray() ); 
-          aStar.print( path );
+          var graph = new _Graph( maze, { diagonal: true } );
+          var start = graph.grid[9][8];
+          var end = graph.grid[9][6];
+          var path = _AStar.search(graph, start, end);
+          console.log( path ); 
+          printAStar( maze, path );
 
-          path = aStar.searchAStar(9, 0, 0, 9);
-          console.log( path.toArray() ); 
-          aStar.print( path );
+          start = graph.grid[9][0];
+          end = graph.grid[0][9];
+          path = _AStar.search(graph, start, end);
+          console.log( path );
+          printAStar( maze, path );
 
-          path = aStar.searchAStar(5, 9, 9, 7);
-          console.log( path.toArray() ); 
-          aStar.print( path );
-*/
+          start = graph.grid[5][9];
+          end = graph.grid[9][6];
+          path = _AStar.search(graph, start, end);
+          console.log( path );
+          printAStar( maze, path );
+
+          function printAStar( maze, path ) {
+            var line = "";
+
+            for ( var i = 0; i < maze.length; i++ ) {
+              for ( var j = 0; j < maze[i].length; j++ ) {
+                line += ( findNode( path, i, j ) ) ? " * " : ( maze[i][j] === 0 ) ? " | " : " . ";
+              }
+              console.log( line );
+              line = "";
+            }
+          };
+
+          function findNode( path, x ,y ){
+            var node;
+
+            for ( var i = 0; i < path.length; i++ ) {
+              if ( path[i].x === x && path[i].y === y)
+                return true;
+            }
+
+            return false;
+          }
+
           m.init( "#98FB98" );
           var r = new m.Random();
 
