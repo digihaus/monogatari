@@ -10,7 +10,7 @@ define( [ 'src/component/BaseThree', 'src/collection/Map' ], function( _BaseThre
 
     this.rows = ( spritesheetRows ) ? spritesheetRows : 1;
     this.cols = ( spritesheetCols ) ? spritesheetCols : 1;
-    this.numberOfFrames = rows * cols;
+    this.numberOfFrames = this.rows * this.cols;
 
     this.json = json;
 
@@ -36,8 +36,8 @@ define( [ 'src/component/BaseThree', 'src/collection/Map' ], function( _BaseThre
 
     this.mesh = new THREE.Mesh( this.geometry, this.material );
 
-    // this.parse();
-    // this.renderIntoTexture();
+    this.parse();
+    this.renderIntoTexture();
   };
 
   Tilemap.prototype = Object.create( _BaseThree.prototype );
@@ -76,7 +76,8 @@ define( [ 'src/component/BaseThree', 'src/collection/Map' ], function( _BaseThre
     buffer.width = this.w;
     buffer.height = this.h;
 
-    var context = buffer.getContext( '2d' );
+    var context = this.texture.getContext( '2d' );
+    context.clearRect ( 0 , 0 , this.w, this.h );
 
     for( var i = 0; i < this.map; i++ ){
       for( var j = 0; j < this.map[i]; j++ ){
@@ -89,7 +90,7 @@ define( [ 'src/component/BaseThree', 'src/collection/Map' ], function( _BaseThre
         // destinationWidth, destinationHeight)
 
         context.drawImage( tile, 
-                           sourceX, sourceY, tileW, tileH, 
+                           0, 0, tileW, tileH,
                            destinationX, destinationY, tileW, tileH );
 
       }
