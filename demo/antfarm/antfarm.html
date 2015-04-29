@@ -20,9 +20,9 @@
           }
         } );
 
-        require( [ 'Monogatari', 'demo/Graph', 'demo/AStar' ], function( m, _Graph,  _AStar ) {
+        require( [ 'Monogatari', 'demo/Graph', 'demo/AStar', 'demo/Tilemap' ], function( m, _Graph,  _AStar, _Tilemap ) {
 
-
+/* AStar */
           var maze = [ [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
                        [1, 0, 1, 0, 1, 0, 1, 1, 1, 1],
                        [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
@@ -75,6 +75,7 @@
 
             return false;
           }
+/* AStar */
 
           m.init( "#98FB98" );
           var r = new m.Random();
@@ -89,7 +90,7 @@
           m.sceneManager.attachToScene( nest );
           m.world.children.push( nest );
 
-          var NUM_ANTS = 60;
+          var NUM_ANTS = 40;
 
           var ants = new m.Map();
           var antIt = ants.iterator(); 
@@ -186,7 +187,7 @@
             }
           }
 
-          var timeBetweenAntSpawn = 150;
+          var timeBetweenAntSpawn = 250;
           var lastSpawn = m.timer.time;
           function spawnAnts(){
             var food, ant, targets = [];
@@ -214,7 +215,7 @@
 	                  ant.target = targets[ r.integer( { min : 0, max : targets.length -1 } ) ];
 	                  ant.lookAt( ant.target );
 
-	                  timeBetweenAntSpawn = r.integer( { min : 100, max : 250 } );
+	                  timeBetweenAntSpawn = r.integer( { min : 250, max : 450 } );
 	                  lastSpawn = m.timer.time;
 
 	                  return;
@@ -261,10 +262,27 @@
             }
           }
 
+          var tilemap = new m.GameObject('tilemap'); 
+          tilemap.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 10 );
+          var tileset = new _Tilemap( maze, 10, 10, 'assets/sprites/tileset.png', 2, 2 );
+          tilemap.addComponent( tileset );
+          m.sceneManager.attachToScene( tilemap );
+          m.world.children.push( tilemap );
+
+          var parsed = false;
+          function checkTileSet(){
+            if( tileset.spritesheet.image && !parsed){
+              tileset.parse();
+              tileset.renderIntoTexture();
+              parsed = true;
+            }
+          }
+
           m.world.update = function(){
             if ( m.mouse.isDown( m.mouse.LMB ) ){
               spawnFood();
             }
+            checkTileSet();
             spawnAnts();
             checkCollisions();
           }
