@@ -1,12 +1,12 @@
 
 define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map ) {
   
-  var Tilemap = function( map, mapWidth, mapHeight, spritesheet, spritesheetRows, spritesheetCols, json ){
+  var Tilemap = function( map, spritesheet, spritesheetRows, spritesheetCols, json ){
     _BaseThree.call( this, null, null, 4 /*_Base.SPRITE*/ );
     this.isRenderable = true;
 
-    this.w = mapWidth;
-    this.h = mapHeight;
+    this.w = map.length;
+    this.h = map[0].length;
 
     this.rows = ( spritesheetRows ) ? spritesheetRows : 1;
     this.cols = ( spritesheetCols ) ? spritesheetCols : 1;
@@ -22,11 +22,7 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
     this.spritesheet = THREE.ImageUtils.loadTexture( ( spritesheet ) ? spritesheet : 'assets/bad-texture.png' );
 
     // final texture to be rendered
-    this.texture = new THREE.Texture();
-    this.texture.wrapS = this.texture.wrapT = THREE.RepeatWrapping;
-    this.texture.needsUpdate = true;
-    this.texture.flipY = true;
-
+    this.texture; //new THREE.Texture();
   };
 
   Tilemap.prototype = Object.create( _BaseThree.prototype );
@@ -45,7 +41,9 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
 
         context = canvas.getContext( '2d' );
 
-        context.drawImage( this.spritesheet.image, i * tileH , j * tileW, tileW, tileH );
+        context.drawImage( this.spritesheet.image, 
+                           j * tileH , i * tileW, tileW, tileH, 
+                           0, 0, tileW, tileH );
 
         this.tiles.put( this.tiles.size() + 1, canvas );
       }
@@ -62,11 +60,14 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
     var destinationY = 0;
 
     var buffer = document.createElement( 'canvas' );
-    buffer.width = this.w;
-    buffer.height = this.h;
+    buffer.width = this.w * tileW;
+    buffer.height = this.h * tileH;
 
     var context = buffer.getContext( '2d' );
     context.clearRect ( 0 , 0 , this.w, this.h );
+    // horizontal flip for proper rendering on the engine camera
+    context.translate(this.w * tileW, 0);
+    context.scale(-1, 1);
 
     for( var i = 0; i < this.map.length; i++ ){
       for( var j = 0; j < this.map[i].length; j++ ){
@@ -86,9 +87,13 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
       }
     }
 
-    this.texture.image = buffer;
+    this.texture = new THREE.Texture( buffer );
+    this.texture.wrapS = this.texture.wrapT = THREE.RepeatWrapping;
+    this.texture.needsUpdate = true;
+    this.texture.flipY = true;
 
-    this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
+
+    this.geometry = new THREE.PlaneBufferGeometry( this.w * tileW, this.h * tileH, 1, 1 );
 
     this.material = new THREE.MeshBasicMaterial( {
       map : this.texture,
