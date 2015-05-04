@@ -2,7 +2,6 @@ define( [ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Bas
 
   var Sprite = function( source, width, height, rows, cols ) {
     _BaseThree.call( this, null, null, _Base.SPRITE );
-    this.componentType = _Base.SPRITE; // ???
     this.isRenderable = true;
 
     this.texture = THREE.ImageUtils.loadTexture( ( source ) ? source : 'assets/bad-texture.png' );

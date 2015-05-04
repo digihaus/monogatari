@@ -4,6 +4,7 @@ define( [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( _Base
     _BaseFont.call( this, fontSize, fontFamily );
     this.type = _Base.STATIC_TEXT;
     this.isRenderable = true;
+    this.isLoaded = false;
 
     this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
     this.w = ( width ) ? width : 256;
@@ -15,7 +16,8 @@ define( [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( _Base
     this.buffer.width = this.w;
     this.buffer.height = this.h;
 
-    this.texture = new THREE.Texture();
+    this.texture;
+    this.load();
   };
 
   StaticText.prototype = Object.create( _BaseFont.prototype );
@@ -31,7 +33,7 @@ define( [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( _Base
   StaticText.prototype.onLoad = function() {
     this.parse();
 
-    this.texture.image = this.renderIntoBuffer();
+    this.texture = new THREE.Texture( this.renderIntoBuffer() );
     // This line makes the textures created during execution to work properly
     this.texture.needsUpdate = true;
     this.texture.flipY = true;
@@ -42,7 +44,7 @@ define( [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( _Base
     } );
     this.material.transparent = true;
 
-    this.geometry = new THREE.PlaneGeometry( this.w, this.h, 1, 1 );
+    this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
 
     this.mesh = new THREE.Mesh( this.geometry, this.material );
 
@@ -51,6 +53,9 @@ define( [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( _Base
 
   StaticText.prototype.renderIntoBuffer = function() {
     var context = this.buffer.getContext( '2d' );
+    // horizontal flip for proper rendering on the engine camera
+    context.translate(this.w, 0);
+    context.scale(-1, 1);
 
     if ( this.text.length > 0 ) {
       var c = this.fontMap.get( this.text[ 0 ] );

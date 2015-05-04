@@ -2,34 +2,46 @@
 <html>
 <head>
 <title>Static Text Test</title>
-<link href='http://fonts.googleapis.com/css?family=Caesar+Dressing'
-  rel='stylesheet' type='text/css'>
-<script src="../lib/Require.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Caesar+Dressing' rel='stylesheet' type='text/css'>
+<style type="text/css">
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+</style>
+<script type="text/javascript" src="../lib/Require.js"></script>
 <script>
-  require.config( {
-    baseUrl : '../'
-  } );
-  require( [ 'engine/GameManager', 'engine/entity/component/Node', 'engine/entity/component/StaticText', 'core/io/Keyboard' ], function() {
+require.config( {
+  baseUrl : '../src',
+  paths: {
+      lib: '../lib'
+  }
+} );
+
+require( [ 'Monogatari' ], function( m ) {
     // <Initializing Engine>
-    Monogatari.GameManager.init();
-    Monogatari.SceneManager.createScene( 'mainScene' );
-    Monogatari.SceneManager.createCamera( 'mainCamera', 'mainScene' );
+    m.init( "#FFF" );
     // </Initializing Engine>
 
     // <Initializing Game Objects/Components>
-    var world = Monogatari.ObjectManager.create( 'world' );
-
-    var go = Monogatari.ObjectManager.create( 'dialog' );
+    var go = new m.GameObject('dialog'); 
+    go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
 
     var t = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
 
-    go.addComponent( new Monogatari.Node( new THREE.Vector3( 0, 0, 0 ) ) );
-    go.addComponent( new Monogatari.StaticText( 'mainScene', t, 12, "Caesar Dressing" ) );
+    go.addComponent( new m.StaticText( t, 12, "Caesar Dressing" ) );
+
+    go.update = function(){
+      var staticText = this.findComponent( m.Base.STATIC_TEXT );
+      if( staticText.isLoaded )
+        m.sceneManager.attachToScene( this );
+    }
     // </Initializing Game Objects/Components>
 
     // <game logic>
-    Monogatari.ObjectManager.connect( 'world', 'dialog' );
-    Monogatari.GameManager.run();
+    m.world.children.push( go );
+    m.run();
     // </game logic>
   } );
 </script>

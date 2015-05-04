@@ -59,7 +59,7 @@ define( [ 'core/Common',
   };
 
   GameObject.prototype.addComponent = function( component ) {
-    this.components.put( component.componentType, component );
+    this.components.put( component.type, component );
   };
 
   GameObject.prototype.findComponent = function( type ) {
@@ -107,7 +107,7 @@ define( [ 'core/Common',
     while ( this.componentsIt.hasNext() ) {
       component = this.componentsIt.next();
       // if is a component to be rendered, need to update engine transformations to Three.js transformations
-      if ( component.isRenderable && typeof ( component.getMesh ) === 'function' ) {
+      if ( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
         component.getMesh().position.set( this.position.x, this.position.y, this.position.z);
         component.getMesh().rotation.z = this.getEulerRotation();
         component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z );

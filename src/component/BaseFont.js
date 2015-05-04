@@ -5,8 +5,8 @@
 * https://github.com/typekit/webfontloader
 * http://stemkoski.github.io/Three.js/Texture-From-Canvas.html
 */
-define( [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math', 'lib/WebFontLoader' ],
-  function( _Base, _BaseThree, _Map, _Math, _WebFontLoader ) {
+define( [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math', 'lib/WebFont' ],
+  function( _Base, _BaseThree, _Map, _Math, _WebFont ) {
 
   var Font = function( size, family, strokeColor, fillColor ) {
     _BaseThree.call( this );
