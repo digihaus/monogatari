@@ -52,8 +52,9 @@
                        [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
                        [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0]];
 
-          var graph = new _Graph( maze, { diagonal: true } );
-          var start = graph.grid[9][11];
+          var graph = new _Graph( maze );
+
+/*        var start = graph.grid[9][11];
           var end = graph.grid[10][6];
           var path = _AStar.search(graph, start, end);
           console.log( path ); 
@@ -70,7 +71,7 @@
           path = _AStar.search(graph, start, end);
           console.log( path );
           printAStar( maze, path );
-
+          */
           function printAStar( maze, path ) {
             var line = "";
 
@@ -97,6 +98,12 @@
 
           m.init( "#98FB98", 1216, 896 );
           var r = new m.Random();
+
+          var tilemap = new m.GameObject('tilemap'); 
+          tilemap.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
+          var tileset = new _Tilemap( maze, 'assets/sprites/tileset.png', 2, 1 );
+          tilemap.addComponent( tileset );
+          m.world.children.push( tilemap );
 
           // ant nest
           var nest = new m.GameObject('nest');
@@ -178,29 +185,36 @@
           }
           bufferFood();
 
-          var TIME_BETWEEN_FOOD = 100;
+          var TIME_BETWEEN_FOOD = 500;
           lastFoodPlaced = m.timer.time;
           function spawnFood(){
             var obj;
 
             if ( (m.timer.time - lastFoodPlaced ) > TIME_BETWEEN_FOOD ) {
 
-	            foodIt.first();
+              foodIt.first();
 
-	            while ( foodIt.hasNext() ) {
-	              obj = foodIt.next();
+              while ( foodIt.hasNext() ) {
+                obj = foodIt.next();
 
-	              if ( obj && !obj.isActive && !obj.isVisible ) {
-	                obj.isActive = true;
-	                obj.isVisible = true;
+                if ( obj && !obj.isActive && !obj.isVisible ) {
+                  obj.isActive = true;
+                  obj.isVisible = true;
 
-	                obj.position.set( placer.position.x, placer.position.y, 0);
+                  obj.position.set( placer.position.x, placer.position.y, 0);
 
-	                lastFoodPlaced = m.timer.time;
 
-	                return;
-	              }
-	            }
+                  var start = graph.grid[ tileset.getTileYFromPosition(nest.position.y + 16) ][ tileset.getTileXFromPosition(nest.position.x + 16) ];
+                  var end = graph.grid[ tileset.getTileYFromPosition(placer.position.y) ][ tileset.getTileXFromPosition(placer.position.x) ];
+                  var path = _AStar.search(graph, start, end);
+                  console.log( path ); 
+                  printAStar( maze, path );
+
+                  lastFoodPlaced = m.timer.time;
+
+                  return;
+                }
+              }
 
             }
           }
@@ -233,7 +247,7 @@
 	                  ant.target = targets[ r.integer( { min : 0, max : targets.length -1 } ) ];
 	                  ant.lookAt( ant.target );
 
-	                  timeBetweenAntSpawn = r.integer( { min : 200, max : 400 } );
+	                  timeBetweenAntSpawn = (targets.length > 0) ? r.integer( { min : 300, max : 500 } ) - targets.length * 20 : 250;
 	                  lastSpawn = m.timer.time;
 
 	                  return;
@@ -274,25 +288,20 @@
             while ( antIt.hasNext() ) {
               a = antIt.next();
 
-              if ( a && a.isActive && a.isVisible && collision( a.position, 16, nest.position, 32 ) && a.withFood ) {
+              if ( a && a.isActive && a.isVisible && collision( a.position, 16, nest.position, 16 ) && a.withFood ) {
                 a.reset();
               }
             }
           }
-
-          var tilemap = new m.GameObject('tilemap'); 
-          tilemap.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
-          var tileset = new _Tilemap( maze, 'assets/sprites/tileset.png', 2, 1 );
-          tilemap.addComponent( tileset );
-          m.world.children.push( tilemap );
 
           var placer = new m.GameObject('placer');
           var geom = new m.BaseThree();
           geom.geometry = new THREE.PlaneGeometry( 32, 32, 1, 1 );
           geom.material = new THREE.MeshBasicMaterial( {
             side : THREE.BackSide,
-            wireframe: true,
-            color : 0x0000FF
+            color : 0x0055FF,
+            transparent : true,
+            opacity : 0.3
           } );
           geom.mesh = new THREE.Mesh( geom.geometry, geom.material );
           placer.addComponent( geom );
