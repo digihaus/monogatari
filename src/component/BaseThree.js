@@ -1,7 +1,7 @@
 define( [ 'component/Base', 'lib/Three' ], function( _Base, _Three ) {
 
-  var BaseThree = function( material, geometry ) {
-    _Base.call( this, _Base.BASE_THREE );
+  var BaseThree = function( material, geometry, type ) {
+    _Base.call( this, type || _Base.BASE_THREE );
     this.isRenderable = true;
 
     this.texture = null;
