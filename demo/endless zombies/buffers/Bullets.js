@@ -2,23 +2,24 @@ define( [ 'Monogatari' ], function( m ) {
 
   var TIME_BETWEEN_SHOTS = 100;
   var MAX_BULLETS = 40;
+
   var BULLET_SPEED = 600;
   var BULLET_ANIMATION_SPEED = 300;
 
-  var lastShot = m.timer.time;
-
   var instance = null;
 
-  var Bullet = function() {
-    this.buffer = new m.Map();
-    this.bulletIt = this.buffer.iterator();
+  var lastShot = m.timer.time;
 
-    var bullet = null;
+  var Bullets = function() {
+    this.buffer = new m.Map();
+    this.bufferIt = this.buffer.iterator();
 
     for ( var i = 0; i < MAX_BULLETS; i++ ) {
+
+      var bullet = new m.GameObject( 'bullet_' + i );
+
       var sprite = new m.Sprite( 'assets/sprites/bullet.png', 16, 16, 2, 1 );
 
-      bullet = new m.GameObject( 'bullet_' + i );
       bullet.position.set( -2000, 2000, 0 );
       bullet.isActive = false;
       bullet.isVisible = false;
@@ -45,11 +46,12 @@ define( [ 'Monogatari' ], function( m ) {
         this.position.x += this.rotation.x * speed;
         this.position.y += this.rotation.y * speed;
 
-        if ( this.position.x < 0 || this.position.x > m.sceneManager.canvasWidth || this.position.y < 0
+        if ( this.position.x < 0 //
+            || this.position.x > m.sceneManager.canvasWidth //
+            || this.position.y < 0 //
             || this.position.y > m.sceneManager.canvasHeight ) {
           this.reset();
         }
-
       };
 
       m.sceneManager.attachToScene( bullet );
@@ -57,42 +59,38 @@ define( [ 'Monogatari' ], function( m ) {
       this.buffer.put( bullet.id, bullet );
     }
 
-    Bullet.prototype.shoot = function( fromX, fromY ) {
-
+    Bullets.prototype.shoot = function( fromX, fromY ) {
       if ( ( m.timer.time - lastShot ) > TIME_BETWEEN_SHOTS ) {
 
-        this.bulletIt.first();
+        this.bufferIt.first();
 
-        while ( this.bulletIt.hasNext() ) {
-          obj = this.bulletIt.next();
+        while ( this.bufferIt.hasNext() ) {
+          obj = this.bufferIt.next();
 
           if ( obj && !obj.isActive && !obj.isVisible ) {
             var sprite = obj.findComponent( m.Base.SPRITE );
 
             obj.isActive = true;
             obj.isVisible = true;
-
             obj.position.set( fromX, fromY, 0 );
-
             obj.lookAt( m.mouse.position );
 
             lastShot = m.timer.time;
             return;
           }
         }
-
       }
-
     }
+
   };
 
-  Bullet.getInstance = function() {
-    if ( instance === null ) {
-      instance = new Bullet();
-    }
+  Bullets.getInstance = function() {
+    if ( instance === null )
+      instance = new Bullets();
+
     return instance;
   }
 
-  return Bullet.getInstance();
+  return Bullets.getInstance();
 
 } );

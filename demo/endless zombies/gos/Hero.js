@@ -1,8 +1,8 @@
-define( [ 'Monogatari', '../endless zombies/Bullets' ], function( m, Bullets ) {
+define( [ 'Monogatari', 'buffers/Bullets' ], function( m, bullets ) {
 
   var hero = new m.GameObject( 'hero' );
 
-  // center the hero on the screen
+  // centers the hero on the screen
   hero.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
 
   var sprite = new m.Sprite( 'assets/sprites/generico_tosco.png', 64, 64 );
@@ -31,11 +31,10 @@ define( [ 'Monogatari', '../endless zombies/Bullets' ], function( m, Bullets ) {
       this.position.x += speed;
 
     if ( m.mouse.isDown( m.mouse.LMB ) )
-      Bullets.shoot( this.position.x, this.position.y );
+      bullets.shoot( this.position.x, this.position.y );
 
     this.lookAt( m.mouse.position );
   };
 
   return hero;
-
 } );
