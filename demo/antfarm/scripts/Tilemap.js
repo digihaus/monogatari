@@ -5,8 +5,8 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
     _BaseThree.call( this, null, null, 4 /*_Base.SPRITE*/ );
     this.isRenderable = true;
 
-    this.w = map.length;
-    this.h = map[0].length;
+    this.w = map[0].length;
+    this.h = map.length;
 
     this.rows = ( spritesheetRows ) ? spritesheetRows : 1;
     this.cols = ( spritesheetCols ) ? spritesheetCols : 1;
@@ -64,7 +64,7 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
     buffer.height = this.h * tileH;
 
     var context = buffer.getContext( '2d' );
-    context.clearRect ( 0 , 0 , this.w, this.h );
+    context.clearRect ( 0 , 0 , this.w * tileW, this.h * tileH );
     // horizontal flip for proper rendering on the engine camera
     context.translate(this.w * tileW, 0);
     context.scale(-1, 1);
@@ -93,12 +93,12 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
     this.texture.flipY = true;
 
 
-    this.geometry = new THREE.PlaneBufferGeometry( this.w * tileW, this.h * tileH, 1, 1 );
+    this.geometry = new THREE.PlaneBufferGeometry( this.w * tileW, this.h * tileH, this.w, this.h);
 
     this.material = new THREE.MeshBasicMaterial( {
       map : this.texture,
-      side : THREE.BackSide/*,
-      wireframe: true,
+      side : THREE.BackSide
+      /*wireframe: true,
       color : 0xFF0000*/
     } );
 

@@ -12,6 +12,7 @@ define( [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math'
     _BaseThree.call( this );
     this.type = _Base.BASE_FONT;
     this.isRenderable = true;
+    this.isLoaded = false;
 
     this.fontSize = ( size ) ? size : 10;
     this.fontFamily = ( family ) ? family : 'Verdana';
@@ -43,8 +44,6 @@ define( [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math'
       }
     } );
   }
-
-  Font.prototype.isLoaded = false;
 
   Font.prototype.onLoad = function() {
     this.parse();
