@@ -51,7 +51,7 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
   };
 
   // TODO optimize, render for tile and not for map coordinate
-  Tilemap.prototype.renderIntoTexture = function(){
+  Tilemap.prototype.renderIntoBuffer = function(){
     var tile;
     var tileW = this.spritesheet.image.width / this.cols;
     var tileH = this.spritesheet.image.height / this.rows;
@@ -97,7 +97,9 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
 
     this.material = new THREE.MeshBasicMaterial( {
       map : this.texture,
-      side : THREE.BackSide
+      side : THREE.BackSide/*,
+      wireframe: true,
+      color : 0xFF0000*/
     } );
 
     this.mesh = new THREE.Mesh( this.geometry, this.material );

@@ -56,7 +56,7 @@
           function checkTileSet(){
             if( tileset.spritesheet.image && !parsed){
               tileset.parse();
-              tileset.renderIntoTexture();
+              tileset.renderIntoBuffer();
               m.sceneManager.attachToScene( tilemap );
               parsed = true;
             }
