@@ -9,49 +9,33 @@
           overflow: hidden;
         }
         </style>
+
+
+<!-- 
+        <script type="text/javascript" src="../../dist/monogatari-0.1.0-dev.js"></script>
+ -->   
+ 
+ 
         <script type="text/javascript" src="../../lib/Require.js"></script>
         <script>
-
         require.config( {
           baseUrl : '../../src',
           paths: {
               lib: '../lib'
           }
         } );
-
+        
+        </script>
+        <script>
         require( [ 'Monogatari' ], function( m ) {
 
           m.init( "#000" );
 
-          // game objects
-          var hero = new m.GameObject('hero');
+          require( [ '../demo/endless zombies/hero', '../demo/endless zombies/Bullets' ], function( hero, Bullets ) {
+            
+          // game objects          
           var r = new m.Random();
-
-          //center the hero on the screen
-          hero.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
-
-          var sprite = new m.Sprite( 'assets/sprites/generico_tosco.png', 64, 64 );
-          hero.addComponent(sprite);
-          hero.life = 100;
-
-          hero.update = function(){
-            var speed = 200 / m.timer.fps;
-
-            if ( m.keyboard.isDown( m.keyboard.W ) ) { this.position.y -= speed; }
-            if ( m.keyboard.isDown( m.keyboard.A ) ) { this.position.x -= speed; }
-            if ( m.keyboard.isDown( m.keyboard.S ) ) { this.position.y += speed; }
-            if ( m.keyboard.isDown( m.keyboard.D ) ) { this.position.x += speed; }
-
-            if ( m.keyboard.isDown( m.keyboard.UP_ARROW ) ) { this.position.y -= speed; }
-            if ( m.keyboard.isDown( m.keyboard.LEFT_ARROW ) ) { this.position.x -= speed; }
-            if ( m.keyboard.isDown( m.keyboard.DOWN_ARROW ) ) { this.position.y += speed; }
-            if ( m.keyboard.isDown( m.keyboard.RIGHT_ARROW ) ) { this.position.x += speed; }
-
-            if ( m.mouse.isDown( m.mouse.LMB ) ) shoot( this.position.x, this.position.y );
-
-            this.lookAt( m.mouse.position );
-          };
-
+          
           m.sceneManager.attachToScene( hero );
 
           m.world.children.push( hero );
@@ -183,92 +167,13 @@
           };
 
           // bullets
-          var MAX_BULLETS = 40;
-          var BULLET_SPEED = 600;
-          var BULLET_ANIMATION_SPEED = 300;
-          var TIME_BETWEEN_SHOTS = 100;
-
-          var bullets = new m.Map();
-          var bulletIt = bullets.iterator(); 
-
-          function bufferBullets(){
-            var bullet = null;
-
-            for ( var i = 0; i < MAX_BULLETS; i++ ) {
-              var sprite = new m.Sprite( 'assets/sprites/bullet.png', 16, 16, 2, 1 );
-
-              bullet = new m.GameObject( 'bullet_' + i );
-              bullet.position.set( -2000, 2000, 0 );
-              bullet.isActive = false;
-              bullet.isVisible = false;
-
-              bullet.addComponent( sprite );
-              bullet.speed = BULLET_SPEED;
-              bullet.animationSpeed = BULLET_ANIMATION_SPEED;
-
-              bullet.reset = function() {
-                this.isActive = false;
-                this.isVisible = false;
-                this.position.set(-2000, 3000, 0);
-              };
-
-              bullet.update = function() {
-                var speed = this.speed / m.timer.fps ;
-                var sprite = this.findComponent( m.Base.SPRITE );
-
-                if ( (m.timer.time - sprite.lastUpdate ) > this.animationSpeed ) {
-                  sprite.nextFrame();
-                  sprite.lastUpdate = m.timer.time;
-                }
-
-                this.position.x += this.rotation.x * speed;
-                this.position.y += this.rotation.y * speed;
-
-                if ( this.position.x < 0 || this.position.x > m.sceneManager.canvasWidth || this.position.y < 0 || this.position.y > m.sceneManager.canvasHeight ){
-                  this.reset();
-                }
-
-              };
-
-              m.sceneManager.attachToScene( bullet );
-              m.world.children.push( bullet );
-              bullets.put( bullet.id, bullet );
-
-             }
-          };
-          bufferBullets();
-
-          var lastShot = m.timer.time;
-          function shoot( fromX, fromY ) {
-
-            if ( (m.timer.time - lastShot ) > TIME_BETWEEN_SHOTS ) {
-              bulletIt.first();
-
-              while ( bulletIt.hasNext() ) {
-                obj = bulletIt.next();
-
-                if ( obj && !obj.isActive && !obj.isVisible ) {
-                  var sprite = obj.findComponent( m.Base.SPRITE );
-
-                  obj.isActive = true;
-                  obj.isVisible = true;
-
-                  obj.position.set(fromX, fromY, 0);
-
-                  obj.lookAt( m.mouse.position );
-
-                  lastShot = m.timer.time;
-                  return;
-                }
-              }
-
-            }
-          }
+          
+          
 
           var score = 0;
           function checkCollisions(){
 
-            // verifica colis√£o de zombies com bullets
+            // verifica colis„o de zombies com bullets
             var z = null;
             var b = null;
 
@@ -277,10 +182,10 @@
             while ( zombieIt.hasNext() ) {
               z = zombieIt.next();
 
-              bulletIt.first();
+              Bullets.bulletIt.first();
 
-              while ( bulletIt.hasNext() ) {
-                b = bulletIt.next();
+              while ( Bullets.bulletIt.hasNext() ) {
+                b = Bullets.bulletIt.next();
 
                 if ( collision( b.position, 8, z.position, 32 ) ) {
                   b.reset();
@@ -294,7 +199,7 @@
               }
             }
 
-            // verifica colis√£o de hero com zombies
+            // verifica colis„o de hero com zombies
             zombieIt.first();
             while ( zombieIt.hasNext() ) {
               z = zombieIt.next();
@@ -322,10 +227,12 @@
           // game specifics
 
           m.run();
+          
+          
+          } );
         });
         </script>
     </head>
     <body>
-
     </body>
 </html>
