@@ -17,7 +17,7 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
 
     this.bersek = false;
 
-    this.addComponent( new m.Sprite( 'assets/sprites/zombies2.png', 64, 64, 1, 3 ) );
+    this.addComponent( new m.Sprite( 'assets/sprites/zombies.png', 64, 64, 3, 3 ) );
 
     this.lastAttackUpdate = 0;
     this.life = ZOMBIE_LIFE;
@@ -54,8 +54,20 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
         this.position.x += this.rotation.x * speed;
         this.position.y += this.rotation.y * speed;
 
-        if ( ( m.timer.time - sprite.lastUpdate ) > this.animationSpeed && r.integer( { min : 1, max : 2 } ) ) {
-          sprite.nextFrame();
+        var startFrame = this.bersek ? 4 : 1;
+
+        if ( ( m.timer.time - sprite.lastUpdate ) > this.animationSpeed //
+            && r.integer( { min : 1, max : 2 } ) ) {
+
+          var frameNumber = sprite.getFrame();
+
+          if ( frameNumber >= ( startFrame + 2 ) ) {
+            frameNumber = startFrame;
+          } else {
+            frameNumber++;
+          }
+
+          sprite.setFrame( frameNumber );
           sprite.lastUpdate = m.timer.time;
         }
 
