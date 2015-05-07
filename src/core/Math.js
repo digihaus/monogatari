@@ -98,10 +98,10 @@ define( [ 'lib/Three' ], function( _Three ) {
 
     var remainder = this.abs( numToRound ) % multiple;
     if ( remainder === 0 )
-      return numToRound + ( multiple / 2 );
+      return numToRound + multiple;
     if ( numToRound < 0 )
       return - ( this.abs( numToRound ) - remainder );
-    return numToRound + ( multiple / 2 ) - remainder;
+    return numToRound + multiple - remainder;
   };
 
   Math.acos = Math.acos;
