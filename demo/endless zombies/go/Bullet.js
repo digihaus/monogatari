@@ -42,7 +42,9 @@ define( [ 'Monogatari' ], function( m ) {
       }
     };
 
-  }
+    m.sceneManager.attachToScene( this );
+    m.world.children.push( this );
+  };
 
   Bullet.prototype = Object.create( m.GameObject.prototype );
 

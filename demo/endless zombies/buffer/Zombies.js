@@ -12,33 +12,29 @@ define( [ 'Monogatari', 'go/Zombie' ], function( m, Zombie ) {
 
     for ( var i = 0; i < NUM_ZOMBIES; i++ ) {
       var zombie = new Zombie( i );
-
-      m.sceneManager.attachToScene( zombie );
-      m.world.children.push( zombie );
-
       this.buffer.put( zombie.id, zombie );
     }
   };
 
-  Zombies.prototype.spawnZombies = function(){
+  Zombies.prototype.spawnZombies = function() {
     this.bufferIt.first();
     var obj = null;
 
     while ( this.bufferIt.hasNext() ) {
       obj = this.bufferIt.next();
 
-      if ( obj && !obj.isActive && !obj.isVisible) {
+      if ( obj && !obj.isActive && !obj.isVisible ) {
         obj.isActive = true;
         obj.isVisible = true;
 
         switch ( r.integer( { min : 1, max : 4 } ) ) {
         case 1:
           obj.position.x = r.floating( { min : 0, max : m.sceneManager.canvasWidth } );
-          obj.position.y = - 63;
+          obj.position.y = -63;
           obj.position.z = 0;
           break;
         case 2:
-          obj.position.x = - 63;
+          obj.position.x = -63;
           obj.position.y = r.floating( { min : 0, max : m.sceneManager.canvasHeight } );
           obj.position.z = 0;
           break;
@@ -55,7 +51,6 @@ define( [ 'Monogatari', 'go/Zombie' ], function( m, Zombie ) {
         }
       }
     }
-
   };
 
   Zombies.getInstance = function() {
@@ -66,5 +61,4 @@ define( [ 'Monogatari', 'go/Zombie' ], function( m, Zombie ) {
   };
 
   return Zombies.getInstance();
-
 } );

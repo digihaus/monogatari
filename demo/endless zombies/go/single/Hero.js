@@ -1,4 +1,4 @@
-define( [ 'Monogatari', 'buffer/Bullets' ], function( m, bullets ) {
+define( [ 'Monogatari', 'buffer/Bullets' ], function( m, Bullets ) {
 
   var instance = null;
 
@@ -34,11 +34,14 @@ define( [ 'Monogatari', 'buffer/Bullets' ], function( m, bullets ) {
         this.position.x += speed;
 
       if ( m.mouse.isDown( m.mouse.LMB ) )
-        bullets.shoot( this.position.x, this.position.y );
+        Bullets.shoot( this.position.x, this.position.y );
 
       this.lookAt( m.mouse.position );
     };
-  }
+
+    m.sceneManager.attachToScene( this );
+    m.world.children.push( this );
+  };
 
   Hero.prototype = Object.create( m.GameObject.prototype );
 
@@ -47,7 +50,7 @@ define( [ 'Monogatari', 'buffer/Bullets' ], function( m, bullets ) {
       instance = new Hero();
     }
     return instance;
-  }
+  };
 
   return Hero.getInstance();
 } );

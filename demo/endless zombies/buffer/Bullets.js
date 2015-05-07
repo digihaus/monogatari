@@ -12,11 +12,7 @@ define( [ 'Monogatari', 'go/Bullet' ], function( m, Bullet ) {
     this.bufferIt = this.buffer.iterator();
 
     for ( var i = 0; i < MAX_BULLETS; i++ ) {
-
       var bullet = new Bullet( i );
-
-      m.sceneManager.attachToScene( bullet );
-      m.world.children.push( bullet );
       this.buffer.put( bullet.id, bullet );
     }
   };
@@ -28,7 +24,6 @@ define( [ 'Monogatari', 'go/Bullet' ], function( m, Bullet ) {
 
       while ( this.bufferIt.hasNext() ) {
         obj = this.bufferIt.next();
-
         if ( obj && !obj.isActive && !obj.isVisible ) {
           var sprite = obj.findComponent( m.Base.SPRITE );
 
@@ -49,8 +44,7 @@ define( [ 'Monogatari', 'go/Bullet' ], function( m, Bullet ) {
       instance = new Bullets();
     }
     return instance;
-  }
+  };
 
   return Bullets.getInstance();
-
 } );

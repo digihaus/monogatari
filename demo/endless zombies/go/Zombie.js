@@ -31,14 +31,14 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
       this.lastUpdate = 0;
       this.position.set( -2000, 2000, 0 );
       this.life = ZOMBIE_LIFE;
-    }
+    };
 
     this.attack = function() {
       if ( ( m.timer.time - this.lastAttackUpdate ) > this.attackInterval ) {
         Hero.life--;
         this.lastAttackUpdate = m.timer.time;
       }
-    }
+    };
 
     this.update = function() {
       if ( this.isActive ) {
@@ -50,22 +50,22 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
         this.position.x += this.rotation.x * speed;
         this.position.y += this.rotation.y * speed;
 
-        if ( ( m.timer.time - sprite.lastUpdate ) > this.animationSpeed && r.integer( {
-          min : 1,
-          max : 2
-        } ) ) {
+        if ( ( m.timer.time - sprite.lastUpdate ) > this.animationSpeed && r.integer( { min : 1, max : 2 } ) ) {
           sprite.nextFrame();
           sprite.lastUpdate = m.timer.time;
         }
 
-        if ( this.position.x < -64 || this.position.x > m.sceneManager.canvasWidth + 64 || this.position.y < -64
+        if ( this.position.x < -64 //
+            || this.position.x > m.sceneManager.canvasWidth + 64 //
+            || this.position.y < -64 //
             || this.position.y > m.sceneManager.canvasHeight + 64 ) {
           this.reset();
         }
-
       }
-    }
+    };
 
+    m.sceneManager.attachToScene( this );
+    m.world.children.push( this );
   };
 
   Zombie.prototype = Object.create( m.GameObject.prototype );

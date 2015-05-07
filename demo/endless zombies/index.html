@@ -1,113 +1,96 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Endless Zombies</title>
-        <style type="text/css">
-        body {
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-        }
-        </style>
-        
-        <script type="text/javascript" src="../../dist/monogatari-0.1.0-dev.js"></script> 
-		<!--
-        <script type="text/javascript" src="../../lib/Require.js"></script>
-        <script>
-        require.config( {
-          baseUrl : '../../src',
-          paths: {
-              lib: '../lib'
+<head>
+<title>Endless Zombies</title>
+<style type="text/css">
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+</style>
+<script type="text/javascript" src="../../dist/monogatari-0.1.0-dev.js"></script>
+<!--
+<script type="text/javascript" src="../../lib/Require.js"></script>
+<script>
+  require.config( {
+    baseUrl : '../../src',
+    paths: {
+        lib: '../lib'
+    }
+  } );    
+</script>
+-->
+<script>
+  require( [ 'Monogatari' ], function( m ) {
+
+    m.init( "#000" );
+
+    require( [ 'go/single/Hero', 'buffer/Bullets', 'buffer/Zombies' ], function( Hero, Bullets, Zombies ) {
+
+      var score = 0;
+      var gameOver = false;
+    
+      function collision( positionA, radiusA, positionB, radiusB ) {
+        var dist = positionA.distanceTo( positionB );
+        var radius = radiusA + radiusB;
+        return ( dist < radius ) ? true : false;
+      };
+
+      function checkCollisions() {        
+        var z = null;        
+        Zombies.bufferIt.first();
+       
+        while ( Zombies.bufferIt.hasNext() ) {
+          z = Zombies.bufferIt.next();
+
+          // checks zombie/hero collision
+          if ( collision( Hero.position, 32, z.position, 32 ) ) {
+            z.attack();
           }
-        } );
+
+       		// checks zombie/bullet collision
+          var b = null;       	
+          Bullets.bufferIt.first();          
+          
+          while ( Bullets.bufferIt.hasNext() ) {
+            b = Bullets.bufferIt.next();
+
+            if ( collision( b.position, 8, z.position, 32 ) ) {
+              b.reset();
+              z.life--;
+              if ( z.life <= 0 ) {
+                z.reset();
+                score++;
+              }
+            }
+          }
+        }
+      }
+
+      function die() {
+        Hero.position.set( -2000, 2000 );
+        Hero.update = function() {};
+        alert( 'You died!\nKilling ' + score + ' zombies' );
+      };
+      
+      m.world.update = function() {
+        Zombies.spawnZombies();
+        checkCollisions();
         
-        </script>
-         -->   
-        
-        <script>
-        require( [ 'Monogatari' ], function( m ) {
+        // check if the hero is dead and finish the game
+        if ( Hero.life < 0 && !gameOver ) {
+          die();
+          gameOver = true;
+        }
+      };
 
-          m.init( "#000" );
+      m.run();
 
-          require( [ 'go/single/Hero', 'buffer/Bullets', 'buffer/Zombies' ], function( Hero, Bullets, Zombies ) {                        
-            
-            m.sceneManager.attachToScene( Hero );
-            m.world.children.push( Hero );                      	        	
-	
-            var r = new m.Random();
-            
-	          // game specifics
-	          function die() {
-	            Hero.position.set(-2000, 2000);
-	            Hero.update = function() {};
-	            alert( "You died!\nKilling " + score + " zombies" );
-	          };
-	
-	          function collision( positionA, radiusA, positionB, radiusB ) {
-	            var dist = positionA.distanceTo( positionB );
-	            var radius = radiusA + radiusB;
-	            return ( dist < radius ) ? true : false;
-	          }	          
-
-	          var score = 0;
-	          function checkCollisions() {
-	
-	            // verifica colisão de zombies com bullets
-	            var z = null;
-	            var b = null;
-	
-	            Zombies.bufferIt.first();
-	
-	            while ( Zombies.bufferIt.hasNext() ) {
-	              z = Zombies.bufferIt.next();
-	
-	              Bullets.bufferIt.first();
-	
-	              while ( Bullets.bufferIt.hasNext() ) {
-	                b = Bullets.bufferIt.next();
-	
-	                if ( collision( b.position, 8, z.position, 32 ) ) {
-	                  b.reset();
-	                  z.life--;
-	
-	                  if ( z.life <= 0 ) {
-	                    z.reset();
-	                    score++;
-	                  }
-	                }
-	              }
-	            }
-	
-	            // verifica colisão de hero com zombies
-	            Zombies.bufferIt.first();
-	            while ( Zombies.bufferIt.hasNext() ) {
-	              z = Zombies.bufferIt.next();
-	              if ( collision( Hero.position, 32, z.position, 32 ) ) {
-	                z.attack();
-	              }
-	            }
-	          }
-	
-	          var gameOver = false;
-	          function checkForGameOver(){
-	            // check if the hero is dead and finish the game
-	            if( Hero.life < 0 && !gameOver){
-	              die();
-	              gameOver = true;
-	            }
-	          }
-	
-	          m.world.update = function() {
-	            Zombies.spawnZombies();
-	            checkCollisions();
-	            checkForGameOver();
-	          };
-
-	          m.run();                  
-          });
-        });
-        </script>
-    </head>
-    <body>
-    </body>
+    } );
+  } );
+</script>
+</head>
+<body>
+</body>
 </html>
