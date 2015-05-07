@@ -1,6 +1,6 @@
-define( [ 'core/Timer', 'input/Keyboard', 'input/Mouse', 'manager/SceneManager', 'manager/PhysicsManager', 'lib/Chance', 'core/GameObject',
+define( [ 'core/Timer', 'core/Math', 'input/Keyboard', 'input/Mouse', 'manager/SceneManager', 'manager/PhysicsManager', 'lib/Chance', 'core/GameObject',
     'component/Audio', 'component/Base', 'component/BaseThree', 'component/RigidBody', 'component/Sprite', 'component/StaticText', 'collection/List',
-    'collection/Map', 'util/ArrayUtils', 'util/CommonUtils', 'util/StringUtils' ], function( _Timer, _Keyboard, _Mouse, _SceneManager,
+    'collection/Map', 'util/ArrayUtils', 'util/CommonUtils', 'util/StringUtils' ], function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager,
     _PhysicsManager, _Chance, _GameObject, _Audio, _Base, _BaseThree, _RigidBody, _Sprite, _StaticText, _List, _Map, _ArrayUtils, _CommonUtils,
     _StringUtils ) {
 
@@ -22,6 +22,7 @@ define( [ 'core/Timer', 'input/Keyboard', 'input/Mouse', 'manager/SceneManager',
   var Monogatari = function() {
 
     // core engine modules
+    this.math = _Math;
     this.timer = new _Timer();
     this.world = new _GameObject( 'world' );
     this.sceneManager = new _SceneManager();

@@ -31,21 +31,13 @@ define( [ 'lib/Three' ], function( _Three ) {
   };
 
   Math.RADTODEG = 57.295779513082;
-
   Math.DEGTORAD = 0.0174532925199;
-
   Math.SQRT_2 = 1.41421356237;
-
   Math.PI = 3.14159265358979;
-
   Math.PI_2 = 6.28318530717958; // 2 * PI
-
   Math.PI_OVER_180 = 0.0174532925199; // PI / 180
-
   Math.PI_OVER_360 = 0.0087266462599; // PI / 360
-
-  Math.ONE_DEGREE = Math.PI_OVER_180;  // same as PI_OVER_180, just for coding convenience
-
+  Math.ONE_DEGREE = Math.PI_OVER_180; // same as PI_OVER_180, just for coding convenience
   Math.ONE_MEGABYTE = 1048576; // 1024 kilobytes * 1024 bytes
 
   Math.getXAlignedVector = function() {
@@ -100,32 +92,31 @@ define( [ 'lib/Three' ], function( _Three ) {
     return parseInt( num, 16 );
   };
 
+  Math.nearestMultiple = function( numToRound, multiple ) {
+    if ( multiple === 0 )
+      return numToRound;
+
+    var remainder = this.abs( numToRound ) % multiple;
+    if ( remainder === 0 )
+      return numToRound + ( multiple / 2 );
+    if ( numToRound < 0 )
+      return - ( this.abs( numToRound ) - remainder );
+    return numToRound + ( multiple / 2 ) - remainder;
+  };
+
   Math.acos = Math.acos;
-
   Math.sqrt = Math.sqrt;
-
   Math.sin = Math.sin;
-
   Math.cos = Math.cos;
-
   Math.tan = Math.tan;
-
   Math.atan = Math.atan;
-
   Math.atan2 = Math.atan2;
-
   Math.pow = Math.pow;
-
   Math.min = minHack; // Math.min
-
   Math.max = maxHack; // Math.max
-
   Math.abs = absHack; // Math.abs
-
   Math.round = roundHack; // Math.round
-
   Math.ceil = ceilHack; // Math.ceil
-
   Math.floor = floorHack; // Math.floor
 
   return Math;

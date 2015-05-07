@@ -22,324 +22,328 @@
 
         require( [ 'Monogatari', 'demo/Graph', 'demo/AStar', 'demo/Tilemap' ], function( m, _Graph,  _AStar, _Tilemap ) {
 
-/* AStar */
-          var maze = [ [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0],
-                       [1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-                       [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0],
-                       [1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1],
-                       [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1],
-                       [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
-                       [1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
-                       [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
-                       [1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-                       [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1],
-                       [1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-                       [1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-                       [1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1],
-                       [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-                       [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0]];
+                    var maze = [ [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                                 [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0],
+                                 [1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+                                 [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0],
+                                 [1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                                 [1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1],
+                                 [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1],
+                                 [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+                                 [1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+                                 [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+                                 [1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+                                 [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+                                 [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1],
+                                 [1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+                                 [1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+                                 [1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1],
+                                 [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+                                 [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0]];
 
-          var graph = new _Graph( maze, { diagonal: true } );
-          var start = graph.grid[9][11];
-          var end = graph.grid[10][6];
-          var path = _AStar.search(graph, start, end);
-          console.log( path ); 
-          printAStar( maze, path );
 
-          start = graph.grid[9][0];
-          end = graph.grid[0][9];
-          path = _AStar.search(graph, start, end);
-          console.log( path );
-          printAStar( maze, path );
+                    var graph = new _Graph( maze );
+                    /*
+                    var start = graph.grid[ 9 ][ 11 ];
+                    var end = graph.grid[ 10 ][ 6 ];
+                    var path = _AStar.search( graph, start, end );
+                    console.log( path );
+                    printAStar( maze, path );
 
-          start = graph.grid[19][0];
-          end = graph.grid[0][19];
-          path = _AStar.search(graph, start, end);
-          console.log( path );
-          printAStar( maze, path );
+                    start = graph.grid[ 9 ][ 0 ];
+                    end = graph.grid[ 0 ][ 9 ];
+                    path = _AStar.search( graph, start, end );
+                    console.log( path );
+                    printAStar( maze, path );
 
-          function printAStar( maze, path ) {
-            var line = "";
+                    start = graph.grid[ 19 ][ 0 ];
+                    end = graph.grid[ 0 ][ 19 ];
+                    path = _AStar.search( graph, start, end );
+                    console.log( path );
+                    printAStar( maze, path );
+                    */
 
-            for ( var i = 0; i < maze.length; i++ ) {
-              for ( var j = 0; j < maze[i].length; j++ ) {
-                line += ( findNode( path, i, j ) ) ? " * " : ( maze[i][j] === 0 ) ? " | " : " . ";
-              }
-              console.log( line );
-              line = "";
-            }
-          };
+                    function printAStar( maze, path ) {
+                      var line = "";
 
-          function findNode( path, x ,y ){
-            var node;
+                      for ( var i = 0; i < maze.length; i++ ) {
+                        for ( var j = 0; j < maze[ i ].length; j++ ) {
+                          line += ( findNode( path, i, j ) ) ? " * " : ( maze[ i ][ j ] === 0 ) ? " | " : " . ";
+                        }
+                        console.log( line );
+                        line = "";
+                      }
+                    };
 
-            for ( var i = 0; i < path.length; i++ ) {
-              if ( path[i].x === x && path[i].y === y)
-                return true;
-            }
+                    function findNode( path, x, y ) {
+                      var node;
 
-            return false;
-          }
-/* AStar */
+                      for ( var i = 0; i < path.length; i++ ) {
+                        if ( path[ i ].x === x && path[ i ].y === y )
+                          return true;
+                      }
 
-          m.init( "#98FB98", 1216, 896 );
-          var r = new m.Random();
+                      return false;
+                    }
 
-          // ant nest
-          var nest = new m.GameObject('nest');
-          nest.position.set( 592, 432, 0 );
+                    m.init( "#98FB98", 1216, 896 );
+                    var r = new m.Random();
 
-          var sprite = new m.Sprite( 'assets/sprites/nest.png', 32, 32 );
-          nest.addComponent(sprite);
+                    var tilemap = new m.GameObject( 'tilemap' );
+                    tilemap.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
+                    var tileset = new _Tilemap( maze, 'assets/sprites/tileset.png', 2, 1 );
+                    tilemap.addComponent( tileset );
+                    m.world.children.push( tilemap );
 
-          m.sceneManager.attachToScene( nest );
-          m.world.children.push( nest );
+                    // ant nest
+                    var nest = new m.GameObject( 'nest' );
+                    nest.position.set( 592, 432, 0 );
 
-          var NUM_ANTS = 40;
+                    var sprite = new m.Sprite( 'assets/sprites/nest.png', 32, 32 );
+                    nest.addComponent( sprite );
 
-          var ants = new m.Map();
-          var antIt = ants.iterator(); 
+                    m.sceneManager.attachToScene( nest );
+                    m.world.children.push( nest );
 
-          function bufferAnts(){
-            var ant = null;
+                    var NUM_ANTS = 40;
 
-            for ( var i = 0; i < NUM_ANTS; i++ ) {
-              var sprite = new m.Sprite( 'assets/sprites/ant.png', 16, 16 );
-              ant = new m.GameObject( 'ant_' + i );
+                    var ants = new m.Map();
+                    var antIt = ants.iterator();
 
-              ant.position.set( -2000, 3000, 1 );
+                    function bufferAnts() {
+                      var ant = null;
 
-              ant.isActive = false;
-              ant.isVisible = false;
-              ant.target = m.mouse.position;
-              ant.withFood = false;
+                      for ( var i = 0; i < NUM_ANTS; i++ ) {
+                        var sprite = new m.Sprite( 'assets/sprites/ant.png', 16, 16 );
+                        ant = new m.GameObject( 'ant_' + i );
 
-              ant.addComponent( sprite );
+                        ant.position.set( -2000, 3000, 1 );
 
-              ant.update = function() {
-                if( this.isActive ){
-                  var speed = 150 / m.timer.fps;
+                        ant.isActive = false;
+                        ant.isVisible = false;
+                        ant.target = m.mouse.position;
+                        ant.withFood = false;
 
-                  this.position.x += this.rotation.x * speed;
-                  this.position.y += this.rotation.y * speed;
-                }
-              }
+                        ant.addComponent( sprite );
 
-              ant.reset = function(){
-                this.isActive = false;
-                this.isVisible = false;
-                this.position.set(-2000, 3000, 1);
-                this.withFood = false;
-              }
+                        ant.update = function() {
+                          if ( this.isActive ) {
+                            var speed = 150 / m.timer.fps;
 
-              m.sceneManager.attachToScene( ant );
-              m.world.children.push( ant );
-              ants.put( ant.id, ant );
-            }
-          }
-          bufferAnts();
+                            this.position.x += this.rotation.x * speed;
+                            this.position.y += this.rotation.y * speed;
+                          }
+                        }
 
-          var MAX_FOOD = 7;
+                        ant.reset = function() {
+                          this.isActive = false;
+                          this.isVisible = false;
+                          this.position.set( -2000, 3000, 1 );
+                          this.withFood = false;
+                        }
 
-          var food = new m.Map();
-          var foodIt = food.iterator(); 
+                        m.sceneManager.attachToScene( ant );
+                        m.world.children.push( ant );
+                        ants.put( ant.id, ant );
+                      }
+                    }
+                    bufferAnts();
 
-          function bufferFood(){
-            var candy = null;
+                    var MAX_FOOD = 7;
 
-            for ( var i = 0; i < MAX_FOOD; i++ ) {
-              var sprite = new m.Sprite( 'assets/sprites/food.png', 16, 16 );
-              candy = new m.GameObject( 'food_' + i );
+                    var food = new m.Map();
+                    var foodIt = food.iterator();
 
-              candy.position.set( -2000, 2000, 0 );
+                    function bufferFood() {
+                      var candy = null;
 
-              candy.isActive = false;
-              candy.isVisible = false;
+                      for ( var i = 0; i < MAX_FOOD; i++ ) {
+                        var sprite = new m.Sprite( 'assets/sprites/food.png', 16, 16 );
+                        candy = new m.GameObject( 'food_' + i );
 
-              candy.addComponent( sprite );
+                        candy.position.set( -2000, 2000, 0 );
 
-              m.sceneManager.attachToScene( candy );
-              m.world.children.push( candy );
-              food.put( candy.id, candy );
-            }
-          }
-          bufferFood();
+                        candy.isActive = false;
+                        candy.isVisible = false;
 
-          var TIME_BETWEEN_FOOD = 100;
-          lastFoodPlaced = m.timer.time;
-          function spawnFood(){
-            var obj;
+                        candy.addComponent( sprite );
 
-            if ( (m.timer.time - lastFoodPlaced ) > TIME_BETWEEN_FOOD ) {
+                        m.sceneManager.attachToScene( candy );
+                        m.world.children.push( candy );
+                        food.put( candy.id, candy );
+                      }
+                    }
+                    bufferFood();
 
-	            foodIt.first();
+                    var TIME_BETWEEN_FOOD = 500;
+                    lastFoodPlaced = m.timer.time;
+                    function spawnFood() {
+                      var obj;
 
-	            while ( foodIt.hasNext() ) {
-	              obj = foodIt.next();
+                      if ( ( m.timer.time - lastFoodPlaced ) > TIME_BETWEEN_FOOD ) {
 
-	              if ( obj && !obj.isActive && !obj.isVisible ) {
-	                obj.isActive = true;
-	                obj.isVisible = true;
+                        foodIt.first();
 
-	                obj.position.set( placer.position.x, placer.position.y, 0);
+                        while ( foodIt.hasNext() ) {
+                          obj = foodIt.next();
 
-	                lastFoodPlaced = m.timer.time;
+                          if ( obj && !obj.isActive && !obj.isVisible ) {
+                            obj.isActive = true;
+                            obj.isVisible = true;
 
-	                return;
-	              }
-	            }
+                            obj.position.set( placer.position.x, placer.position.y, 0 );
 
-            }
-          }
+                            var start = graph.grid[ tileset.getTileYFromPosition( nest.position.y + 16 ) ][ tileset
+                                .getTileXFromPosition( nest.position.x + 16 ) ];
+                            var end = graph.grid[ tileset.getTileYFromPosition( placer.position.y ) ][ tileset
+                                .getTileXFromPosition( placer.position.x ) ];
+                            var path = _AStar.search( graph, start, end );
+                            console.log( path );
+                            printAStar( maze, path );
 
-          var timeBetweenAntSpawn = 250;
-          var lastSpawn = m.timer.time;
-          function spawnAnts(){
-            var food, ant, targets = [];
+                            lastFoodPlaced = m.timer.time;
 
-            if ( (m.timer.time - lastSpawn ) > timeBetweenAntSpawn ) {
-              foodIt.first();
-              while ( foodIt.hasNext() ) {
-                food = foodIt.next();
-                if ( food && food.isActive && food.isVisible ) {
-                  targets.push( food.position );
-                }
-              }
+                            return;
+                          }
+                        }
 
-              if(targets.length > 0){
-	              antIt.first();
-	              while ( antIt.hasNext() ) {
-	                ant = antIt.next();
+                      }
+                    }
 
-	                if ( ant && !ant.isActive && !ant.isVisible ) {
-	                  ant.isActive = true;
-	                  ant.isVisible = true;
+                    var timeBetweenAntSpawn = 250;
+                    var lastSpawn = m.timer.time;
+                    function spawnAnts() {
+                      var food, ant, targets = [];
 
-	                  ant.position.set( nest.position.x, nest.position.y, 0);
+                      if ( ( m.timer.time - lastSpawn ) > timeBetweenAntSpawn ) {
+                        foodIt.first();
+                        while ( foodIt.hasNext() ) {
+                          food = foodIt.next();
+                          if ( food && food.isActive && food.isVisible ) {
+                            targets.push( food.position );
+                          }
+                        }
 
-	                  ant.target = targets[ r.integer( { min : 0, max : targets.length -1 } ) ];
-	                  ant.lookAt( ant.target );
+                        if ( targets.length > 0 ) {
+                          antIt.first();
+                          while ( antIt.hasNext() ) {
+                            ant = antIt.next();
 
-	                  timeBetweenAntSpawn = r.integer( { min : 200, max : 400 } );
-	                  lastSpawn = m.timer.time;
+                            if ( ant && !ant.isActive && !ant.isVisible ) {
+                              ant.isActive = true;
+                              ant.isVisible = true;
 
-	                  return;
-	                }
-	              }
-              }
-            }
-          }
+                              ant.position.set( nest.position.x, nest.position.y, 0 );
 
-          function collision( positionA, radiusA, positionB, radiusB ) {
-            var dist = positionA.distanceTo( positionB );
-            var radius = radiusA + radiusB;
-            return ( dist < radius ) ? true : false;
-          }
+                              ant.target = targets[ r.integer( {
+                                min : 0,
+                                max : targets.length - 1
+                              } ) ];
+                              ant.lookAt( ant.target );
 
-          function checkCollisions(){
-            // verifica colisão de ants com food
-            var a = null;
-            var f = null;
+                              timeBetweenAntSpawn = ( targets.length > 0 ) ? r.integer( {
+                                min : 300,
+                                max : 500
+                              } ) - targets.length * 20 : 250;
+                              lastSpawn = m.timer.time;
 
-            antIt.first();
-            while ( antIt.hasNext() ) {
-              a = antIt.next();
-              if ( a && a.isActive && a.isVisible ) {
-                foodIt.first();
-                while( foodIt.hasNext() ){
-                  f = foodIt.next();
-                  if ( collision( a.position, 16, f.position, 16 ) ) {
-                    a.withFood = true;
-                    a.target = nest.position;
-                    a.lookAt( a.target );
-                  }
-                }
-              }
-            }
+                              return;
+                            }
+                          }
+                        }
+                      }
+                    }
 
-            antIt.first();
-            while ( antIt.hasNext() ) {
-              a = antIt.next();
+                    function collision( positionA, radiusA, positionB, radiusB ) {
+                      var dist = positionA.distanceTo( positionB );
+                      var radius = radiusA + radiusB;
+                      return ( dist < radius ) ? true : false;
+                    }
 
-              if ( a && a.isActive && a.isVisible && collision( a.position, 16, nest.position, 32 ) && a.withFood ) {
-                a.reset();
-              }
-            }
-          }
+                    function checkCollisions() {
+                      // verifica colisão de ants com food
+                      var a = null;
+                      var f = null;
 
-          var tilemap = new m.GameObject('tilemap'); 
-          tilemap.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
-          var tileset = new _Tilemap( maze, 'assets/sprites/tileset.png', 2, 1 );
-          tilemap.addComponent( tileset );
-          m.world.children.push( tilemap );
+                      antIt.first();
+                      while ( antIt.hasNext() ) {
+                        a = antIt.next();
+                        if ( a && a.isActive && a.isVisible ) {
+                          foodIt.first();
+                          while ( foodIt.hasNext() ) {
+                            f = foodIt.next();
+                            if ( collision( a.position, 16, f.position, 16 ) ) {
+                              a.withFood = true;
+                              a.target = nest.position;
+                              a.lookAt( a.target );
+                            }
+                          }
+                        }
+                      }
 
-          var placer = new m.GameObject('placer');
-          var geom = new m.BaseThree();
-          geom.geometry = new THREE.PlaneGeometry( 32, 32, 1, 1 );
-          geom.material = new THREE.MeshBasicMaterial( {
-            side : THREE.BackSide,
-            wireframe: true,
-            color : 0x0000FF
-          } );
-          geom.mesh = new THREE.Mesh( geom.geometry, geom.material );
-          placer.addComponent( geom );
+                      antIt.first();
+                      while ( antIt.hasNext() ) {
+                        a = antIt.next();
 
-          placer.update = function(){
-            this.position.x =  nearestMultiple(m.mouse.position.x, 32);
-            this.position.y =  nearestMultiple(m.mouse.position.y, 32);
-            this.position.z =  1;
-          }
+                        if ( a && a.isActive && a.isVisible && collision( a.position, 16, nest.position, 16 ) && a.withFood ) {
+                          a.reset();
+                        }
+                      }
+                    }
 
-          m.sceneManager.attachToScene( placer );
-          m.world.children.push( placer );
+                    var placer = new m.GameObject( 'placer' );
+                    var geom = new m.BaseThree();
+                    geom.geometry = new THREE.PlaneGeometry( 32, 32, 1, 1 );
+                    geom.material = new THREE.MeshBasicMaterial( {
+                      side : THREE.BackSide,
+                      color : 0x0055FF,
+                      transparent : true,
+                      opacity : 0.3
+                    } );
+                    geom.mesh = new THREE.Mesh( geom.geometry, geom.material );
+                    placer.addComponent( geom );
 
-          var parsed = false;
-          function checkTileSet(){
-            if( tileset.spritesheet.image && !parsed){
-              tileset.parse();
-              tileset.renderIntoBuffer();
-              m.sceneManager.attachToScene( tilemap );
-              parsed = true;
-              
-            }
-          }
+                    placer.update = function() {
+                      this.position.x = m.math.nearestMultiple( m.mouse.position.x, 32 );
+                      this.position.y = m.math.nearestMultiple( m.mouse.position.y, 32 );
+                      this.position.z = 1;
+                    }
 
-          function nearestMultiple(numToRound, multiple){ 
-              if (multiple === 0) 
-                  return numToRound; 
+                    m.sceneManager.attachToScene( placer );
+                    m.world.children.push( placer );
 
-              var remainder = Math.abs(numToRound) % multiple;
-              if (remainder === 0)
-                  return numToRound + (multiple/2);
-              if (numToRound < 0)
-                  return -(Math.abs(numToRound) - remainder);
-              return numToRound + (multiple/2) - remainder;
-          }
+                    var parsed = false;
+                    function checkTileSet() {
+                      if ( tileset.spritesheet.image && !parsed ) {
+                        tileset.parse();
+                        tileset.renderIntoBuffer();
+                        m.sceneManager.attachToScene( tilemap );
+                        parsed = true;
 
-          m.world.update = function(){
-            if ( m.mouse.isDown( m.mouse.LMB ) ){
-              spawnFood();
-            }
-            checkTileSet();
-            spawnAnts();
-            checkCollisions();
-          }
+                      }
+                    }
 
-          m.run();
-        });
-        </script>
+                    m.world.update = function() {
+                      if ( m.mouse.isDown( m.mouse.LMB ) ) {
+                        spawnFood();
+                      }
+                      checkTileSet();
+                      spawnAnts();
+                      checkCollisions();
+                    }
+
+                    m.run();
+                  } );
+</script>
 </head>
 </html>
