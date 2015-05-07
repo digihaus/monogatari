@@ -30,17 +30,17 @@ body {
 
       var score = 0;
       var gameOver = false;
-    
+
       function collision( positionA, radiusA, positionB, radiusB ) {
         var dist = positionA.distanceTo( positionB );
         var radius = radiusA + radiusB;
         return ( dist < radius ) ? true : false;
       };
 
-      function checkCollisions() {        
-        var z = null;        
+      function checkCollisions() {
+        var z = null;
         Zombies.bufferIt.first();
-       
+
         while ( Zombies.bufferIt.hasNext() ) {
           z = Zombies.bufferIt.next();
 
@@ -49,10 +49,10 @@ body {
             z.attack();
           }
 
-       		// checks zombie/bullet collision
-          var b = null;       	
-          Bullets.bufferIt.first();          
-          
+          // checks zombie/bullet collision
+          var b = null;
+          Bullets.bufferIt.first();
+
           while ( Bullets.bufferIt.hasNext() ) {
             b = Bullets.bufferIt.next();
 
@@ -73,11 +73,11 @@ body {
         Hero.update = function() {};
         alert( 'You died!\nKilling ' + score + ' zombies' );
       };
-      
+
       m.world.update = function() {
         Zombies.spawnZombies();
         checkCollisions();
-        
+
         // check if the hero is dead and finish the game
         if ( Hero.life < 0 && !gameOver ) {
           die();

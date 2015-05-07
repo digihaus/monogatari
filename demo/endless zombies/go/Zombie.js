@@ -1,13 +1,13 @@
 define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
 
   var ZOMBIE_LIFE = 2;
-  var ZOMBIE_SPEED = 150;
+  var ZOMBIE_SPEED = 80;
   var ZOMBIE_ATTACK_SPEED = 150;
   var ZOMBIE_ANIMATION_SPEED = 300;
 
   var r = new m.Random();
 
-  var Zombie = function( id ) {
+  var Zombie = function( id, isBersek ) {
     m.GameObject.call( this, 'zombie_' + id )
 
     this.position.set( -2000, 2000, 0 );
@@ -15,15 +15,15 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
     this.isVisible = false;
     this.lastUpdate = 0;
 
-    var sprite = new m.Sprite( 'assets/sprites/zombies2.png', 64, 64, 1, 3 );
+    var asset = isBersek ? 'assets/sprites/zombies3.png' : 'assets/sprites/zombies2.png';
 
-    this.addComponent( sprite );
+    this.addComponent( new m.Sprite( asset, 64, 64, 1, 3 ) );
 
     this.lastAttackUpdate = 0;
-    this.life = ZOMBIE_LIFE;
-    this.speed = ZOMBIE_SPEED;
-    this.attackInterval = ZOMBIE_ATTACK_SPEED;
-    this.animationSpeed = ZOMBIE_ANIMATION_SPEED;
+    this.life = isBersek ? ZOMBIE_LIFE * 4 : ZOMBIE_LIFE;
+    this.speed = isBersek ? ZOMBIE_SPEED * 3.5 : ZOMBIE_SPEED;
+    this.attackInterval = isBersek ? 0 : ZOMBIE_ATTACK_SPEED;
+    this.animationSpeed = isBersek ? ZOMBIE_ANIMATION_SPEED / 3 : ZOMBIE_ANIMATION_SPEED;
 
     this.reset = function() {
       this.isActive = false;

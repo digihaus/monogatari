@@ -11,7 +11,7 @@ define( [ 'Monogatari', 'go/Zombie' ], function( m, Zombie ) {
     this.bufferIt = this.buffer.iterator();
 
     for ( var i = 0; i < NUM_ZOMBIES; i++ ) {
-      var zombie = new Zombie( i );
+      var zombie = new Zombie( i, r.bool( { likelihood : 5 } ) );
       this.buffer.put( zombie.id, zombie );
     }
   };
