@@ -39,7 +39,7 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
 
     this.attack = function() {
       if ( ( m.timer.time - this.lastAttackUpdate ) > this.attackInterval ) {
-        Hero.life--;
+        Hero.receiveAttack();
         this.lastAttackUpdate = m.timer.time;
       }
     };
@@ -74,7 +74,8 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
         if ( this.position.x < -64 //
             || this.position.x > m.sceneManager.canvasWidth + 64 //
             || this.position.y < -64 //
-            || this.position.y > m.sceneManager.canvasHeight + 64 ) {
+            || this.position.y > m.sceneManager.canvasHeight + 64 //
+            || this.life <= 0 ) {
           this.reset();
         }
       }
