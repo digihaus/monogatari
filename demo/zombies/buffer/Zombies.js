@@ -16,7 +16,7 @@ define( [ 'Monogatari', 'go/Zombie' ], function( m, Zombie ) {
     }
   };
 
-  Zombies.prototype.spawnZombies = function() {
+  Zombies.prototype.spawn = function() {
     this.bufferIt.first();
     var zombie = null;
 
@@ -54,6 +54,15 @@ define( [ 'Monogatari', 'go/Zombie' ], function( m, Zombie ) {
           break;
         }
       }
+    }
+  };
+
+  Zombies.prototype.reset = function() {
+    this.bufferIt.first();
+    var zombie = null;
+    while ( this.bufferIt.hasNext() ) {
+      zombie = this.bufferIt.next();
+      zombie.reset();
     }
   };
 

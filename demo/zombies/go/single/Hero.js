@@ -5,19 +5,28 @@ define( [ 'Monogatari', 'buffer/Bullets' ], function( m, Bullets ) {
   var Hero = function() {
     m.GameObject.call( this, 'hero' );
 
-    // centers the hero on the screen
-    this.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
-
     var sprite = new m.Sprite( 'assets/sprites/generico_tosco2.png', 64, 64, 1, 2 );
     this.addComponent( sprite );
-    this.life = 100;
-    this.lastUpdate = 0;
-    this.blinkSpeed = 50;
-    this.lastReceivedAttack = 0;
 
     this.receiveAttack = function() {
       this.life--;
       this.lastReceivedAttack = m.timer.time;
+    };
+
+    this.die = function() {
+      this.position.set( -2000, 2000 );
+      this.update = function() {};
+      this.dead = true;
+    };
+
+    this.reset = function() {
+      // centers the hero on the screen
+      this.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
+      this.life = 100;
+      this.lastUpdate = 0;
+      this.blinkSpeed = 50;
+      this.lastReceivedAttack = 0;
+      this.dead = false;
     };
 
     this.update = function() {
@@ -54,7 +63,12 @@ define( [ 'Monogatari', 'buffer/Bullets' ], function( m, Bullets ) {
         sprite.setFrame( 1 );
       }
 
+      if ( this.life < 0 ) {
+        this.die();
+      }
     };
+
+    this.reset();
 
     m.sceneManager.attachToScene( this );
     m.world.children.push( this );

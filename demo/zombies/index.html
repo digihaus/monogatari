@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Endless Zombies</title>
+<title>Zombies</title>
 <style type="text/css">
 body {
 	margin: 0;
@@ -67,20 +67,19 @@ body {
         }
       }
 
-      function die() {
-        Hero.position.set( -2000, 2000 );
-        Hero.update = function() {};
-        alert( 'You died!\nKilling ' + score + ' zombies' );
-      };
+      m.world.update = function() {       
+        if ( !gameOver ) {
+          Zombies.spawn();
+          checkCollisions();
 
-      m.world.update = function() {
-        Zombies.spawnZombies();
-        checkCollisions();
+          // check if the hero is dead and finish the game
+          if ( Hero.dead ) {
+            gameOver = true;
+            
+            Zombies.reset();
 
-        // check if the hero is dead and finish the game
-        if ( Hero.life < 0 && !gameOver ) {
-          die();
-          gameOver = true;
+            alert( 'You died!\nKilling ' + score + ' zombies' );           
+          }
         }
       };
 
