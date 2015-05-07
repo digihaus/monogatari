@@ -49,7 +49,8 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
         canvas.height = this.tileH;
 
         context = canvas.getContext( '2d' );
-        // drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight)
+        // drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth,
+        // destinationHeight)
         context.drawImage( this.spritesheet.image, j * this.tileH, i * this.tileW, this.tileW, this.tileH, 0, 0, this.tileW, this.tileH );
 
         this.tiles.put( this.tiles.size() + 1, canvas );
@@ -81,7 +82,8 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
 
         destinationX = ( this.tileW * j );
         destinationY = ( this.tileH * i );
-        // drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight)
+        // drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth,
+        // destinationHeight)
 
         if ( tile )
           context.drawImage( tile, 0, 0, this.tileW, this.tileH, destinationX, destinationY, this.tileW, this.tileH );
@@ -99,7 +101,7 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
     this.material = new THREE.MeshBasicMaterial( {
       map : this.texture,
       side : THREE.BackSide
-      // ,wireframe: true, color : 0xFF0000
+    // ,wireframe: true, color : 0xFF0000
     } );
 
     this.mesh = new THREE.Mesh( this.geometry, this.material );
@@ -107,14 +109,20 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
 
   Tilemap.prototype.getTileXFromPosition = function( x ) {
     var tileX = Math.floor( x / this.tileW );
-    console.log("X:" + tileX);
     return ( tileX <= this.mapCols && x > 0 ) ? tileX : -1;
   };
 
   Tilemap.prototype.getTileYFromPosition = function( y ) {
     var tileY = Math.floor( y / this.tileH );
-    console.log("Y:" + tileY);
     return ( tileY <= this.mapRows && y > 0 ) ? tileY : -1;
+  };
+
+  Tilemap.prototype.getPositionXFromTile = function( x ) {
+    return x * this.tileW;
+  };
+
+  Tilemap.prototype.getPositionYFromTile = function( y ) {
+    return y * this.tileH;
   };
 
   return Tilemap;
