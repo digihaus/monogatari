@@ -29,19 +29,17 @@
 
           m.init( "#000" );
 
-          require( [ 'go/Hero', 'buffer/Bullets', 'buffer/Zombies' ], function( Hero, Bullets, Zombies ) {
-        
-            var hero = Hero;                              
+          require( [ 'go/single/Hero', 'buffer/Bullets', 'buffer/Zombies' ], function( Hero, Bullets, Zombies ) {                        
             
-            m.sceneManager.attachToScene( hero );
-            m.world.children.push( hero );                      	        	
+            m.sceneManager.attachToScene( Hero );
+            m.world.children.push( Hero );                      	        	
 	
             var r = new m.Random();
             
 	          // game specifics
 	          function die() {
-	            hero.position.set(-2000, 2000);
-	            hero.update = function() {};
+	            Hero.position.set(-2000, 2000);
+	            Hero.update = function() {};
 	            alert( "You died!\nKilling " + score + " zombies" );
 	          };
 	
@@ -49,48 +47,10 @@
 	            var dist = positionA.distanceTo( positionB );
 	            var radius = radiusA + radiusB;
 	            return ( dist < radius ) ? true : false;
-	          }
-	
-	          function spawnZombies(){
-	            Zombies.bufferIt.first();
-	            var obj = null;
-	
-	            while ( Zombies.bufferIt.hasNext() ) {
-	              obj = Zombies.bufferIt.next();
-	
-	              if ( obj && !obj.isActive && !obj.isVisible) {
-	                obj.isActive = true;
-	                obj.isVisible = true;
-	
-	                switch ( r.integer( { min : 1, max : 4 } ) ) {
-	                case 1:
-	                  obj.position.x = r.floating( { min : 0, max : m.sceneManager.canvasWidth } );
-	                  obj.position.y = - 63;
-	                  obj.position.z = 0;
-	                  break;
-	                case 2:
-	                  obj.position.x = - 63;
-	                  obj.position.y = r.floating( { min : 0, max : m.sceneManager.canvasHeight } );
-	                  obj.position.z = 0;
-	                  break;
-	                case 3:
-	                  obj.position.x = m.sceneManager.canvasWidth + 63;
-	                  obj.position.y = r.floating( { min : 0, max : m.sceneManager.canvasHeight } );
-	                  obj.position.z = 0;
-	                  break;
-	                case 4:
-	                  obj.position.x = r.floating( { min : 0, max : m.sceneManager.canvasWidth } );
-	                  obj.position.y = m.sceneManager.canvasHeight + 63;
-	                  obj.position.z = 0;
-	                  break;
-	                }
-	              }
-	            }
-	
-	          };
+	          }	          
 
 	          var score = 0;
-	          function checkCollisions(){
+	          function checkCollisions() {
 	
 	            // verifica colisão de zombies com bullets
 	            var z = null;
@@ -122,29 +82,27 @@
 	            Zombies.bufferIt.first();
 	            while ( Zombies.bufferIt.hasNext() ) {
 	              z = Zombies.bufferIt.next();
-	              if ( collision( hero.position, 32, z.position, 32 ) ) {
+	              if ( collision( Hero.position, 32, z.position, 32 ) ) {
 	                z.attack();
 	              }
 	            }
-	
 	          }
 	
 	          var gameOver = false;
 	          function checkForGameOver(){
 	            // check if the hero is dead and finish the game
-	            if( hero.life < 0 && !gameOver){
+	            if( Hero.life < 0 && !gameOver){
 	              die();
 	              gameOver = true;
 	            }
 	          }
 	
 	          m.world.update = function() {
-	            spawnZombies();
+	            Zombies.spawnZombies();
 	            checkCollisions();
 	            checkForGameOver();
 	          };
-	          // game specifics
-	
+
 	          m.run();                  
           });
         });

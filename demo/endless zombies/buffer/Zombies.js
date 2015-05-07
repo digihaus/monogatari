@@ -1,83 +1,61 @@
-define( [ 'Monogatari', 'go/Hero' ], function( m, Hero ) {
+define( [ 'Monogatari', 'go/Zombie' ], function( m, Zombie ) {
 
   var NUM_ZOMBIES = 30;
-  var ZOMBIE_LIFE = 2;
-  var ZOMBIE_SPEED = 150;
-  var ZOMBIE_ATTACK_SPEED = 150;
-  var ZOMBIE_ANIMATION_SPEED = 300;
 
   var instance = null;
 
+  var r = new m.Random();
+
   var Zombies = function() {
-
-    var r = new m.Random();
-
     this.buffer = new m.Map();
     this.bufferIt = this.buffer.iterator();
 
-    var zombie = null;
-
     for ( var i = 0; i < NUM_ZOMBIES; i++ ) {
-      var sprite = new m.Sprite( 'assets/sprites/zombies2.png', 64, 64, 1, 3 );
-      zombie = new m.GameObject( 'zombie_' + i );
-      zombie.position.set( -2000, 2000, 0 );
-      zombie.isActive = false;
-      zombie.isVisible = false;
-      zombie.lastUpdate = 0;
-
-      zombie.addComponent( sprite );
-
-      zombie.lastAttackUpdate = 0;
-      zombie.life = ZOMBIE_LIFE;
-      zombie.speed = ZOMBIE_SPEED;
-      zombie.attackInterval = ZOMBIE_ATTACK_SPEED;
-      zombie.animationSpeed = ZOMBIE_ANIMATION_SPEED;
-
-      zombie.reset = function() {
-        this.isActive = false;
-        this.isVisible = false;
-        this.lastUpdate = 0;
-        this.position.set( -2000, 2000, 0 );
-        this.life = ZOMBIE_LIFE;
-      }
-
-      zombie.attack = function() {
-        if ( ( m.timer.time - this.lastAttackUpdate ) > this.attackInterval ) {
-          Hero.life--;
-          this.lastAttackUpdate = m.timer.time;
-        }
-      }
-
-      zombie.update = function() {
-        if ( this.isActive ) {
-          var sprite = this.findComponent( m.Base.SPRITE );
-          var speed = this.speed / m.timer.fps;
-
-          this.lookAt( Hero.position );
-
-          this.position.x += this.rotation.x * speed;
-          this.position.y += this.rotation.y * speed;
-
-          if ( ( m.timer.time - sprite.lastUpdate ) > this.animationSpeed && r.integer( {
-            min : 1,
-            max : 2
-          } ) ) {
-            sprite.nextFrame();
-            sprite.lastUpdate = m.timer.time;
-          }
-
-          if ( this.position.x < -64 || this.position.x > m.sceneManager.canvasWidth + 64 || this.position.y < -64
-              || this.position.y > m.sceneManager.canvasHeight + 64 ) {
-            this.reset();
-          }
-
-        }
-      }
+      var zombie = new Zombie( i );
 
       m.sceneManager.attachToScene( zombie );
       m.world.children.push( zombie );
+
       this.buffer.put( zombie.id, zombie );
     }
+  };
+
+  Zombies.prototype.spawnZombies = function(){
+    this.bufferIt.first();
+    var obj = null;
+
+    while ( this.bufferIt.hasNext() ) {
+      obj = this.bufferIt.next();
+
+      if ( obj && !obj.isActive && !obj.isVisible) {
+        obj.isActive = true;
+        obj.isVisible = true;
+
+        switch ( r.integer( { min : 1, max : 4 } ) ) {
+        case 1:
+          obj.position.x = r.floating( { min : 0, max : m.sceneManager.canvasWidth } );
+          obj.position.y = - 63;
+          obj.position.z = 0;
+          break;
+        case 2:
+          obj.position.x = - 63;
+          obj.position.y = r.floating( { min : 0, max : m.sceneManager.canvasHeight } );
+          obj.position.z = 0;
+          break;
+        case 3:
+          obj.position.x = m.sceneManager.canvasWidth + 63;
+          obj.position.y = r.floating( { min : 0, max : m.sceneManager.canvasHeight } );
+          obj.position.z = 0;
+          break;
+        case 4:
+          obj.position.x = r.floating( { min : 0, max : m.sceneManager.canvasWidth } );
+          obj.position.y = m.sceneManager.canvasHeight + 63;
+          obj.position.z = 0;
+          break;
+        }
+      }
+    }
+
   };
 
   Zombies.getInstance = function() {
