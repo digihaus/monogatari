@@ -29,88 +29,15 @@
 
           m.init( "#000" );
 
-          require( [ 'gos/Hero', 'buffers/Bullets' ], function( hero, bullets ) {
+          require( [ 'go/Hero', 'buffer/Bullets', 'buffer/Zombies' ], function( Hero, Bullets, Zombies ) {
         
+            var hero = Hero;                              
+            
             m.sceneManager.attachToScene( hero );
-            m.world.children.push( hero );
-                      
-	        	var r = new m.Random();
+            m.world.children.push( hero );                      	        	
 	
-	          //zombies
-	          var NUM_ZOMBIES = 30;
-	          var ZOMBIE_LIFE = 2;
-	          var ZOMBIE_SPEED = 150;
-	          var ZOMBIE_ATTACK_SPEED = 150;
-	          var ZOMBIE_ANIMATION_SPEED = 300;
-	
-	          var zombies = new m.Map();
-	          var zombieIt = zombies.iterator(); 
-	
-	          function bufferZombies(){
-	            var zombie = null;
-	
-	            for ( var i = 0; i < NUM_ZOMBIES; i++ ) {
-	              var sprite = new m.Sprite( 'assets/sprites/zombies2.png', 64, 64, 1, 3 );
-	              zombie = new m.GameObject( 'zombie_' + i );
-	              zombie.position.set( -2000, 2000, 0 );
-	              zombie.isActive = false;
-	              zombie.isVisible = false;
-	              zombie.lastUpdate = 0;
-	
-	              zombie.addComponent( sprite );
-	
-	              zombie.lastAttackUpdate = 0;
-	              zombie.life = ZOMBIE_LIFE;
-	              zombie.speed = ZOMBIE_SPEED;
-	              zombie.attackInterval = ZOMBIE_ATTACK_SPEED;
-	              zombie.animationSpeed = ZOMBIE_ANIMATION_SPEED;
-	
-	              zombie.reset = function(){
-	                this.isActive = false;
-	                this.isVisible = false;
-	                this.lastUpdate = 0;
-	                this.position.set( -2000, 2000, 0 );
-	                this.life = ZOMBIE_LIFE;
-	              }
-	
-	              zombie.attack = function(){
-	                if ( (m.timer.time - this.lastAttackUpdate) > this.attackInterval ) {
-	                  hero.life--;
-	                  this.lastAttackUpdate = m.timer.time;
-	                }
-	              }
-	
-	              zombie.update = function() {
-	                if( this.isActive ) {
-	                  var sprite = this.findComponent( m.Base.SPRITE );
-	                  var speed = this.speed / m.timer.fps ;
-	
-	                  this.lookAt( hero.position );
-	
-	                  this.position.x += this.rotation.x * speed;
-	                  this.position.y += this.rotation.y * speed;
-	
-	                  if ( (m.timer.time - sprite.lastUpdate ) > this.animationSpeed && r.integer( { min : 1, max : 2 } ) ) {
-	                    sprite.nextFrame();
-	                    sprite.lastUpdate = m.timer.time;
-	                  }
-	
-	                  if ( this.position.x < -64 || this.position.x > m.sceneManager.canvasWidth + 64 || this.position.y < -64 || this.position.y > m.sceneManager.canvasHeight +64 ){
-	                    this.reset();
-	                  }
-	
-	                }
-	              }
-	
-	              m.sceneManager.attachToScene( zombie );
-	              m.world.children.push( zombie );
-	              zombies.put( zombie.id, zombie );
-	
-	            }
-	          };
-	          
-	          bufferZombies();
-	
+            var r = new m.Random();
+            
 	          // game specifics
 	          function die() {
 	            hero.position.set(-2000, 2000);
@@ -125,11 +52,11 @@
 	          }
 	
 	          function spawnZombies(){
-	            zombieIt.first();
+	            Zombies.bufferIt.first();
 	            var obj = null;
 	
-	            while ( zombieIt.hasNext() ) {
-	              obj = zombieIt.next();
+	            while ( Zombies.bufferIt.hasNext() ) {
+	              obj = Zombies.bufferIt.next();
 	
 	              if ( obj && !obj.isActive && !obj.isVisible) {
 	                obj.isActive = true;
@@ -169,15 +96,15 @@
 	            var z = null;
 	            var b = null;
 	
-	            zombieIt.first();
+	            Zombies.bufferIt.first();
 	
-	            while ( zombieIt.hasNext() ) {
-	              z = zombieIt.next();
+	            while ( Zombies.bufferIt.hasNext() ) {
+	              z = Zombies.bufferIt.next();
 	
-	              bullets.bufferIt.first();
+	              Bullets.bufferIt.first();
 	
-	              while ( bullets.bufferIt.hasNext() ) {
-	                b = bullets.bufferIt.next();
+	              while ( Bullets.bufferIt.hasNext() ) {
+	                b = Bullets.bufferIt.next();
 	
 	                if ( collision( b.position, 8, z.position, 32 ) ) {
 	                  b.reset();
@@ -192,9 +119,9 @@
 	            }
 	
 	            // verifica colisão de hero com zombies
-	            zombieIt.first();
-	            while ( zombieIt.hasNext() ) {
-	              z = zombieIt.next();
+	            Zombies.bufferIt.first();
+	            while ( Zombies.bufferIt.hasNext() ) {
+	              z = Zombies.bufferIt.next();
 	              if ( collision( hero.position, 32, z.position, 32 ) ) {
 	                z.attack();
 	              }
