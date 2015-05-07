@@ -303,7 +303,7 @@
 
                     var placer = new m.GameObject( 'placer' );
                     var geom = new m.BaseThree();
-                    geom.geometry = new THREE.PlaneGeometry( 32, 32, 1, 1 );
+                    geom.geometry = new THREE.PlaneBufferGeometry( 32, 32, 1, 1 );
                     geom.material = new THREE.MeshBasicMaterial( {
                       side : THREE.BackSide,
                       color : 0x0055FF,
@@ -314,8 +314,8 @@
                     placer.addComponent( geom );
 
                     placer.update = function() {
-                      this.position.x = m.math.nearestMultiple( m.mouse.position.x, 32 );
-                      this.position.y = m.math.nearestMultiple( m.mouse.position.y, 32 );
+                      this.position.x = m.math.nearestMultiple( m.mouse.position.x, 32 ) - 16;
+                      this.position.y = m.math.nearestMultiple( m.mouse.position.y, 32 ) - 16;
                       this.position.z = 1;
                     }
 
