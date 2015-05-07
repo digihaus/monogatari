@@ -7,7 +7,7 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
 
   var r = new m.Random();
 
-  var Zombie = function( id, isBersek ) {
+  var Zombie = function( id ) {
     m.GameObject.call( this, 'zombie_' + id )
 
     this.position.set( -2000, 2000, 0 );
@@ -15,15 +15,15 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
     this.isVisible = false;
     this.lastUpdate = 0;
 
-    var asset = isBersek ? 'assets/sprites/zombies3.png' : 'assets/sprites/zombies2.png';
+    this.bersek = false;
 
-    this.addComponent( new m.Sprite( asset, 64, 64, 1, 3 ) );
+    this.addComponent( new m.Sprite( 'assets/sprites/zombies2.png', 64, 64, 1, 3 ) );
 
     this.lastAttackUpdate = 0;
-    this.life = isBersek ? ZOMBIE_LIFE * 4 : ZOMBIE_LIFE;
-    this.speed = isBersek ? ZOMBIE_SPEED * 3.5 : ZOMBIE_SPEED;
-    this.attackInterval = isBersek ? 0 : ZOMBIE_ATTACK_SPEED;
-    this.animationSpeed = isBersek ? ZOMBIE_ANIMATION_SPEED / 3 : ZOMBIE_ANIMATION_SPEED;
+    this.life = ZOMBIE_LIFE;
+    this.speed = ZOMBIE_SPEED;
+    this.attackInterval = ZOMBIE_ATTACK_SPEED;
+    this.animationSpeed = ZOMBIE_ANIMATION_SPEED;
 
     this.reset = function() {
       this.isActive = false;
@@ -31,6 +31,10 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
       this.lastUpdate = 0;
       this.position.set( -2000, 2000, 0 );
       this.life = ZOMBIE_LIFE;
+      this.speed = ZOMBIE_SPEED;
+      this.attackInterval = ZOMBIE_ATTACK_SPEED;
+      this.animationSpeed = ZOMBIE_ANIMATION_SPEED;
+      this.bersek = false;
     };
 
     this.attack = function() {
@@ -63,6 +67,14 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
         }
       }
     };
+
+    this.goBersek = function() {
+      this.bersek = true;
+      this.life = ZOMBIE_LIFE * 3;
+      this.speed = ZOMBIE_SPEED * 3.5;
+      this.attackInterval = 0;
+      this.animationSpeed = ZOMBIE_ANIMATION_SPEED / 3;
+    }
 
     m.sceneManager.attachToScene( this );
     m.world.children.push( this );
