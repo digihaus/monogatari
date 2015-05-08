@@ -1,7 +1,4 @@
-define( [ 'core/Common',
-          'core/Timer',
-          'collection/Map',
-          'component/Base' ], function( _Common, _Timer, _Map, _Base ) {
+define( [ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base' ], function( _Common, _Timer, _Map, _Base ) {
 
   var GameObject = function( id, update, position, rotation, scale ) {
     this.uid = _Common.createUniqueId();
@@ -24,14 +21,18 @@ define( [ 'core/Common',
 
     this.lastUpdate = 0;
 
-    this.update = ( update && typeof ( update ) === 'function' ) ? update : function() {};
+    this.defaultUpdate = ( update && typeof ( update ) === 'function' ) ? update : function() {};
+  };
+
+  GameObject.prototype.update = function() {
+    this.defaultUpdate();
   };
 
   GameObject.prototype.postUpdate = function() {
     this.lastUpdate = _Timer.time;
-    //if( this.isActive ) {
-      this.updateComponents();
-    //}
+    // if( this.isActive ) {
+    this.updateComponents();
+    // }
   };
 
   GameObject.prototype.getEulerRotation = function() {
@@ -96,7 +97,7 @@ define( [ 'core/Common',
 
     // update object position from Box2D to Monogatari based on physics simulation (if applicable)
     // only affect X and Y for safety reasons, messing with Z on 2D is probably not expected
-    if( rigidBody ) {
+    if ( rigidBody ) {
       this.position.x = rigidBody.body.GetPosition().x * rigidBody.conversionFactor;
       this.position.y = rigidBody.body.GetPosition().y * rigidBody.conversionFactor;
     }
@@ -108,7 +109,7 @@ define( [ 'core/Common',
       component = this.componentsIt.next();
       // if is a component to be rendered, need to update engine transformations to Three.js transformations
       if ( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
-        component.getMesh().position.set( this.position.x, this.position.y, this.position.z);
+        component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
         component.getMesh().rotation.z = this.getEulerRotation();
         component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z );
         component.visible = this.isVisible;
@@ -122,8 +123,8 @@ define( [ 'core/Common',
 
   GameObject.prototype.updateAll = function() {
 
-    for( var i = 0, len = this.children.length; i < len; i++){
-      this.children[i].updateAll();
+    for ( var i = 0, len = this.children.length; i < len; i++ ) {
+      this.children[ i ].updateAll();
     }
 
     this.update();
