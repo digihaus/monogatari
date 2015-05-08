@@ -57,12 +57,10 @@ define( [ 'Monogatari', 'go/Zombie' ], function( m, Zombie ) {
     }
   };
 
-  Zombies.prototype.reset = function() {
+  Zombies.prototype.clear = function() {
     this.bufferIt.first();
-    var zombie = null;
     while ( this.bufferIt.hasNext() ) {
-      zombie = this.bufferIt.next();
-      zombie.reset();
+      this.bufferIt.next().init();
     }
   };
 

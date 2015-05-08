@@ -1,35 +1,33 @@
 define( [ 'Monogatari', 'buffer/Bullets' ], function( m, Bullets ) {
 
+  var BLINK_SPEED = 50;
+
   var instance = null;
 
   var Hero = function() {
     m.GameObject.call( this, 'hero' );
 
-    var sprite = new m.Sprite( 'assets/sprites/generico_tosco2.png', 64, 64, 1, 2 );
-    this.addComponent( sprite );
+    this.addComponent( new m.Sprite( 'assets/sprites/generico_tosco2.png', 64, 64, 1, 2 ) );
+    this.init();
 
-    this.receiveAttack = function() {
-      this.life--;
-      this.lastReceivedAttack = m.timer.time;
-    };
+    m.sceneManager.attachToScene( this );
+    m.world.children.push( this );
+  };
 
-    this.die = function() {
-      this.position.set( -2000, 2000 );
-      this.update = function() {};
-      this.dead = true;
-    };
+  Hero.prototype = Object.create( m.GameObject.prototype );
 
-    this.reset = function() {
-      // centers the hero on the screen
-      this.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
-      this.life = 100;
-      this.lastUpdate = 0;
-      this.blinkSpeed = 50;
-      this.lastReceivedAttack = 0;
-      this.dead = false;
-    };
+  Hero.prototype.init = function() {
+    this.life = 100;
+    this.dead = false;
+    this.lastUpdate = 0;
+    this.lastReceivedAttack = 0;
 
-    this.update = function() {
+    this.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
+  };
+
+  Hero.prototype.update = function() {
+    if ( !this.dead ) {
+
       var speed = 200 / m.timer.fps;
 
       if ( m.keyboard.isDown( m.keyboard.W ) )
@@ -50,31 +48,31 @@ define( [ 'Monogatari', 'buffer/Bullets' ], function( m, Bullets ) {
       if ( m.keyboard.isDown( m.keyboard.RIGHT_ARROW ) )
         this.position.x += speed;
 
-      if ( m.mouse.isDown( m.mouse.LMB ) )
+      if ( m.mouse.isDown( m.mouse.LMB ) ) {
         Bullets.shoot( this.position.x, this.position.y );
+      }
 
       this.lookAt( m.mouse.position );
 
       var sprite = this.findComponent( m.Base.SPRITE );
 
-      if ( ( m.timer.time - this.lastReceivedAttack ) < this.blinkSpeed ) {
+      if ( ( m.timer.time - this.lastReceivedAttack ) < BLINK_SPEED ) {
         sprite.setFrame( 2 );
       } else {
         sprite.setFrame( 1 );
       }
 
       if ( this.life < 0 ) {
-        this.die();
+        this.dead = true;
+        this.position.set( -2000, 2000 );
       }
-    };
-
-    this.reset();
-
-    m.sceneManager.attachToScene( this );
-    m.world.children.push( this );
+    }
   };
 
-  Hero.prototype = Object.create( m.GameObject.prototype );
+  Hero.prototype.receiveAttack = function() {
+    this.life--;
+    this.lastReceivedAttack = m.timer.time;
+  };
 
   Hero.getInstance = function() {
     if ( instance === null ) {

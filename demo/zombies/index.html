@@ -10,74 +10,24 @@ body {
 }
 </style>
 <script type="text/javascript" src="../../dist/monogatari-0.1.0-dev.js"></script>
-<!--
-<script type="text/javascript" src="../../lib/Require.js"></script>
-<script>
-  require.config( {
-    baseUrl : '../../src',
-    paths: {
-        lib: '../lib'
-    }
-  } );    
-</script>
--->
 <script>
   require( [ 'Monogatari' ], function( m ) {
 
     m.init( "#000" );
 
-    require( [ 'go/single/Hero', 'buffer/Bullets', 'buffer/Zombies' ], function( Hero, Bullets, Zombies ) {
+    require( [ 'go/single/Hero', 'buffer/Bullets', 'buffer/Zombies', 'util/Collider' ], function( Hero, Bullets, Zombies, Collider ) {
 
       var score = 0;
-      var gameOver = false;
-
-      function collision( positionA, radiusA, positionB, radiusB ) {
-        var dist = positionA.distanceTo( positionB );
-        var radius = radiusA + radiusB;
-        return ( dist < radius ) ? true : false;
-      };
-
-      function checkCollisions() {
-        var z = null;
-        Zombies.bufferIt.first();
-
-        while ( Zombies.bufferIt.hasNext() ) {
-          z = Zombies.bufferIt.next();
-
-          // checks zombie/hero collision
-          if ( collision( Hero.position, 22, z.position, 22 ) ) {
-            z.attack();
-          }
-
-          // checks zombie/bullet collision
-          var b = null;
-          Bullets.bufferIt.first();
-
-          while ( Bullets.bufferIt.hasNext() ) {
-            b = Bullets.bufferIt.next();
-
-            if ( collision( b.position, 8, z.position, 32 ) ) {
-              b.reset();
-              z.life--;
-              if ( z.life <= 0 ) {
-                score++;
-              }
-            }
-          }
-        }
-      }
+      var gameOver = false;      
 
       m.world.update = function() {       
         if ( !gameOver ) {
           Zombies.spawn();
-          checkCollisions();
+          score = Collider.checkCollisions( score );
 
-          // check if the hero is dead and finish the game
           if ( Hero.dead ) {
-            gameOver = true;
-            
-            Zombies.reset();
-
+            gameOver = true;            
+            Zombies.clear();
             alert( 'You died!\nKilling ' + score + ' zombies' );           
           }
         }
