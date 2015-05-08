@@ -19,6 +19,8 @@ define( [ 'Monogatari', 'buffer/Bullets' ], function( m, Bullets ) {
   Hero.prototype.init = function() {
     this.life = 100;
     this.dead = false;
+    this.isVisible = true;
+    this.isActive = true;
     this.lastUpdate = 0;
     this.lastReceivedAttack = 0;
 
@@ -64,7 +66,20 @@ define( [ 'Monogatari', 'buffer/Bullets' ], function( m, Bullets ) {
 
       if ( this.life < 0 ) {
         this.dead = true;
-        this.position.set( -2000, 2000 );
+        this.position.set( -2000, 2000, 0 );
+      }
+
+      if ( this.position.x > m.sceneManager.canvasWidth + 8 ) {
+        this.position.x = -4;
+      }
+      if ( this.position.x < -8 ) {
+        this.position.x = m.sceneManager.canvasWidth + 4;
+      }
+      if ( this.position.y > m.sceneManager.canvasHeight + 8 ) {
+        this.position.y = -4;
+      }
+      if ( this.position.y < -8 ) {
+        this.position.y = m.sceneManager.canvasHeight + 4;
       }
     }
   };

@@ -12,64 +12,65 @@ body {
 <script type="text/javascript" src="../../dist/monogatari-0.1.0-dev.js"></script>
 <script>
   require( [ 'Monogatari' ], function( m ) {
-    m.init( "#000" );    
-    startGame();    
+    m.init( "#000" );
+    startGame();
   } );
-  
+
   function startGame() {
-    require( [ 'Monogatari', 'go/single/Hero', 'buffer/Bullets', 'buffer/Zombies', 'util/Collider' ], 
+    require( [ 'Monogatari', 'go/single/Hero', 'buffer/Bullets', 'buffer/Zombies', 'util/Collider' ],
         function( m, Hero, Bullets, Zombies, Collider ) {
 
-      var score = 0;
-      var gameOver = false;
+          var score = 0;
+          var gameOver = false;
 
-      m.world.update = function() {
-        if ( !gameOver ) {
-          Zombies.spawn();
-          score = Collider.checkCollisions( score );
+          m.world.update = function() {
+            if ( !gameOver ) {
+              Zombies.spawn();
+              score = Collider.checkCollisions( score );
 
-          if ( Hero.dead ) {
-            gameOver = true;
-            Zombies.clear();
-            
-            var message = 'You died ';
-            var zombiesKilled = score + ' zombies killed.';
-            
-            if( score === 0 ) {
-              message += 'paralyzed in fear, overwhelmed by the undead.';
-            	zombiesKilled = 'No zombies returned to grave.';
-            }
-            if( score >= 10 && score < 50 ) {
-              message += 'and your existence was futile.';
-            	if( score === 1 ) {
-            	  zombiesKilled = '1 single motherf**king zombie killed.';
-            	}
-            }
-            if( score >= 50 && score < 100 ) {
-              message += 'showing how to use a weapon.';
-            }
-            if( score >= 100 && score < 200 ) {
-              message += 'carrying enough to hell with you.';
-            }
-            if( score >= 200 ) {
-              message += 'as the herald of Divine Justice.';
-            }                            
-            
-            var restart = confirm( message + '\n\n' //
-                + zombiesKilled + '\n\n' //
-                + 'Start again?' );
+              if ( Hero.dead ) {
+                gameOver = true;
+                Zombies.clear();
 
-            if ( restart ) {
-             	location.reload();
-            }
-          }
-        }
-      };
+                var message = 'You died ';
+                var zombiesKilled = score + ' zombies killed.';
 
-      m.run();
-    } );
+                if ( score < 10 ) {
+                  message += 'overwhelmed by the undead.';
+                  if ( score === 0 ) {
+                    zombiesKilled = 'No zombies returned to grave.';
+                  }
+                }
+                if ( score >= 10 && score < 50 ) {
+                  message += 'and your existence was futile.';
+                  if ( score === 1 ) {
+                    zombiesKilled = '1 single motherf**king zombie killed.';
+                  }
+                }
+                if ( score >= 50 && score < 100 ) {
+                  message += 'showing how to use a weapon.';
+                }
+                if ( score >= 100 && score < 200 ) {
+                  message += 'carrying enough to hell with you.';
+                }
+                if ( score >= 200 ) {
+                  message += 'as the herald of Divine Justice.';
+                }
+
+                var restart = confirm( message + '\n\n' //
+                    + zombiesKilled + '\n\n' //
+                    + 'Start again?' );
+
+                if ( restart ) {
+                  location.reload();
+                }
+              }
+            }
+          };
+
+          m.run();
+        } );
   }
-  
 </script>
 </head>
 <body>

@@ -56,11 +56,7 @@ define( [ 'Monogatari', 'go/single/Hero' ], function( m, Hero ) {
         sprite.lastUpdate = m.timer.time;
       }
 
-      if ( this.position.x < -64 //
-          || this.position.x > m.sceneManager.canvasWidth + 64 //
-          || this.position.y < -64 //
-          || this.position.y > m.sceneManager.canvasHeight + 64 //
-          || this.life <= 0 ) {
+      if ( this.life <= 0 ) {
         this.init();
       }
     }
