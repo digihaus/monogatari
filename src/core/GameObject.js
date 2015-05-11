@@ -1,4 +1,4 @@
-define( [ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base' ], function( _Common, _Timer, _Map, _Base ) {
+define( [ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'lib/Three' ], function( _Common, _Timer, _Map, _Base, _Three ) {
 
   var GameObject = function( id, update, position, rotation, scale ) {
     this.uid = _Common.createUniqueId();
