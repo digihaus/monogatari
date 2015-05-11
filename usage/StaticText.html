@@ -1,52 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Static Text Test</title>
+<title>Static Text Usage - Monogatari</title>
 <link href='http://fonts.googleapis.com/css?family=Caesar+Dressing' rel='stylesheet' type='text/css'>
 <style type="text/css">
 body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
 }
 </style>
-<script type="text/javascript" src="../lib/Require.js"></script>
+<script type="text/javascript" src="../dist/monogatari-0.1.0.min.js"></script>
 <script>
-require.config( {
-  baseUrl : '../src',
-  paths: {
-      lib: '../lib'
-  }
-} );
-
-require( [ 'Monogatari' ], function( m ) {
-    // <Initializing Engine>
+  require( [ 'Monogatari' ], function( m ) {
     m.init( "#FFF" );
-    // </Initializing Engine>
 
-    // <Initializing Game Objects/Components>
-    var go = new m.GameObject('dialog'); 
+    var go = new m.GameObject( 'dialog' );
     go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
 
     var t = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
 
     go.addComponent( new m.StaticText( t, 12, "Caesar Dressing" ) );
 
-    go.update = function(){
+    go.update = function() {
       var staticText = this.findComponent( m.Base.STATIC_TEXT );
-      if( staticText.isLoaded )
+      if ( staticText.isLoaded ) {
         m.sceneManager.attachToScene( this );
+      }
     }
-    // </Initializing Game Objects/Components>
 
-    // <game logic>
     m.world.children.push( go );
     m.run();
-    // </game logic>
   } );
 </script>
 </head>
 <body>
-
 </body>
 </html>
