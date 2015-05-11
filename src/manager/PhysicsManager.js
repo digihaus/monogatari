@@ -1,8 +1,8 @@
-define( [ 'manager/EventManager',
-          'core/Timer',
-          'lib/Box2d' ], function( _EventManager, _Timer, _Box2d) {
+define( [ 'manager/EventManager', 'core/Timer', 'lib/Box2d' ], function( _EventManager, _Timer, _Box2d ) {
 
-  function PhysicsManager() {
+  var instance = null;
+
+  var PhysicsManager = function() {
     this.world = null;
     this.velocityIterations = 10;
     this.positionIterations = 10;
@@ -32,11 +32,11 @@ define( [ 'manager/EventManager',
     };
 
     /*
-     * listener.PreSolve = function( contact, oldManifold ) { _EventManager.notify("box2D_preSolve", {
-     * "contact": contact, "oldManifold": oldManifold } ); };
-     *
-     * listener.PostSolve = function( contact, impulse ) { _EventManager.notify("box2D_postSolve", {
-     * "contact": contact, "impulse": impulse } ); };
+     * listener.PreSolve = function( contact, oldManifold ) { _EventManager.notify("box2D_preSolve", { "contact":
+     * contact, "oldManifold": oldManifold } ); };
+     * 
+     * listener.PostSolve = function( contact, impulse ) { _EventManager.notify("box2D_postSolve", { "contact": contact,
+     * "impulse": impulse } ); };
      */
 
     this.world.SetContactListener( listener );
@@ -44,8 +44,7 @@ define( [ 'manager/EventManager',
 
   PhysicsManager.prototype.update = function() {
     if ( this.world ) {
-      // TODO: Pegar FPS direito do Timer
-      var fps = _Timer.getFps();
+      var fps = _Timer.fps;
 
       // The more iterations, the more accurate the calculations
       this.world.Step( ( fps ) ? 1 / fps : _Timer.FRAME_RATE_60FPS, // frame rate at which to update
@@ -61,6 +60,13 @@ define( [ 'manager/EventManager',
     }
   };
 
-  return PhysicsManager;
+  PhysicsManager.getInstance = function() {
+    if ( instance === null ) {
+      instance = new PhysicsManager();
+    }
+    return instance;
+  };
+
+  return PhysicsManager.getInstance();
 
 } );

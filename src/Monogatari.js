@@ -1,8 +1,8 @@
-define( [ 'core/Timer', 'core/Math', 'input/Keyboard', 'input/Mouse', 'manager/SceneManager', 'manager/PhysicsManager', 'lib/Chance', 'core/GameObject',
-    'component/Audio', 'component/Base', 'component/BaseThree', 'component/RigidBody', 'component/Sprite', 'component/StaticText', 'collection/List',
-    'collection/Map', 'util/ArrayUtils', 'util/CommonUtils', 'util/StringUtils' ], function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager,
-    _PhysicsManager, _Chance, _GameObject, _Audio, _Base, _BaseThree, _RigidBody, _Sprite, _StaticText, _List, _Map, _ArrayUtils, _CommonUtils,
-    _StringUtils ) {
+define( [ 'core/Timer', 'core/Math', 'input/Keyboard', 'input/Mouse', 'manager/SceneManager', 'manager/PhysicsManager', 'lib/Chance',
+    'core/GameObject', 'component/Audio', 'component/Base', 'component/BaseThree', 'component/RigidBody', 'component/Sprite', 'component/StaticText',
+    'collection/List', 'collection/Map', 'util/ArrayUtils', 'util/CommonUtils', 'util/StringUtils' ], //
+function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Chance, _GameObject, _Audio, _Base, _BaseThree, _RigidBody, _Sprite,
+    _StaticText, _List, _Map, _ArrayUtils, _CommonUtils, _StringUtils ) {
 
   var _browser = {};
   _browser.agent = window.navigator.userAgent;
@@ -11,7 +11,7 @@ define( [ 'core/Timer', 'core/Math', 'input/Keyboard', 'input/Mouse', 'manager/S
   _browser.isFirefox = ( _browser.agent.indexOf( 'Firefox' ) > -1 );
   _browser.isOpera = ( window.opera !== null );
   _browser.isChrome = ( _browser.agent.indexOf( 'Chrome' ) > -1 ); // Chrome on Android returns true but is a
-                                                                    // completely different browser
+  // completely different browser
   _browser.isIOS = _browser.agent.indexOf( 'iPod' ) > -1 || _browser.agent.indexOf( 'iPhone' ) > -1 || _browser.agent.indexOf( 'iPad' ) > -1;
   _browser.isAndroid = ( _browser.agent.indexOf( 'Android' ) > -1 );
   _browser.isBlackberry = ( _browser.agent.indexOf( 'Blackberry' ) > -1 );
@@ -20,13 +20,12 @@ define( [ 'core/Timer', 'core/Math', 'input/Keyboard', 'input/Mouse', 'manager/S
   var instance = null;
 
   var Monogatari = function() {
-
     // core engine modules
     this.math = _Math;
     this.timer = new _Timer();
     this.world = new _GameObject( 'world' );
-    this.sceneManager = new _SceneManager();
-    this.physicsManager = new _PhysicsManager();
+    this.sceneManager = _SceneManager;
+    this.physicsManager = _PhysicsManager;
 
     // this has a capital "R" because is treated like a class, it is instantiated instead of used directly like the
     // managers

@@ -1,5 +1,7 @@
 define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'core/Math' ], function( _Map, _Camera2D, _Detector, _Three, _Math ) {
 
+  var instance = null;
+
   var SceneManager = function() {
     this.cameras = new _Map();
     this.cameraIterator = this.cameras.iterator();
@@ -11,9 +13,7 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'cor
 
   SceneManager.prototype.init = function( bgcolor, width, height, target ) {
     // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
-    this.renderer = Detector.webgl ? new THREE.WebGLRenderer( {
-      antialias : false
-    } ) : new THREE.CanvasRenderer();
+    this.renderer = Detector.webgl ? new THREE.WebGLRenderer( { antialias : false } ) : new THREE.CanvasRenderer();
 
     // Set the background color of the renderer, with full opacity
     this.renderer.setClearColor( ( bgcolor ) ? bgcolor : 0xFFFFFF, 1 );
@@ -34,7 +34,6 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'cor
 
     this.createScene();
     this.createCamera();
-
   };
 
   // create a THREE.scene
@@ -71,15 +70,14 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'cor
     }
   };
 
-  // find all renderable components of a given Game Object and attach the on the scene to be rendered  
+  // find all renderable components of a given Game Object and attach the on the scene to be rendered
   SceneManager.prototype.attachToScene = function( gameObject, sceneId ) {
     var list = gameObject.listRenderableComponents();
     var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
 
-    for( var  i = 0, len = list.length; i < len; i++  ){
-      scene.add( list[i].getMesh() );
+    for ( var i = 0, len = list.length; i < len; i++ ) {
+      scene.add( list[ i ].getMesh() );
     }
-
   };
 
   SceneManager.prototype.render = function() {
@@ -93,7 +91,7 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'cor
 
       // iterate all scenes registered to render on this camera
       for ( var i = 0, len = camera.scenes.length; i < len; i++ ) {
-        scene = this.scenes.get( camera.scenes[i] );
+        scene = this.scenes.get( camera.scenes[ i ] );
 
         if ( scene ) {
           this.renderer.render( scene, camera.cam );
@@ -102,5 +100,12 @@ define( [ 'collection/Map', 'render/Camera2D', 'lib/Detector', 'lib/THREE', 'cor
     }
   };
 
-  return SceneManager;
+  SceneManager.getInstance = function() {
+    if ( instance === null ) {
+      instance = new SceneManager();
+    }
+    return instance;
+  };
+
+  return SceneManager.getInstance();
 } );

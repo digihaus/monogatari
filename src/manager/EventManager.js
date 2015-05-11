@@ -1,5 +1,7 @@
 define( [ 'collection/Map' ], function( _Map ) {
 
+  var instance = null;
+
   var Event = function( type, handler ) {
     this.type = type;
     this.handler = handler;
@@ -40,5 +42,12 @@ define( [ 'collection/Map' ], function( _Map ) {
     this.listeners.remove( id );
   };
 
-  return EventManager;
+  EventManager.getInstance = function() {
+    if ( instance === null ) {
+      instance = new EventManager();
+    }
+    return instance;
+  };
+
+  return EventManager.getInstance();
 } );
