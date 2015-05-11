@@ -32,32 +32,15 @@ body {
                 gameOver = true;
                 Zombies.clear();
 
-                var message = 'You died ';
                 var zombiesKilled = score + ' zombies killed.';
-
-                if ( score < 10 ) {
-                  message += 'overwhelmed by the undead.';
-                  if ( score === 0 ) {
-                    zombiesKilled = 'No zombies returned to grave.';
-                  }
+                if ( score === 0 ) {
+                  zombiesKilled = 'No zombies killed.';
                 }
-                if ( score >= 10 && score < 50 ) {
-                  message += 'and your existence was futile.';
-                  if ( score === 1 ) {
-                    zombiesKilled = '1 single motherf**king zombie killed.';
-                  }
-                }
-                if ( score >= 50 && score < 100 ) {
-                  message += 'showing how to use a weapon.';
-                }
-                if ( score >= 100 && score < 200 ) {
-                  message += 'carrying enough to hell with you.';
-                }
-                if ( score >= 200 ) {
-                  message += 'as the herald of Divine Justice.';
+                if ( score === 1 ) {
+                  zombiesKilled = '1 zombie killed.';
                 }
 
-                var restart = confirm( message + '\n\n' //
+                var restart = confirm( 'You died!\n\n' //
                     + zombiesKilled + '\n\n' //
                     + 'Start again?' );
 
