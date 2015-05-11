@@ -5,12 +5,12 @@ require( [ 'core/Timer' ], function( _Timer ) {
   var frames = 0;
 
   var run = function() {
-    if( frames < 100 ){
+    if ( frames < 100 ) {
       frames++;
       t.tick();
       requestAnimationFrame( run );
     } else {
-      assert( t.getFps() != null, 'Timer getFPS', 'core', t );
+      assert( t.fps != null, 'Timer FPS', 'core', t );
     }
   }
 
@@ -36,7 +36,7 @@ require( [ 'core/GameObject' ], function( _GameObject ) {
   var frames = 0;
 
   var run = function() {
-    if( frames < 100 ){
+    if ( frames < 100 ) {
       frames++;
       go1.update();
       requestAnimationFrame( run );
