@@ -10,8 +10,7 @@ function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Cha
   _browser.plataform = window.navigator.platform;
   _browser.isFirefox = ( _browser.agent.indexOf( 'Firefox' ) > -1 );
   _browser.isOpera = ( window.opera !== null );
-  _browser.isChrome = ( _browser.agent.indexOf( 'Chrome' ) > -1 ); // Chrome on Android returns true but is a
-  // completely different browser
+  _browser.isChrome = ( _browser.agent.indexOf( 'Chrome' ) > -1 ); // Chrome on Android returns true but is a completely different browser
   _browser.isIOS = _browser.agent.indexOf( 'iPod' ) > -1 || _browser.agent.indexOf( 'iPhone' ) > -1 || _browser.agent.indexOf( 'iPad' ) > -1;
   _browser.isAndroid = ( _browser.agent.indexOf( 'Android' ) > -1 );
   _browser.isBlackberry = ( _browser.agent.indexOf( 'Blackberry' ) > -1 );
