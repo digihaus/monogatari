@@ -83,7 +83,7 @@ function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Cha
 
   Monogatari.prototype.update = function() {
     this.timer.tick();
-    this.physicsManager.update();
+    this.physicsManager.update( this.timer );
     this.world.updateAll();
   };
 

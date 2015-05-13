@@ -2,15 +2,15 @@
 <html>
 <head>
 <title>Physics Usage - Monogatari</title>
-<script type="text/javascript" src="../dist/monogatari-0.1.0.min.js"></script>
+<script type="text/javascript" src="../dist/monogatari.js"></script>
 <script>
   require( [ 'Monogatari' ], function( m ) {
     m.init();
 
-    m.physicsManager.createWorld( new THREE.Vector2( 0, -10 ), true );
+    m.physicsManager.createWorld( new THREE.Vector2( 0, 10 ), true );
 
     // knight
-    var knight = new m.GameObject( 'knight' );
+    var knight = new m.GameObject( 'zombie1' );
     var rb1 = new m.RigidBody( 50 );
 
     rb1.setType( m.RigidBody.DYNAMIC );
@@ -23,7 +23,7 @@
 
     rb1.body = m.physicsManager.attachToWorld( rb1.bodyDef );
     rb1.body.CreateFixture( rb1.materialDef );
-    rb1.body.SetUserData( { id : 'knight' } );
+    rb1.body.SetUserData( { id : 'zombie1' } );
 
     var sprite = new m.Sprite( 'assets/zombies.png', 64, 64, 1, 3 );
     sprite.getMaterial().transparent = true;
@@ -35,7 +35,7 @@
     m.world.children.push( knight );
 
     //ball1
-    var ball = new m.GameObject( 'ball1' );
+    var ball = new m.GameObject( 'zombie2' );
     var rb2 = new m.RigidBody( 50 );
 
     rb2.setType( m.RigidBody.DYNAMIC );
@@ -48,16 +48,16 @@
 
     rb2.body = m.physicsManager.attachToWorld( rb2.bodyDef );
     rb2.body.CreateFixture( rb2.materialDef );
-    rb2.body.SetUserData( { id : 'ball1' } );
+    rb2.body.SetUserData( { id : 'zombie2' } );
 
     ball.addComponent( new m.Sprite( 'assets/zombies.png', 64, 64, 1, 3 ) );
     ball.addComponent( rb2 );
-    
+
     m.sceneManager.attachToScene( ball );
     m.world.children.push( ball );
 
     //ball2
-    var ball2 = new m.GameObject( 'ball2' );
+    var ball2 = new m.GameObject( 'zombie3' );
     var rb3 = new m.RigidBody( 50 );
 
     rb3.setType( m.RigidBody.DYNAMIC );
@@ -70,11 +70,11 @@
 
     rb3.body = m.physicsManager.attachToWorld( rb3.bodyDef );
     rb3.body.CreateFixture( rb3.materialDef );
-    rb3.body.SetUserData( { id : 'ball2' } );
+    rb3.body.SetUserData( { id : 'zombie3' } );
 
     ball2.addComponent( new m.Sprite( 'assets/zombies.png', 64, 64, 1, 3 ) );
     ball2.addComponent( rb3 );
-    
+
     m.sceneManager.attachToScene( ball2 );
     m.world.children.push( ball2 );
 
@@ -82,7 +82,7 @@
     var groundBodyDef = new b2BodyDef();
 
     groundBodyDef.type = b2Body.b2_staticBody;
-    groundBodyDef.position.Set( 0, -10 );
+    groundBodyDef.position.Set( 0, 10 );
 
     var groundBody = m.physicsManager.attachToWorld( groundBodyDef );
 
@@ -99,7 +99,7 @@
     var boxBodyDef = new b2BodyDef();
 
     boxBodyDef.type = b2Body.b2_dynamicBody;
-    boxBodyDef.position.Set( 0, 2 );
+    boxBodyDef.position.Set( 10, 0 );
 
     // left wall
     var lWallBodyDef = new b2BodyDef();
@@ -123,7 +123,7 @@
     var rWallBodyDef = new b2BodyDef();
 
     rWallBodyDef.type = b2Body.b2_staticBody;
-    rWallBodyDef.position.Set( 12, 0 );
+    rWallBodyDef.position.Set( 10, 0 );
 
     var rWallBody = m.physicsManager.attachToWorld( rWallBodyDef );
 
