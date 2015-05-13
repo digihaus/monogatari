@@ -12,16 +12,17 @@ module.exports = function( grunt ) {
             lib : '../lib'
           },
           name : 'Monogatari',
+          optimize: 'none',
           include : [ 'requireLib' ],
-          out : '../dist/monogatari-<%= pkg.version %>.js'
+          out : '../dist/monogatari.js'
         }
       }
     },
 
     uglify : {
       dist : {
-        src : [ '../dist/monogatari-<%= pkg.version %>.js' ],
-        dest : '../dist/monogatari-<%= pkg.version %>.min.js',
+        src : [ '../dist/monogatari.js' ],
+        dest : '../dist/monogatari.min.js',
       }
     },
 
@@ -36,7 +37,7 @@ module.exports = function( grunt ) {
       server : {
         options : {
           port : 9000,
-          base : "../"
+          base : '../'
         }
       }
     }
