@@ -1,8 +1,8 @@
 define( [ 'core/Timer', 'core/Math', 'input/Keyboard', 'input/Mouse', 'manager/SceneManager', 'manager/PhysicsManager', 'lib/Chance',
     'core/GameObject', 'component/Audio', 'component/Base', 'component/BaseThree', 'component/RigidBody', 'component/Sprite', 'component/StaticText',
     'collection/List', 'collection/Map', 'util/ArrayUtils', 'util/CommonUtils', 'util/StringUtils' ], //
-function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Chance, _GameObject, _Audio, _Base, _BaseThree, _RigidBody, _Sprite,
-    _StaticText, _List, _Map, _ArrayUtils, _CommonUtils, _StringUtils ) {
+function( Timer, Math, Keyboard, Mouse, SceneManager, PhysicsManager, Chance, GameObject, Audio, Base, BaseThree, RigidBody, Sprite, StaticText,
+    List, Map, ArrayUtils, CommonUtils, StringUtils ) {
 
   var _browser = {};
   _browser.agent = window.navigator.userAgent;
@@ -16,50 +16,46 @@ function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Cha
   _browser.isBlackberry = ( _browser.agent.indexOf( 'Blackberry' ) > -1 );
   _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
-  var instance = null;
-
   var Monogatari = function() {
-    // core engine modules
-    this.math = _Math;
-    this.timer = new _Timer();
-    this.world = new _GameObject( 'world' );
-    this.sceneManager = _SceneManager;
-    this.physicsManager = _PhysicsManager;
+    // Core
+    this.math = Math;
+    this.timer = Timer;
+    this.world = new GameObject( 'world' );
+    this.sceneManager = SceneManager;
+    this.physicsManager = PhysicsManager;
+    this.GameObject = GameObject; // Class
 
-    // this has a capital "R" because is treated like a class, it is instantiated instead of used directly like the
-    // managers
-    this.Random = _Chance;
-
-    this.browser = _browser;
+    // Input
     this.keyboard = null;
     this.mouse = null;
     this.gamepad = null;
 
-    // utils
-    this.arrayUtils = _ArrayUtils;
-    this.commonUtils = _CommonUtils;
-    this.stringUtils = _StringUtils;
+    // Utils
+    this.arrayUtils = ArrayUtils;
+    this.commonUtils = CommonUtils;
+    this.stringUtils = StringUtils;
+    this.browser = _browser;
+    this.Random = Chance; // Class
 
-    // collections
-    this.List = _List;
-    this.Map = _Map;
+    // Collection Classes
+    this.List = List;
+    this.Map = Map;
 
-    // engine building blocks
-    this.GameObject = _GameObject;
-    this.Audio = _Audio;
-    this.Base = _Base;
-    this.BaseThree = _BaseThree;
-    this.RigidBody = _RigidBody;
-    this.Sprite = _Sprite;
-    this.StaticText = _StaticText;
+    // Component Classes
+    this.Audio = Audio;
+    this.Base = Base;
+    this.BaseThree = BaseThree;
+    this.RigidBody = RigidBody;
+    this.Sprite = Sprite;
+    this.StaticText = StaticText;
   };
 
   Monogatari.prototype.init = function( bgcolor, width, height, target ) {
     var ctx = this;
     this.sceneManager.init( bgcolor, width, height, target );
 
-    // keyboard input setup
-    this.keyboard = new _Keyboard();
+    // Keyboard input setup
+    this.keyboard = new Keyboard();
     window.addEventListener( 'keyup', function( event ) {
       ctx.keyboard.onKeyUp( event, ctx.timer );
     }, false );
@@ -67,8 +63,8 @@ function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Cha
       ctx.keyboard.onKeyDown( event, ctx.timer );
     }, false );
 
-    // mouse input setup
-    this.mouse = new _Mouse();
+    // Mouse input setup
+    this.mouse = new Mouse();
     window.addEventListener( 'mousemove', function( event ) {
       ctx.mouse.onMouseMove( event, ctx.timer );
     }, false );
@@ -96,6 +92,8 @@ function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Cha
     this.update();
     this.render();
   };
+
+  var instance = null;
 
   Monogatari.getInstance = function() {
     if ( instance === null ) {

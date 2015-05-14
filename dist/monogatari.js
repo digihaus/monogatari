@@ -49,10 +49,10 @@ define( 'core/Timer',[],function() {
     this.FRAME_RATE_60FPS = 0.016666666667; // 1.0 second / 60.0 frames
   };
 
-  // This should be accessed ONLY on engine Update
+  /**
+   * Shall be accessed only on engine Update.
+   */
   Timer.prototype.tick = function() {
-
-    // Use Date.now() instead of new Date().getTime(), avoids one object allocation
     var now = Date.now();
     var delta = now - this.lastTime;
 
@@ -60,25 +60,33 @@ define( 'core/Timer',[],function() {
     this.lastTime = now;
 
     // Initiates lastFrameTime for first cycle
-    if( this.lastFrameTime == 0 ) {
+    if ( this.lastFrameTime == 0 ) {
       this.lastFrameTime = this.time;
     }
 
     var frameDelta = this.time - this.lastFrameTime;
 
     if ( frameDelta >= 1000 ) {
-      // In one second gets the stored frame ticks (FPS) and resets frame ticker
+      // Gets the stored frame ticks for 1 second (FPS)
       this.fps = this.frameTicks;
       this.frameTicks = 0;
       this.lastFrameTime = this.time;
     }
 
-    // Stores frame ticks per cycle
+    // Frame counting
     this.frameTicks++;
   };
 
-  return Timer;
+  var instance = null;
 
+  Timer.getInstance = function() {
+    if ( instance === null ) {
+      instance = new Timer();
+    }
+    return instance;
+  };
+
+  return Timer.getInstance();
 } );
 
 // File:src/Three.js
@@ -34814,7 +34822,7 @@ THREE.MorphBlendMesh.prototype.update = function ( delta ) {
 
 define("lib/Three", function(){});
 
-define( 'core/Math',[ 'lib/Three' ], function( _Three ) {
+define( 'core/Math',[ 'lib/Three' ], function( Three ) {
 
   var Math = {};
 
@@ -70858,14 +70866,18 @@ exports.b2Collision=b2Collision;exports.b2Mat22=b2Mat22;exports.b2SimplexCache=b
 
 define("lib/Box2d", function(){});
 
-define( 'manager/PhysicsManager',[ 'manager/EventManager', 'lib/Box2d' ], function( _EventManager, _Box2d ) {
-
-  var instance = null;
+define( 'manager/PhysicsManager',[
+    'manager/EventManager', 'lib/Box2d', 'core/Timer'
+], function( EventManager, Box2d, Timer ) {
 
   var PhysicsManager = function() {
     this.world = null;
+
+    // The more iterations, the more accurate the calculations
     this.velocityIterations = 10;
     this.positionIterations = 10;
+
+    // Remove any accumulated forces at every physics update
     this.clearForcesOnUpdate = false;
   }
 
@@ -70883,40 +70895,47 @@ define( 'manager/PhysicsManager',[ 'manager/EventManager', 'lib/Box2d' ], functi
 
     listener.BeginContact = function( contact ) {
       // console.log(contact.GetFixtureA().GetBody().GetUserData());
-      _EventManager.notify( 'PhysicsManager.beginContact', contact );
+      EventManager.notify( 'PhysicsManager.beginContact', contact );
     };
 
     listener.EndContact = function( contact ) {
       // console.log(contact.GetFixtureA().GetBody().GetUserData());
-      _EventManager.notify( 'PhysicsManager.endContact', contact );
+      EventManager.notify( 'PhysicsManager.endContact', contact );
     };
 
-    /*
-     * listener.PreSolve = function( contact, oldManifold ) { _EventManager.notify("box2D_preSolve", { "contact": contact, "oldManifold": oldManifold } ); };
-     * 
-     * listener.PostSolve = function( contact, impulse ) { _EventManager.notify("box2D_postSolve", { "contact": contact, "impulse": impulse } ); };
-     */
+    // listener.PreSolve = function( contact, oldManifold ) {
+    // EventManager.notify( "box2D_preSolve", {
+    // "contact" : contact,
+    // "oldManifold" : oldManifold
+    // } );
+    // };
+    //
+    // listener.PostSolve = function( contact, impulse ) {
+    // EventManager.notify( "box2D_postSolve", {
+    // "contact" : contact,
+    // "impulse" : impulse
+    // } );
+    // };
 
     this.world.SetContactListener( listener );
   };
 
-  PhysicsManager.prototype.update = function( timer ) {
+  PhysicsManager.prototype.update = function() {
     if ( this.world ) {
-      var fps = timer.fps;
+      var fps = Timer.fps
 
-      // The more iterations, the more accurate the calculations
-      this.world.Step( ( fps ) ? 1 / fps : timer.FRAME_RATE_60FPS, // frame rate at which to update
-      // physics( 1 / FPS or 1.0 / 60.0 )
-      this.velocityIterations, // number of velocity iterations to calculate each physics update
-      this.positionIterations // number of position iterations to calculate each physics update
-      );
+      // Frame rate at which to update physics ( 1 / FPS or 1.0 / 60.0 )
+      var physicsFrameRate = ( fps ) ? 1 / fps : Timer.FRAME_RATE_60FPS;
 
-      // the 'ClearForces' method of the world object remove any accumulated forces at every physics update
+      this.world.Step( physicsFrameRate, this.velocityIterations, this.positionIterations );
+
       if ( this.clearForcesOnUpdate ) {
         this.world.ClearForces();
       }
     }
   };
+
+  var instance = null;
 
   PhysicsManager.getInstance = function() {
     if ( instance === null ) {
@@ -70926,7 +70945,6 @@ define( 'manager/PhysicsManager',[ 'manager/EventManager', 'lib/Box2d' ], functi
   };
 
   return PhysicsManager.getInstance();
-
 } );
 
 //  Chance.js 0.7.1
@@ -80472,9 +80490,9 @@ define( 'util/StringUtils',[ 'util/ArrayUtils' ], function( _ArrayUtils ) {
 
 define( 'Monogatari',[ 'core/Timer', 'core/Math', 'input/Keyboard', 'input/Mouse', 'manager/SceneManager', 'manager/PhysicsManager', 'lib/Chance',
     'core/GameObject', 'component/Audio', 'component/Base', 'component/BaseThree', 'component/RigidBody', 'component/Sprite', 'component/StaticText',
-    'collection/List', 'collection/Map', 'util/ArrayUtils', 'util/CommonUtils', 'util/StringUtils' ], //
-function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Chance, _GameObject, _Audio, _Base, _BaseThree, _RigidBody, _Sprite,
-    _StaticText, _List, _Map, _ArrayUtils, _CommonUtils, _StringUtils ) {
+    'collection/List', 'collection/Map', 'util/ArrayUtils', 'util/CommonUtils', 'util/StringUtils' ], function( Timer, Math, Keyboard, Mouse,
+    SceneManager, PhysicsManager, Chance, GameObject, Audio, Base, BaseThree, RigidBody, Sprite, StaticText, List, Map, ArrayUtils, CommonUtils,
+    StringUtils ) {
 
   var _browser = {};
   _browser.agent = window.navigator.userAgent;
@@ -80488,50 +80506,46 @@ function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Cha
   _browser.isBlackberry = ( _browser.agent.indexOf( 'Blackberry' ) > -1 );
   _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
-  var instance = null;
-
   var Monogatari = function() {
-    // core engine modules
-    this.math = _Math;
-    this.timer = new _Timer();
-    this.world = new _GameObject( 'world' );
-    this.sceneManager = _SceneManager;
-    this.physicsManager = _PhysicsManager;
+    // Core
+    this.math = Math;
+    this.timer = Timer;
+    this.world = new GameObject( 'world' );
+    this.sceneManager = SceneManager;
+    this.physicsManager = PhysicsManager;
+    this.GameObject = GameObject; // Class
 
-    // this has a capital "R" because is treated like a class, it is instantiated instead of used directly like the
-    // managers
-    this.Random = _Chance;
-
-    this.browser = _browser;
+    // Input
     this.keyboard = null;
     this.mouse = null;
     this.gamepad = null;
 
-    // utils
-    this.arrayUtils = _ArrayUtils;
-    this.commonUtils = _CommonUtils;
-    this.stringUtils = _StringUtils;
+    // Utils
+    this.arrayUtils = ArrayUtils;
+    this.commonUtils = CommonUtils;
+    this.stringUtils = StringUtils;
+    this.browser = _browser;
+    this.Random = Chance; // Class
 
-    // collections
-    this.List = _List;
-    this.Map = _Map;
+    // Collection Classes
+    this.List = List;
+    this.Map = Map;
 
-    // engine building blocks
-    this.GameObject = _GameObject;
-    this.Audio = _Audio;
-    this.Base = _Base;
-    this.BaseThree = _BaseThree;
-    this.RigidBody = _RigidBody;
-    this.Sprite = _Sprite;
-    this.StaticText = _StaticText;
+    // Component Classes
+    this.Audio = Audio;
+    this.Base = Base;
+    this.BaseThree = BaseThree;
+    this.RigidBody = RigidBody;
+    this.Sprite = Sprite;
+    this.StaticText = StaticText;
   };
 
   Monogatari.prototype.init = function( bgcolor, width, height, target ) {
     var ctx = this;
     this.sceneManager.init( bgcolor, width, height, target );
 
-    // keyboard input setup
-    this.keyboard = new _Keyboard();
+    // Keyboard input setup
+    this.keyboard = new Keyboard();
     window.addEventListener( 'keyup', function( event ) {
       ctx.keyboard.onKeyUp( event, ctx.timer );
     }, false );
@@ -80539,8 +80553,8 @@ function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Cha
       ctx.keyboard.onKeyDown( event, ctx.timer );
     }, false );
 
-    // mouse input setup
-    this.mouse = new _Mouse();
+    // Mouse input setup
+    this.mouse = new Mouse();
     window.addEventListener( 'mousemove', function( event ) {
       ctx.mouse.onMouseMove( event, ctx.timer );
     }, false );
@@ -80568,6 +80582,8 @@ function( _Timer, _Math, _Keyboard, _Mouse, _SceneManager, _PhysicsManager, _Cha
     this.update();
     this.render();
   };
+
+  var instance = null;
 
   Monogatari.getInstance = function() {
     if ( instance === null ) {

@@ -1,11 +1,15 @@
-define( [ 'manager/EventManager', 'lib/Box2d' ], function( _EventManager, _Box2d ) {
-
-  var instance = null;
+define( [
+    'manager/EventManager', 'lib/Box2d', 'core/Timer'
+], function( EventManager, Box2d, Timer ) {
 
   var PhysicsManager = function() {
     this.world = null;
+
+    // The more iterations, the more accurate the calculations
     this.velocityIterations = 10;
     this.positionIterations = 10;
+
+    // Remove any accumulated forces at every physics update
     this.clearForcesOnUpdate = false;
   }
 
@@ -23,40 +27,47 @@ define( [ 'manager/EventManager', 'lib/Box2d' ], function( _EventManager, _Box2d
 
     listener.BeginContact = function( contact ) {
       // console.log(contact.GetFixtureA().GetBody().GetUserData());
-      _EventManager.notify( 'PhysicsManager.beginContact', contact );
+      EventManager.notify( 'PhysicsManager.beginContact', contact );
     };
 
     listener.EndContact = function( contact ) {
       // console.log(contact.GetFixtureA().GetBody().GetUserData());
-      _EventManager.notify( 'PhysicsManager.endContact', contact );
+      EventManager.notify( 'PhysicsManager.endContact', contact );
     };
 
-    /*
-     * listener.PreSolve = function( contact, oldManifold ) { _EventManager.notify("box2D_preSolve", { "contact": contact, "oldManifold": oldManifold } ); };
-     * 
-     * listener.PostSolve = function( contact, impulse ) { _EventManager.notify("box2D_postSolve", { "contact": contact, "impulse": impulse } ); };
-     */
+    // listener.PreSolve = function( contact, oldManifold ) {
+    // EventManager.notify( "box2D_preSolve", {
+    // "contact" : contact,
+    // "oldManifold" : oldManifold
+    // } );
+    // };
+    //
+    // listener.PostSolve = function( contact, impulse ) {
+    // EventManager.notify( "box2D_postSolve", {
+    // "contact" : contact,
+    // "impulse" : impulse
+    // } );
+    // };
 
     this.world.SetContactListener( listener );
   };
 
-  PhysicsManager.prototype.update = function( timer ) {
+  PhysicsManager.prototype.update = function() {
     if ( this.world ) {
-      var fps = timer.fps;
+      var fps = Timer.fps
 
-      // The more iterations, the more accurate the calculations
-      this.world.Step( ( fps ) ? 1 / fps : timer.FRAME_RATE_60FPS, // frame rate at which to update
-      // physics( 1 / FPS or 1.0 / 60.0 )
-      this.velocityIterations, // number of velocity iterations to calculate each physics update
-      this.positionIterations // number of position iterations to calculate each physics update
-      );
+      // Frame rate at which to update physics ( 1 / FPS or 1.0 / 60.0 )
+      var physicsFrameRate = ( fps ) ? 1 / fps : Timer.FRAME_RATE_60FPS;
 
-      // the 'ClearForces' method of the world object remove any accumulated forces at every physics update
+      this.world.Step( physicsFrameRate, this.velocityIterations, this.positionIterations );
+
       if ( this.clearForcesOnUpdate ) {
         this.world.ClearForces();
       }
     }
   };
+
+  var instance = null;
 
   PhysicsManager.getInstance = function() {
     if ( instance === null ) {
@@ -66,5 +77,4 @@ define( [ 'manager/EventManager', 'lib/Box2d' ], function( _EventManager, _Box2d
   };
 
   return PhysicsManager.getInstance();
-
 } );

@@ -10,10 +10,10 @@ define( function() {
     this.FRAME_RATE_60FPS = 0.016666666667; // 1.0 second / 60.0 frames
   };
 
-  // This should be accessed ONLY on engine Update
+  /**
+   * Shall be accessed only on engine Update.
+   */
   Timer.prototype.tick = function() {
-
-    // Use Date.now() instead of new Date().getTime(), avoids one object allocation
     var now = Date.now();
     var delta = now - this.lastTime;
 
@@ -21,23 +21,31 @@ define( function() {
     this.lastTime = now;
 
     // Initiates lastFrameTime for first cycle
-    if( this.lastFrameTime == 0 ) {
+    if ( this.lastFrameTime == 0 ) {
       this.lastFrameTime = this.time;
     }
 
     var frameDelta = this.time - this.lastFrameTime;
 
     if ( frameDelta >= 1000 ) {
-      // In one second gets the stored frame ticks (FPS) and resets frame ticker
+      // Gets the stored frame ticks for 1 second (FPS)
       this.fps = this.frameTicks;
       this.frameTicks = 0;
       this.lastFrameTime = this.time;
     }
 
-    // Stores frame ticks per cycle
+    // Frame counting
     this.frameTicks++;
   };
 
-  return Timer;
+  var instance = null;
 
+  Timer.getInstance = function() {
+    if ( instance === null ) {
+      instance = new Timer();
+    }
+    return instance;
+  };
+
+  return Timer.getInstance();
 } );
