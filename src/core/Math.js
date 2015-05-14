@@ -1,4 +1,4 @@
-define( [ 'lib/Three' ], function( _Three ) {
+define( [ 'lib/Three' ], function( Three ) {
 
   var Math = {};
 
