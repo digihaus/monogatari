@@ -1,6 +1,4 @@
-define( [
-    'manager/EventManager', 'lib/Box2d', 'core/Timer'
-], function( EventManager, Box2d, Timer ) {
+define( [ 'manager/EventManager', 'lib/Box2d', 'core/Timer' ], function( EventManager, Box2d, Timer ) {
 
   var PhysicsManager = function() {
     this.world = null;

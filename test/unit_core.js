@@ -1,5 +1,5 @@
-require( [ 'core/Timer' ], function( _Timer ) {
-  var t = new _Timer();
+require( [ 'core/Timer' ], function( Timer ) {
+  var t = Timer;
   assert( t != null, 'Timer created', 'core', t );
 
   var frames = 0;

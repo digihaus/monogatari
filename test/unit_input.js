@@ -1,6 +1,6 @@
-require( [ 'input/Keyboard', 'core/Timer' ], function( _Keyboard, _Timer ) {
-  var t = new _Timer();
-  var kb = new _Keyboard();
+require( [ 'input/Keyboard', 'core/Timer' ], function( Keyboard, Timer ) {
+  var t = Timer;
+  var kb = new Keyboard();
 
   assert( kb != null, 'Keyboard created', 'input', kb );
 
@@ -17,9 +17,9 @@ require( [ 'input/Keyboard', 'core/Timer' ], function( _Keyboard, _Timer ) {
   assert( kb.isDown( kb.BACKSPACE )  == null, 'Keyboard is not down', 'input', kb);
 } );
 
-require( [ 'input/Mouse', 'core/Timer' ], function( _Mouse, _Timer ) {
-  var t = new _Timer();
-  var mouse = new _Mouse();
+require( [ 'input/Mouse', 'core/Timer' ], function( Mouse, Timer ) {
+  var t = Timer;
+  var mouse = new Mouse();
 
   assert( mouse != null, 'Mouse created', 'input', mouse );
 
