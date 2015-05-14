@@ -37055,39 +37055,37 @@ define( 'manager/PhysicsManager',[ 'manager/EventManager', 'lib/Box2d', 'core/Ti
 })();
 
 /**
-* This is the base Component all others should extend.
-*/
-define( 'component/Base',[],function() {
+ * This is the base Component all others shall extend.
+ */
+define(
+  'component/Base',[],function() {
 
-  var Component = function( type ) {
-    this.type = ( type ) ? type : Component.BASE;
-    this.isRenderable = false;
-  };
+    var Component = function( type ) {
+      this.type = ( type ) ? type : Component.BASE;
+      this.isRenderable = false;
+    };
 
-  // state
-  Component.STATE_INITIALIZING = 0;
-  Component.STATE_BUFFERING = 1;
-  Component.STATE_READY = 2;
-  Component.STATE_FAILED = 3;
+    // State
+    Component.STATE_INITIALIZING = 0;
+    Component.STATE_BUFFERING = 1;
+    Component.STATE_READY = 2;
+    Component.STATE_FAILED = 3;
 
-  // types
-  Component.BASE = 0;
-  Component.BASE_THREE = 1;
-  Component.BASE_FONT = 2;
-  Component.RIGID_BODY = 3;
-  Component.SPRITE = 4;
-  Component.STATIC_TEXT = 5;
-  Component.AUDIO_SOURCE = 6;
-  Component.PARTICLE_EMITTER = 7;
-  //Component.AUDIO_LISTENER = 1;
-  //Component.PACKAGE_SENDER = 1;
-  //Component.PACKAGE_LISTENER = 1;
+    // Types
+    Component.BASE = 0;
+    Component.BASE_THREE = 1;
+    Component.BASE_FONT = 2;
+    Component.RIGID_BODY = 3;
+    Component.SPRITE = 4;
+    Component.STATIC_TEXT = 5;
+    Component.AUDIO_SOURCE = 6;
+    Component.PARTICLE_EMITTER = 7;
 
-  Component.CUSTOM = -1;
+    Component.CUSTOM = -1;
 
-  return Component;
-
-} );
+    return Component;
+  }
+);
 
 define( 'core/GameObject',[ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'lib/Three' ], function( _Common, _Timer, _Map, _Base, _Three ) {
 
@@ -44705,318 +44703,326 @@ this.createjs = this.createjs || {};
 
 define("lib/SoundJS", function(){});
 
-define( 'component/Audio',[ 'component/Base', 'lib/SoundJS' ], function( _Base, _Sound ) {
+define(
+  'component/Audio',[ 'component/Base', 'lib/SoundJS' ], function( Base, _Sound ) {
 
-  var Audio = function( id, source ) {
-    _Base.call( this, _Base.AUDIO_SOURCE );
+    var Audio = function( id, source ) {
+      Base.call( this, Base.AUDIO_SOURCE );
 
-    if ( id && source ) {
-      this.id = id;
-      this.source = source;
-      this.instance = null;
-      this.state = Audio.STATE_STOPPED;
+      if( id && source ) {
+        this.id = id;
+        this.source = source;
+        this.instance = null;
+        this.state = Audio.STATE_STOPPED;
 
-      createjs.Sound.alternateExtensions = [ 'mp3' ];
-      createjs.Sound.registerSound( this.source, this.id );
-      createjs.Sound.on( 'fileload', function( event ) {
-        this.instance = createjs.Sound.createInstance( this.id );
-      }, this );
+        createjs.Sound.alternateExtensions = [ 'mp3' ];
+        createjs.Sound.registerSound( this.source, this.id );
+        createjs.Sound.on(
+          'fileload', function( event ) {
+            this.instance = createjs.Sound.createInstance( this.id );
+          }, this
+        );
 
-    } else {
-      console.log( 'Audio component fail.' );
-    }
-  };
+      } else {
+        console.log( 'Audio component fail.' );
+      }
+    };
 
-  Audio.prototype = Object.create( _Base.prototype );
+    Audio.prototype = Object.create( Base.prototype );
 
-  Audio.STATE_STOPPED = 0;
-  Audio.STATE_PLAYING = 1;
-  Audio.STATE_PAUSED = 2;
-  Audio.STATE_FINISHED = 3;
+    Audio.STATE_STOPPED = 0;
+    Audio.STATE_PLAYING = 1;
+    Audio.STATE_PAUSED = 2;
+    Audio.STATE_FINISHED = 3;
 
-  Audio.prototype.isLoaded = function() {
-    return createjs.Sound.loadComplete( this.source );
-  };
+    Audio.prototype.isLoaded = function() {
+      return createjs.Sound.loadComplete( this.source );
+    };
 
-  Audio.prototype.start = function( options ) {
-    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_PLAYING ) {
-      this.instance.play( options );
-      this.state = Audio.STATE_PLAYING;
+    Audio.prototype.start = function( options ) {
+      if( this.instance && this.isLoaded() && this.state != Audio.STATE_PLAYING ) {
+        this.instance.play( options );
+        this.state = Audio.STATE_PLAYING;
 
-      this.instance.on( 'complete', function( event ) {
-          this.state = Audio.STATE_FINISHED;
-      } );
-    }
-  };
+        this.instance.on(
+          'complete', function( event ) {
+            this.state = Audio.STATE_FINISHED;
+          }
+        );
+      }
+    };
 
-  Audio.prototype.pause = function() {
-    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_PAUSED ) {
-      this.instance.pause();
-      this.state = Audio.STATE_PAUSED;
-    }
-  };
+    Audio.prototype.pause = function() {
+      if( this.instance && this.isLoaded() && this.state != Audio.STATE_PAUSED ) {
+        this.instance.pause();
+        this.state = Audio.STATE_PAUSED;
+      }
+    };
 
-  Audio.prototype.resume = function() {
-    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_PLAYING ) {
-      this.instance.resume();
-      this.state = Audio.STATE_PLAYING;
-    }
-  };
+    Audio.prototype.resume = function() {
+      if( this.instance && this.isLoaded() && this.state != Audio.STATE_PLAYING ) {
+        this.instance.resume();
+        this.state = Audio.STATE_PLAYING;
+      }
+    };
 
-  Audio.prototype.stop = function() {
-    if ( this.instance && this.isLoaded() && this.state != Audio.STATE_STOPPED ) {
-      this.instance.stop();
-      this.state = Audio.STATE_STOPPED;
-    }
-  };
+    Audio.prototype.stop = function() {
+      if( this.instance && this.isLoaded() && this.state != Audio.STATE_STOPPED ) {
+        this.instance.stop();
+        this.state = Audio.STATE_STOPPED;
+      }
+    };
 
-  return Audio;
+    return Audio;
 
-} );
-
-define( 'component/BaseThree',[ 'component/Base', 'lib/Three' ], function( _Base, _Three ) {
-
-  var BaseThree = function( material, geometry, type ) {
-    _Base.call( this, type || _Base.BASE_THREE );
-    this.isRenderable = true;
-
-    this.texture = null;
-    this.material = ( material ) ? material : null;
-    this.geometry = ( geometry ) ? geometry : null;
-    this.mesh = ( material && geometry ) ? new THREE.Mesh( this.geometry, this.material ) : null;
-  };
-
-  BaseThree.prototype = Object.create( _Base.prototype );
-
-  BaseThree.prototype.setMaterial = function( material ) {
-    this.material = ( material ) ? material : null;
-    this.updateMesh();
-  };
-
-  BaseThree.prototype.getMaterial = function() {
-    return this.material;
-  };
-
-  BaseThree.prototype.setGeometry = function( geometry ) {
-    this.geometry = ( geometry ) ? geometry : null;
-    this.updateMesh();
-  };
-
-  BaseThree.prototype.getGeometry = function() {
-    return this.geometry;
-  };
-
-  BaseThree.prototype.updateMesh = function() {
-    if ( this.material && this.geometry ) {
-      this.mesh.geometry = this.geometry;
-      this.mesh.material = this.material;
-    }
-  };
-
-  BaseThree.prototype.getMesh = function() {
-    return this.mesh;
-  };
-
-  BaseThree.prototype.getTexture = function() {
-    return this.texture;
-  };
-
-  BaseThree.prototype.show = function() {
-    this.mesh.material.visible = true;
-  };
-
-  BaseThree.prototype.hide = function() {
-    this.mesh.material.visible = false;
-  };
-
-  return BaseThree;
-
-} );
-
-// [ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
-// [ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
-
-// Box2D has been tuned to work well with moving objects between 0.1 and 10 meters. So this means
-// objects between soup cans and buses in size should work well. Static objects may be up to 50 meters big
-// without too much trouble.
-// Box2D is tuned for meters, kilograms, and seconds
-define( 'component/RigidBody',[ 'component/Base', 'lib/Box2d' ], function( _Base, _Box2d ) {
-
-  var RigidBody = function( conversionFactor ) {
-    _Base.call( this, _Base.RIGID_BODY );
-
-    this.bodyDef = new b2BodyDef();
-    this.materialDef = new b2FixtureDef();
-    this.body = null;
-
-    // conversionFactor is the value used to multiply the position from physics world (meters)
-    // to screen coordinates (pixels)
-    // if no value is presented, the factor will be 1 (probably not what you expect)
-    this.conversionFactor = ( conversionFactor ) ? conversionFactor : 1;
-
-    this.materialDef.shape = new b2PolygonShape();
-    this.materialDef.shape.SetAsBox( 0.5, 0.5 );
   }
+);
 
-  RigidBody.prototype = Object.create( _Base.prototype );
+define(
+  'component/BaseThree',[ 'component/Base', 'lib/Three' ], function( Base, _Three ) {
 
-  RigidBody.STATIC = 1;
-  RigidBody.KINEMATIC = 2;
-  RigidBody.DYNAMIC = 3;
+    var BaseThree = function( material, geometry, type ) {
+      Base.call( this, type || Base.BASE_THREE );
+      this.isRenderable = true;
 
-  // in kg/m^2.
-  RigidBody.prototype.setDensity = function( density ) {
-    this.materialDef.density = density;
-  };
+      this.texture = null;
+      this.material = ( material ) ? material : null;
+      this.geometry = ( geometry ) ? geometry : null;
+      this.mesh = ( material && geometry ) ? new THREE.Mesh( this.geometry, this.material ) : null;
+    };
 
-  // usually in the range [0,1].
-  RigidBody.prototype.setFriction = function( friction ) {
-    this.materialDef.friction = friction;
-  };
+    BaseThree.prototype = Object.create( Base.prototype );
 
-  // usually in the range [0,1].
-  RigidBody.prototype.setBounciness = function( bounciness ) {
-    this.materialDef.restitution = bounciness;
-  };
+    BaseThree.prototype.setMaterial = function( material ) {
+      this.material = ( material ) ? material : null;
+      this.updateMesh();
+    };
 
-  // coordinates in physics world, NOT in pixels or game world, a proper scale is required to draw
-  RigidBody.prototype.setPosition = function( position ) {
-    this.bodyDef.position.x = position.x;
-    this.bodyDef.position.y = position.y;
-  };
+    BaseThree.prototype.getMaterial = function() {
+      return this.material;
+    };
 
-  // in radians
-  RigidBody.prototype.setRotation = function( angle ) {
-    this.bodyDef.angle = angle;
-  };
+    BaseThree.prototype.setGeometry = function( geometry ) {
+      this.geometry = ( geometry ) ? geometry : null;
+      this.updateMesh();
+    };
 
-  // The shape, this must be set
-  RigidBody.prototype.setShape = function( shape ) {
-    this.materialDef.shape = shape;
-  };
+    BaseThree.prototype.getGeometry = function() {
+      return this.geometry;
+    };
 
-  // prevent the collision to be resolved by Box2D, but retains collision information
-  RigidBody.prototype.setSensor = function( isSensor ) {
-    this.materialDef.isSensor = isSensor;
-  };
+    BaseThree.prototype.updateMesh = function() {
+      if( this.material && this.geometry ) {
+        this.mesh.geometry = this.geometry;
+        this.mesh.material = this.material;
+      }
+    };
 
-  // expensive! use with care!
-  RigidBody.prototype.setPreventTunneling = function( preventTunneling ) {
-    this.bodyDef.bullet = preventTunneling;
-  };
+    BaseThree.prototype.getMesh = function() {
+      return this.mesh;
+    };
 
-  // b2_staticBody A static body has does not move under simulation and behaves as if it has infinite mass.
-  // Internally,
-  // Box2D stores zero for the mass and the inverse mass. Static bodies can be moved manually by the user. A static
-  // body
-  // has zero velocity. Static bodies do not collide with other static or kinematic bodies.
-  //
-  // b2_kinematicBody A kinematic body moves under simulation according to its velocity. Kinematic bodies do not
-  // respond
-  // to forces. They can be moved manually by the user, but normally a kinematic body is moved by setting its
-  // velocity.
-  // A kinematic body behaves as if it has infinite mass, however, Box2D stores zero for the mass and the inverse
-  // mass.
-  // Kinematic bodies do not collide with other static or kinematic bodies.
-  //
-  // b2_dynamicBody A dynamic body is fully simulated. They can be moved manually by the user, but normally they move
-  // according to forces. A dynamic body can collide with all body types. A dynamic body always has finite, non-zero
-  // mass.
-  // If you try to set the mass of a dynamic body to zero, it will automatically acquire a mass of one kilogram.
-  RigidBody.prototype.setType = function( type ) {
-    switch ( type ) {
-    case RigidBody.STATIC:
-      this.bodyDef.type = b2Body.b2_staticBody;
-      break;
-    case RigidBody.KINEMATIC:
-      this.bodyDef.type = b2Body.b2_kinectBody;
-      break;
-    case RigidBody.DYNAMIC:
-      this.bodyDef.type = b2Body.b2_dynamicBody;
-      break;
-    default:
-      this.bodyDef.type = b2Body.b2_staticBody;
-      break;
-    }
-  };
+    BaseThree.prototype.getTexture = function() {
+      return this.texture;
+    };
 
-  // constraints
-  RigidBody.prototype.setAllowRotation = function( allowRotation ) {
-    this.bodyDef.fixedRotation = !allowRotation;
-  };
+    BaseThree.prototype.show = function() {
+      this.mesh.material.visible = true;
+    };
 
-  return RigidBody;
+    BaseThree.prototype.hide = function() {
+      this.mesh.material.visible = false;
+    };
 
-} );
-
-define( 'component/Sprite',[ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( _Base, _BaseThree, _Three ) {
-
-  var Sprite = function( source, width, height, rows, cols ) {
-    _BaseThree.call( this, null, null, _Base.SPRITE );
-    this.isRenderable = true;
-
-    this.texture = THREE.ImageUtils.loadTexture( ( source ) ? source : 'assets/bad-texture.png' );
-    this.texture.wrapS = this.texture.wrapT = THREE.RepeatWrapping;
-    this.texture.flipY = true;
-
-    // row and col goes from 0 to N (like an array)
-    this.row = 0;
-    this.col = 0;
-
-    // frame goes from 1 to N
-    this.frame = 1;
-
-    // rows and cols goes from 1 to N (like array.lenght)
-    this.rows = ( rows ) ? rows : 1;
-    this.cols = ( cols ) ? cols : 1;
-    this.numberOfFrames = rows * cols;
-
-    this.w = width;
-    this.h = height;
-
-    this.lastUpdate = 0;
-
-    this.texture.offset.x = this.row / this.cols;
-    this.texture.offset.y = this.col / this.rows;
-    this.texture.repeat.set( 1 / this.cols, 1 / this.rows );
-
-    this.material = new THREE.MeshBasicMaterial( {
-      map : this.texture,
-      side : THREE.BackSide
-    } );
-    this.material.transparent = true;
-
-    this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
-
-    this.mesh = new THREE.Mesh( this.geometry, this.material );
+    return BaseThree;
   }
+);
 
-  Sprite.prototype = Object.create( _BaseThree.prototype );
+/**
+ *[ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
+ *[ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
+ *
+ * Box2D has been tuned to work well with moving objects between 0.1 and 10 meters.
+ * So this means objects between soup cans and buses in size should work well.
+ * Static objects may be up to 50 meters big without too much trouble.
+ * Box2D is tuned for meters, kilograms, and seconds.
+ */
+define(
+  'component/RigidBody',[ 'component/Base', 'lib/Box2d' ], function( Base, _Box2d ) {
 
-  Sprite.prototype.getFrame = function() {
-    return this.frame;
-  };
+    /**
+     * @param {number} conversionFactor Multiplies the position from physics world (meters to screen coordinates (pixels)). Defaults to 1 (probably not what you expect).
+     * @constructor
+     */
+    var RigidBody = function( conversionFactor ) {
+      Base.call( this, Base.RIGID_BODY );
 
-  Sprite.prototype.setFrame = function( frame ) {
-    this.frame = frame ? frame : 1;
+      this.bodyDef = new b2BodyDef();
+      this.materialDef = new b2FixtureDef();
+      this.body = null;
 
-    this.col = ( Math.ceil( this.frame / this.cols ) ) - 1;
-    this.row = ( this.frame - 1 ) % this.cols;
+      this.conversionFactor = ( conversionFactor ) ? conversionFactor : 1;
 
-    // console.log("Frame:"+ this._frame + " Col:" + this.col +" Row:" + this.row + " OffsetX:" + this.row / this.cols
-    // +" OffsetY:" + this.col / this.rows);
+      this.materialDef.shape = new b2PolygonShape();
+      this.materialDef.shape.SetAsBox( 0.5, 0.5 );
+    };
 
-    this.texture.offset.x = this.row / this.cols;
-    this.texture.offset.y = this.col / this.rows;
-  };
+    RigidBody.prototype = Object.create( Base.prototype );
 
-  Sprite.prototype.nextFrame = function() {
-    this.setFrame( ( this.frame % this.numberOfFrames ) + 1 );
-  };
+    RigidBody.STATIC = 1;
+    RigidBody.KINEMATIC = 2;
+    RigidBody.DYNAMIC = 3;
 
-  return Sprite;
+    /**
+     * @param {number} density In kg/m^2.
+     */
+    RigidBody.prototype.setDensity = function( density ) {
+      this.materialDef.density = density;
+    };
 
-} );
+    /**
+     * @param {number} friction Usually in the range [0,1].
+     */
+    RigidBody.prototype.setFriction = function( friction ) {
+      this.materialDef.friction = friction;
+    };
+
+    /**
+     * @param {number} bounciness Usually in the range [0,1].
+     */
+    RigidBody.prototype.setBounciness = function( bounciness ) {
+      this.materialDef.restitution = bounciness;
+    };
+
+    /**
+     * @param position Coordinates in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+     */
+    RigidBody.prototype.setPosition = function( position ) {
+      this.bodyDef.position.x = position.x;
+      this.bodyDef.position.y = position.y;
+    };
+
+    /**
+     * @param {number} angle In radians.
+     */
+    RigidBody.prototype.setRotation = function( angle ) {
+      this.bodyDef.angle = angle;
+    };
+
+    /**
+     * @param shape This is mandatory.
+     */
+    RigidBody.prototype.setShape = function( shape ) {
+      this.materialDef.shape = shape;
+    };
+
+    /**
+     * Prevents the collision to be resolved by Box2D, but retains collision information.
+     */
+    RigidBody.prototype.setSensor = function( isSensor ) {
+      this.materialDef.isSensor = isSensor;
+    };
+
+    /**
+     * Expensive! Use with care.
+     */
+    RigidBody.prototype.setPreventTunneling = function( preventTunneling ) {
+      this.bodyDef.bullet = preventTunneling;
+    };
+
+    RigidBody.prototype.setType = function( type ) {
+      switch( type ) {
+        case RigidBody.STATIC:
+          this.bodyDef.type = b2Body.b2_staticBody;
+          break;
+        case RigidBody.KINEMATIC:
+          this.bodyDef.type = b2Body.b2_kinematicBody;
+          break;
+        case RigidBody.DYNAMIC:
+          this.bodyDef.type = b2Body.b2_dynamicBody;
+          break;
+        default:
+          this.bodyDef.type = b2Body.b2_staticBody;
+          break;
+      }
+    };
+
+    RigidBody.prototype.setAllowRotation = function( allowRotation ) {
+      this.bodyDef.fixedRotation = !allowRotation;
+    };
+
+    return RigidBody;
+  }
+);
+
+define(
+  'component/Sprite',[ 'component/Base', 'component/BaseThree', 'lib/Three' ], function( Base, BaseThree, _Three ) {
+
+    var Sprite = function( source, width, height, rows, cols ) {
+      BaseThree.call( this, null, null, Base.SPRITE );
+      this.isRenderable = true;
+
+      this.texture = THREE.ImageUtils.loadTexture( ( source ) ? source : 'assets/bad-texture.png' );
+      this.texture.wrapS = this.texture.wrapT = THREE.RepeatWrapping;
+      this.texture.flipY = true;
+
+      // Row and col goes from 0 to N (like an array)
+      this.row = 0;
+      this.col = 0;
+
+      // Frame goes from 1 to N
+      this.frame = 1;
+
+      // Rows and cols goes from 1 to N (like array.length)
+      this.rows = ( rows ) ? rows : 1;
+      this.cols = ( cols ) ? cols : 1;
+      this.numberOfFrames = rows * cols;
+
+      this.w = width;
+      this.h = height;
+
+      this.lastUpdate = 0;
+
+      this.texture.offset.x = this.row / this.cols;
+      this.texture.offset.y = this.col / this.rows;
+      this.texture.repeat.set( 1 / this.cols, 1 / this.rows );
+
+      this.material = new THREE.MeshBasicMaterial(
+        {
+          map: this.texture,
+          side: THREE.BackSide
+        }
+      );
+      this.material.transparent = true;
+
+      this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
+
+      this.mesh = new THREE.Mesh( this.geometry, this.material );
+    }
+
+    Sprite.prototype = Object.create( BaseThree.prototype );
+
+    Sprite.prototype.getFrame = function() {
+      return this.frame;
+    };
+
+    Sprite.prototype.setFrame = function( frame ) {
+      this.frame = frame ? frame : 1;
+
+      this.col = ( Math.ceil( this.frame / this.cols ) ) - 1;
+      this.row = ( this.frame - 1 ) % this.cols;
+
+      this.texture.offset.x = this.row / this.cols;
+      this.texture.offset.y = this.col / this.rows;
+    };
+
+    Sprite.prototype.nextFrame = function() {
+      this.setFrame( ( this.frame % this.numberOfFrames ) + 1 );
+    };
+
+    return Sprite;
+  }
+);
 
 /**
  * Copyright 2013 Small Batch, Inc.
@@ -45069,193 +45075,198 @@ $.prototype.v=function(a,b){var c=this.d.id,d=this.d,e=this.c.u,g=this;c?(e.__we
 define("lib/WebFont", function(){});
 
 /**
-* This module provides the basic buffering for fonts.
-* Modules that extend this one should call parse() at some point to proper buffering.
-*
-* https://github.com/typekit/webfontloader
-* http://stemkoski.github.io/Three.js/Texture-From-Canvas.html
-*/
-define( 'component/BaseFont',[ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math', 'lib/WebFont' ],
-  function( _Base, _BaseThree, _Map, _Math, _WebFont ) {
+ * This module provides the basic buffering for fonts.
+ * Modules that extend this one should call parse() at some point to proper buffering.
+ *
+ * https://github.com/typekit/webfontloader
+ * http://stemkoski.github.io/Three.js/Texture-From-Canvas.html
+ */
+define(
+  'component/BaseFont',[ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math', 'lib/WebFont' ],
+  function( Base, BaseThree, Map, Math, _WebFont ) {
 
-  var Font = function( size, family, strokeColor, fillColor ) {
-    _BaseThree.call( this );
-    this.type = _Base.BASE_FONT;
-    this.isRenderable = true;
-    this.isLoaded = false;
+    var Font = function( size, family, strokeColor, fillColor ) {
+      BaseThree.call( this );
+      this.type = Base.BASE_FONT;
+      this.isRenderable = true;
+      this.isLoaded = false;
 
-    this.fontSize = ( size ) ? size : 10;
-    this.fontFamily = ( family ) ? family : 'Verdana';
-    this.strokeColor = ( strokeColor ) ? strokeColor : '#000';
-    this.fillColor = ( fillColor ) ? fillColor : '#000';
+      this.fontSize = ( size ) ? size : 10;
+      this.fontFamily = ( family ) ? family : 'Verdana';
+      this.strokeColor = ( strokeColor ) ? strokeColor : '#000';
+      this.fillColor = ( fillColor ) ? fillColor : '#000';
 
-    this.maxWidth = this.fontSize;
+      this.maxWidth = this.fontSize;
 
-    // Stores the buffered font, one canvas for each char
-    this.fontMap = new _Map();
-  };
+      // Stores the buffered font, one canvas for each char
+      this.fontMap = new Map();
+    };
 
-  Font.prototype = Object.create( _BaseThree.prototype );
+    Font.prototype = Object.create( BaseThree.prototype );
 
-  // TODO resolver minificação com acentos
-  //Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ';
-  Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çÇáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜãõñÃÕÑâêîôûÂÊÎÔÛ_()-,.[]!?@$* ',
+    // TODO: Solve accents minification
+    //Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ';
+    Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çÇáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜãõñÃÕÑâêîôûÂÊÎÔÛ_()-,.[]!?@$* ';
 
-  Font.prototype.load = function() {
-    var callback = this.onLoad;
-    var context = this;
+    Font.prototype.load = function() {
+      var callback = this.onLoad;
+      var context = this;
 
-    WebFont.load( {
-      google: {
-        families : [ this.fontFamily ]
-      },
-      fontactive: function(familyName, fvd) {
-        callback.apply( context );
-      }
-    } );
-  }
-
-  Font.prototype.onLoad = function() {
-    this.parse();
-    this.isLoaded = true;
-  }
-
-  Font.prototype.parse = function() {
-    var canvas = null;
-    var context = null;
-    var canvasBuffer = null;
-    var contextBuffer = null;
-    var w = 0;
-    var h = this.fontSize * 2;
-
-    canvasBuffer = document.createElement( 'canvas' );
-    canvasBuffer.width = w;
-    canvasBuffer.height = h;
-
-    contextBuffer = canvasBuffer.getContext( '2d' );
-
-    for ( var i = 0, len = Font.CHARS.length; i < len; i++ ) {
-      w = contextBuffer.measureText( Font.CHARS[ i ] ).width + ( this.fontSize / 2 );
-
-      this.maxWidth = _Math.max( w, this.maxWidth );
-
-      canvas = document.createElement( 'canvas' );
-      canvas.width = w;
-      canvas.height = h;
-
-      context = canvas.getContext( '2d' );
-      context.clearRect( 0, 0, w, h );
-      context.strokeStyle = this.strokeColor;
-      context.fillStyle = this.fillColor;
-      context.font = this.fontSize + 'px ' + this.fontFamily;
-      context.fillText( Font.CHARS[ i ], 0, h / 2 );
-
-      this.fontMap.put( Font.CHARS[ i ], canvas );
-    }
-  };
-
-  return Font;
-
-} );
-
-define( 'component/StaticText',[ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( _Base, _BaseFont, _Three ) {
-
-  var StaticText = function(  text, fontSize, fontFamily, width, height ) {
-    _BaseFont.call( this, fontSize, fontFamily );
-    this.type = _Base.STATIC_TEXT;
-    this.isRenderable = true;
-    this.isLoaded = false;
-
-    this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
-    this.w = ( width ) ? width : 256;
-    this.h = ( height ) ? height : 64;
-
-    // Buffered canvas with the final text to render
-    // It is expected to be converted into a Three.Texture
-    this.buffer = document.createElement( 'canvas' );
-    this.buffer.width = this.w;
-    this.buffer.height = this.h;
-
-    this.texture;
-    this.load();
-  };
-
-  StaticText.prototype = Object.create( _BaseFont.prototype );
-
-  StaticText.prototype.reset = function( text, fontSize, fontFamily, width, height ) {
-    this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
-    this.fontSize = ( fontSize ) ? fontSize : 10;
-    this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
-    this.w = ( width ) ? width : 256;
-    this.h = ( height ) ? height : 64;
-  };
-
-  StaticText.prototype.onLoad = function() {
-    this.parse();
-
-    this.texture = new THREE.Texture( this.renderIntoBuffer() );
-    // This line makes the textures created during execution to work properly
-    this.texture.needsUpdate = true;
-    this.texture.flipY = true;
-
-    this.material = new THREE.MeshBasicMaterial( {
-      map : this.texture,
-      side : THREE.DoubleSide
-    } );
-    this.material.transparent = true;
-
-    this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
-
-    this.mesh = new THREE.Mesh( this.geometry, this.material );
-
-    this.isLoaded = true;
-  };
-
-  StaticText.prototype.renderIntoBuffer = function() {
-    var context = this.buffer.getContext( '2d' );
-    // horizontal flip for proper rendering on the engine camera
-    context.translate(this.w, 0);
-    context.scale(-1, 1);
-
-    if ( this.text.length > 0 ) {
-      var c = this.fontMap.get( this.text[ 0 ] );
-      var words = this.text.split( ' ' );
-
-      // the position(x,y) and scale(width, height) of a single character
-      var cX = 0, cY = 0, cW = 0, cH = 0;
-
-      for ( var i = 0, len = words.length; i < len; i++ ) {
-
-        if ( cX + ( len * cW ) >= this.w ) {
-          cX = 0;
-          cY += cH;
+      WebFont.load(
+        {
+          google: {
+            families: [ this.fontFamily ]
+          },
+          fontactive: function( familyName, fvd ) {
+            callback.apply( context );
+          }
         }
+      );
+    };
 
-        for ( var j = 0, wlen = words[ i ].length; j < wlen; j++ ) {
-          c = this.fontMap.get( words[ i ][ j ] );
+    Font.prototype.onLoad = function() {
+      this.parse();
+      this.isLoaded = true;
+    };
+
+    Font.prototype.parse = function() {
+      var canvas = null;
+      var context = null;
+      var w = 0;
+      var h = this.fontSize * 2;
+
+      var canvasBuffer = document.createElement( 'canvas' );
+      canvasBuffer.width = w;
+      canvasBuffer.height = h;
+
+      var contextBuffer = canvasBuffer.getContext( '2d' );
+
+      for( var i = 0, len = Font.CHARS.length; i < len; i++ ) {
+        w = contextBuffer.measureText( Font.CHARS[ i ] ).width + ( this.fontSize / 2 );
+
+        this.maxWidth = Math.max( w, this.maxWidth );
+
+        canvas = document.createElement( 'canvas' );
+        canvas.width = w;
+        canvas.height = h;
+
+        context = canvas.getContext( '2d' );
+        context.clearRect( 0, 0, w, h );
+        context.strokeStyle = this.strokeColor;
+        context.fillStyle = this.fillColor;
+        context.font = this.fontSize + 'px ' + this.fontFamily;
+        context.fillText( Font.CHARS[ i ], 0, h / 2 );
+
+        this.fontMap.put( Font.CHARS[ i ], canvas );
+      }
+    };
+
+    return Font;
+  }
+);
+
+define(
+  'component/StaticText',[ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( Base, BaseFont, _Three ) {
+
+    var StaticText = function( text, fontSize, fontFamily, width, height ) {
+      BaseFont.call( this, fontSize, fontFamily );
+      this.type = Base.STATIC_TEXT;
+      this.isRenderable = true;
+      this.isLoaded = false;
+
+      this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
+      this.w = ( width ) ? width : 256;
+      this.h = ( height ) ? height : 64;
+
+      // Buffered canvas with the final text to render
+      // It is expected to be converted into a Three.Texture
+      this.buffer = document.createElement( 'canvas' );
+      this.buffer.width = this.w;
+      this.buffer.height = this.h;
+
+      this.texture;
+      this.load();
+    };
+
+    StaticText.prototype = Object.create( BaseFont.prototype );
+
+    StaticText.prototype.reset = function( text, fontSize, fontFamily, width, height ) {
+      this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
+      this.fontSize = ( fontSize ) ? fontSize : 10;
+      this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
+      this.w = ( width ) ? width : 256;
+      this.h = ( height ) ? height : 64;
+    };
+
+    StaticText.prototype.onLoad = function() {
+      this.parse();
+
+      this.texture = new THREE.Texture( this.renderIntoBuffer() );
+      // This line makes the textures created during execution to work properly
+      this.texture.needsUpdate = true;
+      this.texture.flipY = true;
+
+      this.material = new THREE.MeshBasicMaterial(
+        {
+          map: this.texture,
+          side: THREE.DoubleSide
+        }
+      );
+      this.material.transparent = true;
+
+      this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
+
+      this.mesh = new THREE.Mesh( this.geometry, this.material );
+
+      this.isLoaded = true;
+    };
+
+    StaticText.prototype.renderIntoBuffer = function() {
+      var context = this.buffer.getContext( '2d' );
+
+      // Horizontal flip for proper rendering on the engine camera
+      context.translate( this.w, 0 );
+      context.scale( -1, 1 );
+
+      if( this.text.length > 0 ) {
+        var c = this.fontMap.get( this.text[ 0 ] );
+        var words = this.text.split( ' ' );
+
+        // The position(x,y) and scale(width, height) of a single character
+        var cX = 0, cY = 0, cW = 0, cH = 0;
+
+        for( var i = 0, len = words.length; i < len; i++ ) {
+
+          if( cX + ( len * cW ) >= this.w ) {
+            cX = 0;
+            cY += cH;
+          }
+
+          for( var j = 0, wlen = words[ i ].length; j < wlen; j++ ) {
+            c = this.fontMap.get( words[ i ][ j ] );
+            cW = c.width;
+            cH = c.height;
+
+            context.drawImage( c, 0, 0, cW, cH, cX, cY, cW, cH );
+            cX += cW;
+          }
+
+          c = this.fontMap.get( " " );
+
           cW = c.width;
           cH = c.height;
 
           context.drawImage( c, 0, 0, cW, cH, cX, cY, cW, cH );
           cX += cW;
         }
-
-        c = this.fontMap.get( " " );
-
-        cW = c.width;
-        cH = c.height;
-
-        context.drawImage( c, 0, 0, cW, cH, cX, cY, cW, cH );
-        cX += cW;
       }
-    }
 
-    return this.buffer;
-  };
+      return this.buffer;
+    };
 
-  return StaticText;
-
-} );
+    return StaticText;
+  }
+);
 
 define( 'collection/List',['core/Common' ], function( _Common ) {
 
