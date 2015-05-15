@@ -109,7 +109,7 @@ define(
         if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
           component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
           component.getMesh().rotation.z = this.getEulerRotation();
-          component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z );
+          component.getMesh().scale.set( -this.scale.x, this.scale.y, this.scale.z );
           component.visible = this.isVisible;
         }
       }

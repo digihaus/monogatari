@@ -33,7 +33,7 @@ define(
       this.material = new THREE.MeshBasicMaterial(
         {
           map: this.texture,
-          side: THREE.BackSide
+          side: THREE.FrontSide
         }
       );
       this.material.transparent = true;
@@ -41,7 +41,7 @@ define(
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
 
       this.mesh = new THREE.Mesh( this.geometry, this.material );
-    }
+    };
 
     Sprite.prototype = Object.create( BaseThree.prototype );
 

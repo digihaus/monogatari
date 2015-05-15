@@ -7,15 +7,15 @@
   require( [ 'Monogatari' ], function( m ) {
     m.init();
 
-    var go = new m.GameObject( 'cat' );    
+    var go = new m.GameObject( 'cat' );
     var sprite = new m.Sprite( 'assets/meow.png', 512, 512 );
-    
-    go.addComponent( sprite );    
+
+    go.addComponent( sprite );
     go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
 
     m.sceneManager.attachToScene( go );
-		m.world.children.push( go );
-    
+    m.world.children.push( go );
+
     m.run();
   } );
 </script>
