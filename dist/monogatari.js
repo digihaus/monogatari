@@ -35204,92 +35204,93 @@ define( 'core/Common',[],function() {
 
 } );
 
-define( 'collection/Map',[ 'core/Common' ], function( _Common ) {
+define(
+  'collection/Map',[ 'core/Common' ], function( Common ) {
 
-  var Map = function() {
-    this.keySet = [];
-    this.entries = [];
-  };
-
-  Map.prototype.indexOf = function( key ) {
-    return _Common.indexOf( key, this.keySet );
-  };
-
-  Map.prototype.contains = function( key ) {
-    return this.indexOf( key ) > -1;
-  };
-
-  Map.prototype.size = function() {
-    return this.keySet.length;
-  };
-
-  Map.prototype.put = function( key, value ) {
-    if( key ) {
-      if( !this.contains( key ) ) {
-        this.keySet.push( key );
-      }
-      this.entries[ key ] = value;
-    }
-  };
-
-  Map.prototype.get = function( key ) {
-    return this.entries[ key ];
-  };
-
-  Map.prototype.remove = function( key ) {
-    var keyIndex = this.indexOf( key );
-    if ( keyIndex >= 0 ) {
-      this.keySet.splice( keyIndex, 1 );
-      delete this.entries[ key ];
-    }
-  };
-
-  Map.prototype.isEmpty = function() {
-    return this.size() === 0;
-  };
-
-  Map.prototype.clear = function() {
-    this.keySet.length = 0;
-    this.entries.length = 0;
-  };
-
-  Map.prototype.iterator = function() {
-    var Iterator = function( keys, values ) {
-      this.index = -1;
-
-      this.hasNext = function() {
-        return this.index + 1 < keys.length;
-      };
-
-      this.hasPrevious = function() {
-        return this.index > 0;
-      };
-
-      this.next = function() {
-        return values[ keys[ ++this.index ] ];
-      };
-
-      this.previous = function() {
-        return values[ keys[ --this.index ] ];
-      };
-
-      this.first = function() {
-        this.index = -1;
-        return ( keys.length > 0 ) ? values[ keys[ 0 ] ] : null;
-      };
-
-      this.last = function() {
-        this.index = keys.length - 1;
-        return ( keys.length > 0 ) ? values[ keys[ this.index ] ] : null;
-      };
+    var Map = function() {
+      this.keySet = [];
+      this.entries = [];
     };
 
-    return new Iterator( this.keySet, this.entries );
-  };
+    Map.prototype.indexOf = function( key ) {
+      return Common.indexOf( key, this.keySet );
+    };
 
-  return Map;
+    Map.prototype.contains = function( key ) {
+      return this.indexOf( key ) > -1;
+    };
 
-} );
+    Map.prototype.size = function() {
+      return this.keySet.length;
+    };
+
+    Map.prototype.put = function( key, value ) {
+      if( key ) {
+        if( !this.contains( key ) ) {
+          this.keySet.push( key );
+        }
+        this.entries[ key ] = value;
+      }
+    };
+
+    Map.prototype.get = function( key ) {
+      return this.entries[ key ];
+    };
+
+    Map.prototype.remove = function( key ) {
+      var keyIndex = this.indexOf( key );
+      if( keyIndex >= 0 ) {
+        this.keySet.splice( keyIndex, 1 );
+        delete this.entries[ key ];
+      }
+    };
+
+    Map.prototype.isEmpty = function() {
+      return this.size() === 0;
+    };
+
+    Map.prototype.clear = function() {
+      this.keySet.length = 0;
+      this.entries.length = 0;
+    };
+
+    Map.prototype.iterator = function() {
+      var Iterator = function( keys, values ) {
+        this.index = -1;
+
+        this.hasNext = function() {
+          return this.index + 1 < keys.length;
+        };
+
+        this.hasPrevious = function() {
+          return this.index > 0;
+        };
+
+        this.next = function() {
+          return values[ keys[ ++this.index ] ];
+        };
+
+        this.previous = function() {
+          return values[ keys[ --this.index ] ];
+        };
+
+        this.first = function() {
+          this.index = -1;
+          return ( keys.length > 0 ) ? values[ keys[ 0 ] ] : null;
+        };
+
+        this.last = function() {
+          this.index = keys.length - 1;
+          return ( keys.length > 0 ) ? values[ keys[ this.index ] ] : null;
+        };
+      };
+
+      return new Iterator( this.keySet, this.entries );
+    };
+
+    return Map;
+  }
+);
 
 /**
  * Utility class that holds the THREE camera and the information of which scenes should be rendered in which camera.
@@ -44774,7 +44775,6 @@ define(
     };
 
     return Audio;
-
   }
 );
 
@@ -45103,9 +45103,7 @@ define(
     };
 
     Font.prototype = Object.create( BaseThree.prototype );
-
-    // TODO: Solve accents minification
-    //Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_()-,.[]!?@$* ';
+    
     Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çÇáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜãõñÃÕÑâêîôûÂÊÎÔÛ_()-,.[]!?@$* ';
 
     Font.prototype.load = function() {
@@ -45268,85 +45266,86 @@ define(
   }
 );
 
-define( 'collection/List',['core/Common' ], function( _Common ) {
+define(
+  'collection/List',[ 'core/Common' ], function( Common ) {
 
-  var List = function ( array ) {
-    this.values = _Common.isArray( array ) ? array : [];
-  };
-
-  List.prototype.size = function() {
-    return this.values.length;
-  };
-
-  List.prototype.put = function( value ) {
-    this.values.push( value );
-  };
-
-  List.prototype.get = function( index ) {
-    return this.values[ index ];
-  };
-
-  List.prototype.remove = function( index ) {
-    return this.values.splice( index, 1 );
-  };
-
-  List.prototype.isEmpty = function() {
-    return !this.values.length;
-  };
-
-  List.prototype.clear = function() {
-    this.values.length = 0;
-  };
-
-  List.prototype.toArray = function() {
-    return this.values.slice( 0 );
-  };
-
-  List.prototype.indexOf = function( value ) {
-    return _Common.indexOf( value, this.values );
-  };
-
-  List.prototype.contains = function( value ) {
-    return this.indexOf( value ) > -1;
-  };
-
-  List.prototype.iterator = function() {
-    var Iterator = function( array ) {
-      var index = -1;
-
-      this.hasNext = function() {
-        return index + 1 < array.length;
-      };
-
-      this.next = function() {
-        return array[ ++index ];
-      };
-
-      this.hasPrevious = function() {
-        return index > 0;
-      };
-
-      this.previous = function() {
-        return array[ --index ];
-      };
-
-      this.first = function() {
-        index = -1;
-        return ( array.length > 0 ) ? array[ 0 ] : null;
-      };
-
-      this.last = function() {
-        index = array.length - 1;
-        return ( array.length > 0 ) ? array[ index ] : null;
-      };
+    var List = function( array ) {
+      this.values = Common.isArray( array ) ? array : [];
     };
 
-    return new Iterator( this.values );
-  };
+    List.prototype.size = function() {
+      return this.values.length;
+    };
 
-  return List;
+    List.prototype.put = function( value ) {
+      this.values.push( value );
+    };
 
-} );
+    List.prototype.get = function( index ) {
+      return this.values[ index ];
+    };
+
+    List.prototype.remove = function( index ) {
+      return this.values.splice( index, 1 );
+    };
+
+    List.prototype.isEmpty = function() {
+      return !this.values.length;
+    };
+
+    List.prototype.clear = function() {
+      this.values.length = 0;
+    };
+
+    List.prototype.toArray = function() {
+      return this.values.slice( 0 );
+    };
+
+    List.prototype.indexOf = function( value ) {
+      return Common.indexOf( value, this.values );
+    };
+
+    List.prototype.contains = function( value ) {
+      return this.indexOf( value ) > -1;
+    };
+
+    List.prototype.iterator = function() {
+      var Iterator = function( array ) {
+        var index = -1;
+
+        this.hasNext = function() {
+          return index + 1 < array.length;
+        };
+
+        this.next = function() {
+          return array[ ++index ];
+        };
+
+        this.hasPrevious = function() {
+          return index > 0;
+        };
+
+        this.previous = function() {
+          return array[ --index ];
+        };
+
+        this.first = function() {
+          index = -1;
+          return ( array.length > 0 ) ? array[ 0 ] : null;
+        };
+
+        this.last = function() {
+          index = array.length - 1;
+          return ( array.length > 0 ) ? array[ index ] : null;
+        };
+      };
+
+      return new Iterator( this.values );
+    };
+
+    return List;
+  }
+);
 
 define( 'util/CommonUtils',[],function() {
 
