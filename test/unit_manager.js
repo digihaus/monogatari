@@ -1,7 +1,6 @@
-require( [ 'manager/SceneManager' ], function( _SceneManager ) {
-
-  var scene = _SceneManager;
-  scene.init();
-  assert( scene.renderer, 'SceneManager initialized', 'manager' );
-
-} );
+require(
+  [ 'manager/SceneManager' ], function( SceneManager ) {
+    SceneManager.init();
+    assert( SceneManager.renderer, 'SceneManager initialized', 'manager' );
+  }
+);
