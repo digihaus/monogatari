@@ -1,5 +1,5 @@
 require( [ 'component/Audio' ], function( _Audio ) {
-  var audio = new _Audio( 'myid', 'assets/heat-on-the-road.ogg' );
+  var audio = new _Audio( 'myid', 'assets/invaders.wav' );
 
   assert( audio != null, 'Audio created', 'component', audio );
 

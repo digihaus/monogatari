@@ -8,8 +8,8 @@
     m.init();
 
     var music = new m.GameObject( 'music' );
-    
-    music.addComponent( new m.Audio( 'test', 'assets/heat-on-the-road.mp3' ) );
+
+    music.addComponent( new m.Audio( 'test', 'assets/invaders.wav' ) );
     music.update = function() {
       this.findComponent( m.Base.AUDIO_SOURCE ).start();
     }
@@ -21,11 +21,5 @@
 </head>
 <body>
   <h1>Audio Test</h1>
-  <div>
-    Music "Heat on the Road" from <b><a href="http://www.freestockmusic.com/2013/rock-production-music/free-blues-rock-stock-music-heat-on-the-road/"> http://www.freestockmusic.com/ </a></b>
-  </div>
-  <div>
-    According to site <a href="http://www.freestockmusic.com/license-agreement/">license agreement</a>
-  </div>
 </body>
 </html>
