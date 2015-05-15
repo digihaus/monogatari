@@ -17,7 +17,7 @@ define(
       this.buffer.width = this.w;
       this.buffer.height = this.h;
 
-      this.texture;
+      this.texture = null;
       this.load();
     };
 
@@ -38,7 +38,6 @@ define(
       // This line makes the textures created during execution to work properly
       this.texture.needsUpdate = true;
       this.texture.flipY = true;
-
       this.material = new THREE.MeshBasicMaterial(
         {
           map: this.texture,
@@ -46,11 +45,8 @@ define(
         }
       );
       this.material.transparent = true;
-
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
-
       this.mesh = new THREE.Mesh( this.geometry, this.material );
-
       this.isLoaded = true;
     };
 

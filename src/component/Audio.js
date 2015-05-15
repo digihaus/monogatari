@@ -17,7 +17,6 @@ define(
             this.instance = createjs.Sound.createInstance( this.id );
           }, this
         );
-
       } else {
         console.log( 'Audio component fail.' );
       }

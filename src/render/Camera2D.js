@@ -2,7 +2,7 @@
  * Utility class that holds the THREE camera and the information of which scenes should be rendered in which camera.
  */
 define(
-  [ 'lib/Three' ], function ( Three ) {
+  [ 'lib/Three' ], function ( _Three ) {
 
     var Camera2D = function ( left, right, top, bottom, near, far ) {
       // A THREE.Camera object

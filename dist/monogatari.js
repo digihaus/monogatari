@@ -37,57 +37,59 @@ O),s=s.replace(Q,""),g.jsExtRegExp.test(s)&&(s=I),q.deps=q.deps?q.deps.concat(s)
 
 define("requireLib", function(){});
 
-define( 'core/Timer',[],function() {
+define(
+  'core/Timer',[],function() {
 
-  var Timer = function() {
-    this.time = 0;
-    this.lastTime = 0;
-    this.lastFrameTime = 0;
-    this.frameTicks = 0;
-    this.fps = 60;
-
-    this.FRAME_RATE_60FPS = 0.016666666667; // 1.0 second / 60.0 frames
-  };
-
-  /**
-   * Shall be accessed only on engine Update.
-   */
-  Timer.prototype.tick = function() {
-    var now = Date.now();
-    var delta = now - this.lastTime;
-
-    this.time += delta;
-    this.lastTime = now;
-
-    // Initiates lastFrameTime for first cycle
-    if ( this.lastFrameTime == 0 ) {
-      this.lastFrameTime = this.time;
-    }
-
-    var frameDelta = this.time - this.lastFrameTime;
-
-    if ( frameDelta >= 1000 ) {
-      // Gets the stored frame ticks for 1 second (FPS)
-      this.fps = this.frameTicks;
+    var Timer = function() {
+      this.time = 0;
+      this.lastTime = 0;
+      this.lastFrameTime = 0;
       this.frameTicks = 0;
-      this.lastFrameTime = this.time;
-    }
+      this.fps = 60;
+    };
 
-    // Frame counting
-    this.frameTicks++;
-  };
+    Timer.FRAME_RATE_60FPS = 0.016666666667; // 1.0 second / 60.0 frames
 
-  var instance = null;
+    /**
+     * Shall be accessed only on engine Update.
+     */
+    Timer.prototype.tick = function() {
+      var now = Date.now();
+      var delta = now - this.lastTime;
 
-  Timer.getInstance = function() {
-    if ( instance === null ) {
-      instance = new Timer();
-    }
-    return instance;
-  };
+      this.time += delta;
+      this.lastTime = now;
 
-  return Timer.getInstance();
-} );
+      // Initiates lastFrameTime for first cycle
+      if( this.lastFrameTime == 0 ) {
+        this.lastFrameTime = this.time;
+      }
+
+      var frameDelta = this.time - this.lastFrameTime;
+
+      if( frameDelta >= 1000 ) {
+        // Gets the stored frame ticks for 1 second (FPS)
+        this.fps = this.frameTicks;
+        this.frameTicks = 0;
+        this.lastFrameTime = this.time;
+      }
+
+      // Frame counting
+      this.frameTicks++;
+    };
+
+    var instance = null;
+
+    Timer.getInstance = function() {
+      if( instance === null ) {
+        instance = new Timer();
+      }
+      return instance;
+    };
+
+    return Timer.getInstance();
+  }
+);
 
 // File:src/Three.js
 
@@ -34822,387 +34824,395 @@ THREE.MorphBlendMesh.prototype.update = function ( delta ) {
 
 define("lib/Three", function(){});
 
-define( 'core/Math',[ 'lib/Three' ], function( Three ) {
+define(
+  'core/Math',[ 'lib/Three' ], function( _Three ) {
 
-  var Math = {};
+    var Math = {};
 
-  var X_ALIGNED_VECTOR = new THREE.Vector3( 1, 0, 0 );
-  var Y_ALIGNED_VECTOR = new THREE.Vector3( 0, 1, 0 );
-  var Z_ALIGNED_VECTOR = new THREE.Vector3( 0, 0, 1 );
-  var ONE = new THREE.Vector3( 1, 1, 1 );
-  var ZERO = new THREE.Vector3( 0, 0, 0 );
+    var X_ALIGNED_VECTOR = new THREE.Vector3( 1, 0, 0 );
+    var Y_ALIGNED_VECTOR = new THREE.Vector3( 0, 1, 0 );
+    var Z_ALIGNED_VECTOR = new THREE.Vector3( 0, 0, 1 );
+    var ONE = new THREE.Vector3( 1, 1, 1 );
+    var ZERO = new THREE.Vector3( 0, 0, 0 );
 
-  // function hacks
-  // from: http://mudcu.be/journal/2011/11/bitwise-gems-and-other-optimizations/
-  var roundHack = function( n ) {
-    return n + ( n < 0 ? -0.5 : 0.5 ) >> 0;
-  };
-  var ceilHack = function( n ) {
-    return n + ( n < 0 ? 0 : 1 ) >> 0;
-  };
-  var floorHack = function( n ) {
-    // return n + ( n < 0 ? -1 : 0 ) >> 0;
-    return n | 0;
-  };
-  var absHack = function( n ) {
-    return n > 0 ? n : -n;
-  };
-  var minHack = function( a, b ) {
-    return ( a < b ) ? a : b;
-  };
-  var maxHack = function( a, b ) {
-    return ( a > b ) ? a : b;
-  };
+    // Function hacks from:
+    //  http://mudcu.be/journal/2011/11/bitwise-gems-and-other-optimizations/
+    var roundHack = function( n ) {
+      return n + ( n < 0 ? -0.5 : 0.5 ) >> 0;
+    };
+    var ceilHack = function( n ) {
+      return n + ( n < 0 ? 0 : 1 ) >> 0;
+    };
+    var floorHack = function( n ) {
+      // return n + ( n < 0 ? -1 : 0 ) >> 0;
+      return n | 0;
+    };
+    var absHack = function( n ) {
+      return n > 0 ? n : -n;
+    };
+    var minHack = function( a, b ) {
+      return ( a < b ) ? a : b;
+    };
+    var maxHack = function( a, b ) {
+      return ( a > b ) ? a : b;
+    };
 
-  Math.RADTODEG = 57.295779513082;
-  Math.DEGTORAD = 0.0174532925199;
-  Math.SQRT_2 = 1.41421356237;
-  Math.PI = 3.14159265358979;
-  Math.PI_2 = 6.28318530717958; // 2 * PI
-  Math.PI_OVER_180 = 0.0174532925199; // PI / 180
-  Math.PI_OVER_360 = 0.0087266462599; // PI / 360
-  Math.ONE_DEGREE = Math.PI_OVER_180; // same as PI_OVER_180, just for coding convenience
-  Math.ONE_MEGABYTE = 1048576; // 1024 kilobytes * 1024 bytes
+    Math.RADTODEG = 57.295779513082;
+    Math.DEGTORAD = 0.0174532925199;
+    Math.SQRT_2 = 1.41421356237;
+    Math.PI = 3.14159265358979;
+    Math.PI_2 = 6.28318530717958; // 2 * PI
+    Math.PI_OVER_180 = 0.0174532925199; // PI / 180
+    Math.PI_OVER_360 = 0.0087266462599; // PI / 360
+    Math.ONE_DEGREE = Math.PI_OVER_180; // same as PI_OVER_180, just for coding convenience
+    Math.ONE_MEGABYTE = 1048576; // 1024 kilobytes * 1024 bytes
 
-  Math.getXAlignedVector = function() {
-    return X_ALIGNED_VECTOR;
-  };
+    Math.getXAlignedVector = function() {
+      return X_ALIGNED_VECTOR;
+    };
 
-  Math.getYAlignedVector = function() {
-    return Y_ALIGNED_VECTOR;
-  };
+    Math.getYAlignedVector = function() {
+      return Y_ALIGNED_VECTOR;
+    };
 
-  Math.getZAlignedVector = function() {
-    return Z_ALIGNED_VECTOR;
-  };
+    Math.getZAlignedVector = function() {
+      return Z_ALIGNED_VECTOR;
+    };
 
-  Math.getVectorOne = function() {
-    return ONE;
-  };
+    Math.getVectorOne = function() {
+      return ONE;
+    };
 
-  Math.getVectorZero = function() {
-    return ZERO;
-  };
+    Math.getVectorZero = function() {
+      return ZERO;
+    };
 
-  Math.toRadians = function( a ) {
-    return a * this.DEGTORAD;
-  };
+    Math.toRadians = function( a ) {
+      return a * this.DEGTORAD;
+    };
 
-  Math.toDegrees = function( a ) {
-    return a * this.RADTODEG;
-  };
+    Math.toDegrees = function( a ) {
+      return a * this.RADTODEG;
+    };
 
-  Math.decimalToBinary = function( num ) {
-    return num.toString( 2 );
-  };
+    Math.decimalToBinary = function( num ) {
+      return num.toString( 2 );
+    };
 
-  Math.decimalToOctal = function( num ) {
-    return num.toString( 8 );
-  };
+    Math.decimalToOctal = function( num ) {
+      return num.toString( 8 );
+    };
 
-  Math.decimalToHex = function( num ) {
-    return num.toString( 16 );
-  };
+    Math.decimalToHex = function( num ) {
+      return num.toString( 16 );
+    };
 
-  Math.binaryToDecimal = function( num ) {
-    return parseInt( num, 2 );
-  };
+    Math.binaryToDecimal = function( num ) {
+      return parseInt( num, 2 );
+    };
 
-  Math.octalToDecimal = function( num ) {
-    return parseInt( num, 8 );
-  };
+    Math.octalToDecimal = function( num ) {
+      return parseInt( num, 8 );
+    };
 
-  Math.hexToDecimal = function( num ) {
-    return parseInt( num, 16 );
-  };
+    Math.hexToDecimal = function( num ) {
+      return parseInt( num, 16 );
+    };
 
-  Math.nearestMultiple = function( numToRound, multiple ) {
-    if ( multiple === 0 )
-      return numToRound;
+    Math.nearestMultiple = function( numToRound, multiple ) {
+      if( multiple === 0 )
+        return numToRound;
 
-    var remainder = this.abs( numToRound ) % multiple;
-    if ( remainder === 0 )
-      return numToRound + multiple;
-    if ( numToRound < 0 )
-      return - ( this.abs( numToRound ) - remainder );
-    return numToRound + multiple - remainder;
-  };
+      var remainder = this.abs( numToRound ) % multiple;
+      if( remainder === 0 )
+        return numToRound + multiple;
+      if( numToRound < 0 )
+        return -( this.abs( numToRound ) - remainder );
+      return numToRound + multiple - remainder;
+    };
 
-  Math.acos = Math.acos;
-  Math.sqrt = Math.sqrt;
-  Math.sin = Math.sin;
-  Math.cos = Math.cos;
-  Math.tan = Math.tan;
-  Math.atan = Math.atan;
-  Math.atan2 = Math.atan2;
-  Math.pow = Math.pow;
-  Math.min = minHack; // Math.min
-  Math.max = maxHack; // Math.max
-  Math.abs = absHack; // Math.abs
-  Math.round = roundHack; // Math.round
-  Math.ceil = ceilHack; // Math.ceil
-  Math.floor = floorHack; // Math.floor
+    Math.acos = Math.acos;
+    Math.sqrt = Math.sqrt;
+    Math.sin = Math.sin;
+    Math.cos = Math.cos;
+    Math.tan = Math.tan;
+    Math.atan = Math.atan;
+    Math.atan2 = Math.atan2;
+    Math.pow = Math.pow;
+    Math.min = minHack; // Math.min
+    Math.max = maxHack; // Math.max
+    Math.abs = absHack; // Math.abs
+    Math.round = roundHack; // Math.round
+    Math.ceil = ceilHack; // Math.ceil
+    Math.floor = floorHack; // Math.floor
 
-  return Math;
+    return Math;
+  }
+);
 
-} );
+define(
+  'input/Keyboard',[],function() {
 
-define( 'input/Keyboard',[],function() {
+    var Keyboard = function() {
+      this.pressed = new Int32Array( 256 );
 
-  var Keyboard = function() {
-    this.pressed = new Int32Array( 256 );
+      for( var i = 0, len = this.pressed.length; i < len; i++ ) {
+        this.pressed[ i ] = -1;
+      }
 
-    for ( var i = 0, len = this.pressed.length; i < len; i++ ) {
-      this.pressed[ i ] = -1;
-    }
+      this.BACKSPACE = 8;
+      this.TAB = 9;
+      this.ENTER = 13;
+      this.SHIFT = 16;
+      this.CTRL = 17;
+      this.ALT = 18;
+      this.PAUSE_BREAK = 19;
+      this.CAPS_LOCK = 20;
+      this.ESCAPE = 27;
+      this.SPACE = 32;
+      this.PAGE_UP = 33;
+      this.PAGE_DOWN = 34;
+      this.END = 35;
+      this.HOME = 36;
+      this.LEFT_ARROW = 37;
+      this.UP_ARROW = 38;
+      this.RIGHT_ARROW = 39;
+      this.DOWN_ARROW = 40;
+      this.INSERT = 45;
+      this.DELETE = 46;
+      this.NUM_0 = 48;
+      this.NUM_1 = 49;
+      this.NUM_2 = 50;
+      this.NUM_3 = 51;
+      this.NUM_4 = 52;
+      this.NUM_5 = 53;
+      this.NUM_6 = 54;
+      this.NUM_7 = 55;
+      this.NUM_8 = 56;
+      this.NUM_9 = 57;
+      this.A = 65;
+      this.B = 66;
+      this.C = 67;
+      this.D = 68;
+      this.E = 69;
+      this.F = 70;
+      this.G = 71;
+      this.H = 72;
+      this.I = 73;
+      this.J = 74;
+      this.K = 75;
+      this.L = 76;
+      this.M = 77;
+      this.N = 78;
+      this.O = 79;
+      this.P = 80;
+      this.Q = 81;
+      this.R = 82;
+      this.S = 83;
+      this.T = 84;
+      this.U = 85;
+      this.V = 86;
+      this.W = 87;
+      this.X = 88;
+      this.Y = 89;
+      this.Z = 90;
+      this.LEFT_WINDOW = 91;
+      this.RIGHT_WINDOW = 92;
+      this.SELECT_KEY = 93;
+      this.NUMPAD_0 = 96;
+      this.NUMPAD_1 = 97;
+      this.NUMPAD_2 = 98;
+      this.NUMPAD_3 = 99;
+      this.NUMPAD_4 = 100;
+      this.NUMPAD_5 = 101;
+      this.NUMPAD_6 = 102;
+      this.NUMPAD_7 = 103;
+      this.NUMPAD_8 = 104;
+      this.NUMPAD_9 = 105;
+      this.MULTIPLY = 106;
+      this.ADD = 107;
+      this.SUBTRACT = 109;
+      this.DECIMAL_POINT = 110;
+      this.DIVIDE = 111;
+      this.F1 = 112;
+      this.F2 = 113;
+      this.F3 = 114;
+      this.F4 = 115;
+      this.F5 = 116;
+      this.F6 = 117;
+      this.F7 = 118;
+      this.F8 = 119;
+      this.F9 = 120;
+      this.F10 = 121;
+      this.F11 = 122;
+      this.F12 = 123;
+      this.NUM_LOCK = 144;
+      this.SCROLL_LOCK = 145;
+      this.SEMICOLON = 186;
+      this.EQUAL_SIGN = 187;
+      this.COMMA = 188;
+      this.DASH = 189;
+      this.PERIOD = 190;
+      this.FORWARD_SLASH = 191;
+      this.GRAVE_ACCENT = 192;
+      this.OPEN_BRACKET = 219;
+      this.BACK_SLASH = 220;
+      this.CLOSE_BRAKET = 221;
+      this.SINGLE_QUOTE = 222;
+    };
 
-    this.BACKSPACE = 8;
-    this.TAB = 9;
-    this.ENTER = 13;
-    this.SHIFT = 16;
-    this.CTRL = 17;
-    this.ALT = 18;
-    this.PAUSE_BREAK = 19;
-    this.CAPS_LOCK = 20;
-    this.ESCAPE = 27;
-    this.SPACE = 32;
-    this.PAGE_UP = 33;
-    this.PAGE_DOWN = 34;
-    this.END = 35;
-    this.HOME = 36;
-    this.LEFT_ARROW = 37;
-    this.UP_ARROW = 38;
-    this.RIGHT_ARROW = 39;
-    this.DOWN_ARROW = 40;
-    this.INSERT = 45;
-    this.DELETE = 46;
-    this.NUM_0 = 48;
-    this.NUM_1 = 49;
-    this.NUM_2 = 50;
-    this.NUM_3 = 51;
-    this.NUM_4 = 52;
-    this.NUM_5 = 53;
-    this.NUM_6 = 54;
-    this.NUM_7 = 55;
-    this.NUM_8 = 56;
-    this.NUM_9 = 57;
-    this.A = 65;
-    this.B = 66;
-    this.C = 67;
-    this.D = 68;
-    this.E = 69;
-    this.F = 70;
-    this.G = 71;
-    this.H = 72;
-    this.I = 73;
-    this.J = 74;
-    this.K = 75;
-    this.L = 76;
-    this.M = 77;
-    this.N = 78;
-    this.O = 79;
-    this.P = 80;
-    this.Q = 81;
-    this.R = 82;
-    this.S = 83;
-    this.T = 84;
-    this.U = 85;
-    this.V = 86;
-    this.W = 87;
-    this.X = 88;
-    this.Y = 89;
-    this.Z = 90;
-    this.LEFT_WINDOW = 91;
-    this.RIGHT_WINDOW = 92;
-    this.SELECT_KEY = 93;
-    this.NUMPAD_0 = 96;
-    this.NUMPAD_1 = 97;
-    this.NUMPAD_2 = 98;
-    this.NUMPAD_3 = 99;
-    this.NUMPAD_4 = 100;
-    this.NUMPAD_5 = 101;
-    this.NUMPAD_6 = 102;
-    this.NUMPAD_7 = 103;
-    this.NUMPAD_8 = 104;
-    this.NUMPAD_9 = 105;
-    this.MULTIPLY = 106;
-    this.ADD = 107;
-    this.SUBTRACT = 109;
-    this.DECIMAL_POINT = 110;
-    this.DIVIDE = 111;
-    this.F1 = 112;
-    this.F2 = 113;
-    this.F3 = 114;
-    this.F4 = 115;
-    this.F5 = 116;
-    this.F6 = 117;
-    this.F7 = 118;
-    this.F8 = 119;
-    this.F9 = 120;
-    this.F10 = 121;
-    this.F11 = 122;
-    this.F12 = 123;
-    this.NUM_LOCK = 144;
-    this.SCROLL_LOCK = 145;
-    this.SEMICOLON = 186;
-    this.EQUAL_SIGN = 187;
-    this.COMMA = 188;
-    this.DASH = 189;
-    this.PERIOD = 190;
-    this.FORWARD_SLASH = 191;
-    this.GRAVE_ACCENT = 192;
-    this.OPEN_BRACKET = 219;
-    this.BACK_SLASH = 220;
-    this.CLOSE_BRAKET = 221;
-    this.SINGLE_QUOTE = 222;
-  };
+    Keyboard.prototype.isDown = function( keyCode ) {
+      return ( this.pressed[ keyCode ] == -1 ) ? null : this.pressed[ keyCode ];
+    };
 
-  Keyboard.prototype.isDown = function( keyCode ) {
-    return ( this.pressed[ keyCode ] == -1 ) ? null : this.pressed[ keyCode ];
-  };
-
-  Keyboard.prototype.onKeyDown = function( event, timer ) {
-
-    if ( event.keyCode == Keyboard.BACKSPACE ||
-          event.keyCode == Keyboard.UP_ARROW ||
-          event.keyCode == Keyboard.DOWN_ARROW ||
-          event.keyCode == Keyboard.LEFT_ARROW ||
-          event.keyCode == Keyboard.RIGHT_ARROW ||
-          event.keyCode == Keyboard.PAGE_UP ||
-          event.keyCode == Keyboard.PAGE_DOWN ||
-          event.keyCode == Keyboard.SPACE ) {
+    Keyboard.prototype.onKeyDown = function( event, timer ) {
+      if( event.keyCode == Keyboard.BACKSPACE ||
+        event.keyCode == Keyboard.UP_ARROW ||
+        event.keyCode == Keyboard.DOWN_ARROW ||
+        event.keyCode == Keyboard.LEFT_ARROW ||
+        event.keyCode == Keyboard.RIGHT_ARROW ||
+        event.keyCode == Keyboard.PAGE_UP ||
+        event.keyCode == Keyboard.PAGE_DOWN ||
+        event.keyCode == Keyboard.SPACE ) {
 
         event.preventDefault();
-    }
-
-    this.pressed[ event.keyCode ] = timer.time;
-  };
-
-  Keyboard.prototype.onKeyUp = function( event ) {
-    this.pressed[ event.keyCode ] = -1;
-  };
-
-  return Keyboard;
-
-} );
-
-define( 'input/Mouse',[ 'lib/Three' ], function( _Three ) {
-
-  var Mouse = function() {
-    this.pressed = new Int32Array( 8 );
-    this.buffer = new THREE.Vector3( 0, 0, 0 );
-    this.position = new THREE.Vector3( 0, 0, 0 );
-
-    for ( var i = 0, len = this.length; i < len; i++ ) {
-      this.pressed[ i ] = -1;
-    }
-
-    this.LMB = 0;
-    this.MID = 1;
-    this.RMB = 2;
-    this.B3 = 3;
-    this.B4 = 4;
-    this.B5 = 5;
-    this.B6 = 6;
-    this.B7 = 7;
-  };
-
-  Mouse.prototype.isDown = function( button ) {
-    return ( this.pressed[ button ] === -1 ) ? null : this.pressed[ button ];
-  };
-
-  Mouse.prototype.onMouseMove = function( event ) {
-    this.position.set( event.clientX, event.clientY, 0 );
-  };
-
-  Mouse.prototype.onMouseDown = function( event, timer ) {
-    event.preventDefault();
-    this.pressed[ event.button ] = timer.time;
-  };
-
-  Mouse.prototype.onMouseUp = function( event ) {
-    this.pressed[ event.button ] = -1;
-  };
-
-  Mouse.prototype.getMousePositionOnElement = function( e ) {
-    var rect = e.getBoundingClientRect();
-    this.buffer.set( this.position.x - rect.left, this.position.y - rect.top, 0 );
-    return this.buffer;
-  };
-
-  return Mouse;
-
-} );
-
-define( 'core/Common',[],function() {
-
-  var Common = {};
-
-  Common.createUniqueId = function() {
-    // from: http://stackoverflow.com/a/2117523
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace( /[xy]/g, function( c ) {
-      var r = Math.random() * 16 | 0, v = c === 'x' ? r : ( r & 0x3 | 0x8 );
-      return v.toString( 16 );
-    } );
-  };
-
-  Common.equals = function( obj, other ) {
-    if ( obj === null || other === null ) {
-      return obj === null && other === null;
-    }
-    if ( typeof obj === 'string' ) {
-      return obj === other;
-    }
-    if ( typeof obj !== 'object' ) {
-      return obj === other;
-    }
-    if ( obj.equals instanceof Function ) {
-      return obj.equals( other );
-    }
-    return obj === other;
-  };
-
-  /**
-  * Usage: indexOf( value, array [, fromIndex] )
-  *
-  * @parameter value - The value to search for.
-  * @parameter array - An array through which to search.
-  * @parameter fromIndex - The index of the array at which to begin the search. The default is 0, which will search the whole array.
-  * @returns index of given value on the array, -1 if not found;
-  */
-  Common.indexOf = function( value, array, i ) {
-    var len;
-
-    if ( this.isArray( array ) ) {
-      if ( array.indexOf && typeof array.indexOf === 'function' ) {
-        return array.indexOf( value, i );
       }
 
-      len = array.length;
-      i = i ? i < 0 ? max( 0, len + i ) : i : 0;
+      this.pressed[ event.keyCode ] = timer.time;
+    };
 
-      for ( ; i < len; i++ ) {
-        // Skip accessing in sparse arrays
-        if ( i in array && array[ i ] === value ) {
-          return i;
+    Keyboard.prototype.onKeyUp = function( event ) {
+      this.pressed[ event.keyCode ] = -1;
+    };
+
+    return Keyboard;
+  }
+);
+
+define(
+  'input/Mouse',[ 'lib/Three' ], function( _Three ) {
+
+    var Mouse = function() {
+      this.pressed = new Int32Array( 8 );
+      this.buffer = new THREE.Vector3( 0, 0, 0 );
+      this.position = new THREE.Vector3( 0, 0, 0 );
+
+      for( var i = 0, len = this.length; i < len; i++ ) {
+        this.pressed[ i ] = -1;
+      }
+
+      this.LMB = 0;
+      this.MID = 1;
+      this.RMB = 2;
+      this.B3 = 3;
+      this.B4 = 4;
+      this.B5 = 5;
+      this.B6 = 6;
+      this.B7 = 7;
+    };
+
+    Mouse.prototype.isDown = function( button ) {
+      return ( this.pressed[ button ] === -1 ) ? null : this.pressed[ button ];
+    };
+
+    Mouse.prototype.onMouseMove = function( event ) {
+      this.position.set( event.clientX, event.clientY, 0 );
+    };
+
+    Mouse.prototype.onMouseDown = function( event, timer ) {
+      event.preventDefault();
+      this.pressed[ event.button ] = timer.time;
+    };
+
+    Mouse.prototype.onMouseUp = function( event ) {
+      this.pressed[ event.button ] = -1;
+    };
+
+    Mouse.prototype.getMousePositionOnElement = function( e ) {
+      var rect = e.getBoundingClientRect();
+      this.buffer.set( this.position.x - rect.left, this.position.y - rect.top, 0 );
+      return this.buffer;
+    };
+
+    return Mouse;
+  }
+);
+
+define(
+  'core/Common',[],function() {
+
+    var Common = {};
+
+    /**
+     * @link http://stackoverflow.com/a/2117523
+     * @returns {string}
+     */
+    Common.createUniqueId = function() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+        /[xy]/g, function( c ) {
+          var r = Math.random() * 16 | 0, v = c === 'x' ? r : ( r & 0x3 | 0x8 );
+          return v.toString( 16 );
+        }
+      );
+    };
+
+    Common.equals = function( obj, other ) {
+      if( obj === null || other === null ) {
+        return obj === null && other === null;
+      }
+      if( typeof obj === 'string' ) {
+        return obj === other;
+      }
+      if( typeof obj !== 'object' ) {
+        return obj === other;
+      }
+      if( obj.equals instanceof Function ) {
+        return obj.equals( other );
+      }
+      return obj === other;
+    };
+
+    /**
+     * Usage: indexOf( value, array [, fromIndex] )
+     *
+     * @parameter value The value to search for.
+     * @parameter array An array through which to search.
+     * @parameter fromIndex The index of the array at which to begin the search. The default is 0, which will search the whole array.
+     * @returns index of given value on the array, -1 if not found;
+     */
+    Common.indexOf = function( value, array, i ) {
+      var len;
+
+      if( this.isArray( array ) ) {
+        if( array.indexOf && typeof array.indexOf === 'function' ) {
+          return array.indexOf( value, i );
+        }
+
+        len = array.length;
+        i = i ? i < 0 ? max( 0, len + i ) : i : 0;
+
+        for( ; i < len; i++ ) {
+          // Skip accessing in sparse arrays
+          if( i in array && array[ i ] === value ) {
+            return i;
+          }
         }
       }
-    }
 
-    return -1;
-  };
+      return -1;
+    };
 
-  Common.typeOf = function( obj ) {
-    return Object.prototype.toString.apply( obj );
-  };
+    Common.typeOf = function( obj ) {
+      return Object.prototype.toString.apply( obj );
+    };
 
-  Common.isArray = function( a ) {
-    return this.typeOf( a ) === '[object Array]';
-  };
+    Common.isArray = function( a ) {
+      return this.typeOf( a ) === '[object Array]';
+    };
 
-  return Common;
-
-} );
+    return Common;
+  }
+);
 
 define(
   'collection/Map',[ 'core/Common' ], function( Common ) {
@@ -35296,7 +35306,7 @@ define(
  * Utility class that holds the THREE camera and the information of which scenes should be rendered in which camera.
  */
 define(
-  'render/Camera2D',[ 'lib/Three' ], function ( Three ) {
+  'render/Camera2D',[ 'lib/Three' ], function ( _Three ) {
 
     var Camera2D = function ( left, right, top, bottom, near, far ) {
       // A THREE.Camera object
@@ -37088,142 +37098,138 @@ define(
   }
 );
 
-define( 'core/GameObject',[ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'lib/Three' ], function( _Common, _Timer, _Map, _Base, _Three ) {
+define(
+  'core/GameObject',[ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'lib/Three' ], function( Common, Timer, Map, Base, _Three ) {
 
-  var GameObject = function( id, update, position, rotation, scale ) {
-    this.uid = _Common.createUniqueId();
-    this.id = id || this.uid;
+    var GameObject = function( id, update, position, rotation, scale ) {
+      this.uid = Common.createUniqueId();
+      this.id = id || this.uid;
 
-    this.position = ( position ) ? position : new THREE.Vector3( 0, 0, 0 );
-    this.rotation = ( rotation ) ? rotation : new THREE.Vector3( 0, 1, 0 ); // new THREE.Euler()
-    this.scale = ( scale ) ? scale : new THREE.Vector3( 1, 1, 1 );
+      this.position = ( position ) ? position : new THREE.Vector3( 0, 0, 0 );
+      this.rotation = ( rotation ) ? rotation : new THREE.Vector3( 0, 1, 0 ); // new THREE.Euler()
+      this.scale = ( scale ) ? scale : new THREE.Vector3( 1, 1, 1 );
 
-    // the Y is flipped to calculate properly according to the engine orthographic camera
-    this.axis = new THREE.Vector3( 0, -1, 0 );
+      // The Y is flipped to calculate properly according to the engine orthographic camera
+      this.axis = new THREE.Vector3( 0, -1, 0 );
 
-    this.components = new _Map();
-    this.componentsIt = this.components.iterator();
+      this.components = new Map();
+      this.componentsIt = this.components.iterator();
 
-    this.children = [];
+      this.children = [];
 
-    this.isVisible = true;
-    this.isActive = true;
+      this.isVisible = true;
+      this.isActive = true;
 
-    this.lastUpdate = 0;
+      this.lastUpdate = 0;
 
-    this.defaultUpdate = ( update && typeof ( update ) === 'function' ) ? update : function() {};
-  };
+      this.defaultUpdate = ( update && typeof ( update ) === 'function' ) ? update : function() {};
+    };
 
-  GameObject.prototype.update = function() {
-    this.defaultUpdate();
-  };
+    GameObject.prototype.update = function() {
+      this.defaultUpdate();
+    };
 
-  GameObject.prototype.postUpdate = function() {
-    this.lastUpdate = _Timer.time;
-    // if( this.isActive ) {
-    this.updateComponents();
-    // }
-  };
-
-  GameObject.prototype.getEulerRotation = function() {
-    var angle = this.rotation.angleTo( this.axis );
-    return ( this.rotation.y * this.axis.x > this.rotation.x * this.axis.y ) ? angle : -angle;
-  };
-
-  GameObject.prototype.lookAt = function( target ) {
-    this.rotation.x = target.x - this.position.x;
-    this.rotation.y = target.y - this.position.y;
-    this.rotation.normalize();
-  };
-
-  GameObject.prototype.getEulerRotationToTarget = function( target ) {
-    var rotation = this.rotation.clone();
-
-    rotation.x = target.x - this.position.x;
-    rotation.y = target.y - this.position.y;
-
-    rotation.normalize();
-
-    var angle = rotation.angleTo( this.axis );
-
-    return ( rotation.y * this.axis.x > rotation.x * this.axis.y ) ? angle : -angle;
-  };
-
-  GameObject.prototype.addComponent = function( component ) {
-    this.components.put( component.type, component );
-  };
-
-  GameObject.prototype.findComponent = function( type ) {
-    return this.components.get( type );
-  };
-
-  GameObject.prototype.removeComponent = function( type ) {
-    this.components.remove( type );
-  };
-
-  GameObject.prototype.clearComponents = function() {
-    this.components.clear();
-  };
-
-  GameObject.prototype.hasComponent = function( type ) {
-    return ( this.components.contains( type ) ) ? true : false;
-  };
-
-  GameObject.prototype.listRenderableComponents = function() {
-    var list = [];
-    var c;
-    this.componentsIt.first();
-    while ( this.componentsIt.hasNext() ) {
-      c = this.componentsIt.next();
-      if ( c.isRenderable ) {
-        list.push( c );
+    GameObject.prototype.postUpdate = function() {
+      if( this.isActive ) {
+        this.updateComponents();
       }
-    }
-    return list;
-  };
+      this.lastUpdate = Timer.time;
+    };
 
-  GameObject.prototype.updateComponents = function() {
-    var rigidBody = this.findComponent( _Base.RIGID_BODY );
+    GameObject.prototype.getEulerRotation = function() {
+      var angle = this.rotation.angleTo( this.axis );
+      return ( this.rotation.y * this.axis.x > this.rotation.x * this.axis.y ) ? angle : -angle;
+    };
 
-    // update object position from Box2D to Monogatari based on physics simulation (if applicable)
-    // only affect X and Y for safety reasons, messing with Z on 2D is probably not expected
-    if ( rigidBody ) {
-      this.position.x = rigidBody.body.GetPosition().x * rigidBody.conversionFactor;
-      this.position.y = rigidBody.body.GetPosition().y * rigidBody.conversionFactor;
-    }
+    GameObject.prototype.lookAt = function( target ) {
+      this.rotation.x = target.x - this.position.x;
+      this.rotation.y = target.y - this.position.y;
+      this.rotation.normalize();
+    };
 
-    var component;
+    GameObject.prototype.getEulerRotationToTarget = function( target ) {
+      var rotation = this.rotation.clone();
 
-    this.componentsIt.first();
-    while ( this.componentsIt.hasNext() ) {
-      component = this.componentsIt.next();
-      // if is a component to be rendered, need to update engine transformations to Three.js transformations
-      if ( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
-        component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
-        component.getMesh().rotation.z = this.getEulerRotation();
-        component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z );
-        component.visible = this.isVisible;
+      rotation.x = target.x - this.position.x;
+      rotation.y = target.y - this.position.y;
+
+      rotation.normalize();
+
+      var angle = rotation.angleTo( this.axis );
+
+      return ( rotation.y * this.axis.x > rotation.x * this.axis.y ) ? angle : -angle;
+    };
+
+    GameObject.prototype.addComponent = function( component ) {
+      this.components.put( component.type, component );
+    };
+
+    GameObject.prototype.findComponent = function( type ) {
+      return this.components.get( type );
+    };
+
+    GameObject.prototype.removeComponent = function( type ) {
+      this.components.remove( type );
+    };
+
+    GameObject.prototype.clearComponents = function() {
+      this.components.clear();
+    };
+
+    GameObject.prototype.hasComponent = function( type ) {
+      return ( this.components.contains( type ) ) ? true : false;
+    };
+
+    GameObject.prototype.listRenderableComponents = function() {
+      var list = [];
+      var c;
+      this.componentsIt.first();
+      while( this.componentsIt.hasNext() ) {
+        c = this.componentsIt.next();
+        if( c.isRenderable ) {
+          list.push( c );
+        }
       }
-    }
-  };
+      return list;
+    };
 
-  GameObject.prototype.equals = function( go ) {
-    return ( go.id === this.id ) ? true : false;
-  };
+    GameObject.prototype.updateComponents = function() {
+      // Updates object position from Box2D to the engine based on physics simulation (if applicable).
+      // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
+      var rigidBody = this.findComponent( Base.RIGID_BODY );
+      if( rigidBody ) {
+        this.position.x = rigidBody.body.GetPosition().x * rigidBody.conversionFactor;
+        this.position.y = rigidBody.body.GetPosition().y * rigidBody.conversionFactor;
+      }
 
-  GameObject.prototype.updateAll = function() {
+      // For renderable components, updates engine transformations to Three.js
+      this.componentsIt.first();
+      while( this.componentsIt.hasNext() ) {
+        var component = this.componentsIt.next();
+        if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
+          component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
+          component.getMesh().rotation.z = this.getEulerRotation();
+          component.getMesh().scale.set( this.scale.x, this.scale.y, this.scale.z );
+          component.visible = this.isVisible;
+        }
+      }
+    };
 
-    for ( var i = 0, len = this.children.length; i < len; i++ ) {
-      this.children[ i ].updateAll();
-    }
+    GameObject.prototype.equals = function( go ) {
+      return ( go.id === this.id );
+    };
 
-    this.update();
-    this.postUpdate();
-  };
+    GameObject.prototype.updateAll = function() {
+      for( var i = 0, len = this.children.length; i < len; i++ ) {
+        this.children[ i ].updateAll();
+      }
+      this.update();
+      this.postUpdate();
+    };
 
-  return GameObject;
-
-} );
+    return GameObject;
+  }
+);
 
 /*!
 * SoundJS
@@ -44723,7 +44729,6 @@ define(
             this.instance = createjs.Sound.createInstance( this.id );
           }, this
         );
-
       } else {
         console.log( 'Audio component fail.' );
       }
@@ -45103,7 +45108,7 @@ define(
     };
 
     Font.prototype = Object.create( BaseThree.prototype );
-    
+
     Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çÇáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜãõñÃÕÑâêîôûÂÊÎÔÛ_()-,.[]!?@$* ';
 
     Font.prototype.load = function() {
@@ -45182,7 +45187,7 @@ define(
       this.buffer.width = this.w;
       this.buffer.height = this.h;
 
-      this.texture;
+      this.texture = null;
       this.load();
     };
 
@@ -45203,7 +45208,6 @@ define(
       // This line makes the textures created during execution to work properly
       this.texture.needsUpdate = true;
       this.texture.flipY = true;
-
       this.material = new THREE.MeshBasicMaterial(
         {
           map: this.texture,
@@ -45211,11 +45215,8 @@ define(
         }
       );
       this.material.transparent = true;
-
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
-
       this.mesh = new THREE.Mesh( this.geometry, this.material );
-
       this.isLoaded = true;
     };
 
