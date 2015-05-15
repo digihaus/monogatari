@@ -1,55 +1,49 @@
 module.exports = function( grunt ) {
-  grunt.initConfig( {
+  grunt.initConfig(
+    {
 
-    pkg : grunt.file.readJSON( 'package.json' ),
+      pkg: grunt.file.readJSON( 'package.json' ),
 
-    requirejs : {
-      compile : {
-        options : {
-          baseUrl : '../src/',
-          paths : {
-            requireLib : '../lib/Require',
-            lib : '../lib'
-          },
-          name : 'Monogatari',
-          optimize: 'none',
-          include : [ 'requireLib' ],
-          out : '../dist/monogatari.js'
+      requirejs: {
+        compile: {
+          options: {
+            baseUrl: '../src/',
+            paths: {
+              requireLib: '../lib/Require',
+              lib: '../lib'
+            },
+            name: 'Monogatari',
+            preserveLicenseComments: false,
+            optimize: 'uglify2',
+            include: [ 'requireLib' ],
+            out: '../dist/monogatari.min.js'
+          }
+        }
+      },
+
+      watch: {
+        all: {
+          files: '../src/**/*',
+          tasks: [ 'requirejs' ]
+        }
+      },
+
+      connect: {
+        server: {
+          options: {
+            port: 9000,
+            base: '../'
+          }
         }
       }
-    },
 
-    uglify : {
-      dist : {
-        src : [ '../dist/monogatari.js' ],
-        dest : '../dist/monogatari.min.js',
-      }
-    },
-
-    watch : {
-      all : {
-        files : '../src/**/*',
-        tasks : [ 'requirejs', 'uglify' ]
-      }
-    },
-
-    connect : {
-      server : {
-        options : {
-          port : 9000,
-          base : '../'
-        }
-      }
     }
-
-  } );
+  );
 
   grunt.loadNpmTasks( 'grunt-contrib-requirejs' );
-  grunt.loadNpmTasks( 'grunt-contrib-uglify' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-contrib-connect' );
 
-  grunt.registerTask( 'default', [ 'requirejs', 'uglify' ] );
-
+  grunt.registerTask( 'default', [ 'requirejs' ] );
   grunt.registerTask( 'live', [ 'connect', 'watch' ] );
 };

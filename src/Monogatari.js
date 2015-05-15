@@ -20,7 +20,7 @@ define(
     'util/CommonUtils',
     'util/StringUtils'
   ],
-  function (
+  function(
     Timer,
     Math,
     Keyboard,
@@ -54,7 +54,7 @@ define(
     _browser.isBlackberry = ( _browser.agent.indexOf( 'Blackberry' ) > -1 );
     _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
-    var Monogatari = function () {
+    var Monogatari = function() {
       // Core
       this.math = Math;
       this.timer = Timer;
@@ -88,19 +88,19 @@ define(
       this.StaticText = StaticText;
     };
 
-    Monogatari.prototype.init = function ( bgcolor, width, height, target ) {
+    Monogatari.prototype.init = function( bgcolor, width, height, target ) {
       var ctx = this;
       this.sceneManager.init( bgcolor, width, height, target );
 
       // Keyboard input setup
       this.keyboard = new Keyboard();
       window.addEventListener(
-        'keyup', function ( event ) {
+        'keyup', function( event ) {
           ctx.keyboard.onKeyUp( event, ctx.timer );
         }, false
       );
       window.addEventListener(
-        'keydown', function ( event ) {
+        'keydown', function( event ) {
           ctx.keyboard.onKeyDown( event, ctx.timer );
         }, false
       );
@@ -108,34 +108,34 @@ define(
       // Mouse input setup
       this.mouse = new Mouse();
       window.addEventListener(
-        'mousemove', function ( event ) {
+        'mousemove', function( event ) {
           ctx.mouse.onMouseMove( event, ctx.timer );
         }, false
       );
       window.addEventListener(
-        'mousedown', function ( event ) {
+        'mousedown', function( event ) {
           ctx.mouse.onMouseDown( event, ctx.timer );
         }, false
       );
       window.addEventListener(
-        'mouseup', function ( event ) {
+        'mouseup', function( event ) {
           ctx.mouse.onMouseUp( event, ctx.timer );
         }, false
       );
 
     };
 
-    Monogatari.prototype.update = function () {
+    Monogatari.prototype.update = function() {
       this.timer.tick();
       this.physicsManager.update( this.timer );
       this.world.updateAll();
     };
 
-    Monogatari.prototype.render = function () {
+    Monogatari.prototype.render = function() {
       this.sceneManager.render();
     };
 
-    Monogatari.prototype.run = function () {
+    Monogatari.prototype.run = function() {
       requestAnimationFrame( this.run.bind( this ) );
       this.update();
       this.render();
@@ -143,8 +143,8 @@ define(
 
     var instance = null;
 
-    Monogatari.getInstance = function () {
-      if ( instance === null ) {
+    Monogatari.getInstance = function() {
+      if( instance === null ) {
         instance = new Monogatari();
       }
       return instance;
