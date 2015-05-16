@@ -53,10 +53,6 @@ define(
     StaticText.prototype.renderIntoBuffer = function() {
       var context = this.buffer.getContext( '2d' );
 
-      // Horizontal flip for proper rendering on the engine camera
-      context.translate( this.w, 0 );
-      context.scale( -1, 1 );
-
       if( this.text.length > 0 ) {
         var c = this.fontMap.get( this.text[ 0 ] );
         var words = this.text.split( ' ' );
