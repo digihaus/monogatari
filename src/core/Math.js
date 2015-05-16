@@ -105,14 +105,6 @@ define(
       return numToRound + multiple - remainder;
     };
 
-    Math.acos = Math.acos;
-    Math.sqrt = Math.sqrt;
-    Math.sin = Math.sin;
-    Math.cos = Math.cos;
-    Math.tan = Math.tan;
-    Math.atan = Math.atan;
-    Math.atan2 = Math.atan2;
-    Math.pow = Math.pow;
     Math.min = minHack; // Math.min
     Math.max = maxHack; // Math.max
     Math.abs = absHack; // Math.abs
