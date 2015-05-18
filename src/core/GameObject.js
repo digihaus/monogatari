@@ -22,11 +22,11 @@ define(
 
       this.lastUpdate = 0;
 
-      this.defaultUpdate = ( update && typeof ( update ) === 'function' ) ? update : function() {};
+      this.update = ( update && typeof ( update ) === 'function' ) ? update : function() {};
     };
 
     GameObject.prototype.update = function() {
-      this.defaultUpdate();
+      throw new Error( 'Update method is not implemented in GameObject id: ' + this.id );
     };
 
     GameObject.prototype.postUpdate = function() {
