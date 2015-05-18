@@ -1,4 +1,4 @@
 Monogatari
 ==========
 
-JS/HTML Game Engine
+JavaScript game engine
