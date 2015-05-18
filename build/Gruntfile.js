@@ -1,7 +1,6 @@
 module.exports = function( grunt ) {
   grunt.initConfig(
     {
-
       pkg: grunt.file.readJSON( 'package.json' ),
 
       requirejs: {
@@ -35,15 +34,25 @@ module.exports = function( grunt ) {
             base: '../'
           }
         }
-      }
+      },
 
+      jsdoc: {
+        dist: {
+          src: [ '../src/**/*.js' ],
+          options: {
+            destination: '../dist/docs'
+          }
+        }
+      }
     }
   );
 
   grunt.loadNpmTasks( 'grunt-contrib-requirejs' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-contrib-connect' );
+  grunt.loadNpmTasks( 'grunt-jsdoc' );
 
   grunt.registerTask( 'default', [ 'requirejs' ] );
   grunt.registerTask( 'live', [ 'connect', 'watch' ] );
+  grunt.registerTask( 'full', [ 'requirejs', 'jsdoc' ] );
 };
