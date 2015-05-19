@@ -54,14 +54,51 @@ define(
     _browser.isBlackberry = ( _browser.agent.indexOf( 'Blackberry' ) > -1 );
     _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
+    /**
+     * Exports the a single instance of {@link Monogatari} class
+     * @module Monogatari
+     */
+
+    /**
+     * @constructor
+     */
     var Monogatari = function() {
-      // Core
+
+      /**
+       * @type {Math}
+       * @static
+       */
       this.math = Math;
+
+      /**
+       * @type {Timer}
+       * @static
+       */
       this.timer = Timer;
+
+      /**
+       * The root node of the engine GameObject tree.
+       * @type {GameObject}
+       * @static
+       */
       this.world = new GameObject( 'world' );
+
+      /**
+       * @type {SceneManager}
+       */
       this.sceneManager = SceneManager;
+
+      /**
+       * @type {PhysicsManager}
+       */
       this.physicsManager = PhysicsManager;
-      this.GameObject = GameObject; // Class
+
+      /**
+       * Use to create new GameObjects.
+       * @type {GameObject}
+       * @class
+       */
+      this.GameObject = GameObject;
 
       // Input
       this.keyboard = null;
