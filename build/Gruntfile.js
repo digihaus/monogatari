@@ -21,9 +21,13 @@ module.exports = function( grunt ) {
       },
 
       watch: {
-        all: {
+        source: {
           files: '../src/**/*',
           tasks: [ 'requirejs' ]
+        },
+        docs: {
+          files: '../src/**/*',
+          tasks: [ 'jsdoc' ]
         }
       },
 
@@ -52,7 +56,9 @@ module.exports = function( grunt ) {
   grunt.loadNpmTasks( 'grunt-contrib-connect' );
   grunt.loadNpmTasks( 'grunt-jsdoc' );
 
-  grunt.registerTask( 'default', [ 'requirejs' ] );
-  grunt.registerTask( 'live', [ 'connect', 'watch' ] );
-  grunt.registerTask( 'full', [ 'requirejs', 'jsdoc' ] );
+  grunt.registerTask( 'default', [ 'requirejs', 'jsdoc' ] );
+
+  grunt.registerTask( 'live', [ 'connect', 'watch:source' ] );
+
+  grunt.registerTask( 'watchdocs', [ 'watch:docs' ] );
 };
