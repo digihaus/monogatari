@@ -95,7 +95,7 @@ define( [ 'util/ArrayUtils' ], function( _ArrayUtils ) {
   * @param {*} str string to check. If not a string, it will be casted to one.
   * @return {boolean} True if {@code str} is numeric.
   */
-  isNumeric = function( str ) {
+  StringUtils.prototype.isNumeric = function( str ) {
     return !/[^0-9]/.test( str );
   };
 
@@ -105,7 +105,7 @@ define( [ 'util/ArrayUtils' ], function( _ArrayUtils ) {
   * @param {string} str string to check.
   * @return {boolean} True if {@code str} is alphanumeric.
   */
-  isAlphaNumeric = function( str ) {
+  StringUtils.prototype.isAlphaNumeric = function( str ) {
     return !/[^a-zA-Z0-9]/.test( str );
   };
 
@@ -117,7 +117,7 @@ define( [ 'util/ArrayUtils' ], function( _ArrayUtils ) {
   * @param {string} subStr The string to look for.
   * @return {number} Number of occurrences of ss in s.
   */
-  countOf = function( str, subStr ) {
+  StringUtils.prototype.countOf = function( str, subStr ) {
     return str && subStr ? str.split( subStr ).length - 1 : 0;
   };
 
@@ -217,5 +217,5 @@ define( [ 'util/ArrayUtils' ], function( _ArrayUtils ) {
     return tmp_arr.join( '' );
   };
 
-  return new StringUtils(); 
+  return new StringUtils();
 } );
