@@ -96,7 +96,7 @@ define(
       /**
        * Use to create new GameObjects.
        * @type {GameObject}
-       * @class
+       * @class GameObject
        */
       this.GameObject = GameObject;
 
