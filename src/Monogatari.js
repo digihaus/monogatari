@@ -59,32 +59,44 @@ define(
     _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
     /**
-     * @constructor
-     * @alias module:Monogatari
+     * @class Monogatari
      */
     var Monogatari = function() {
 
       /**
-       * @type {Math}
-       * @static
+       * @memberOf Monogatari
+       * @type module:core/Math
+       * @name math
        */
       this.math = Math;
 
       /**
+       * @memberOf Monogatari
        * @type {Timer}
-       * @static
+       * @name timer
        */
       this.timer = Timer;
 
       /**
        * The root node of the engine GameObject tree.
+       * @memberOf Monogatari
        * @type {GameObject}
-       * @static
+       * @name world
        */
       this.world = new GameObject( 'world' );
 
+      /**
+       * @memberOf Monogatari
+       * @type {SceneManager}
+       * @name sceneManager
+       */
       this.sceneManager = SceneManager;
 
+      /**
+       * @memberOf Monogatari
+       * @type {PhysicsManager}
+       * @name physicsManager
+       */
       this.physicsManager = PhysicsManager;
 
       /**
