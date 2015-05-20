@@ -1,24 +1,66 @@
+/**
+ * Exports a singleton {@link Timer}.
+ * @module core/Timer
+ */
 define(
   function() {
 
+    /**
+     * @class Timer
+     */
     var Timer = function() {
+
+      /**
+       * Current time.
+       * @memberOf Timer
+       * @type {number}
+       */
       this.time = 0;
+
+      /**
+       * @memberOf Timer
+       * @type {number}
+       */
       this.lastTime = 0;
+
+      /**
+       * @memberOf Timer
+       * @type {number}
+       */
       this.lastFrameTime = 0;
+
+      /**
+       * Tick counter.
+       * @memberOf Timer
+       * @type {number}
+       */
       this.frameTicks = 0;
+
+      /**
+       * Current frames per second, calculated by {@link Timer.tick}.
+       * @memberOf Timer
+       * @type {number}
+       */
       this.fps = 60;
     };
 
+    /**
+     * @constant
+     * @memberOf Timer
+     * @type {number}
+     * @default
+     */
     Timer.FRAME_RATE_60FPS = 0.016666666667; // 1.0 second / 60.0 frames
 
     /**
-     * Shall be accessed only on engine Update.
+     * Calculates the rate of frames per second the engine is running.
+     * Is called on each cycle of engine update.
+     * @memberOf Timer
      */
     Timer.prototype.tick = function() {
       var now = Date.now();
-      var delta = now - this.lastTime;
 
-      this.time += delta;
+      this.time += now - this.lastTime;
       this.lastTime = now;
 
       // Initiates lastFrameTime for first cycle
@@ -39,15 +81,25 @@ define(
       this.frameTicks++;
     };
 
+    /**
+     * {@link Timer} instance.
+     * @memberOf module:core/Timer
+     * @type {Timer}
+     */
     var instance = null;
 
-    Timer.getInstance = function() {
+    /**
+     * Gets a singleton instance of {@link Timer}.
+     * @memberOf module:core/Timer
+     * @returns {Timer}
+     */
+    function getInstance() {
       if( instance === null ) {
         instance = new Timer();
       }
       return instance;
-    };
+    }
 
-    return Timer.getInstance();
+    return getInstance();
   }
 );

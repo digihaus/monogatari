@@ -1,3 +1,7 @@
+/**
+ * Exports a singleton instance of {@link Monogatari} class.
+ * @module Monogatari
+ */
 define(
   [
     'core/Timer',
@@ -55,12 +59,8 @@ define(
     _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
     /**
-     * Exports the a single instance of {@link Monogatari} class
-     * @module Monogatari
-     */
-
-    /**
      * @constructor
+     * @alias module:Monogatari
      */
     var Monogatari = function() {
 
@@ -83,20 +83,13 @@ define(
        */
       this.world = new GameObject( 'world' );
 
-      /**
-       * @type {SceneManager}
-       */
       this.sceneManager = SceneManager;
 
-      /**
-       * @type {PhysicsManager}
-       */
       this.physicsManager = PhysicsManager;
 
       /**
        * Use to create new GameObjects.
        * @type {GameObject}
-       * @class GameObject
        */
       this.GameObject = GameObject;
 
