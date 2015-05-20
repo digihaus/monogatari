@@ -6,7 +6,7 @@
   "templates": {
     "cleverLinks": false,
     "monospaceLinks": false,
-    "dateFormat": "YYYY/MM/DD",
+    "dateFormat": "MM Do YYYY",
     "outputSourceFiles": false,
     "outputSourcePath": false,
     "systemName": "Monogatari",
