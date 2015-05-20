@@ -79,12 +79,12 @@ define(
 
       /**
        * The root node of the engine GameObject tree. Any GameObject will only be available to the engine when attached directly or indirectly to world.
+       *
        * @example
+       *
        *  var myParentGO = new m.GameObject( 'Parent' );
        *  var myGO = new m.GameObject( 'MyGO' );
-       *
        *  myParentGO.children.push( myGO );
-       *
        *  world.children.push( myParentGO );
        *
        * @memberOf Monogatari
