@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?js= ((env.conf.templates.meta && env.conf.templates.meta.title) || title) ?></title>
+    <?js if (env.conf.templates.meta) { ?>
+        <?js if (env.conf.templates.meta.description) { ?>
+            <meta name="description" content="<?js= env.conf.templates.meta.description ?>" />
+        <?js } ?>
+        <?js if (env.conf.templates.meta.keyword) { ?>
+            <meta name="keywords" content="<?js= env.conf.templates.meta.keyword ?>" />
+            <meta name="keyword" content="<?js= env.conf.templates.meta.keyword ?>" />
+        <?js } ?>
+    <?js } ?>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
+
+    <?js if (env.conf.templates) { ?>
+    <script>
+        var config = <?js= JSON.stringify(env.conf.templates) ?>;
+    </script>
+    <?js } ?>
+</head>
+<body>
+<div id="wrap" class="clearfix">
+    <?js= this.partial('navigation.tmpl', this) ?>
+    <div class="main">
+        <h1 class="page-title" data-filename="<?js= filename ?>"><?js= title ?></h1>
+        <div id="longname"><?js= longname ?></div>
+        <?js= content ?>
+        <footer>
+            <a href="https://github.com/jsdoc3/jsdoc">JSDoc <?js= env.version.number ?></a> | <?js= (new Date()) ?>
+        </footer>
+    </div>
+</div>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script src="scripts/main.js"></script>
+</body>
+</html>

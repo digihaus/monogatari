@@ -45,7 +45,8 @@ module.exports = function( grunt ) {
           src: [ '../src/**/*.js' ],
           options: {
             destination: '../dist/docs',
-            template: 'jsdoc/jaguarjs-template'
+            template: 'jsdoc/template',
+            configure: 'jsdoc/conf.json'
           }
         }
       }

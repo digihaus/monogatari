@@ -123,7 +123,8 @@ function generate( title, docs, filename, resolveLinks ) {
   var docData = {
     filename: filename,
     title: title,
-    docs: docs
+    docs: docs,
+    longname: docs[ 0 ].longname
   };
 
   var outpath = path.join( outdir, filename ),

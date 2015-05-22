@@ -51,7 +51,7 @@ $(
     // Show an item related a current documentation automatically
     var filename = $( '.page-title' ).data( 'filename' ).replace( /\.[a-z]+$/, '' );
 
-    var name = $.trim( $( 'section>header>h2' )[ 0 ].innerHTML );
+    var name = $.trim( $( 'div#longname' )[ 0 ].innerHTML );
 
     var $currentItem = $( '.navigation .item[data-name="' + name + '"]' );
 

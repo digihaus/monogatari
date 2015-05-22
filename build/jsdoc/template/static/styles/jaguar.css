@@ -338,16 +338,18 @@ li {
 .main article ol > li {
   list-style-type: decimal;
   margin-bottom: 5px;
+  margin-left: 10px;
+  color: lightgray;
 }
 .main article ul > li {
   margin-bottom: 5px;
   list-style-type: disc;
 }
 footer {
-  margin: 15px 0;
-  padding-top: 15px;
-  border-top: 1px solid #e1e1e1;
-  font-family: "freight-text-pro", Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 0.8em;
-  color: gray;
+  margin: 36px 0;
+  font-size: 0.7em;
+  color: silver;
+}
+div#longname {
+  display: none;
 }

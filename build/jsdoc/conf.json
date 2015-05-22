@@ -10,21 +10,12 @@
       "outputSourceFiles": true
     },
     "applicationName": "Monogatari",
-    "disqus": "",
-    "googleAnalytics": "",
-    "openGraph": {
-      "title": "",
-      "type": "website",
-      "image": "",
-      "site_name": "",
-      "url": ""
-    },
     "meta": {
-      "title": "",
-      "description": "",
+      "title": "Documentation - Monogatari",
+      "description": "JavaScript game engine",
       "keyword": ""
     },
-    "linenums": false
+    "linenums": true
   },
   "markdown": {
     "parser": "gfm",
