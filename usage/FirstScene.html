@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>First Scene Usage - Monogatari</title>
-<script type="text/javascript" src="../dist/monogatari.min.js"></script>
-<script>
-  require( [ 'Monogatari' ], function( m ) {
-    m.init();
+  <title>First Scene Usage - Monogatari</title>
+  <script type="text/javascript" src="../dist/monogatari.min.js"></script>
+  <script>
+    require(
+        [ 'Monogatari' ], function( m ) {
+          m.init();
 
-    var go = new m.GameObject( 'cat' );
-    var sprite = new m.Sprite( 'assets/meow.png', 512, 512 );
+          var go = new m.GameObject( 'cat' );
+          var sprite = new m.Sprite( 'assets/meow.png', 512, 512 );
 
-    go.addComponent( sprite );
-    go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
+          go.addComponent( sprite );
+          go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
 
-    m.sceneManager.attachToScene( go );
-    m.world.children.push( go );
+          m.sceneManager.attachToScene( go );
+          m.world.children.push( go );
 
-    m.run();
-  } );
-</script>
+          m.run();
+        }
+    );
+  </script>
 </head>
 <body>
 </body>

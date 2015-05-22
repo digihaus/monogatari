@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Audio Usage - Monogatari</title>
-<script type="text/javascript" src="../dist/monogatari.min.js"></script>
-<script>
-  require( [ 'Monogatari' ], function( m ) {
-    m.init();
+  <title>Audio Usage - Monogatari</title>
+  <script type="text/javascript" src="../dist/monogatari.min.js"></script>
+  <script>
+    require(
+        [ 'Monogatari' ], function( m ) {
+          m.init();
 
-    var music = new m.GameObject( 'music' );
+          var music = new m.GameObject( 'music' );
 
-    music.addComponent( new m.Audio( 'test', 'assets/invaders.wav' ) );
-    music.update = function() {
-      this.findComponent( m.Base.AUDIO_SOURCE ).start();
-    }
+          music.addComponent( new m.Audio( 'test', 'assets/invaders.wav' ) );
+          music.update = function() {
+            this.findComponent( m.Base.AUDIO_SOURCE ).start();
+          };
 
-    m.world.children.push( music );
-    m.run();
-  } );
-</script>
+          m.world.children.push( music );
+          m.run();
+        }
+    );
+  </script>
 </head>
 <body>
-  <h1>Audio Test</h1>
+<h1>Audio Test</h1>
 </body>
 </html>
