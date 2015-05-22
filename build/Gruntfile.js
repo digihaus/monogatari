@@ -20,14 +20,38 @@ module.exports = function( grunt ) {
         }
       },
 
+      clean: {
+        all: {
+          src: [ '../dist/*' ],
+          options: {
+            force: true
+          }
+        },
+        docs: {
+          src: [ '../dist/docs' ],
+          options: {
+            force: true
+          }
+        }
+      },
+
+      jsdoc: {
+        dist: {
+          src: [ '../src/**/*.js' ],
+          options: {
+            destination: '../dist/docs'
+          }
+        }
+      },
+
       watch: {
         source: {
           files: '../src/**/*',
           tasks: [ 'requirejs' ]
         },
         docs: {
-          files: '../src/**/*',
-          tasks: [ 'jsdoc' ]
+          files: [ '../src/**/*' ],
+          tasks: [ 'clean:docs', 'jsdoc' ]
         }
       },
 
@@ -38,29 +62,17 @@ module.exports = function( grunt ) {
             base: '../'
           }
         }
-      },
-
-      jsdoc: {
-        dist: {
-          src: [ '../src/**/*.js' ],
-          options: {
-            destination: '../dist/docs',
-            template: 'jsdoc/template',
-            configure: 'jsdoc/conf.json'
-          }
-        }
       }
     }
   );
 
   grunt.loadNpmTasks( 'grunt-contrib-requirejs' );
+  grunt.loadNpmTasks( 'grunt-contrib-clean' );
+  grunt.loadNpmTasks( 'grunt-jsdoc' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-contrib-connect' );
-  grunt.loadNpmTasks( 'grunt-jsdoc' );
 
-  grunt.registerTask( 'default', [ 'requirejs', 'jsdoc' ] );
-
+  grunt.registerTask( 'default', [ 'clean:all', 'requirejs', 'jsdoc' ] );
   grunt.registerTask( 'live', [ 'connect', 'watch:source' ] );
-
   grunt.registerTask( 'watchdocs', [ 'watch:docs' ] );
 };
