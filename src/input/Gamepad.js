@@ -18,25 +18,25 @@ define(
       }
     };
 
-    GamePad.BUTTON_1 = 1;
-    GamePad.BUTTON_2 = 2;
-    GamePad.BUTTON_3 = 3;
-    GamePad.BUTTON_4 = 4;
-    GamePad.L_TRIGGER_1 = 5;
-    GamePad.L_TRIGGER_2 = 6;
-    GamePad.R_TRIGGER_1 = 7;
-    GamePad.R_TRIGGER_2 = 8;
-    GamePad.SELECT = 9;
-    GamePad.START = 10;
-    GamePad.L_STICK_BUTTON = 11;
-    GamePad.R_STICK_BUTTON = 12;
-    GamePad.L_STICK = 13;
-    GamePad.R_STICK = 14;
-    GamePad.VENDOR = 15;
-    GamePad.UP = 16;
-    GamePad.DOWN = 17;
-    GamePad.LEFT = 18;
-    GamePad.RIGHT = 19;
+    GamePad.prototype.BUTTON_1 = 1;
+    GamePad.prototype.BUTTON_2 = 2;
+    GamePad.prototype.BUTTON_3 = 3;
+    GamePad.prototype.BUTTON_4 = 4;
+    GamePad.prototype.L_TRIGGER_1 = 5;
+    GamePad.prototype.L_TRIGGER_2 = 6;
+    GamePad.prototype.R_TRIGGER_1 = 7;
+    GamePad.prototype.R_TRIGGER_2 = 8;
+    GamePad.prototype.SELECT = 9;
+    GamePad.prototype.START = 10;
+    GamePad.prototype.L_STICK_BUTTON = 11;
+    GamePad.prototype.R_STICK_BUTTON = 12;
+    GamePad.prototype.L_STICK = 13;
+    GamePad.prototype.R_STICK = 14;
+    GamePad.prototype.VENDOR = 15;
+    GamePad.prototype.UP = 16;
+    GamePad.prototype.DOWN = 17;
+    GamePad.prototype.LEFT = 18;
+    GamePad.prototype.RIGHT = 19;
 
     GamePad.prototype.isDown = function( device, button ) {
       // return timestamp;
