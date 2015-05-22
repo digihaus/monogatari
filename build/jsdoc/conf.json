@@ -2,24 +2,16 @@
   "tags": {
     "allowUnknownTags": true
   },
-  "plugins": ["plugins/markdown"],
+  "source": {
+    "includePattern": ".+\\.js(doc)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": [],
   "templates": {
-    "cleverLinks": true,
-    "monospaceLinks": true,
+    "cleverLinks": false,
+    "monospaceLinks": false,
     "default": {
       "outputSourceFiles": true
-    },
-    "applicationName": "Monogatari",
-    "meta": {
-      "title": "Documentation - Monogatari",
-      "description": "JavaScript game engine",
-      "keyword": ""
-    },
-    "linenums": true
-  },
-  "markdown": {
-    "parser": "gfm",
-    "hardwrap": true,
-    "tags": ["examples"]
+    }
   }
 }

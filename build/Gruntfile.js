@@ -39,7 +39,11 @@ module.exports = function( grunt ) {
         dist: {
           src: [ '../src/**/*.js' ],
           options: {
-            destination: '../dist/docs'
+            destination: '../dist/docs',
+            readme: '../README.md',
+            package: 'package.json',
+            template: 'jsdoc/template',
+            configure: 'jsdoc/conf.json'
           }
         }
       },
