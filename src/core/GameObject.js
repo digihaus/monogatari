@@ -98,8 +98,8 @@ define(
       // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
       var rigidBody = this.findComponent( Base.RIGID_BODY );
       if( rigidBody ) {
-        this.position.x = rigidBody.body.GetPosition().x * rigidBody.conversionFactor;
-        this.position.y = rigidBody.body.GetPosition().y * rigidBody.conversionFactor;
+        this.position.x = rigidBody.body.GetPosition().get_x() * rigidBody.conversionFactor;
+        this.position.y = rigidBody.body.GetPosition().get_y() * rigidBody.conversionFactor;
       }
 
       // For renderable components, updates engine transformations to Three.js

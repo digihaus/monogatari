@@ -4,16 +4,16 @@ define( [ 'manager/EventManager', 'lib/Box2d', 'core/Timer' ], function( EventMa
     this.world = null;
 
     // The more iterations, the more accurate the calculations
-    this.velocityIterations = 10;
-    this.positionIterations = 10;
+    this.velocityIterations = 2;
+    this.positionIterations = 2;
 
     // Remove any accumulated forces at every physics update
     this.clearForcesOnUpdate = false;
   }
 
   PhysicsManager.prototype.createWorld = function( gravity, allowSleep ) {
-    this.world = new b2World( new b2Vec2( gravity.x, gravity.y ), allowSleep );
-    this.createListener();
+    this.world = new Box2D.b2World( new Box2D.b2Vec2( gravity.x, gravity.y ), allowSleep );
+    //this.createListener();
   };
 
   PhysicsManager.prototype.attachToWorld = function( bodyDef ) {
@@ -21,7 +21,7 @@ define( [ 'manager/EventManager', 'lib/Box2d', 'core/Timer' ], function( EventMa
   };
 
   PhysicsManager.prototype.createListener = function() {
-    var listener = new b2ContactListener();
+    var listener = new Box2D.JSContactListener();
 
     listener.BeginContact = function( contact ) {
       // console.log(contact.GetFixtureA().GetBody().GetUserData());
