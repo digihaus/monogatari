@@ -1,5 +1,5 @@
 /**
- * Exports a singleton {@link Timer}.
+ * Exports a singleton {@link module:core/Timer~Timer|Timer}.
  * @module core/Timer
  */
 define(
@@ -12,33 +12,33 @@ define(
 
       /**
        * Current time.
-       * @memberOf Timer
+       * @memberOf module:core/Timer~Timer
        * @type {number}
        */
       this.time = 0;
 
       /**
-       * @memberOf Timer
+       * @memberOf module:core/Timer~Timer
        * @type {number}
        */
       this.lastTime = 0;
 
       /**
-       * @memberOf Timer
+       * @memberOf module:core/Timer~Timer
        * @type {number}
        */
       this.lastFrameTime = 0;
 
       /**
        * Tick counter.
-       * @memberOf Timer
+       * @memberOf module:core/Timer~Timer
        * @type {number}
        */
       this.frameTicks = 0;
 
       /**
        * Current frames per second, calculated by {@link Timer.tick}.
-       * @memberOf Timer
+       * @memberOf module:core/Timer~Timer
        * @type {number}
        */
       this.fps = 60;
@@ -46,7 +46,7 @@ define(
 
     /**
      * @constant
-     * @memberOf Timer
+     * @memberOf module:core/Timer~Timer
      * @type {number}
      * @default
      */
@@ -55,7 +55,7 @@ define(
     /**
      * Calculates the rate of frames per second the engine is running.
      * Is called on each cycle of engine update.
-     * @memberOf Timer
+     * @memberOf module:core/Timer~Timer
      */
     Timer.prototype.tick = function() {
       var now = Date.now();
