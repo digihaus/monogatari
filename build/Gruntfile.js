@@ -54,7 +54,7 @@ module.exports = function( grunt ) {
           tasks: [ 'requirejs' ]
         },
         docs: {
-          files: [ '../src/**/*' ],
+          files: [ '../src/**/*', 'jsdoc/template/**/*' ],
           tasks: [ 'clean:docs', 'jsdoc' ]
         }
       },
