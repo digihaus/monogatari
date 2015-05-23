@@ -28,7 +28,7 @@ module.exports = function( grunt ) {
           }
         },
         docs: {
-          src: [ '../dist/docs' ],
+          src: [ '../dist/docs/*' ],
           options: {
             force: true
           }
