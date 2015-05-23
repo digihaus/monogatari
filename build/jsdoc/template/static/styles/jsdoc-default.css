@@ -130,8 +130,7 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-    font-family: 'Open Sans Light', sans-serif;
-    font-size: 36px;
+    font-size: 26px;
     letter-spacing: -2px;
     margin-bottom: 20px;
 }
@@ -143,7 +142,6 @@ h2, h3 {
 }
 
 h4 {
-    font-size: 18px;
     letter-spacing: -0.33px;
     margin-bottom: 12px;
     color: #4d4e53;
@@ -254,7 +252,7 @@ h6 {
     font-size: 100%;
     line-height: 18px;
     display: block;
-    padding: 4px 12px;
+    padding: 0px 12px;
     margin: 0;
     background-color: #fff;
     color: #4D4E53;
@@ -277,7 +275,7 @@ h6 {
 }
 
 .prettyprint.linenums li {
-    border-left: 3px #ddd solid;
+    border-left: 1px #ddd solid;
 }
 
 .prettyprint.linenums li.selected,
