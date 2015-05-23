@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Random Usage - Monogatari</title>
-<script type="text/javascript" src="../dist/monogatari.min.js"></script>
-<script>
-  require( [ 'Monogatari' ], function( m ) {
-    
-    var r = new m.Random();
-    
-    console.log( "bool" );
-    console.log( r.bool() );
-    console.log( " " );
+  <title>Random Usage - Monogatari</title>
+  <script type="text/javascript" src="../dist/monogatari.min.js"></script>
+  <script>
+    require(
+        [ 'Monogatari' ], function( m ) {
 
-    console.log( "float (min and max)" );
-    console.log( r.floating( { min : 0, max : 100 } ) );
-    console.log( " " );
+          var r = new m.Random();
 
-    console.log( "string" );
-    console.log( r.string() );
-    console.log( " " );
+          console.log( "bool" );
+          console.log( r.bool() );
+          console.log( " " );
 
-    console.log( "dices ( 4, 6, 8, 10, 12, 20, 30(?), 100)" );
-    console.log( r.d4() );
-    console.log( r.d6() );
-    console.log( r.d8() );
-    console.log( r.d10() );
-    console.log( r.d12() );
-    console.log( r.d20() );
-    console.log( r.d30() );
-    console.log( r.d100() );
-    console.log( " " );
+          console.log( "float (min and max)" );
+          console.log( r.floating( { min: 0, max: 100 } ) );
+          console.log( " " );
 
-    console.log( "rpg 5d6" );
-    console.log( r.rpg( '5d6' ) );
-    console.log( " " );
+          console.log( "string" );
+          console.log( r.string() );
+          console.log( " " );
 
-    console.log( "rpg 3d34 sum" );
-    console.log( r.rpg( '3d34', { sum : true } ) );
-    console.log( " " );
-  } );
-</script>
+          console.log( "dices ( 4, 6, 8, 10, 12, 20, 30(?), 100)" );
+          console.log( r.d4() );
+          console.log( r.d6() );
+          console.log( r.d8() );
+          console.log( r.d10() );
+          console.log( r.d12() );
+          console.log( r.d20() );
+          console.log( r.d30() );
+          console.log( r.d100() );
+          console.log( " " );
+
+          console.log( "rpg 5d6" );
+          console.log( r.rpg( '5d6' ) );
+          console.log( " " );
+
+          console.log( "rpg 3d34 sum" );
+          console.log( r.rpg( '3d34', { sum: true } ) );
+          console.log( " " );
+        }
+    );
+  </script>
 </head>
 <body>
-  <h1>Random (with Chance.js)</h1>
-  <h4>Check console log.</h4>
+<h1>Random (with Chance.js)</h1>
+<h4>Check console log.</h4>
 </body>
 </html>

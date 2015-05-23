@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Static Text Usage - Monogatari</title>
-<link href='http://fonts.googleapis.com/css?family=Caesar+Dressing' rel='stylesheet' type='text/css'>
-<style type="text/css">
-body {
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-}
-</style>
-<script type="text/javascript" src="../dist/monogatari.min.js"></script>
-<script>
-  require( [ 'Monogatari' ], function( m ) {
-    m.init( "#FFF" );
+  <title>Static Text Usage - Monogatari</title>
+  <link href='http://fonts.googleapis.com/css?family=Caesar+Dressing' rel='stylesheet' type='text/css'>
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+  <script type="text/javascript" src="../dist/monogatari.min.js"></script>
+  <script>
+    require(
+        [ 'Monogatari' ], function( m ) {
+          m.init( "#FFF" );
 
-    var go = new m.GameObject( 'dialog' );
-    go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
+          var go = new m.GameObject( 'dialog' );
+          go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
 
-    var t = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+          var t = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
 
-    go.addComponent( new m.StaticText( t, 12, "Caesar Dressing" ) );
+          go.addComponent( new m.StaticText( t, 12, "Caesar Dressing" ) );
 
-    go.update = function() {
-      var staticText = this.findComponent( m.Base.STATIC_TEXT );
-      if ( staticText.isLoaded ) {
-        m.sceneManager.attachToScene( this );
-      }
-    };
+          go.update = function() {
+            var staticText = this.findComponent( m.Base.STATIC_TEXT );
+            if( staticText.isLoaded ) {
+              m.sceneManager.attachToScene( this );
+            }
+          };
 
-    m.world.children.push( go );
-    m.run();
-  } );
-</script>
+          m.world.children.push( go );
+          m.run();
+        }
+    );
+  </script>
 </head>
 <body>
 </body>
