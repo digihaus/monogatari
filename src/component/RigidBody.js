@@ -17,98 +17,99 @@ define(
     var RigidBody = function( conversionFactor ) {
       Base.call( this, Base.RIGID_BODY );
 
-      this.bodyDef = new b2BodyDef();
-      this.materialDef = new b2FixtureDef();
+      this.bodyDef = new Box2D.b2BodyDef();
+      this.materialDef = new Box2D.b2FixtureDef();
       this.body = null;
 
       this.conversionFactor = ( conversionFactor ) ? conversionFactor : 1;
 
-      this.materialDef.shape = new b2PolygonShape();
-      this.materialDef.shape.SetAsBox( 0.5, 0.5 );
+      var shape =  new Box2D.b2CircleShape();
+      shape.set_m_radius( 0.5 );
+      this.materialDef.set_shape( shape );
     };
 
     RigidBody.prototype = Object.create( Base.prototype );
 
-    RigidBody.STATIC = 1;
-    RigidBody.KINEMATIC = 2;
-    RigidBody.DYNAMIC = 3;
+    RigidBody.prototype.STATIC = 1;
+    RigidBody.prototype.KINEMATIC = 2;
+    RigidBody.prototype.DYNAMIC = 3;
 
     /**
      * @param {number} density In kg/m^2.
      */
     RigidBody.prototype.setDensity = function( density ) {
-      this.materialDef.density = density;
+      this.materialDef.set_density( density );
     };
 
     /**
      * @param {number} friction Usually in the range [0,1].
      */
     RigidBody.prototype.setFriction = function( friction ) {
-      this.materialDef.friction = friction;
+      this.materialDef.set_friction( friction );
     };
 
     /**
      * @param {number} bounciness Usually in the range [0,1].
      */
     RigidBody.prototype.setBounciness = function( bounciness ) {
-      this.materialDef.restitution = bounciness;
+      this.materialDef.set_restitution( bounciness );
     };
 
     /**
      * @param position Coordinates in the physics world, NOT in pixels or game world, a proper scale is required to draw.
      */
     RigidBody.prototype.setPosition = function( position ) {
-      this.bodyDef.position.x = position.x;
-      this.bodyDef.position.y = position.y;
+      this.bodyDef.get_position().set_x( position.x );
+      this.bodyDef.get_position().set_y( position.y );
     };
 
     /**
      * @param {number} angle In radians.
      */
     RigidBody.prototype.setRotation = function( angle ) {
-      this.bodyDef.angle = angle;
+      this.bodyDef.angle.set_angle( angle );
     };
 
     /**
      * @param shape This is mandatory.
      */
     RigidBody.prototype.setShape = function( shape ) {
-      this.materialDef.shape = shape;
+      this.materialDef.set_shape( shape );
     };
 
     /**
      * Prevents the collision to be resolved by Box2D, but retains collision information.
      */
     RigidBody.prototype.setSensor = function( isSensor ) {
-      this.materialDef.isSensor = isSensor;
+      this.materialDef.set_isSensor( isSensor );
     };
 
     /**
      * Expensive! Use with care.
      */
     RigidBody.prototype.setPreventTunneling = function( preventTunneling ) {
-      this.bodyDef.bullet = preventTunneling;
+      this.bodyDef.set_bullet( preventTunneling );
     };
 
     RigidBody.prototype.setType = function( type ) {
       switch( type ) {
-        case RigidBody.STATIC:
-          this.bodyDef.type = b2Body.b2_staticBody;
+        case this.STATIC:
+          this.bodyDef.set_type( Box2D.b2_staticBody );
           break;
-        case RigidBody.KINEMATIC:
-          this.bodyDef.type = b2Body.b2_kinematicBody;
+        case this.KINEMATIC:
+          this.bodyDef.set_type( Box2D.b2_kinematicBody );
           break;
-        case RigidBody.DYNAMIC:
-          this.bodyDef.type = b2Body.b2_dynamicBody;
+        case this.DYNAMIC:
+          this.bodyDef.set_type( Box2D.b2_dynamicBody );
           break;
         default:
-          this.bodyDef.type = b2Body.b2_staticBody;
+          this.bodyDef.set_type( Box2D.b2_staticBody );
           break;
       }
     };
 
     RigidBody.prototype.setAllowRotation = function( allowRotation ) {
-      this.bodyDef.fixedRotation = !allowRotation;
+      this.bodyDef.set_fixedRotation( !allowRotation );
     };
 
     return RigidBody;
