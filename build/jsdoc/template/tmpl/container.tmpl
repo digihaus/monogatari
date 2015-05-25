@@ -80,6 +80,8 @@
         <?js }); ?></ul>
     <?js } ?>
 
+<div class="clear"></div>
+
     <?js
         var classes = self.find({kind: 'class', memberof: doc.longname});
         if (!isGlobalPage && classes && classes.length) {
@@ -91,6 +93,8 @@
             <dd><?js if (c.summary) { ?><?js= c.summary ?><?js } ?></dd>
         <?js }); ?></dl>
     <?js } ?>
+
+<div class="clear"></div>
 
      <?js
         var mixins = self.find({kind: 'mixin', memberof: doc.longname});
@@ -104,6 +108,8 @@
         <?js }); ?></dl>
     <?js } ?>
 
+<div class="clear"></div>
+
     <?js
         var namespaces = self.find({kind: 'namespace', memberof: doc.longname});
         if (!isGlobalPage && namespaces && namespaces.length) {
@@ -115,6 +121,8 @@
             <dd><?js if (n.summary) { ?><?js= n.summary ?><?js } ?></dd>
         <?js }); ?></dl>
     <?js } ?>
+
+<div class="clear"></div>
 
     <?js
         var members = self.find({kind: 'member', memberof: isGlobalPage ? {isUndefined: true} : doc.longname});
@@ -133,6 +141,8 @@
             <?js= self.partial('members.tmpl', p) ?>
         <?js }); ?>
     <?js } ?>
+
+<div class="clear"></div>
 
     <?js
         var methods = self.find({kind: 'function', memberof: isGlobalPage ? {isUndefined: true} : doc.longname});
@@ -164,6 +174,8 @@
                 }
             }); ?>
     <?js } ?>
+
+<div class="clear"></div>
 
     <?js
         var events = self.find({kind: 'event', memberof: isGlobalPage ? {isUndefined: true} : doc.longname});
