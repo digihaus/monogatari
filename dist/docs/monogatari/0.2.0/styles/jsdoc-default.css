@@ -277,6 +277,10 @@ h6 {
     width: inherit;
 }
 
+.prettyprint.source code {
+    padding: 0;
+}
+
 .prettyprint code {
     font-size: 100%;
     line-height: 18px;
@@ -305,6 +309,7 @@ h6 {
 
 .prettyprint.linenums li {
     border-left: 1px #ddd solid;
+    padding-left: 4px;
 }
 
 .prettyprint.linenums li.selected,
@@ -379,8 +384,8 @@ h6 {
 h4.name {
     margin-top: 20px;
     margin-bottom: 10px;
-    padding: 2px;
-    background-color: #EEEEEE;
+    padding-left: 2px;
+    background-color: whitesmoke;
     font-weight: normal;
 }
 

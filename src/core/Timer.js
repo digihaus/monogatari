@@ -13,6 +13,7 @@ define(
       /**
        * Current time.
        * @memberOf module:core/Timer~Timer
+       * @instance
        * @type {number}
        * @name time
        */
@@ -20,6 +21,7 @@ define(
 
       /**
        * @memberOf module:core/Timer~Timer
+       * @instance
        * @type {number}
        * @name lastTime
        */
@@ -27,6 +29,7 @@ define(
 
       /**
        * @memberOf module:core/Timer~Timer
+       * @instance
        * @type {number}
        * @name lastFrameTime
        */
@@ -35,6 +38,7 @@ define(
       /**
        * Tick counter.
        * @memberOf module:core/Timer~Timer
+       * @instance
        * @type {number}
        * @name frameTicks
        */
@@ -42,8 +46,8 @@ define(
 
       /**
        * Current frames per second, calculated by Timer.tick().
-       *
        * @memberOf module:core/Timer~Timer
+       * @instance
        * @type {number}
        * @name fps
        */
@@ -52,7 +56,6 @@ define(
 
     /**
      * 1second / 60frames = 0.016666666667
-     *
      * @constant
      * @memberOf module:core/Timer~Timer
      * @type {number}
@@ -63,6 +66,7 @@ define(
      * Calculates the rate of frames per second the engine is running.
      * It is called on each cycle of engine update.
      * @memberOf module:core/Timer~Timer
+     * @instance
      */
     Timer.prototype.tick = function() {
       var now = Date.now();

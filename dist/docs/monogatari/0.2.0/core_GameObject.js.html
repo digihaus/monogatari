@@ -51,29 +51,112 @@ define(
      * MyGOClass.prototype.update = function() { ... };
 
      * @param {String} id Identifier. Not mandatory, but recommended
-     * @param {function} update The object logic
+     * @param {function} update The object logic. Not necessary if using inheritance
      * @param {THREE.Vector3} position Initial position
      * @param {THREE.Vector3} rotation Initial rotation
      * @param {THREE.Vector3} scale Initial scale
      * @class GameObject
      */
     var GameObject = function( id, update, position, rotation, scale ) {
+
+      /**
+       * Unique identifier, created automatically.
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {string}
+       * @name uid
+       */
       this.uid = Common.createUniqueId();
+
+      /**
+       * The Game Object id, used to recover the GO instance wherever necessary.
+       * Recommended to be explicitly set.
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {String|string}
+       * @name id
+       * @default uid
+       */
       this.id = id || this.uid;
 
+      /**
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {THREE.Vector3}
+       * @name position
+       * @default THREE.Vector3( 0, 0, 0 )
+       */
       this.position = ( position ) ? position : new THREE.Vector3( 0, 0, 0 );
+
+      /**
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {THREE.Vector3}
+       * @name rotation
+       * @default THREE.Vector3( 0, 1, 0 )
+       */
       this.rotation = ( rotation ) ? rotation : new THREE.Vector3( 0, 1, 0 ); // new THREE.Euler()
+
+      /**
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {THREE.Vector3}
+       * @name scale
+       * @default THREE.Vector3( 1, 1, 1 )
+       */
       this.scale = ( scale ) ? scale : new THREE.Vector3( 1, 1, 1 );
 
-      // The Y is flipped to calculate properly according to the engine orthographic camera
+      /**
+       * Axis with Y flipped to calculate properly according to the engine orthographic camera.
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {THREE.Vector3}
+       * @name axis
+       * @default THREE.Vector3( 0, -1, 0 );
+       */
       this.axis = new THREE.Vector3( 0, -1, 0 );
 
+      /**
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {Map}
+       * @name components
+       */
       this.components = new Map();
+
+      /**
+       * An iterator for the components.
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @name componentsIt
+       */
       this.componentsIt = this.components.iterator();
 
+      /**
+       * List of Game Objects that are children of this.
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {Array}
+       * @name children
+       */
       this.children = [];
 
+      /**
+       * Controls if this Game Object will be rendered on canvas.
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {boolean}
+       * @name isVisible
+       */
       this.isVisible = true;
+
+      /**
+       * Controls if this Game Object will be updated on engine cycle.
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {boolean}
+       * @name isActive
+       */
       this.isActive = true;
 
       this.lastUpdate = 0;
@@ -81,6 +164,15 @@ define(
       this.update = ( update &amp;&amp; typeof ( update ) === 'function' ) ? update : function() {};
     };
 
+    /**
+     * Method to be overridden when inheriting from Game Object.
+     * It is called on every engine cycle, making it the place to put specific logic.
+     * @method
+     * @abstract
+     * @instance
+     * @name update
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.update = function() {
       throw new Error( 'Update method is not implemented in GameObject id: ' + this.id );
     };
@@ -195,7 +287,7 @@ define(
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> | Mon May 25 2015 16:13:57 GMT-0300 (Hora oficial do Brasil)
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> | Mon May 25 2015 17:08:38 GMT-0300 (Hora oficial do Brasil)
     </footer>
 </div>
 
