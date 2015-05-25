@@ -10,11 +10,11 @@ Composed by JS libraries like [three.js](http://threejs.org/) and [box2d.js](htt
 ### Demo ###
 
 #### Zombies ####
-Top-down zombie shooter.
+A top-view zombie shooter.
 * URL - [gemuzon.github.io/demo/zombies/](http://gemuzon.github.io/demo/zombies/)
 * Source code - [github.com/gemuzon/zombies](http://github.com/gemuzon/zombies)
 
-#### License ####
+### License ###
 [MIT](https://github.com/gemuzon/monogatari/blob/master/LICENSE)
 
 
