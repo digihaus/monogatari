@@ -15,6 +15,7 @@ A top-view zombie shooter.
 * Source code - [github.com/gemuzon/zombies](http://github.com/gemuzon/zombies)
 
 ### License ###
+s
 [MIT](https://github.com/gemuzon/monogatari/blob/master/LICENSE) 
 
 
