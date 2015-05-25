@@ -159,6 +159,7 @@ h4 {
     letter-spacing: -0.33px;
     margin-bottom: 12px;
     color: #4d4e53;
+    font-weight: bold;
 }
 
 h5 {
@@ -376,6 +377,7 @@ h4.name {
     margin-top: 20px;
     padding: 2px;
     background-color: #EEEEEE;
+    font-weight: normal;
 }
 
 header h2 {
