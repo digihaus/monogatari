@@ -20,8 +20,8 @@ define( [ 'collection/Map' ], function( _Map ) {
     this.iterator = this.listeners.iterator();
   }
 
-  EventManager.prototype.addListener = function( id, eventType, handler ) {
-    this.listeners.put( id, new Event( eventType, handler ) );
+  EventManager.prototype.addListener = function( eventType, handler ) {
+    this.listeners.put( eventType, new Event( eventType, handler ) );
   };
 
   EventManager.prototype.notify = function( eventType, params ) {
@@ -38,8 +38,8 @@ define( [ 'collection/Map' ], function( _Map ) {
     }
   };
 
-  EventManager.prototype.removeListener = function( id ) {
-    this.listeners.remove( id );
+  EventManager.prototype.removeListener = function( eventType ) {
+    this.listeners.remove( eventType );
   };
 
   EventManager.getInstance = function() {
