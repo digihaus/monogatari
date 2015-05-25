@@ -1,5 +1,5 @@
 /**
- * Exports {@link module:core/Math~Math|Math}.
+ * Exports the {@link module:core/Math~Math|Math} namespace.
  * @module core/Math
  */
 define(
@@ -34,7 +34,7 @@ define(
     Math.DEGTORAD = 0.0174532925199;
 
     /**
-     * 1.41421356237
+     * 1.41421356237.
      * @constant
      * @memberOf module:core/Math~Math
      * @type {number}
@@ -42,7 +42,7 @@ define(
     Math.SQRT_2 = 1.41421356237;
 
     /**
-     * 3.14159265358979
+     * 3.14159265358979.
      * @constant
      * @memberOf module:core/Math~Math
      * @type {number}
@@ -50,7 +50,7 @@ define(
     Math.PI = 3.14159265358979;
 
     /**
-     * 2 * PI = 6.28318530717958
+     * 2 * PI = 6.28318530717958.
      * @constant
      * @memberOf module:core/Math~Math
      * @type {number}
@@ -58,7 +58,7 @@ define(
     Math.PI_2 = 6.28318530717958;
 
     /**
-     * PI / 180 = 0.0174532925199
+     * PI / 180 = 0.0174532925199.
      * @constant
      * @memberOf module:core/Math~Math
      * @type {number}
@@ -66,7 +66,7 @@ define(
     Math.PI_OVER_180 = 0.0174532925199;
 
     /**
-     * PI / 360 = 0.0087266462599
+     * PI / 360 = 0.0087266462599.
      * @constant
      * @memberOf module:core/Math~Math
      * @type {number}
@@ -74,7 +74,7 @@ define(
     Math.PI_OVER_360 = 0.0087266462599;
 
     /**
-     * 1 degree = PI / 180 = 0.0174532925199
+     * 1 degree = PI / 180 = 0.0174532925199.
      * @constant
      * @memberOf module:core/Math~Math
      * @type {number}
@@ -82,7 +82,7 @@ define(
     Math.ONE_DEGREE = Math.PI_OVER_180;
 
     /**
-     * 1024 kilobytes * 1024 bytes.
+     * 1024 kilobytes * 1024 bytes = 1048576.
      * @memberOf module:core/Math~Math
      * @constant
      * @type {number}
@@ -90,6 +90,8 @@ define(
     Math.ONE_MEGABYTE = 1048576;
 
     /**
+     * Returns THREE.Vector3( 1, 0, 0 ).
+     *
      * @memberOf module:core/Math~Math
      * @returns {THREE.Vector3}
      */
@@ -98,6 +100,8 @@ define(
     };
 
     /**
+     * Returns THREE.Vector3( 0, 1, 0 ).
+     *
      * @memberOf module:core/Math~Math
      * @returns {THREE.Vector3}
      */
@@ -106,6 +110,8 @@ define(
     };
 
     /**
+     * Returns THREE.Vector3( 0, 0, 1 ).
+     *
      * @memberOf module:core/Math~Math
      * @returns {THREE.Vector3}
      */
@@ -114,6 +120,8 @@ define(
     };
 
     /**
+     * Returns THREE.Vector3( 1, 1, 1 ).
+     *
      * @memberOf module:core/Math~Math
      * @returns {THREE.Vector3}
      */
@@ -122,6 +130,8 @@ define(
     };
 
     /**
+     * Returns THREE.Vector3( 0, 0, 0 ).
+     *
      * @memberOf module:core/Math~Math
      * @returns {THREE.Vector3}
      */
@@ -130,6 +140,8 @@ define(
     };
 
     /**
+     * Converts a given angle in degrees to radians.
+     *
      * @memberOf module:core/Math~Math
      * @param {number} a An angle in degrees.
      * @returns {number} Angle converted to radians.
@@ -139,6 +151,8 @@ define(
     };
 
     /**
+     * Converts a given angle in radians to degrees.
+     *
      * @memberOf module:core/Math~Math
      * @param {number} a An angle in radians.
      * @returns {number} Angle converted to degrees.
@@ -148,6 +162,8 @@ define(
     };
 
     /**
+     * Converts a decimal number to a binary String.
+     *
      * @memberOf module:core/Math~Math
      * @param {number} num Decimal number.
      * @returns {string} Number converted to binary string.
@@ -157,6 +173,8 @@ define(
     };
 
     /**
+     * Converts a decimal number to a octal String.
+     *
      * @memberOf module:core/Math~Math
      * @param {number} num Decimal number.
      * @returns {string} Number converted to octal string.
@@ -166,6 +184,8 @@ define(
     };
 
     /**
+     * Converts a decimal number to a hexadecimal String.
+     *
      * @memberOf module:core/Math~Math
      * @param {number} num Decimal number
      * @returns {string} Number converted to hex string.
@@ -175,6 +195,8 @@ define(
     };
 
     /**
+     * Converts a binary String to a decimal number.
+     *
      * @memberOf module:core/Math~Math
      * @param {string} num Binary string.
      * @returns {number} Binary string converted to decimal.
@@ -184,6 +206,8 @@ define(
     };
 
     /**
+     * Converts a octal String to a decimal number.
+     *
      * @memberOf module:core/Math~Math
      * @param {string} num Octal string.
      * @returns {number} Binary string converted to decimal.
@@ -193,6 +217,8 @@ define(
     };
 
     /**
+     * Converts a hexadecimal String to a decimal number.
+     *
      * @memberOf module:core/Math~Math
      * @param {string} num Hex string.
      * @returns {number} Binary string converted to decimal.
@@ -202,6 +228,8 @@ define(
     };
 
     /**
+     * Rounds the given number to the nearest multiple.
+     *
      * @memberOf module:core/Math~Math
      * @param {number} numToRound
      * @param {number} multiple

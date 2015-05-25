@@ -1,6 +1,20 @@
+/**
+ * Exports the {@link module:core/GameObject~GameObject|GameObject} class.
+ * @module core/GameObject
+ */
 define(
   [ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'lib/Three' ], function( Common, Timer, Map, Base, _Three ) {
 
+    /**
+     * The Game Object
+     *
+     * @param id
+     * @param update
+     * @param position
+     * @param rotation
+     * @param scale
+     * @class GameObject
+     */
     var GameObject = function( id, update, position, rotation, scale ) {
       this.uid = Common.createUniqueId();
       this.id = id || this.uid;
