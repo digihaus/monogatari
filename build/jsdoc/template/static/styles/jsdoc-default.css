@@ -330,11 +330,11 @@ h6 {
 }
 
 .params td, .params th, .props td, .props th {
-    border: 1px solid #ddd;
-    margin: 0px;
+
+    margin: 0;
     text-align: left;
     vertical-align: top;
-    padding: 0px 0px 0px 4px;
+    padding: 4px 0 0 0;
     display: table-cell;
 }
 
@@ -403,4 +403,24 @@ article ul {
     font-size: 12px;
     list-style-position: inside;
     list-style-type: square;
+}
+
+.params {
+    font-size: 12px;
+}
+
+.params .name > code {
+    background-color: whitesmoke;
+    border: 1px solid whitesmoke;
+    border-radius: 4px;
+    padding: 0 2px 0 2px;
+    color: gray;
+}
+
+.params .type {
+    color: darkgrey;
+}
+
+.params .name, .params .type {
+    width: 100px;
 }
