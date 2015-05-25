@@ -19,11 +19,11 @@
 
     m.physicsManager.createWorld( new THREE.Vector2( 0, 10 ), true );
 
-    // knight
-    var knight = new m.GameObject( 'zombie1' );
+    // zombie1
+    var zombie = new m.GameObject( 'zombie1' );
     var rb1 = new m.RigidBody( 50 );
 
-    rb1.setType( m.RigidBody.DYNAMIC );
+    rb1.setType( rb1.DYNAMIC );
     rb1.setDensity( 1 );
     rb1.setFriction( 0 );
     rb1.setBounciness( 1 );
@@ -36,37 +36,37 @@
     var sprite = new m.Sprite( 'assets/zombies.png', 64, 64, 1, 3 );
     sprite.getMaterial().transparent = true;
 
-    knight.addComponent( sprite );
-    knight.addComponent( rb1 );
+    zombie.addComponent( sprite );
+    zombie.addComponent( rb1 );
 
-    m.sceneManager.attachToScene( knight );
-    m.world.children.push( knight );
+    m.sceneManager.attachToScene( zombie );
+    m.world.children.push( zombie );
 
-    //ball1
-    var ball = new m.GameObject( 'zombie2' );
+    // zombie2
+    var zombie2 = new m.GameObject( 'zombie2' );
     var rb2 = new m.RigidBody( 50 );
 
-    rb2.setType( m.RigidBody.DYNAMIC );
+    rb2.setType( rb2.DYNAMIC );
     rb2.setDensity( 1 );
     rb2.setFriction( 0 );
     rb2.setBounciness( 1 );
-    rb2.setPosition( new THREE.Vector2( 2, 0.5 ) );
+    rb2.setPosition( new THREE.Vector2( 2.7, 0.5 ) );
 
     rb2.body = m.physicsManager.attachToWorld( rb2.bodyDef );
     rb2.body.CreateFixture( rb2.materialDef );
     rb2.body.SetUserData( { id : 'zombie2' } );
 
-    ball.addComponent( new m.Sprite( 'assets/zombies.png', 64, 64, 1, 3 ) );
-    ball.addComponent( rb2 );
+    zombie2.addComponent( new m.Sprite( 'assets/zombies.png', 64, 64, 1, 3 ) );
+    zombie2.addComponent( rb2 );
 
-    m.sceneManager.attachToScene( ball );
-    m.world.children.push( ball );
+    m.sceneManager.attachToScene( zombie2 );
+    m.world.children.push( zombie2 );
 
-    //ball2
-    var ball2 = new m.GameObject( 'zombie3' );
+    //zombie3
+    var zombie3 = new m.GameObject( 'zombie3' );
     var rb3 = new m.RigidBody( 50 );
 
-    rb3.setType( m.RigidBody.DYNAMIC );
+    rb3.setType( rb3.DYNAMIC );
     rb3.setDensity( 1 );
     rb3.setFriction( 0 );
     rb3.setBounciness( 1 );
@@ -76,16 +76,16 @@
     rb3.body.CreateFixture( rb3.materialDef );
     rb3.body.SetUserData( { id : 'zombie3' } );
 
-    ball2.addComponent( new m.Sprite( 'assets/zombies.png', 64, 64, 1, 3 ) );
-    ball2.addComponent( rb3 );
+    zombie3.addComponent( new m.Sprite( 'assets/zombies.png', 64, 64, 1, 3 ) );
+    zombie3.addComponent( rb3 );
 
-    m.sceneManager.attachToScene( ball2 );
-    m.world.children.push( ball2 );
+    m.sceneManager.attachToScene( zombie3 );
+    m.world.children.push( zombie3 );
 
     // ground
     var groundBodyDef = new Box2D.b2BodyDef();
 
-    groundBodyDef.set_type( Box2D.b2Body.b2_staticBody );
+    groundBodyDef.set_type( Box2D.b2_staticBody );
     groundBodyDef.get_position().Set( 0, 10 );
 
     var groundBody = m.physicsManager.attachToWorld( groundBodyDef );
@@ -95,19 +95,16 @@
     groundfixDef.set_friction( 0.5 );
     groundfixDef.set_restitution( 0.0 );
 
-    groundfixDef.set_shape( new Box2D.b2EdgeShape( 100, 0.5 ) );
+    var shape = new Box2D.b2PolygonShape();
+    shape.SetAsBox(100, 0.5);
+    groundfixDef.set_shape( shape );
 
     groundBody.CreateFixture( groundfixDef );
-
-    var boxBodyDef = new Box2D.b2BodyDef();
-
-    boxBodyDef.set_type( Box2D.b2Body.b2_dynamicBody );
-    boxBodyDef.get_position().Set( 10, 0 );
 
     // left wall
     var lWallBodyDef = new Box2D.b2BodyDef();
 
-    lWallBodyDef.set_type( Box2D.b2Body.b2_staticBody );
+    lWallBodyDef.set_type( Box2D.b2_staticBody );
     lWallBodyDef.get_position().Set( 0, 0 );
 
     var lWallBody = m.physicsManager.attachToWorld( lWallBodyDef );
@@ -117,14 +114,16 @@
     lWallFixDef.set_friction( 0.5 );
     lWallFixDef.set_restitution( 0.0 );
 
-    lWallFixDef.set_shape( new Box2D.b2EdgeShape( 0.5, 100 ) );
+    shape = new Box2D.b2PolygonShape();
+    shape.SetAsBox(0.5, 100);
+    lWallFixDef.set_shape( shape );
 
     lWallBody.CreateFixture( lWallFixDef );
 
     // right wall
     var rWallBodyDef = new Box2D.b2BodyDef();
 
-    rWallBodyDef.set_type( Box2D.b2Body.b2_staticBody );
+    rWallBodyDef.set_type( Box2D.b2_staticBody );
     rWallBodyDef.get_position().Set( 10, 0 );
 
     var rWallBody = m.physicsManager.attachToWorld( rWallBodyDef );
@@ -134,7 +133,9 @@
     rWallFixDef.set_friction( 0.5 );
     rWallFixDef.set_restitution( 0.0 );
 
-    rWallFixDef.set_shape( new Box2D.b2EdgeShape( 0.5, 100 ) );
+    shape = new Box2D.b2PolygonShape();
+    shape.SetAsBox(0.5, 100);
+    rWallFixDef.set_shape( shape );
 
     rWallBody.CreateFixture( rWallFixDef );
 

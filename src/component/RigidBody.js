@@ -23,14 +23,16 @@ define(
 
       this.conversionFactor = ( conversionFactor ) ? conversionFactor : 1;
 
-      this.materialDef.set_shape( new Box2D.b2CircleShape( 0.5 ) );
+      var shape =  new Box2D.b2CircleShape();
+      shape.set_m_radius( 0.5 );
+      this.materialDef.set_shape( shape );
     };
 
     RigidBody.prototype = Object.create( Base.prototype );
 
-    RigidBody.STATIC = 1;
-    RigidBody.KINEMATIC = 2;
-    RigidBody.DYNAMIC = 3;
+    RigidBody.prototype.STATIC = 1;
+    RigidBody.prototype.KINEMATIC = 2;
+    RigidBody.prototype.DYNAMIC = 3;
 
     /**
      * @param {number} density In kg/m^2.
@@ -91,17 +93,17 @@ define(
 
     RigidBody.prototype.setType = function( type ) {
       switch( type ) {
-        case RigidBody.STATIC:
-          this.bodyDef.set_type( Box2D.b2Body.b2_staticBody );
+        case this.STATIC:
+          this.bodyDef.set_type( Box2D.b2_staticBody );
           break;
-        case RigidBody.KINEMATIC:
-          this.bodyDef.set_type( Box2D.b2Body.b2_kinematicBody );
+        case this.KINEMATIC:
+          this.bodyDef.set_type( Box2D.b2_kinematicBody );
           break;
-        case RigidBody.DYNAMIC:
-          this.bodyDef.set_type( Box2D.b2Body.b2_dynamicBody );
+        case this.DYNAMIC:
+          this.bodyDef.set_type( Box2D.b2_dynamicBody );
           break;
         default:
-          this.bodyDef.set_type( Box2D.b2Body.b2_staticBody );
+          this.bodyDef.set_type( Box2D.b2_staticBody );
           break;
       }
     };

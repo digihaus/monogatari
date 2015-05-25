@@ -52,7 +52,7 @@ define( [ 'manager/EventManager', 'lib/Box2d', 'core/Timer' ], function( EventMa
 
   PhysicsManager.prototype.update = function() {
     if ( this.world ) {
-      var fps = Timer.fps
+      var fps = Timer.fps;
 
       // Frame rate at which to update physics ( 1 / FPS or 1.0 / 60.0 )
       var physicsFrameRate = ( fps ) ? 1 / fps : Timer.FRAME_RATE_60FPS;
