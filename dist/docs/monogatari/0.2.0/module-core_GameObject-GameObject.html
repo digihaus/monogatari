@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    The Game Object
+    The main build block of the engine. Create the game classes by inheriting from the Game Object.For quick creation of GOs, it is also possible to use composition.
 </div>
 
 
@@ -94,13 +94,18 @@
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Identifier. Not mandatory, but recommended</td>
         </tr>
 
     
@@ -112,13 +117,18 @@
 
             <td class="type">
             
+                
+<span class="param-type">function</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The object logic</td>
         </tr>
 
     
@@ -130,13 +140,18 @@
 
             <td class="type">
             
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Initial position</td>
         </tr>
 
     
@@ -148,13 +163,18 @@
 
             <td class="type">
             
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Initial rotation</td>
         </tr>
 
     
@@ -166,13 +186,18 @@
 
             <td class="type">
             
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Initial scale</td>
         </tr>
 
     
@@ -238,6 +263,11 @@
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Compositionvar myGO = new m.GameObject( myGOId, myGOUpdateFunction );// Inheritancevar MyGOClass = function( id ) { m.GameObject.call( this, id );};MyGOClass.prototype = Object.create( m.GameObject.prototype );MyGOClass.prototype.update = function() { ... };</code></pre>
+
+
 
     
     </div>
@@ -280,7 +310,7 @@
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> | Mon May 25 2015 15:12:34 GMT-0300 (Hora oficial do Brasil)
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> | Mon May 25 2015 16:13:57 GMT-0300 (Hora oficial do Brasil)
     </footer>
 </div>
 

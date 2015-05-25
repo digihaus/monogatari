@@ -78,6 +78,7 @@ article dl {
 article dt {
     float: left;
 }
+
 article dd {
 
 }
@@ -255,7 +256,7 @@ h6 {
 }
 
 .description {
-
+    padding: 10px 0 10px 0;
 }
 
 .code-caption {
@@ -268,6 +269,8 @@ h6 {
     border: 1px solid #ddd;
     width: 80%;
     overflow: auto;
+    color: lightgray;
+    font-size: 12px;
 }
 
 .prettyprint.source {
@@ -278,7 +281,7 @@ h6 {
     font-size: 100%;
     line-height: 18px;
     display: block;
-    padding: 0px 12px;
+    padding: 8px 8px;
     margin: 0;
     background-color: #fff;
     color: #4D4E53;
@@ -354,7 +357,7 @@ h6 {
 }
 
 .params thead .last, .props thead .last {
-    border-right: 1px solid #ddd;
+
 }
 
 .params td.description > p:first-child,
@@ -375,6 +378,7 @@ h6 {
 
 h4.name {
     margin-top: 20px;
+    margin-bottom: 10px;
     padding: 2px;
     background-color: #EEEEEE;
     font-weight: normal;
@@ -427,6 +431,6 @@ article ul {
     width: 100px;
 }
 
-#mainpage > h1,h2,h3,h4,h5 {
+#mainpage > h1, h2, h3, h4, h5 {
     margin: 10px 0 0 0;
 }

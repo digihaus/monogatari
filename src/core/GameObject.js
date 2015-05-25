@@ -6,13 +6,25 @@ define(
   [ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'lib/Three' ], function( Common, Timer, Map, Base, _Three ) {
 
     /**
-     * The Game Object
+     * The main build block of the engine. Create the game classes by inheriting from the Game Object.
+     * For quick creation of GOs, it is also possible to use composition.
      *
-     * @param id
-     * @param update
-     * @param position
-     * @param rotation
-     * @param scale
+     * @example
+     * // Composition
+     * var myGO = new m.GameObject( myGOId, myGOUpdateFunction );
+     *
+     * // Inheritance
+     * var MyGOClass = function( id ) {
+     *  m.GameObject.call( this, id );
+     * };
+     * MyGOClass.prototype = Object.create( m.GameObject.prototype );
+     * MyGOClass.prototype.update = function() { ... };
+
+     * @param {String} id Identifier. Not mandatory, but recommended
+     * @param {function} update The object logic
+     * @param {THREE.Vector3} position Initial position
+     * @param {THREE.Vector3} rotation Initial rotation
+     * @param {THREE.Vector3} scale Initial scale
      * @class GameObject
      */
     var GameObject = function( id, update, position, rotation, scale ) {
