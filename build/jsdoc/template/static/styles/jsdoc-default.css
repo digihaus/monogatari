@@ -69,11 +69,21 @@ tt, code, kbd, samp {
 }
 
 article dl {
-    margin-bottom: 40px;
+    margin: 4px 0 0 0;
+    height: 100%;
+    font-size: 12px;
+    font-family: "Consolas", "Menlo", "Courier", monospace;
+}
+
+article dt {
+    float: left;
+}
+article dd {
+
 }
 
 section {
-    border-bottom: 1px solid #ccc;
+
 }
 
 .variation {
@@ -95,6 +105,7 @@ nav {
     border-right: 1px solid #ccc;
     padding: 15px;
     background-color: #f0f0f0;
+    overflow-y: auto;
 }
 
 nav ul {
@@ -120,8 +131,11 @@ nav h3 {
 }
 
 footer {
-    padding: 6px;
-    font-size: 80%;
+    border-top: 1px solid #ccc;
+    margin-top: 40px;
+    padding-top: 4px;
+    padding-left: 1px;
+    font-size: 10px;
 }
 
 h1, h2, h3, h4 {
@@ -145,13 +159,25 @@ h4 {
     letter-spacing: -0.33px;
     margin-bottom: 12px;
     color: #4d4e53;
+    font-weight: bold;
 }
 
-h5, .container-overview .subsection-title {
+h5 {
+    letter-spacing: -0.01em;
+    margin: 16px 0 4px 0;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.container-overview {
+    margin-bottom: 30px;
+}
+
+.container-overview .subsection-title {
     font-size: 120%;
     font-weight: bold;
     letter-spacing: -0.01em;
-    margin: 8px 0 3px 0;
+    margin: 10px 0 0 0;
 }
 
 h6 {
@@ -192,7 +218,7 @@ h6 {
 }
 
 .details {
-    margin-top: 14px;
+    margin: 8px 0 0 0;
     font-size: 12px;
 }
 
@@ -208,6 +234,7 @@ h6 {
 
 .details ul {
     margin: 0;
+    padding: 0;
 }
 
 .details ul {
@@ -304,11 +331,11 @@ h6 {
 }
 
 .params td, .params th, .props td, .props th {
-    border: 1px solid #ddd;
-    margin: 0px;
+
+    margin: 0;
     text-align: left;
     vertical-align: top;
-    padding: 0px 0px 0px 4px;
+    padding: 4px 0 0 0;
     display: table-cell;
 }
 
@@ -347,8 +374,10 @@ h6 {
 }
 
 h4.name {
+    margin-top: 20px;
     padding: 2px;
     background-color: #EEEEEE;
+    font-weight: normal;
 }
 
 header h2 {
@@ -361,11 +390,39 @@ header h2 {
 h3.subsection-title {
     font-weight: normal;
     text-transform: uppercase;
-    margin-bottom: 25px;
+    margin: 20px 0 10px 0;
     border-bottom: 1px solid lightgray;
 }
 
 nav h2 {
     font-weight: normal;
     text-transform: uppercase;
+}
+
+article ul {
+    margin: 0;
+    padding: 0 0 0 30px;
+    font-size: 12px;
+    list-style-position: inside;
+    list-style-type: square;
+}
+
+.params {
+    font-size: 12px;
+}
+
+.params .name > code {
+    background-color: whitesmoke;
+    border: 1px solid whitesmoke;
+    border-radius: 4px;
+    padding: 0 2px 0 2px;
+    color: gray;
+}
+
+.params .type {
+    color: darkgrey;
+}
+
+.params .name, .params .type {
+    width: 100px;
 }

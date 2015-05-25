@@ -14,18 +14,21 @@ define(
        * Current time.
        * @memberOf module:core/Timer~Timer
        * @type {number}
+       * @name time
        */
       this.time = 0;
 
       /**
        * @memberOf module:core/Timer~Timer
        * @type {number}
+       * @name lastTime
        */
       this.lastTime = 0;
 
       /**
        * @memberOf module:core/Timer~Timer
        * @type {number}
+       * @name lastFrameTime
        */
       this.lastFrameTime = 0;
 
@@ -33,28 +36,32 @@ define(
        * Tick counter.
        * @memberOf module:core/Timer~Timer
        * @type {number}
+       * @name frameTicks
        */
       this.frameTicks = 0;
 
       /**
-       * Current frames per second, calculated by {@link Timer.tick}.
+       * Current frames per second, calculated by Timer.tick().
+       *
        * @memberOf module:core/Timer~Timer
        * @type {number}
+       * @name fps
        */
       this.fps = 60;
     };
 
     /**
+     * 1second / 60frames = 0.016666666667
+     *
      * @constant
      * @memberOf module:core/Timer~Timer
      * @type {number}
-     * @default
      */
     Timer.FRAME_RATE_60FPS = 0.016666666667; // 1.0 second / 60.0 frames
 
     /**
      * Calculates the rate of frames per second the engine is running.
-     * Is called on each cycle of engine update.
+     * It is called on each cycle of engine update.
      * @memberOf module:core/Timer~Timer
      */
     Timer.prototype.tick = function() {
@@ -81,17 +88,12 @@ define(
       this.frameTicks++;
     };
 
-    /**
-     * {@link Timer} instance.
-     * @memberOf module:core/Timer
-     * @type {Timer}
-     */
     var instance = null;
 
     /**
-     * Gets a singleton instance of {@link Timer}.
+     * Gets the singleton instance of {@link module:core/Timer~Timer|Timer}.
      * @memberOf module:core/Timer
-     * @returns {Timer}
+     * @returns module:core/Timer~Timer|Timer
      */
     function getInstance() {
       if( instance === null ) {
