@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unit Tests</title>
+  <script src="../../lib/Require.js"></script>
+  <script>
+    require.config(
+        {
+          baseUrl: '../../src',
+          paths: {
+            lib: '../lib',
+            local: '../test/unit'
+          }
+        }
+    );
+  </script>
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.18.0.css">
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<script src="unit_collection.js"></script>
+<!--
+<script src="unit_core.js"></script>
+<script src="unit_component.js"></script>
+<script src="unit_input.js"></script>
+<script src="unit_manager.js"></script>
+-->
+</body>
+</html>

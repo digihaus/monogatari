@@ -66,6 +66,14 @@ module.exports = function( grunt ) {
             base: '../'
           }
         }
+      },
+
+      qunit: {
+        all: {
+          options: {
+            urls: [ 'http://localhost:9000/test/unit/test-runner.html' ]
+          }
+        }
       }
     }
   );
@@ -75,8 +83,9 @@ module.exports = function( grunt ) {
   grunt.loadNpmTasks( 'grunt-jsdoc' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-contrib-connect' );
+  grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 
   grunt.registerTask( 'default', [ 'clean:all', 'requirejs', 'jsdoc' ] );
   grunt.registerTask( 'live', [ 'connect', 'watch:source' ] );
-  grunt.registerTask( 'watchdocs', [ 'watch:docs' ] );
+  grunt.registerTask( 'test', [ 'connect', 'qunit' ] );
 };
