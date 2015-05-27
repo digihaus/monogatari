@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unit Tests</title>
+  <link href="vendor/qunit-1.18.0.css" rel="stylesheet">
+  <script src="vendor/qunit-1.18.0.js"></script>
+  <script>
+    QUnit.config.autostart = false;
+  </script>
+  <script src="../../dist/monogatari.js"></script>
+  <script src="unit_collection.js"></script>
+  <script src="unit_component.js"></script>
+  <script>
+    requirejs.config(
+        {
+          paths: {
+            qunit: 'vendor/qunit-1.18.0'
+          }
+        }
+    );
+    require(
+        [ 'Monogatari' ], function( m ) {
+          window.m = m;
+          QUnit.load();
+          QUnit.start();
+        }
+    );
+  </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+</body>
+</html>

@@ -13,26 +13,28 @@ module.exports = function( grunt ) {
             },
             name: 'Monogatari',
             preserveLicenseComments: false,
-            optimize: 'uglify2',
+            optimize: 'none',
             include: [ 'requireLib' ],
-            out: '../dist/monogatari.min.js'
+            out: '../dist/monogatari.js'
+          }
+        }
+      },
+
+      uglify: {
+        main: {
+          files: {
+            '../dist/monogatari.min.js': [ '../dist/monogatari.js' ]
           }
         }
       },
 
       clean: {
-        all: {
-          src: [ '../dist/*' ],
-          options: {
-            force: true
-          }
+        options: {
+          force: true
         },
-        docs: {
-          src: [ '../dist/docs/*' ],
-          options: {
-            force: true
-          }
-        }
+        all: { src: [ '../dist/*' ] },
+        build: { src: [ '../dist/*.js' ] },
+        docs: { src: [ '../dist/docs/*' ] }
       },
 
       jsdoc: {
@@ -41,7 +43,6 @@ module.exports = function( grunt ) {
           options: {
             destination: '../dist/docs',
             readme: '../README.md',
-            package: 'package.json',
             template: 'jsdoc/template',
             configure: 'jsdoc/conf.json'
           }
@@ -71,7 +72,7 @@ module.exports = function( grunt ) {
       qunit: {
         all: {
           options: {
-            urls: [ 'http://localhost:9000/test/unit/test-runner.html' ]
+            urls: [ 'http://localhost:9000/test/unit/runtests.html' ]
           }
         }
       }
@@ -79,12 +80,13 @@ module.exports = function( grunt ) {
   );
 
   grunt.loadNpmTasks( 'grunt-contrib-requirejs' );
+  grunt.loadNpmTasks( 'grunt-contrib-uglify' );
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
   grunt.loadNpmTasks( 'grunt-jsdoc' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-contrib-connect' );
   grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 
-  grunt.registerTask( 'default', [ 'connect', 'qunit', 'clean:all', 'requirejs', 'jsdoc' ] );
+  grunt.registerTask( 'default', [ 'clean:build', 'requirejs:compile' ] );
   grunt.registerTask( 'test', [ 'connect', 'qunit' ] );
 };
