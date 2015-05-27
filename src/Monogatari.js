@@ -20,6 +20,7 @@ define(
     'component/StaticText',
     'collection/List',
     'collection/Map',
+    'collection/LinkedList',
     'util/ArrayUtils',
     'util/CommonUtils',
     'util/StringUtils'
@@ -41,6 +42,7 @@ define(
     StaticText,
     List,
     Map,
+    LinkedList,
     ArrayUtils,
     CommonUtils,
     StringUtils
@@ -128,6 +130,7 @@ define(
       // Collection Classes
       this.List = List;
       this.Map = Map;
+      this.LinkedList = LinkedList;
 
       // Component Classes
       this.Audio = Audio;

@@ -1,37 +1,27 @@
-define( [ 'collection/LinkedList' ], function( LinkedList ) {
+define(
+  [ 'core/Message', 'collection/LinkedList' ], function( Message, LinkedList ) {
 
-  var instance = null;
+    var instance = null;
 
-  var MonogatariEvent = function( type, handler ) {
-    this.type = type;
-    this.handler = handler;
-  };
+    var MessageManager = function() {
+      this.messages = new LinkedList();
+    };
 
-  var MonogatariMessage = function( from, to, type, message ) {
-    this.from = from;
-    this.to = to;
-    this.type = type;
-    this.message = message;
-  };
+    MessageManager.prototype.register = function( message ) {
+      this.messages.put( message );
+    };
 
-  var MessageManager = function() {
-    this.messages = new LinkedList();
-  };
+    MessageManager.prototype.send = function() {
 
-  MessageManager.prototype.register = function( message ) {
-    this.messages.put( message );
-  };
+    };
 
-  MessageManager.prototype.send = function() {
+    MessageManager.getInstance = function() {
+      if( instance === null ) {
+        instance = new MessageManager();
+      }
+      return instance;
+    };
 
-  };
-
-  MessageManager.getInstance = function() {
-    if ( instance === null ) {
-      instance = new MessageManager();
-    }
-    return instance;
-  };
-
-  return MessageManager.getInstance();
-} );
+    return MessageManager.getInstance();
+  }
+);
