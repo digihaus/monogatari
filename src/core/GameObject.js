@@ -3,7 +3,17 @@
  * @module core/GameObject
  */
 define(
-  [ 'core/Common', 'core/Timer', 'collection/Map', 'component/Base', 'lib/Three' ], function( Common, Timer, Map, Base, _Three ) {
+  [
+    'core/Common',
+    'core/Timer',
+    'core/Message',
+    'collection/Map',
+    'collection/LinkedList',
+    'component/Base',
+    'manager/MessageManager',
+    'lib/Three'
+  ],
+  function( Common, Timer, Message, Map, LinkedList, Base, MessageManager, _Three ) {
 
     /**
      * The main build block of the engine. Create the game classes by inheriting from the Game Object.
@@ -103,6 +113,14 @@ define(
       this.componentsIt = this.components.iterator();
 
       /**
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {LinkedList}
+       * @name messages
+       */
+      this.messages = new LinkedList();
+
+      /**
        * List of Game Objects that are children of this.
        * @memberOf module:core/GameObject~GameObject
        * @instance
@@ -152,6 +170,10 @@ define(
         this.updateComponents();
       }
       this.lastUpdate = Timer.time;
+    };
+
+    GameObject.prototype.sendMessage = function( to, type, message ) {
+      MessageManager.register( new Message( this.id, to, type, message ) );
     };
 
     GameObject.prototype.getEulerRotation = function() {

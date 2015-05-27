@@ -53,6 +53,10 @@ define(
       this._size++;
     };
 
+    LinkedList.prototype.pop = function() {
+      return this.remove( this._length - 1 );
+    };
+
     LinkedList.prototype.contains = function( value ) {
       if( value ) {
         var node = this._head, i = 0;

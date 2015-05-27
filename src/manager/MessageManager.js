@@ -15,6 +15,10 @@ define(
 
     };
 
+    MessageManager.prototype.update = function(){
+
+    };
+
     MessageManager.getInstance = function() {
       if( instance === null ) {
         instance = new MessageManager();
