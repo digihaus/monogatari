@@ -257,12 +257,20 @@ define(
 
     // find and return reference to the Game Object with the given id
     GameObject.prototype.find = function( id ) {
+      var go;
+
       if( this.id === id ) {
         return this;
       }
+
       for( var i = 0, len = this.children.length; i < len; i++ ) {
-        return this.children[ i ].find( id );
+        go = this.children[ i ].find( id );
+        if( go ) {
+          return go;
+        }
       }
+
+      return null;
     };
 
     GameObject.prototype.equals = function( go ) {

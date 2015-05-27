@@ -41,8 +41,8 @@ define( function() {
   };
 
   CommonUtils.prototype.isGameObject = function( object ) {
-    return ( object && object.id && object.equals instanceof Function && object.update instanceof Function ) ? true : false;
+    return ( object && object.id && object.equals instanceof Function && object.update instanceof Function );
   };
 
-  return new CommonUtils(); 
+  return new CommonUtils();
 } );
