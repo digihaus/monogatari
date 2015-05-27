@@ -1,5 +1,5 @@
 define(
-  [ 'core/Message', 'collection/LinkedList' ], function( Message, LinkedList ) {
+  [ 'core/World', 'core/Message', 'collection/LinkedList' ], function( World, Message, LinkedList ) {
 
     var instance = null;
 
