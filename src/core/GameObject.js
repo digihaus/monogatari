@@ -233,6 +233,16 @@ define(
       }
     };
 
+    // find and return reference to the Game Object with the given id
+    GameObject.prototype.find = function( id ) {
+      if( this.id === id ) {
+        return this;
+      }
+      for( var i = 0, len = this.children.length; i < len; i++ ) {
+        return this.children[ i ].find( id );
+      }
+    };
+
     GameObject.prototype.equals = function( go ) {
       return ( go.id === this.id );
     };

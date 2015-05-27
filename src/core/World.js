@@ -14,14 +14,14 @@ define(
        *  myParentGO.children.push( myGO );
        *  world.children.push( myParentGO );
        *
-       * @memberOf Monogatari
+       * @memberOf World
        * @type {GameObject}
        * @name world
        */
       this.gameObject = new GameObject( 'world' );
     };
 
-    MessageManager.getInstance = function() {
+    World.getInstance = function() {
       if( instance === null ) {
         instance = new World();
       }
