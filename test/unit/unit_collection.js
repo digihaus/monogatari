@@ -1,11 +1,5 @@
 require(
-  [ 'collection/List', 'local/qunit', 'local/es5-shim' ], function( List, _QUnit, _es5shim ) {
-
-    console.log( 'module' );
-
-    QUnit.load();
-    QUnit.start();
-
+  [ 'collection/List' ], function( List ) {
     QUnit.test(
       'collection/List', function( assert ) {
         var list = new List();
@@ -14,9 +8,6 @@ require(
         list.put( 'C' );
         list.put( 'D' );
         list.put( 'E' );
-
-        console.log( 'test' );
-
         assert.ok( list.size() === 5, 'List size after insert passed.' );
         assert.ok( list.get( 2 ) === 'C', 'List put/get passed.' );
         var iter = list.iterator();
@@ -25,35 +16,40 @@ require(
         assert.ok( list.isEmpty(), 'List clear/isEmpty passed.' );
       }
     );
-
   }
 );
 
-/*
 require(
   [ 'collection/Map' ], function( Map ) {
-    var m = new Map();
-    m.put( 'bolovo', 'oromio' );
-    assert( m.get( 'bolovo' ) == 'oromio', 'Map put/get', 'collection', m );
-    assert( m.get( 'test' ) == undefined, 'Map get undefined', 'collection' );
+    QUnit.test(
+      'collection/Map', function( assert ) {
+        var m = new Map();
+        m.put( 'bolovo', 'oromio' );
+        assert.ok( m.get( 'bolovo' ) == 'oromio', 'Map put/get passed.' );
+        assert.ok( m.get( 'test' ) == undefined, 'Map get undefined passed.' );
+      }
+    );
   }
 );
 
 require(
   [ 'collection/Tree' ], function( Tree ) {
-    var tree = new Tree();
-    var elem0_1 = 'elem0_1';
-    var elem0_2 = 'elem0_2';
-    var elem1_1 = 'elem1_1';
-    tree.put( elem0_1 );
-    tree.put( elem0_2 );
-    tree.put( elem1_1, elem0_1 );
-    assert( tree, 'Tree created', 'collection/Tree', tree );
-    var descendants = tree.listDescendants( elem0_1 );
-    assert( descendants.length == 1, 'Tree descendants', 'collection/Tree', descendants );
-    tree.remove( elem1_1 );
-    descendants = tree.listDescendants( elem0_1 );
-    assert( descendants.length == 0, 'Tree remove', 'collection/Tree', descendants );
+    QUnit.test(
+      'collection/Tree', function( assert ) {
+        var tree = new Tree();
+        var elem0_1 = 'elem0_1';
+        var elem0_2 = 'elem0_2';
+        var elem1_1 = 'elem1_1';
+        tree.put( elem0_1 );
+        tree.put( elem0_2 );
+        tree.put( elem1_1, elem0_1 );
+        assert.ok( tree, 'Tree creation passed.' );
+        var descendants = tree.listDescendants( elem0_1 );
+        assert.ok( descendants.length == 1, 'Tree descendants listing passed.' );
+        tree.remove( elem1_1 );
+        descendants = tree.listDescendants( elem0_1 );
+        assert.ok( descendants.length == 0, 'Tree remove element passed.' );
+      }
+    );
   }
 );
-*/
