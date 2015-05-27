@@ -13,10 +13,7 @@ define(
     };
 
     Message.prototype.equals = function( other ) {
-      if( this.from === other.from && this.to === other.to && this.type === other.type && this.timestamp === other.timestamp ) {
-        return true;
-      }
-      return false;
+      return ( this.from === other.from && this.to === other.to && this.type === other.type && this.timestamp === other.timestamp );
     };
 
     return Message;

@@ -15,7 +15,7 @@ define(
 
     };
 
-    MessageManager.prototype.update = function(){
+    MessageManager.prototype.update = function() {
 
     };
 

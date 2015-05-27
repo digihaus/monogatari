@@ -68,7 +68,6 @@ define(
 
       } else {
         console.log( 'Scene not found:' + sceneId );
-        return;
       }
     };
 

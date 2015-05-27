@@ -8,8 +8,8 @@ define( [ 'util/ArrayUtils' ], function( _ArrayUtils ) {
 
   /**
   * @description Substring from left to right
-  * @param String str = source text
-  * @param int n = how many characters will be returned
+  * @param {String} str = source text
+  * @param {int} n = how many characters will be returned
   * @return String
   * @public
   */
@@ -25,8 +25,8 @@ define( [ 'util/ArrayUtils' ], function( _ArrayUtils ) {
 
   /**
   * @description Substring from right to left
-  * @param String str = source text
-  * @param int n = how many characters will be returned
+  * @param {String} str = source text
+  * @param {int} n = how many characters will be returned
   * @return String
   * @public
   */
@@ -124,7 +124,7 @@ define( [ 'util/ArrayUtils' ], function( _ArrayUtils ) {
   /**
   * @from PlayCanvas.string.format
   * @description Return a string with {n} replaced with the n-th argument
-  * @param {String} s The string to format
+  * @param {String} str The string to format
   * @param {Object} [arguments] All other arguments are substituted into the string
   * @returns {String} The formatted string
   * @example var s = pc.string.format("Hello {0}", "world"); console.log(s); // Prints "Hello world"
