@@ -85,7 +85,6 @@ module.exports = function( grunt ) {
   grunt.loadNpmTasks( 'grunt-contrib-connect' );
   grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 
-  grunt.registerTask( 'default', [ 'clean:all', 'requirejs', 'jsdoc' ] );
-  grunt.registerTask( 'live', [ 'connect', 'watch:source' ] );
+  grunt.registerTask( 'default', [ 'connect', 'qunit', 'clean:all', 'requirejs', 'jsdoc' ] );
   grunt.registerTask( 'test', [ 'connect', 'qunit' ] );
 };
