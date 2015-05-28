@@ -3,59 +3,63 @@ module.exports = function( grunt ) {
     {
       pkg: grunt.file.readJSON( 'package.json' ),
 
+      signature: '/*!\n' +
+      ' * <%= pkg.name %> <%= pkg.release %>\n' +
+      ' * http://github.com/gemuzon/monogatari\n' +
+      ' * MIT License\n' +
+      ' */\n',
+
       requirejs: {
         compile: {
           options: {
             baseUrl: '../src/',
             paths: {
-              requireLib: '../lib/Require',
-              lib: '../lib'
+              'lib': '../lib',
+              'lib/Box2d': '../lib/box2d',
+              'lib/Three': '../lib/three.min'
             },
+            include: [ 'lib/require' ],
             name: 'Monogatari',
-            preserveLicenseComments: false,
-            optimize: 'uglify2',
-            include: [ 'requireLib' ],
-            out: '../dist/monogatari.min.js'
+            optimize: 'none',
+            wrap: {
+              start: '<%=signature%>'
+            },
+            out: '../dist/monogatari.js'
+          }
+        }
+      },
+
+      uglify: {
+        release: {
+          options: {
+            compress: true,
+            preserveComments: 'none',
+            banner: '<%=signature%>'
+          },
+          files: {
+            '../dist/monogatari.min.js': [ '../dist/monogatari.js' ]
           }
         }
       },
 
       clean: {
-        all: {
-          src: [ '../dist/*' ],
-          options: {
-            force: true
-          }
+        options: {
+          force: true
         },
-        docs: {
-          src: [ '../dist/docs/*' ],
-          options: {
-            force: true
-          }
-        }
+        all: { src: [ '../dist/*' ] },
+        build: { src: [ '../dist/*.js' ] },
+        docs: { src: [ '../dist/docs/*' ] }
       },
 
       jsdoc: {
         dist: {
           src: [ '../src/**/*.js' ],
           options: {
-            destination: '../dist/docs',
+            destination: '../dist/docs/<%=pkg.release%>',
             readme: '../README.md',
-            package: 'package.json',
             template: 'jsdoc/template',
             configure: 'jsdoc/conf.json'
           }
-        }
-      },
-
-      watch: {
-        source: {
-          files: '../src/**/*',
-          tasks: [ 'requirejs' ]
-        },
-        docs: {
-          files: [ '../src/**/*', 'jsdoc/template/**/*', '../README.md' ],
-          tasks: [ 'clean:docs', 'jsdoc' ]
         }
       },
 
@@ -68,23 +72,31 @@ module.exports = function( grunt ) {
         }
       },
 
-      qunit: {
-        all: {
-          options: {
-            urls: [ 'http://localhost:9000/test/unit/test-runner.html' ]
-          }
+      watch: {
+        source: {
+          files: '../src/**/*',
+          tasks: [ 'requirejs:compile' ]
+        },
+        docs: {
+          files: [ '../src/**/*', 'jsdoc/template/**/*', '../README.md' ],
+          tasks: [ 'clean:docs', 'jsdoc' ]
         }
       }
     }
   );
 
   grunt.loadNpmTasks( 'grunt-contrib-requirejs' );
+  grunt.loadNpmTasks( 'grunt-contrib-uglify' );
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
   grunt.loadNpmTasks( 'grunt-jsdoc' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-contrib-connect' );
-  grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 
-  grunt.registerTask( 'default', [ 'connect', 'qunit', 'clean:all', 'requirejs', 'jsdoc' ] );
-  grunt.registerTask( 'test', [ 'connect', 'qunit' ] );
+  grunt.registerTask( 'purge', [ 'clean:all' ] );
+  grunt.registerTask( 'clear', [ 'clean:build' ] );
+  grunt.registerTask( 'compile', [ 'requirejs' ] );
+  grunt.registerTask( 'docs', [ 'clean:docs', 'jsdoc' ] );
+  grunt.registerTask( 'release', [ 'clean:all', 'requirejs', 'uglify', 'jsdoc' ] );
+
+  grunt.registerTask( 'live', [ 'connect', 'watch:source' ] );
 };
