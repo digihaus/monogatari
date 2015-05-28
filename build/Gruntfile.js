@@ -3,48 +3,41 @@ module.exports = function( grunt ) {
     {
       pkg: grunt.file.readJSON( 'package.json' ),
 
+      signature: '/*!\n' +
+      ' * <%= pkg.name %> <%= pkg.release %>\n' +
+      ' * http://github.com/gemuzon/monogatari\n' +
+      ' * MIT License\n' +
+      ' */\n',
+
       requirejs: {
         compile: {
           options: {
             baseUrl: '../src/',
             paths: {
-              lib: '../lib'
+              lib: '../lib',
+              Box2d: '../lib/box2d',
+              Three: '../lib/three'
             },
-            include: [ 'lib/require', 'Monogatari' ],
+            include: [ 'lib/require' ],
             name: 'Monogatari',
             optimize: 'none',
+            wrap: {
+              start: '<%=signature%>'
+            },
             out: '../dist/monogatari.js'
           }
         }
       },
 
       uglify: {
-        options: {
-          preserveComments: 'some',
-          banner: '/*!\n' +
-          ' * <%= pkg.name %> <%= pkg.release %>\n' +
-          ' * http://github.com/gemuzon/monogatari\n' +
-          ' * MIT License\n' +
-          ' */\n'
-        },
-        expanded: {
+        release: {
           options: {
-            beautify: {
-              beautify: true,
-              indent_level: 2
-            },
-            magle: false
+            compress: true,
+            preserveComments: 'none',
+            banner: '<%=signature%>'
           },
           files: {
-            '../dist/monogatari-<%=pkg.release%>.js': [ '../dist/monogatari.js' ]
-          }
-        },
-        minified: {
-          options: {
-            compress: true
-          },
-          files: {
-            '../dist/monogatari-<%=pkg.release%>.min.js': [ '../dist/monogatari.js' ]
+            '../dist/monogatari.min.js': [ '../dist/monogatari.js' ]
           }
         }
       },
@@ -101,9 +94,9 @@ module.exports = function( grunt ) {
 
   grunt.registerTask( 'purge', [ 'clean:all' ] );
   grunt.registerTask( 'clear', [ 'clean:build' ] );
-  grunt.registerTask( 'compile', [ 'requirejs:compile' ] );
+  grunt.registerTask( 'compile', [ 'requirejs' ] );
   grunt.registerTask( 'docs', [ 'clean:docs', 'jsdoc' ] );
-  grunt.registerTask( 'release', [ 'clean:all', 'requirejs:compile', 'uglify:expanded', 'uglify:minified', 'jsdoc' ] );
+  grunt.registerTask( 'release', [ 'clean:all', 'requirejs', 'uglify', 'jsdoc' ] );
 
   grunt.registerTask( 'live', [ 'connect', 'watch:source' ] );
 };
