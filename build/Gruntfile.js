@@ -14,9 +14,9 @@ module.exports = function( grunt ) {
           options: {
             baseUrl: '../src/',
             paths: {
-              lib: '../lib',
-              Box2d: '../lib/box2d',
-              Three: '../lib/three'
+              'lib': '../lib',
+              'lib/Box2d': '../lib/box2d',
+              'lib/Three': '../lib/three.min'
             },
             include: [ 'lib/require' ],
             name: 'Monogatari',
