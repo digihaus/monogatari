@@ -9,14 +9,15 @@
       overflow: hidden;
     }
   </style>
-  <script type="text/javascript" src="../dist/monogatari.min.js"></script>
+  <script src="../resources/vendor/require.js"></script>
+  <script type="text/javascript" src="../../dist/monogatari.js"></script>
   <script>
     require(
         [ 'Monogatari' ], function( m ) {
           m.init();
 
           var go = new m.GameObject( 'cat' );
-          var sprite = new m.Sprite( 'assets/meow.png', 512, 512 );
+          var sprite = new m.Sprite( '../resources/assets/meow.png', 512, 512 );
 
           go.addComponent( sprite );
           go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );

@@ -2,22 +2,16 @@
 <html>
 <head>
   <title>Unit Tests</title>
-  <link href="vendor/qunit-1.18.0.css" rel="stylesheet">
-  <script src="vendor/qunit-1.18.0.js"></script>
+  <link href="../resources/vendor/qunit-1.18.0.css" rel="stylesheet">
+  <script src="../resources/vendor/qunit-1.18.0.js"></script>
   <script>
     QUnit.config.autostart = false;
   </script>
+  <script src="../resources/vendor/require.js"></script>
   <script src="../../dist/monogatari.js"></script>
   <script src="unit_collection.js"></script>
   <script src="unit_component.js"></script>
   <script>
-    requirejs.config(
-        {
-          paths: {
-            qunit: 'vendor/qunit-1.18.0'
-          }
-        }
-    );
     require(
         [ 'Monogatari' ], function( m ) {
           window.m = m;

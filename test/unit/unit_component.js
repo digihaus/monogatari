@@ -1,6 +1,6 @@
 QUnit.test(
   'component/Audio', function( assert ) {
-    var audio = new m.Audio( 'myid', 'assets/invaders.wav' );
+    var audio = new m.Audio( 'myid', '../resources/assets/invaders.wav' );
     assert.ok( audio != null, 'Audio creation' );
     var frames = 0;
 
