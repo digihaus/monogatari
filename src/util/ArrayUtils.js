@@ -129,13 +129,11 @@ define(
     ArrayUtils.prototype.difference = function( arr1, arr2 ) {
       var rest = this.concat.apply( Array.prototype, this.slice.call( arr2, 1 ) );
 
-      var result = this.unique( arr1 ).filter(
+      return this.unique( arr1 ).filter(
         function( value ) {
           return !this.inArray( value, rest );
         }
       );
-
-      return result;
     };
 
     /**
