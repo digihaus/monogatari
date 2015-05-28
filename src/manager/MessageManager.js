@@ -11,8 +11,11 @@ define(
       this.messages.put( message );
     };
 
-    MessageManager.prototype.send = function() {
-
+    MessageManager.prototype.send = function( message ) {
+      var go = World.gameobject.find( message.to );
+      if( go ) {
+        go.messages.put( message );
+      }
     };
 
     MessageManager.prototype.update = function() {
