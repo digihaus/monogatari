@@ -176,6 +176,10 @@ define(
       MessageManager.register( new Message( this.id, to, type, message ) );
     };
 
+    GameObject.prototype.receiveMessage = function(  message ) {
+      this.messages.put( message );
+    };
+
     GameObject.prototype.getEulerRotation = function() {
       var angle = this.rotation.angleTo( this.axis );
       return ( this.rotation.y * this.axis.x > this.rotation.x * this.axis.y ) ? angle : -angle;
