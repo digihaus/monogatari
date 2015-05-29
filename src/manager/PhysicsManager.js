@@ -1,4 +1,4 @@
-define( [ 'manager/EventManager', 'lib/Box2d', 'core/Timer' ], function( EventManager, Box2d, Timer ) {
+define( [ 'lib/Box2d', 'core/Timer' ], function( _Box2d, Timer ) {
 
   var PhysicsManager = function() {
     this.world = null;
@@ -9,7 +9,7 @@ define( [ 'manager/EventManager', 'lib/Box2d', 'core/Timer' ], function( EventMa
 
     // Remove any accumulated forces at every physics update
     this.clearForcesOnUpdate = false;
-  }
+  };
 
   PhysicsManager.prototype.createWorld = function( gravity, allowSleep ) {
     this.world = new Box2D.b2World( new Box2D.b2Vec2( gravity.x, gravity.y ), allowSleep );
@@ -23,29 +23,7 @@ define( [ 'manager/EventManager', 'lib/Box2d', 'core/Timer' ], function( EventMa
   PhysicsManager.prototype.createListener = function() {
     var listener = new Box2D.JSContactListener();
 
-    listener.BeginContact = function( contact ) {
-      // console.log(contact.GetFixtureA().GetBody().GetUserData());
-      EventManager.notify( 'PhysicsManager.beginContact', contact );
-    };
-
-    listener.EndContact = function( contact ) {
-      // console.log(contact.GetFixtureA().GetBody().GetUserData());
-      EventManager.notify( 'PhysicsManager.endContact', contact );
-    };
-
-    // listener.PreSolve = function( contact, oldManifold ) {
-    // EventManager.notify( "box2D_preSolve", {
-    // "contact" : contact,
-    // "oldManifold" : oldManifold
-    // } );
-    // };
-    //
-    // listener.PostSolve = function( contact, impulse ) {
-    // EventManager.notify( "box2D_postSolve", {
-    // "contact" : contact,
-    // "impulse" : impulse
-    // } );
-    // };
+    // TODO: Enviar mensagem pelo MessageManager
 
     this.world.SetContactListener( listener );
   };
