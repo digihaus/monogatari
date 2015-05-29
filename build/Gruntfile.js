@@ -46,7 +46,7 @@ module.exports = function( grunt ) {
         options: {
           force: true
         },
-        all: { src: [ '../dist/*' ] },
+        all: { src: [ '../dist' ] },
         build: { src: [ '../dist/*.js' ] },
         docs: { src: [ '../dist/docs/*' ] }
       },
