@@ -1,5 +1,4 @@
-define(
-  [ 'core/GameObject' ], function( GameObject ) {
+define( function( ) {
 
     var instance = null;
 
@@ -18,7 +17,7 @@ define(
        * @type {GameObject}
        * @name world
        */
-      this.gameObject = new GameObject( 'world' );
+      this.gameObject = null;
     };
 
     World.getInstance = function() {

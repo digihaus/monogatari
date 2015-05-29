@@ -21,6 +21,7 @@ define(
     'component/StaticText',
     'collection/List',
     'collection/Map',
+    'collection/Tree',
     'collection/LinkedList',
     'util/ArrayUtils',
     'util/CommonUtils',
@@ -44,6 +45,7 @@ define(
     StaticText,
     List,
     Map,
+    Tree,
     LinkedList,
     ArrayUtils,
     CommonUtils,
@@ -84,6 +86,7 @@ define(
       /**
        * The root node of the engine GameObject tree. Any GameObject will only be available to the engine when attached directly or indirectly to world.
        */
+      World.gameObject = new GameObject( 'world' );
       this.world = World.gameObject;
 
       /**
@@ -121,6 +124,7 @@ define(
       // Collection Classes
       this.List = List;
       this.Map = Map;
+      this.Tree = Tree;
       this.LinkedList = LinkedList;
 
       // Component Classes
