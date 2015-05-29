@@ -14,12 +14,14 @@ define(
     MessageManager.prototype.send = function( message ) {
       var go = World.gameobject.find( message.to );
       if( go ) {
-        go.messages.put( message );
+        go.receiveMessage( message );
       }
     };
 
     MessageManager.prototype.update = function() {
-
+      while( this.messages.size() > 0 ) {
+        this.send( this.messages.pop() );
+      }
     };
 
     MessageManager.getInstance = function() {
