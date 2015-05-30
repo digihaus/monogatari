@@ -8,19 +8,7 @@
     QUnit.config.autostart = false;
   </script>
   <script src="../../../lib/require.js"></script>
-  <script>
-    require.config(
-        {
-          baseUrl: '../../main',
-          paths: {
-            'lib': '../../lib',
-            'lib/Box2d': '../../lib/box2d',
-            'lib/Three': '../../lib/three.min',
-            'lib/WebFont': '../../lib/webfontloader'
-          }
-        }
-    );
-  </script>
+  <script src="../setup.js"></script>
   <script src="unit_collection.js"></script>
   <script src="unit_component.js"></script>
   <script>
