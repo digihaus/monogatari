@@ -7,7 +7,7 @@
  */
 define(
   [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math', 'lib/WebFont' ],
-  function( Base, BaseThree, Map, Math, _WebFont ) {
+  function( Base, BaseThree, Map, Math, WebFont ) {
 
     var Font = function( size, family, strokeColor, fillColor ) {
       BaseThree.call( this );
@@ -39,7 +39,7 @@ define(
           google: {
             families: [ this.fontFamily ]
           },
-          fontactive: function( familyName, fvd ) {
+          active: function() {
             callback.apply( context );
           }
         }

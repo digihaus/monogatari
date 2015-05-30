@@ -16,7 +16,8 @@ module.exports = function( grunt ) {
             paths: {
               'lib': '../../lib',
               'lib/Box2d': '../../lib/box2d',
-              'lib/Three': '../../lib/three.min'
+              'lib/Three': '../../lib/three.min',
+              'lib/WebFont': '../../lib/webfontloader'
             },
             include: [ 'lib/require' ],
             name: 'Monogatari',
