@@ -39,7 +39,7 @@ define(
     LinkedList.prototype.put = function( value ) {
       var node = new LinkedListNode( value );
 
-      if( this._size == 0 ) {
+      if( this._size === 0 ) {
         // no items in the list yet
         this._head = node;
         this._tail = node;
@@ -54,7 +54,7 @@ define(
     };
 
     LinkedList.prototype.pop = function() {
-      return this.remove( this._length - 1 );
+      return this.remove( this._size - 1 );
     };
 
     LinkedList.prototype.contains = function( value ) {
@@ -73,7 +73,7 @@ define(
     };
 
     LinkedList.prototype.remove = function( index ) {
-      if( index && index > -1 && index < this._length ) {
+      if( !isNaN( index ) && index > -1 && index <= this._size ) {
         var node = this._head, i = 0;
         if( index === 0 ) {
           // removing first item
@@ -86,7 +86,7 @@ define(
             this._tail = null;
           else
             this._head.prev = null;
-        } else if( index === this._length - 1 ) {
+        } else if( index === this._size - 1 ) {
           // removing last item
           node = this._tail;
           this._tail = node.prev;
@@ -154,7 +154,7 @@ define(
 
         this.next = function() {
           this._current = this._current.next;
-          return this._current.value;
+          return ( this._current ) ? this._current.value : null;
         };
 
         this.hasPrevious = function() {
@@ -163,17 +163,17 @@ define(
 
         this.previous = function() {
           this._current = this._current.prev;
-          return this._current.value;
+          return ( this._current ) ? this._current.value : null;
         };
 
         this.first = function() {
           this._current = this._head;
-          return this._current.value;
+          return ( this._current ) ? this._current.value : null;
         };
 
         this.last = function() {
           this._current = this._tail;
-          return this._current.value;
+          return ( this._current ) ? this._current.value : null;
         };
       };
       return new Iterator( this._head, this._tail );

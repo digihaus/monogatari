@@ -10,6 +10,7 @@ define(
     'input/Mouse',
     'manager/SceneManager',
     'manager/PhysicsManager',
+    'manager/MessageManager',
     'lib/Chance',
     'core/GameObject',
     'core/World',
@@ -34,6 +35,7 @@ define(
     Mouse,
     SceneManager,
     PhysicsManager,
+    MessageManager,
     Chance,
     GameObject,
     World,
@@ -102,6 +104,13 @@ define(
        * @name physicsManager
        */
       this.physicsManager = PhysicsManager;
+
+      /**
+       * @memberOf Monogatari
+       * @type {MesssageManager}
+       * @name messageManager
+       */
+      this.messageManager = MessageManager;
 
       /**
        * Use to create new GameObjects.
@@ -176,6 +185,7 @@ define(
     Monogatari.prototype.update = function() {
       this.timer.tick();
       this.physicsManager.update( this.timer );
+      this.messageManager.update();
       this.world.updateAll();
     };
 

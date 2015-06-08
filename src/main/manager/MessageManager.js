@@ -12,16 +12,16 @@ define(
     };
 
     MessageManager.prototype.send = function( message ) {
-      var go = World.gameobject.find( message.to );
-      if( go ) {
-        go.receiveMessage( message );
+      if( message ) {
+        var go = World.gameObject.find( message.to );
+        if( go ) {
+          go.receiveMessage( message );
+        }
       }
     };
 
     MessageManager.prototype.update = function() {
-      while( this.messages.size() > 0 ) {
-        this.send( this.messages.pop() );
-      }
+      this.send( this.messages.pop() );
     };
 
     MessageManager.getInstance = function() {
