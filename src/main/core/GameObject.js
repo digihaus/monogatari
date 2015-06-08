@@ -176,7 +176,7 @@ define(
       MessageManager.register( new Message( this.id, to, type, message ) );
     };
 
-    GameObject.prototype.receiveMessage = function(  message ) {
+    GameObject.prototype.receiveMessage = function( message ) {
       this.messages.put( message );
     };
 
