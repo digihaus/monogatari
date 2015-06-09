@@ -38,6 +38,9 @@ define(
       // This line makes the textures created during execution to work properly
       this.texture.needsUpdate = true;
       this.texture.flipY = true;
+      this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
+      this.texture.minFilter = THREE.NearestFilter;
+
       this.material = new THREE.MeshBasicMaterial(
         {
           map: this.texture,

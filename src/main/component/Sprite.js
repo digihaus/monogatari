@@ -6,8 +6,9 @@ define(
       this.isRenderable = true;
 
       this.texture = THREE.ImageUtils.loadTexture( ( source ) ? source : 'assets/bad-texture.png' );
-      this.texture.wrapS = this.texture.wrapT = THREE.RepeatWrapping;
+      this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
       this.texture.flipY = true;
+      this.texture.minFilter = THREE.NearestFilter;
 
       // Row and col goes from 0 to N (like an array)
       this.row = 0;
