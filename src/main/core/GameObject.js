@@ -69,13 +69,24 @@ define(
       this.position = ( position ) ? position : new THREE.Vector3( 0, 0, 0 );
 
       /**
+       * Represents rotation (X, Y, Z) in radians
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {THREE.Euler}
+       * @name rotation
+       * @default THREE.Euler( 0, 0, Math.PI, 'XYZ' )
+       */
+      this.rotation = ( rotation ) ? rotation : new THREE.Euler( 0, 0, Math.PI, 'XYZ' );
+
+      /**
+       * A direction vector, reference used to rotate objects in 2D space
        * @memberOf module:core/GameObject~GameObject
        * @instance
        * @type {THREE.Vector3}
-       * @name rotation
+       * @name direction
        * @default THREE.Vector3( 0, 1, 0 )
        */
-      this.rotation = ( rotation ) ? rotation : new THREE.Vector3( 0, 1, 0 ); // new THREE.Euler()
+      this.direction = new THREE.Vector3( 0, 1, 0 );
 
       /**
        * @memberOf module:core/GameObject~GameObject
@@ -181,27 +192,28 @@ define(
     };
 
     GameObject.prototype.getEulerRotation = function() {
-      var angle = this.rotation.angleTo( this.axis );
-      return ( this.rotation.y * this.axis.x > this.rotation.x * this.axis.y ) ? angle : -angle;
+      var angle = this.direction.angleTo( this.axis );
+      return ( this.direction.y * this.axis.x > this.direction.x * this.axis.y ) ? angle : -angle;
     };
 
     GameObject.prototype.lookAt = function( target ) {
-      this.rotation.x = target.x - this.position.x;
-      this.rotation.y = target.y - this.position.y;
-      this.rotation.normalize();
+      this.direction.x = target.x - this.position.x;
+      this.direction.y = target.y - this.position.y;
+      this.direction.normalize();
+      this.rotation.z = this.getEulerRotation();
     };
 
     GameObject.prototype.getEulerRotationToTarget = function( target ) {
-      var rotation = this.rotation.clone();
+      var direction = this.direction.clone();
 
-      rotation.x = target.x - this.position.x;
-      rotation.y = target.y - this.position.y;
+      direction.x = target.x - this.position.x;
+      direction.y = target.y - this.position.y;
 
-      rotation.normalize();
+      direction.normalize();
 
-      var angle = rotation.angleTo( this.axis );
+      var angle = direction.angleTo( this.axis );
 
-      return ( rotation.y * this.axis.x > rotation.x * this.axis.y ) ? angle : -angle;
+      return ( direction.y * this.axis.x > direction.x * this.axis.y ) ? angle : -angle;
     };
 
     GameObject.prototype.addComponent = function( component ) {
@@ -252,7 +264,7 @@ define(
         var component = this.componentsIt.next();
         if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
           component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
-          component.getMesh().rotation.z = this.getEulerRotation();
+          component.getMesh().rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
           component.getMesh().scale.set( -this.scale.x, this.scale.y, this.scale.z );
           component.visible = this.isVisible;
         }
