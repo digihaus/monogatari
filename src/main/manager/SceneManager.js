@@ -61,7 +61,7 @@ define(
 
       if( scene ) {
         // left, right, top, bottom, near, far
-        var camera = new Camera2D( width / -2, width / 2, height / -2, height / 2, 1, Math.max( width, height ) );
+        var camera = new Camera2D( width / -2, width / 2, height / -2, height / 2, Math.max( width, height ) / -2, Math.max( width, height ) / 2 );
 
         camera.addScene( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID, scene );
         this.cameras.put( cameraId, camera );
