@@ -43,7 +43,7 @@ define(
        * Unique identifier, created automatically.
        * @memberOf module:core/GameObject~GameObject
        * @instance
-       * @type {string}
+       * @type {String}
        * @name uid
        */
       this.uid = Common.createUniqueId();
@@ -53,7 +53,7 @@ define(
        * Recommended to be explicitly set.
        * @memberOf module:core/GameObject~GameObject
        * @instance
-       * @type {String|string}
+       * @type {String}
        * @name id
        * @default uid
        */
@@ -158,6 +158,13 @@ define(
        */
       this.isActive = true;
 
+      /**
+       * Last time this Game Object was updated
+       * @memberOf module:core/GameObject~GameObject
+       * @instance
+       * @type {Number}
+       * @name lastUpdate
+       */
       this.lastUpdate = 0;
 
       this.update = ( update && typeof ( update ) === 'function' ) ? update : function() {};
@@ -176,6 +183,13 @@ define(
       throw new Error( 'Update method is not implemented in GameObject id: ' + this.id );
     };
 
+    /**
+     * Method that updates all the components and stores last update time.
+     * @method
+     * @instance
+     * @name postUpdate
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.postUpdate = function() {
       if( this.isActive ) {
         this.updateComponents();
@@ -191,11 +205,27 @@ define(
       this.messages.put( message );
     };
 
+    /**
+     * Calculates rotation based on the reference of the axis attribute
+     * @method
+     * @instance
+     * @name getEulerRotation
+     * @return Number
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.getEulerRotation = function() {
       var angle = this.direction.angleTo( this.axis );
       return ( this.direction.y * this.axis.x > this.direction.x * this.axis.y ) ? angle : -angle;
     };
 
+    /**
+     * Rotates the Game Object around Z to a target coordinate
+     * @method
+     * @instance
+     * @name lookAt
+     * @param {THREE.Vector3} target A Vector3 containing the target position to rotate
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.lookAt = function( target ) {
       this.direction.x = target.x - this.position.x;
       this.direction.y = target.y - this.position.y;
@@ -203,6 +233,15 @@ define(
       this.rotation.z = this.getEulerRotation();
     };
 
+    /**
+     * Calculates rotation around Z based on the reference of the axis attribute and a target Vector3
+     * @method
+     * @instance
+     * @name getEulerRotationToTarget
+     * @param {THREE.Vector3} target A Vector3 containing the target position to rotate
+     * @return Number
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.getEulerRotationToTarget = function( target ) {
       var direction = this.direction.clone();
 
@@ -216,26 +255,75 @@ define(
       return ( direction.y * this.axis.x > direction.x * this.axis.y ) ? angle : -angle;
     };
 
+    /**
+     * Put the given component on the Map of components
+     * @method
+     * @instance
+     * @name addComponent
+     * @param {Component} component Any valid component
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.addComponent = function( component ) {
       this.components.put( component.type, component );
     };
 
+    /**
+     * Returns the component of given type from the Map or null if not found
+     * @method
+     * @instance
+     * @name findComponent
+     * @param {Number} type Component type constant, as listed on the Base component
+     * @return {Component}
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.findComponent = function( type ) {
       return this.components.get( type );
     };
 
+    /**
+     * Removes the component of given type from the Map
+     * @method
+     * @instance
+     * @name removeComponent
+     * @param {String} type Component type constant, as listed on the Base component
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.removeComponent = function( type ) {
       this.components.remove( type );
     };
 
+    /**
+     * Clears the component Map
+     * @method
+     * @instance
+     * @name clearComponents
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.clearComponents = function() {
       this.components.clear();
     };
 
+    /**
+     * Checks for a component type on the Map of components
+     * @method
+     * @instance
+     * @name hasComponent Component type constant, as listed on the Base component
+     * @param {String} type Component type constant, as listed on the Base component
+     * @return boolean
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.hasComponent = function( type ) {
       return ( this.components.contains( type ) ) ? true : false;
     };
 
+    /**
+     * Find and return the components that requires rendering
+     * @method
+     * @instance
+     * @name listRenderableComponents
+     * @return Array
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.listRenderableComponents = function() {
       var list = [];
       var c;
@@ -249,6 +337,13 @@ define(
       return list;
     };
 
+    /**
+     * Iterate and update all components. Automatically called from the postUpdate method
+     * @method
+     * @instance
+     * @name updateComponents
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.updateComponents = function() {
       // Updates object position from Box2D to the engine based on physics simulation (if applicable).
       // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
@@ -271,7 +366,16 @@ define(
       }
     };
 
-    // find and return reference to the Game Object with the given id
+    /**
+     * Iterate, find (recursively) and return reference to the Game Object with the given id in the children Array.
+     * null if not found
+     * @method
+     * @instance
+     * @name find
+     * @param {String} id Game Object id
+     * @return {GameObject}
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.find = function( id ) {
       var go;
 
@@ -289,10 +393,28 @@ define(
       return null;
     };
 
+    /**
+     * Checks for equality with the informed Game Object
+     * @method
+     * @instance
+     * @name find
+     * @param {GameObject} go Other Game Object reference
+     * @return boolean
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.equals = function( go ) {
       return ( go.id === this.id );
     };
 
+    /**
+     * Iterate (recursively) on the children Array, calling update and postUpdate methods for every child and for itself.
+     * Automatically called from the main game loop
+     * @method
+     * @instance
+     * @name updateAll
+     * @return boolean
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.updateAll = function() {
       for( var i = 0, len = this.children.length; i < len; i++ ) {
         this.children[ i ].updateAll();
