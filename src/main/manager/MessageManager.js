@@ -11,19 +11,6 @@ define(
       this.messages.put( message );
     };
 
-    MessageManager.prototype.send = function( message ) {
-      if( message ) {
-        var go = World.gameObject.find( message.to );
-        if( go ) {
-          go.receiveMessage( message );
-        }
-      }
-    };
-
-    MessageManager.prototype.update = function() {
-      this.send( this.messages.pop() );
-    };
-
     MessageManager.prototype.sendMessagesTo = function( go ) {
       var message;
       var it = this.messages.iterator();
@@ -33,9 +20,9 @@ define(
         if( message.to === go.id ){
           go.receiveMessage( message );
         }
+        this.messages.removeByValue( message );
       }
 
-      //remove used message
     };
 
     MessageManager.getInstance = function() {

@@ -22,7 +22,7 @@
  */
 
 define(
-  [ "util/CommonUtils" ], function( _CommonUtils ) {
+  [ "core/Common" ], function( Common ) {
 
     var LinkedListNode = function( value ) {
       this.value = ( value ) ? value : null;
@@ -54,15 +54,15 @@ define(
     };
 
     LinkedList.prototype.pop = function() {
-      return this.remove( this._size - 1 );
+      return this.removeByIndex( this._size - 1 );
     };
 
     LinkedList.prototype.contains = function( value ) {
       if( value ) {
         var node = this._head, i = 0;
 
-        while( node.next != null ) {
-          if( _CommonUtils.equals( node.value, value ) )
+        while( node ) {
+          if( Common.equals( node.value, value ) )
             return true;
           node = node.next;
         }
@@ -72,7 +72,7 @@ define(
       }
     };
 
-    LinkedList.prototype.remove = function( index ) {
+    LinkedList.prototype.removeByIndex = function( index ) {
       if( !isNaN( index ) && index > -1 && index <= this._size ) {
         var node = this._head, i = 0;
         if( index === 0 ) {
@@ -102,6 +102,55 @@ define(
         }
 
         this._size--;
+
+        return node.value;
+      } else {
+        return null;
+      }
+    };
+
+    LinkedList.prototype.removeByValue = function( value ) {
+      if( value && this._size > 0 ) {
+
+        var node = this._head, i = 0;
+
+        if( Common.equals( this._head.value, value ) ) {
+          // removing first item
+          this._head = node.next;
+
+          // If there's only one item in the list and you remove it, then this._head will be null.
+          // In that case, you should also set this._tail to be null to effectively destroy the list.
+          // Otherwise, set the previous pointer on the new this._head to be null.
+          if( !this._head ){
+            this._tail = null;
+          }else{
+            this._head.prev = null;
+          }
+
+          // decrease size
+          this._size--;
+        } else if( Common.equals( this._tail.value, value ) ){
+          // removing last item
+          node = this._tail;
+          this._tail = node.prev;
+          this._tail.next = null;
+
+          // decrease size
+          this._size--;
+        } else {
+          // find the node
+          while( node ) {
+            if( Common.equals( this.node.value, value ) ){
+              // skip over the item to remove
+              node.prev.next = node.next;
+              // decrease size
+              this._size--;
+            }
+
+            node = node.next;
+          }
+
+        }
 
         return node.value;
       } else {
