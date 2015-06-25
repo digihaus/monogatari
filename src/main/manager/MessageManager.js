@@ -24,6 +24,20 @@ define(
       this.send( this.messages.pop() );
     };
 
+    MessageManager.prototype.sendMessagesTo = function( go ) {
+      var message;
+      var it = this.messages.iterator();
+
+      while( it.hasNext() ){
+        message = it.next();
+        if( message.to === go.id ){
+          go.receiveMessage( message );
+        }
+      }
+
+      //remove used message
+    };
+
     MessageManager.getInstance = function() {
       if( instance === null ) {
         instance = new MessageManager();

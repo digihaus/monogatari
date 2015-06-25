@@ -31,8 +31,8 @@ define(
     };
 
     var LinkedList = function() {
-      this._head = null;
-      this._tail = null;
+      this._head;
+      this._tail;
       this._size = 0;
     };
 
@@ -149,31 +149,39 @@ define(
         this._tail = tail;
 
         this.hasNext = function() {
-          return ( this._current.next != null );
+          return ( this._current && this._current.next != null );
         };
 
         this.next = function() {
-          this._current = this._current.next;
-          return ( this._current ) ? this._current.value : null;
+          if( this._current ){
+            this._current = this._current.next;
+            return ( this._current ) ? this._current.value : null;
+          }
         };
 
         this.hasPrevious = function() {
-          return ( this._current.prev != null );
+          return ( this._current && this._current.prev != null );
         };
 
         this.previous = function() {
-          this._current = this._current.prev;
-          return ( this._current ) ? this._current.value : null;
+          if( this._current ){
+            this._current = this._current.prev;
+            return ( this._current ) ? this._current.value : null;
+          }
         };
 
         this.first = function() {
-          this._current = this._head;
-          return ( this._current ) ? this._current.value : null;
+          if( this._head ){
+            this._current = this._head;
+            return ( this._current ) ? this._current.value : null;
+          }
         };
 
         this.last = function() {
-          this._current = this._tail;
-          return ( this._current ) ? this._current.value : null;
+          if( this._tail ){
+            this._current = this._tail;
+            return ( this._current ) ? this._current.value : null;
+          }
         };
       };
       return new Iterator( this._head, this._tail );

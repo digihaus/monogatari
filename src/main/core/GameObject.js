@@ -417,6 +417,7 @@ define(
      */
     GameObject.prototype.updateAll = function() {
       for( var i = 0, len = this.children.length; i < len; i++ ) {
+        //MessageManager.sendMessagesTo( this.children[ i ] );
         this.children[ i ].updateAll();
       }
       this.update();
