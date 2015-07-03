@@ -186,6 +186,7 @@ define(
       this.timer.tick();
       this.physicsManager.update( this.timer );
       this.world.updateAll();
+      //this.messageManager.messages.clear();
     };
 
     Monogatari.prototype.render = function() {

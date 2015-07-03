@@ -1,5 +1,5 @@
 define(
-  [ 'core/World', 'core/Message', 'collection/LinkedList' ], function( World, Message, LinkedList ) {
+  [ 'core/Message', 'collection/LinkedList' ], function( Message, LinkedList ) {
 
     var instance = null;
 
@@ -19,10 +19,9 @@ define(
         message = it.next();
         if( message.to === go.id ){
           go.receiveMessage( message );
+          this.messages.removeByValue( message );
         }
-        this.messages.removeByValue( message );
       }
-
     };
 
     MessageManager.getInstance = function() {
