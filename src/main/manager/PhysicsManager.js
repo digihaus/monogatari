@@ -17,8 +17,8 @@ define(
       this.createListener();
     };
 
-    PhysicsManager.prototype.attachToWorld = function( bodyDef ) {
-      return this.world.CreateBody( bodyDef );
+    PhysicsManager.prototype.attachToWorld = function( rigidBody ) {
+      rigidBody.body = this.world.CreateBody( rigidBody.bodyDef );
     };
 
     PhysicsManager.prototype.destroyBody = function( bodyDef ) {

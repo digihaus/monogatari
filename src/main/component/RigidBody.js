@@ -112,6 +112,12 @@ define(
       this.bodyDef.set_fixedRotation( !allowRotation );
     };
 
+    RigidBody.prototype.createFixture = function() {
+      if(this.body && this.materialDef){
+        this.body.CreateFixture( this.materialDef );
+      }
+    };
+
     return RigidBody;
   }
 );
