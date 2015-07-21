@@ -14,9 +14,9 @@
           var go = new m.GameObject( 'dialog' );
           go.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
 
-          var t = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+          var t = "Sed ut perspiciatis unde omnis iste natus";
 
-          go.addComponent( new m.StaticText( t, 12, "Caesar Dressing" ) );
+          go.addComponent( new m.StaticText( t, 10, "Caesar Dressing" ) );
 
           go.update = function() {
             var staticText = this.findComponent( m.Base.STATIC_TEXT );

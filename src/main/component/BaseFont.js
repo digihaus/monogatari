@@ -76,6 +76,12 @@ define(
         context.clearRect( 0, 0, w, h );
         context.strokeStyle = this.strokeColor;
         context.fillStyle = this.fillColor;
+
+        context.mozImageSmoothingEnabled = false;
+        context.webkitImageSmoothingEnabled = false;
+        context.msImageSmoothingEnabled = false;
+        context.imageSmoothingEnabled = false;
+
         context.font = this.fontSize + 'px ' + this.fontFamily;
         context.fillText( Font.CHARS[ i ], 0, h / 2 );
 

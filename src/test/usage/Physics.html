@@ -47,6 +47,7 @@
           m.physicsManager.attachToWorld( rb2 );
           rb2.createFixture();
 
+          //<hacking>
           var buffer = Box2D.allocate( Box2D.intArrayFromString( "bolovo" ), 'i8', Box2D.ALLOC_STACK );
 
           rb2.body.SetUserData( buffer );
@@ -54,12 +55,13 @@
           //console.log(  rb2.body.GetUserData() );
 
           var userData = rb2.body.GetUserData();
-          console.log( Box2D.getValue( userData, 'i8' ) ); // b
-          console.log( Box2D.getValue( userData+1, 'i8' ) ); // o
-          console.log( Box2D.getValue( userData+2, 'i8' ) ); // l
-          console.log( Box2D.getValue( userData+3, 'i8' ) ); // o
-          console.log( Box2D.getValue( userData+4, 'i8' ) ); // v
-          console.log( Box2D.getValue( userData+5, 'i8' ) ); // o
+          console.log( String.fromCharCode( Box2D.getValue( userData, 'i8' ) ) ); // b
+          console.log( String.fromCharCode( Box2D.getValue( userData+1, 'i8' ) ) ); // o
+          console.log( String.fromCharCode( Box2D.getValue( userData+2, 'i8' ) ) ); // l
+          console.log( String.fromCharCode( Box2D.getValue( userData+3, 'i8' ) ) ); // o
+          console.log( String.fromCharCode( Box2D.getValue( userData+4, 'i8' ) ) ); // v
+          console.log( String.fromCharCode( Box2D.getValue( userData+5, 'i8' ) ) ); // o
+          //</hacking>
 
           zombie2.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
           zombie2.addComponent( rb2 );

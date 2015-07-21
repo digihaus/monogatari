@@ -91,6 +91,11 @@ define(
       this.bodyDef.set_bullet( preventTunneling );
     };
 
+    /**
+     * A dynamic body is a body which is affected by world forces and react to collisions.
+     * A static body is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved.
+     * A kinematic body is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body.
+     */
     RigidBody.prototype.setType = function( type ) {
       switch( type ) {
         case this.STATIC:
@@ -116,6 +121,14 @@ define(
       if(this.body && this.materialDef){
         this.body.CreateFixture( this.materialDef );
       }
+    };
+
+    /**
+     * userData is (kinda) bugged on emscripten version of the box2D port, but can be worked around
+     * https://github.com/kripken/box2d.js/issues/35
+     */
+    RigidBody.prototype.setUserData = function( userData, type ) {
+      this.materialDef.set_userData( userData );
     };
 
     return RigidBody;
