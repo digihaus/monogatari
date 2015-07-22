@@ -12,6 +12,10 @@
 
           m.physicsManager.createWorld( new THREE.Vector2( 0, 10 ), true );
 
+          // zombieShape
+          var zombieShape =  new Box2D.b2CircleShape();
+          zombieShape.set_m_radius( 0.5 );
+
           // zombie1
           var zombie = new m.GameObject( 'zombie1' );
           var rb1 = new m.RigidBody( 50 );
@@ -20,9 +24,11 @@
           rb1.setDensity( 1 );
           rb1.setFriction( 0 );
           rb1.setBounciness( 1 );
-          rb1.setPosition( new THREE.Vector2( 3, 1 ) );
+          rb1.setPosition( 3, 1 );
 
           m.physicsManager.attachToWorld( rb1 );
+
+          rb1.setShape( zombieShape );
           rb1.createFixture();
 
           var sprite = new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 );
@@ -42,9 +48,11 @@
           rb2.setDensity( 1 );
           rb2.setFriction( 0 );
           rb2.setBounciness( 1 );
-          rb2.setPosition( new THREE.Vector2( 2.7, 0.5 ) );
+          rb2.setPosition( 2.7, 0.5 );
 
           m.physicsManager.attachToWorld( rb2 );
+
+          rb2.setShape( zombieShape );
           rb2.createFixture();
 
           //<hacking>
@@ -77,10 +85,11 @@
           rb3.setDensity( 1 );
           rb3.setFriction( 0 );
           rb3.setBounciness( 1 );
-          rb3.setPosition( new THREE.Vector2( 1, 0.5 ) );
+          rb3.setPosition( 1, 0.5 );
 
           m.physicsManager.attachToWorld( rb3 );
 
+          rb3.setShape( zombieShape );
           rb3.createFixture();
 
           zombie3.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
@@ -97,7 +106,7 @@
           groundBody.setDensity( 1 );
           groundBody.setFriction( 0 );
           groundBody.setBounciness( 1 );
-          groundBody.setPosition( new THREE.Vector2( 0, 10 ) );
+          groundBody.setPosition( 0, 10 );
 
           m.physicsManager.attachToWorld( groundBody );
 
@@ -121,7 +130,7 @@
           lWallBody.setDensity( 1 );
           lWallBody.setFriction( 0 );
           lWallBody.setBounciness( 1 );
-          lWallBody.setPosition( new THREE.Vector2( 0, 0 ) );
+          lWallBody.setPosition( 0, 0 );
 
           m.physicsManager.attachToWorld( lWallBody  );
 
@@ -140,7 +149,7 @@
           rWallBody.setDensity( 1 );
           rWallBody.setFriction( 0 );
           rWallBody.setBounciness( 1 );
-          rWallBody.setPosition( new THREE.Vector2( 10, 0 ) );
+          rWallBody.setPosition( 10, 0 );
 
           m.physicsManager.attachToWorld( rWallBody  );
 

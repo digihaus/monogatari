@@ -14,18 +14,14 @@ define(
      * @param {number} conversionFactor Multiplies the position from physics world (meters to screen coordinates (pixels)). Defaults to 1 (probably not what you expect).
      * @constructor
      */
-    var RigidBody = function( conversionFactor ) {
+    var RigidBody = function( conversionFactor, bodyDef, materialDef ) {
       Base.call( this, Base.RIGID_BODY );
 
-      this.bodyDef = new Box2D.b2BodyDef();
-      this.materialDef = new Box2D.b2FixtureDef();
-      this.body = null;
-
       this.conversionFactor = ( conversionFactor ) ? conversionFactor : 1;
+      this.bodyDef = ( bodyDef ) ? bodyDef : new Box2D.b2BodyDef();
+      this.materialDef = ( materialDef ) ? materialDef : new Box2D.b2FixtureDef();
 
-      var shape =  new Box2D.b2CircleShape();
-      shape.set_m_radius( 0.5 );
-      this.materialDef.set_shape( shape );
+      this.body = null;
     };
 
     RigidBody.prototype = Object.create( Base.prototype );
@@ -56,11 +52,12 @@ define(
     };
 
     /**
-     * @param position Coordinates in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+     * @param x Coordinate X in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+     * @param x Coordinate Y in the physics world, NOT in pixels or game world, a proper scale is required to draw.
      */
-    RigidBody.prototype.setPosition = function( position ) {
-      this.bodyDef.get_position().set_x( position.x );
-      this.bodyDef.get_position().set_y( position.y );
+    RigidBody.prototype.setPosition = function( x, y ) {
+      this.bodyDef.get_position().set_x( x );
+      this.bodyDef.get_position().set_y( y );
     };
 
     /**
@@ -118,7 +115,7 @@ define(
     };
 
     RigidBody.prototype.createFixture = function() {
-      if(this.body && this.materialDef){
+      if( this.body && this.materialDef ) {
         this.body.CreateFixture( this.materialDef );
       }
     };
@@ -129,6 +126,22 @@ define(
      */
     RigidBody.prototype.setUserData = function( userData, type ) {
       this.materialDef.set_userData( userData );
+    };
+
+    RigidBody.prototype.getBodyDef = function() {
+      return this.bodyDef;
+    };
+
+    RigidBody.prototype.getMaterialDef = function() {
+      return this.materialDef;
+    };
+
+    RigidBody.prototype.getPhysicsBody = function() {
+      return this.body;
+    };
+
+    RigidBody.prototype.clone = function() {
+      return new RigidBody( this.conversionFactor, this.bodyDef, this.materialDef );
     };
 
     return RigidBody;
