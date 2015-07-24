@@ -12,6 +12,8 @@ define(
 
     /**
      * @param {number} conversionFactor Multiplies the position from physics world (meters to screen coordinates (pixels)). Defaults to 1 (probably not what you expect).
+     * @param {b2BodyDef} bodyDef Box2D physics body definition
+     * @param {b2FixtureDef} materialDef Box2D physics material definition
      * @constructor
      */
     var RigidBody = function( conversionFactor, bodyDef, materialDef ) {
@@ -53,7 +55,7 @@ define(
 
     /**
      * @param x Coordinate X in the physics world, NOT in pixels or game world, a proper scale is required to draw.
-     * @param x Coordinate Y in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+     * @param y Coordinate Y in the physics world, NOT in pixels or game world, a proper scale is required to draw.
      */
     RigidBody.prototype.setPosition = function( x, y ) {
       this.bodyDef.get_position().set_x( x );
