@@ -1,12 +1,15 @@
 define(
   function() {
 
-    var Common = {};
+    var Common = {
+      sequence: 0
+    };
 
     /**
      * @link http://stackoverflow.com/a/2117523
      * @returns {string}
      */
+/*
     Common.createUniqueId = function() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
         /[xy]/g, function( c ) {
@@ -14,6 +17,11 @@ define(
           return v.toString( 16 );
         }
       );
+    };
+*/
+
+    Common.createUniqueId = function() {
+      return this.sequence++;
     };
 
     Common.equals = function( obj, other ) {

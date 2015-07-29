@@ -234,6 +234,22 @@ define(
     };
 
     /**
+     * Rotates the Game Object around Z to a target coordinate
+     * @method
+     * @instance
+     * @name lookAtXY
+     * @param {Number} x X coordinate to look at
+     * @param {Number} y Y coordinate to look at
+     * @memberOf module:core/GameObject~GameObject
+     */
+    GameObject.prototype.lookAtXY = function( x, y ) {
+      this.direction.x = x - this.position.x;
+      this.direction.y = y - this.position.y;
+      this.direction.normalize();
+      this.rotation.z = this.getEulerRotation();
+    };
+
+    /**
      * Calculates rotation around Z based on the reference of the axis attribute and a target Vector3
      * @method
      * @instance
@@ -403,7 +419,7 @@ define(
      * @memberOf module:core/GameObject~GameObject
      */
     GameObject.prototype.equals = function( go ) {
-      return ( go.id === this.id );
+      return ( go.uid === this.uid );
     };
 
     /**
