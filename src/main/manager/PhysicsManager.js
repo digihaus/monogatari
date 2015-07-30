@@ -1,5 +1,5 @@
 define(
-  [ 'lib/Box2d', 'core/Timer' ], function( _Box2d, Timer ) {
+  [ 'lib/Box2d', 'core/Timer', 'core/Message', 'manager/MessageManager' ], function( _Box2d, Timer, Message, MessageManager ) {
 
     var PhysicsManager = function() {
       this.world = null;
@@ -35,7 +35,8 @@ define(
 
       listener.EndContact = function( _contact ) {
         var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-        // console.log( "EndContact" + contact.GetFixtureA() );
+        var colliderUid = contact.GetFixtureA().getUserData() || contact.GetFixtureB().getUserData();
+        MessageManager.register( new Message( -1, colliderUid, "b2Contact", contact ) );
       };
 
       listener.PreSolve = function( _contact, _oldManifold ) {

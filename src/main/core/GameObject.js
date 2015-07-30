@@ -29,7 +29,7 @@ define(
      * };
      * MyGOClass.prototype = Object.create( m.GameObject.prototype );
      * MyGOClass.prototype.update = function() { ... };
-
+     *
      * @param {String} id Identifier. Not mandatory, but recommended
      * @param {function} update The object logic. Not necessary if using inheritance
      * @param {THREE.Vector3} position Initial position
@@ -401,6 +401,37 @@ define(
 
       for( var i = 0, len = this.children.length; i < len; i++ ) {
         go = this.children[ i ].find( id );
+        if( go ) {
+          return go;
+        }
+      }
+
+      return null;
+    };
+
+    GameObject.prototype.findById = function( id ) {
+      return this.find( id );
+    };
+
+    /**
+     * Iterate, find (recursively) and return reference to the Game Object with the given uid in the children Array.
+     * null if not found
+     * @method
+     * @instance
+     * @name find
+     * @param {Number} uid Game Object numeric unique id
+     * @return {GameObject}
+     * @memberOf module:core/GameObject~GameObject
+     */
+    GameObject.prototype.findByUid = function( uid ) {
+      var go;
+
+      if( this.uid === uid ) {
+        return this;
+      }
+
+      for( var i = 0, len = this.children.length; i < len; i++ ) {
+        go = this.children[ i ].findByUid( uid );
         if( go ) {
           return go;
         }

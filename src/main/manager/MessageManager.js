@@ -17,7 +17,7 @@ define(
 
       while( it.hasNext() ){
         message = it.next();
-        if( message.to === go.id ){
+        if( message.to === go.uid ){
           go.receiveMessage( message );
           this.messages.removeByValue( message );
         }
