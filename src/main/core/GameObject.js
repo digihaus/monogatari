@@ -11,9 +11,11 @@ define(
     'collection/LinkedList',
     'component/Base',
     'manager/MessageManager',
+    'manager/PhysicsManager',
+    'manager/SceneManager',
     'lib/Three'
   ],
-  function( Common, Timer, Message, Map, LinkedList, Base, MessageManager, _Three ) {
+  function( Common, Timer, Message, Map, LinkedList, Base, MessageManager, PhysicsManager, SceneManager, _Three ) {
 
     /**
      * The main build block of the engine. Create the game classes by inheriting from the Game Object.
@@ -277,10 +279,19 @@ define(
      * @instance
      * @name addComponent
      * @param {Component} component Any valid component
+     * @param {String} sceneId Id of the scene on the scene manager to attach this component, if not informed set to the default scene
      * @memberOf module:core/GameObject~GameObject
      */
-    GameObject.prototype.addComponent = function( component ) {
-      // TODO handle attach to manager classes here!
+    GameObject.prototype.addComponent = function( component, sceneId ) {
+
+      if( component.type === Base.RIGID_BODY ) {
+        PhysicsManager.attachToWorld( component );
+      }
+
+      if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
+        SceneManager.attachToScene( component, sceneId );
+      }
+
       this.components.put( component.type, component );
     };
 

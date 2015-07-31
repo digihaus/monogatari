@@ -13,7 +13,7 @@
           m.physicsManager.createWorld( new THREE.Vector2( 0, 10 ), true );
 
           // zombieShape
-          var zombieShape =  new Box2D.b2CircleShape();
+          var zombieShape = new Box2D.b2CircleShape();
           zombieShape.set_m_radius( 0.5 );
 
           // zombie1
@@ -26,18 +26,15 @@
           rb1.setBounciness( 1 );
           rb1.setPosition( 3, 1 );
 
-          m.physicsManager.attachToWorld( rb1 );
-
-          rb1.setShape( zombieShape );
-          rb1.createFixture();
-
           var sprite = new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 );
           sprite.getMaterial().transparent = true;
 
           zombie.addComponent( sprite );
           zombie.addComponent( rb1 );
 
-          m.sceneManager.attachToScene( zombie );
+          rb1.setShape( zombieShape );
+          rb1.createFixture();
+
           m.world.children.push( zombie );
 
           // zombie2
@@ -50,7 +47,8 @@
           rb2.setBounciness( 1 );
           rb2.setPosition( 2.7, 0.5 );
 
-          m.physicsManager.attachToWorld( rb2 );
+          zombie2.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
+          zombie2.addComponent( rb2 );
 
           rb2.setShape( zombieShape );
           rb2.createFixture();
@@ -64,17 +62,13 @@
 
           var userData = rb2.body.GetUserData();
           console.log( String.fromCharCode( Box2D.getValue( userData, 'i8' ) ) ); // b
-          console.log( String.fromCharCode( Box2D.getValue( userData+1, 'i8' ) ) ); // o
-          console.log( String.fromCharCode( Box2D.getValue( userData+2, 'i8' ) ) ); // l
-          console.log( String.fromCharCode( Box2D.getValue( userData+3, 'i8' ) ) ); // o
-          console.log( String.fromCharCode( Box2D.getValue( userData+4, 'i8' ) ) ); // v
-          console.log( String.fromCharCode( Box2D.getValue( userData+5, 'i8' ) ) ); // o
+          console.log( String.fromCharCode( Box2D.getValue( userData + 1, 'i8' ) ) ); // o
+          console.log( String.fromCharCode( Box2D.getValue( userData + 2, 'i8' ) ) ); // l
+          console.log( String.fromCharCode( Box2D.getValue( userData + 3, 'i8' ) ) ); // o
+          console.log( String.fromCharCode( Box2D.getValue( userData + 4, 'i8' ) ) ); // v
+          console.log( String.fromCharCode( Box2D.getValue( userData + 5, 'i8' ) ) ); // o
           //</hacking>
 
-          zombie2.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
-          zombie2.addComponent( rb2 );
-
-          m.sceneManager.attachToScene( zombie2 );
           m.world.children.push( zombie2 );
 
           //zombie3
@@ -87,15 +81,12 @@
           rb3.setBounciness( 1 );
           rb3.setPosition( 1, 0.5 );
 
-          m.physicsManager.attachToWorld( rb3 );
+          zombie3.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
+          zombie3.addComponent( rb3 );
 
           rb3.setShape( zombieShape );
           rb3.createFixture();
 
-          zombie3.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
-          zombie3.addComponent( rb3 );
-
-          m.sceneManager.attachToScene( zombie3 );
           m.world.children.push( zombie3 );
 
           // ground
@@ -108,14 +99,13 @@
           groundBody.setBounciness( 1 );
           groundBody.setPosition( 0, 10 );
 
-          m.physicsManager.attachToWorld( groundBody );
+          ground.addComponent( groundBody );
 
           var groundShape = new Box2D.b2PolygonShape();
           groundShape.SetAsBox( 100, 0.5 );
           groundBody.setShape( groundShape );
           groundBody.createFixture();
 
-          ground.addComponent( groundBody );
           m.world.children.push( ground );
 
           // wall shape
@@ -132,12 +122,11 @@
           lWallBody.setBounciness( 1 );
           lWallBody.setPosition( 0, 0 );
 
-          m.physicsManager.attachToWorld( lWallBody  );
+          lWall.addComponent( lWallBody );
 
           lWallBody.setShape( wallShape );
           lWallBody.createFixture();
 
-          lWall.addComponent( lWallBody );
           m.world.children.push( lWall );
 
           // right wall
@@ -150,12 +139,11 @@
           rWallBody.setBounciness( 1 );
           rWallBody.setPosition( 10, 0 );
 
-          m.physicsManager.attachToWorld( rWallBody  );
+          rWall.addComponent( rWallBody );
 
           rWallBody.setShape( wallShape );
           rWallBody.createFixture();
 
-          rWall.addComponent( rWallBody );
           m.world.children.push( rWall );
           m.run();
         }

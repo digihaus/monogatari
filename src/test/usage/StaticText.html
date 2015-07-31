@@ -21,7 +21,7 @@
           go.update = function() {
             var staticText = this.findComponent( m.Base.STATIC_TEXT );
             if( staticText.isLoaded ) {
-              m.sceneManager.attachToScene( this );
+              m.sceneManager.attachToScene( staticText );
             }
           };
 

@@ -71,14 +71,10 @@ define(
       }
     };
 
-    // find all renderable components of a given Game Object and attach the on the scene to be rendered
-    SceneManager.prototype.attachToScene = function( gameObject, sceneId ) {
-      var list = gameObject.listRenderableComponents();
+    // attach given component to a scene, if no scene is provided, set to default scene
+    SceneManager.prototype.attachToScene = function( component, sceneId ) {
       var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
-
-      for( var i = 0, len = list.length; i < len; i++ ) {
-        scene.add( list[ i ].getMesh() );
-      }
+      scene.add( component.getMesh() );
     };
 
     SceneManager.prototype.render = function() {
