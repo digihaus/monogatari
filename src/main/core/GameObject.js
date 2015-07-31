@@ -280,6 +280,7 @@ define(
      * @memberOf module:core/GameObject~GameObject
      */
     GameObject.prototype.addComponent = function( component ) {
+      // TODO handle attach to manager classes here!
       this.components.put( component.type, component );
     };
 

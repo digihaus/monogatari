@@ -30,25 +30,44 @@ define(
 
       listener.BeginContact = function( _contact ) {
         var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-        // console.log( "BeginContact" + contact.GetFixtureA() );
+        var fixtureAUid = contact.GetFixtureA().GetUserData();
+        var fixtureBUid = contact.GetFixtureB().GetUserData();
+
+        if( fixtureAUid && fixtureBUid ) {
+          MessageManager.register( new Message( fixtureAUid, fixtureBUid, "BeginContact", contact ) );
+          MessageManager.register( new Message( fixtureBUid, fixtureAUid, "BeginContact", contact ) );
+        }
+
       };
 
       listener.EndContact = function( _contact ) {
         var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-        var colliderUid = contact.GetFixtureA().getUserData() || contact.GetFixtureB().getUserData();
-        MessageManager.register( new Message( -1, colliderUid, "b2Contact", contact ) );
+        var colliderUid = contact.GetFixtureA().GetUserData() || contact.GetFixtureB().GetUserData();
+
+        if( colliderUid ) {
+          MessageManager.register( new Message( -1, colliderUid, "EndContact", contact ) );
+        }
       };
 
       listener.PreSolve = function( _contact, _oldManifold ) {
-        //        var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-        //        var manifold = Box2D.wrapPointer( _oldManifold, Box2D.b2Manifold );
-        //        console.log( "PreSolve" + contact.GetFixtureA() );
+        var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
+        var manifold = Box2D.wrapPointer( _oldManifold, Box2D.b2Manifold );
+        var colliderUid = contact.GetFixtureA().GetUserData() || contact.GetFixtureB().GetUserData();
+
+        if( colliderUid ) {
+          MessageManager.register( new Message( -1, colliderUid, "PreSolve", { contact: contact, manifold: manifold} ) );
+        }
+
       };
 
       listener.PostSolve = function( _contact, _impulse ) {
-        //        var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-        //        var impulse = Box2D.wrapPointer( _contact, Box2D.b2ContactImpulse );
-        //        console.log( "PostSolve" + contact.GetFixtureA() );
+        var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
+        var impulse = Box2D.wrapPointer( _contact, Box2D.b2ContactImpulse );
+        var colliderUid = contact.GetFixtureA().GetUserData() || contact.GetFixtureB().GetUserData();
+
+        if( colliderUid ) {
+          MessageManager.register( new Message( -1, colliderUid, "PostSolve", { contact: contact, impulse: impulse} ) );
+        }
       };
 
       this.world.SetContactListener( listener );

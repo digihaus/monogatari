@@ -102,7 +102,7 @@
           var ground = new m.GameObject( 'ground' );
           var groundBody = new m.RigidBody( 50 );
 
-          groundBody.setType( rb3.STATIC );
+          groundBody.setType( groundBody.STATIC );
           groundBody.setDensity( 1 );
           groundBody.setFriction( 0 );
           groundBody.setBounciness( 1 );
@@ -126,7 +126,7 @@
           var lWall = new m.GameObject( 'lWall' );
           var lWallBody = new m.RigidBody( 50 );
 
-          lWallBody.setType( rb3.STATIC );
+          lWallBody.setType( lWallBody.STATIC );
           lWallBody.setDensity( 1 );
           lWallBody.setFriction( 0 );
           lWallBody.setBounciness( 1 );
@@ -144,7 +144,7 @@
           var rWall = new m.GameObject( 'lWall' );
           var rWallBody = new m.RigidBody( 50 );
 
-          rWallBody.setType( rb3.STATIC );
+          rWallBody.setType( rWallBody.STATIC );
           rWallBody.setDensity( 1 );
           rWallBody.setFriction( 0 );
           rWallBody.setBounciness( 1 );
