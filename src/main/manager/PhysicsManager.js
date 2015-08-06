@@ -32,8 +32,8 @@ define(
       rigidBody.body = this.world.CreateBody( rigidBody.bodyDef );
     };
 
-    PhysicsManager.prototype.destroyBody = function( bodyDef ) {
-      return this.world.DestroyBody( bodyDef );
+    PhysicsManager.prototype.destroyBody = function( rigidBody ) {
+      return this.world.DestroyBody( rigidBody.bodyDef );
     };
 
     PhysicsManager.prototype.createListener = function() {
