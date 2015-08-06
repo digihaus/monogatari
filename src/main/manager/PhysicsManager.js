@@ -18,6 +18,8 @@ define(
       this.ALL_LISTENERS = 15; //1111
 
       this.listeners = 0; //0000
+
+      this.contactListener = null;
     };
 
     PhysicsManager.prototype.createWorld = function( gravity, allowSleep, listeners ) {
@@ -35,68 +37,68 @@ define(
     };
 
     PhysicsManager.prototype.createListener = function() {
-      var listener = new Box2D.JSContactListener();
+      this.contactListener = new Box2D.JSContactListener();
 
-      listener.BeginContact = ( this.listeners & this.BEGIN_CONTACT ) ?
+      this.contactListener.BeginContact = ( this.listeners & this.BEGIN_CONTACT ) ?
         function( _contact ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var aUid = contact.GetFixtureA().GetUserData();
           var bUid = contact.GetFixtureB().GetUserData();
 
-          if( aUid ) {
+          if( bUid ) {
             MessageManager.registerEngineMessage( new Message( aUid, bUid, "BeginContact", contact ) );
           }
-          if( bUid ) {
+          if( aUid ) {
             MessageManager.registerEngineMessage( new Message( bUid, aUid, "BeginContact", contact ) );
           }
 
         } : function() {};
 
-      listener.EndContact = ( this.listeners & this.END_CONTACT ) ?
+      this.contactListener.EndContact = ( this.listeners & this.END_CONTACT ) ?
         function( _contact ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var aUid = contact.GetFixtureA().GetUserData();
           var bUid = contact.GetFixtureB().GetUserData();
 
-          if( aUid ) {
+          if( bUid ) {
             MessageManager.registerEngineMessage( new Message( aUid, bUid, "EndContact", contact ) );
           }
-          if( bUid ) {
+          if( aUid ) {
             MessageManager.registerEngineMessage( new Message( bUid, aUid, "EndContact", contact ) );
           }
         } : function() {};
 
-      listener.PreSolve = ( this.listeners & this.PRE_SOLVE ) ?
+      this.contactListener.PreSolve = ( this.listeners & this.PRE_SOLVE ) ?
         function( _contact, _oldManifold ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var manifold = Box2D.wrapPointer( _oldManifold, Box2D.b2Manifold );
           var aUid = contact.GetFixtureA().GetUserData();
           var bUid = contact.GetFixtureB().GetUserData();
 
-          if( aUid ) {
+          if( bUid ) {
             MessageManager.registerEngineMessage( new Message( aUid, bUid, "PreSolve", { contact: contact, manifold: manifold } ) );
           }
-          if( bUid ) {
+          if( aUid ) {
             MessageManager.registerEngineMessage( new Message( bUid, aUid, "PreSolve", { contact: contact, manifold: manifold } ) );
           }
         } : function() {};
 
-      listener.PostSolve = ( this.listeners & this.POST_SOLVE ) ?
+      this.contactListener.PostSolve = ( this.listeners & this.POST_SOLVE ) ?
         function( _contact, _impulse ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var impulse = Box2D.wrapPointer( _impulse, Box2D.b2ContactImpulse );
           var aUid = contact.GetFixtureA().GetUserData();
           var bUid = contact.GetFixtureB().GetUserData();
 
-          if( aUid ) {
+          if( bUid ) {
             MessageManager.registerEngineMessage( new Message( aUid, bUid, "PostSolve", { contact: contact, impulse: impulse } ) );
           }
-          if( bUid ) {
+          if( aUid ) {
             MessageManager.registerEngineMessage( new Message( bUid, aUid, "PostSolve", { contact: contact, impulse: impulse } ) );
           }
         } : function() {};
 
-      this.world.SetContactListener( listener );
+      this.world.SetContactListener( this.contactListener );
     };
 
     PhysicsManager.prototype.update = function() {

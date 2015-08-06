@@ -31,8 +31,8 @@ define(
     };
 
     var LinkedList = function() {
-      this._head;
-      this._tail;
+      this._head = null;
+      this._tail = null;
       this._size = 0;
     };
 
@@ -121,15 +121,15 @@ define(
           // If there's only one item in the list and you remove it, then this._head will be null.
           // In that case, you should also set this._tail to be null to effectively destroy the list.
           // Otherwise, set the previous pointer on the new this._head to be null.
-          if( !this._head ){
+          if( !this._head ) {
             this._tail = null;
-          }else{
+          } else {
             this._head.prev = null;
           }
 
           // decrease size
           this._size--;
-        } else if( Common.equals( this._tail.value, value ) ){
+        } else if( Common.equals( this._tail.value, value ) ) {
           // removing last item
           node = this._tail;
           this._tail = node.prev;
@@ -140,7 +140,7 @@ define(
         } else {
           // find the node
           while( node ) {
-            if( Common.equals( this.node.value, value ) ){
+            if( Common.equals( node.value, value ) ) {
               // skip over the item to remove
               node.prev.next = node.next;
               // decrease size
@@ -152,7 +152,7 @@ define(
 
         }
 
-        return node.value;
+        return ( node && node.value ) ? node.value : null;
       } else {
         return null;
       }
@@ -202,7 +202,7 @@ define(
         };
 
         this.next = function() {
-          if( this._current ){
+          if( this._current ) {
             this._current = this._current.next;
             return ( this._current ) ? this._current.value : null;
           }
@@ -213,21 +213,21 @@ define(
         };
 
         this.previous = function() {
-          if( this._current ){
+          if( this._current ) {
             this._current = this._current.prev;
             return ( this._current ) ? this._current.value : null;
           }
         };
 
         this.first = function() {
-          if( this._head ){
+          if( this._head ) {
             this._current = this._head;
             return ( this._current ) ? this._current.value : null;
           }
         };
 
         this.last = function() {
-          if( this._tail ){
+          if( this._tail ) {
             this._current = this._tail;
             return ( this._current ) ? this._current.value : null;
           }

@@ -126,7 +126,7 @@ define(
      * userData is (kinda) bugged on emscripten version of the box2D port, but can be worked around
      * https://github.com/kripken/box2d.js/issues/35
      */
-    RigidBody.prototype.setUserData = function( userData, type ) {
+    RigidBody.prototype.setUserData = function( userData ) {
       this.materialDef.set_userData( userData );
     };
 

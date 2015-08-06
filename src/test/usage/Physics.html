@@ -25,6 +25,7 @@
           rb1.setFriction( 0 );
           rb1.setBounciness( 1 );
           rb1.setPosition( 3, 1 );
+          rb1.setUserData( zombie.uid );
 
           var sprite = new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 );
           sprite.getMaterial().transparent = true;
@@ -34,6 +35,12 @@
 
           rb1.setShape( zombieShape );
           rb1.createFixture();
+
+          zombie.update = function() {
+            var message = this.messages.pop();
+            if( message )
+              console.log( message );
+          };
 
           m.world.children.push( zombie );
 
@@ -79,7 +86,7 @@
           rb3.setDensity( 1 );
           rb3.setFriction( 0 );
           rb3.setBounciness( 1 );
-          rb3.setPosition( 1, 0.5 );
+          rb3.setPosition( 1.7, 0.5 );
 
           zombie3.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
           zombie3.addComponent( rb3 );
@@ -88,6 +95,24 @@
           rb3.createFixture();
 
           m.world.children.push( zombie3 );
+
+          //zombie4
+          var zombie4 = new m.GameObject( 'zombie4' );
+          var rb4 = new m.RigidBody( 50 );
+
+          rb4.setType( rb3.DYNAMIC );
+          rb4.setDensity( 1 );
+          rb4.setFriction( 0 );
+          rb4.setBounciness( 1 );
+          rb4.setPosition( 2.1, 0.5 );
+
+          zombie4.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
+          zombie4.addComponent( rb4 );
+
+          rb4.setShape( zombieShape );
+          rb4.createFixture();
+
+          m.world.children.push( zombie4 );
 
           // ground
           var ground = new m.GameObject( 'ground' );
