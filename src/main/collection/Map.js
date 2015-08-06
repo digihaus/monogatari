@@ -19,7 +19,7 @@ define(
     };
 
     Map.prototype.put = function( key, value ) {
-      if( key ) {
+      if( key || key === 0 ) {
         if( !this.contains( key ) ) {
           this.keySet.push( key );
         }
