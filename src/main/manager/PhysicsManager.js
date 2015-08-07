@@ -1,5 +1,5 @@
 define(
-  [ 'lib/Box2d', 'core/Timer', 'core/Message', 'manager/MessageManager' ], function( _Box2d, Timer, Message, MessageManager ) {
+  [ 'lib/Box2d', 'core/Timer', 'core/World', 'core/Message', 'manager/MessageManager' ], function( _Box2d, Timer, World, Message, MessageManager ) {
 
     var PhysicsManager = function() {
       this.world = null;
@@ -13,6 +13,7 @@ define(
 
       this.BEGIN_CONTACT = 1; // 0001
       this.END_CONTACT = 2; // 0010
+      this.BEGIN_END_CONTACT = 3; // 0011
       this.PRE_SOLVE = 4; // 0100
       this.POST_SOLVE = 8; // 1000
       this.ALL_LISTENERS = 15; //1111
@@ -24,7 +25,7 @@ define(
 
     PhysicsManager.prototype.createWorld = function( gravity, allowSleep, listeners ) {
       this.world = new Box2D.b2World( new Box2D.b2Vec2( gravity.x, gravity.y ), allowSleep || false );
-      this.listeners = ( listeners ) ? listeners : this.BEGIN_CONTACT | this.END_CONTACT; //0011
+      this.listeners = ( listeners ) ? listeners : this.BEGIN_END_CONTACT; //0011
       this.createListener();
     };
 
@@ -42,14 +43,14 @@ define(
       this.contactListener.BeginContact = ( this.listeners & this.BEGIN_CONTACT ) ?
         function( _contact ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-          var aUid = contact.GetFixtureA().GetUserData();
-          var bUid = contact.GetFixtureB().GetUserData();
+          var goA = World.gameObject.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = World.gameObject.findByUid( contact.GetFixtureB().GetUserData() );
 
-          if( bUid ) {
-            MessageManager.registerEngineMessage( new Message( aUid, bUid, "BeginContact", contact ) );
+          if( goB ) {
+            MessageManager.register( new Message( goA.id, goB.id, "BeginContact", contact ) );
           }
-          if( aUid ) {
-            MessageManager.registerEngineMessage( new Message( bUid, aUid, "BeginContact", contact ) );
+          if( goA ) {
+            MessageManager.register( new Message( goB.id, goA.id, "BeginContact", contact ) );
           }
 
         } : function() {};
@@ -57,14 +58,14 @@ define(
       this.contactListener.EndContact = ( this.listeners & this.END_CONTACT ) ?
         function( _contact ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-          var aUid = contact.GetFixtureA().GetUserData();
-          var bUid = contact.GetFixtureB().GetUserData();
+          var goA = World.gameObject.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = World.gameObject.findByUid( contact.GetFixtureB().GetUserData() );
 
-          if( bUid ) {
-            MessageManager.registerEngineMessage( new Message( aUid, bUid, "EndContact", contact ) );
+          if( goB ) {
+            MessageManager.register( new Message( goA.id, goB.id, "EndContact", contact ) );
           }
-          if( aUid ) {
-            MessageManager.registerEngineMessage( new Message( bUid, aUid, "EndContact", contact ) );
+          if( goA ) {
+            MessageManager.register( new Message( goB.id, goA.id, "EndContact", contact ) );
           }
         } : function() {};
 
@@ -72,14 +73,14 @@ define(
         function( _contact, _oldManifold ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var manifold = Box2D.wrapPointer( _oldManifold, Box2D.b2Manifold );
-          var aUid = contact.GetFixtureA().GetUserData();
-          var bUid = contact.GetFixtureB().GetUserData();
+          var goA = World.gameObject.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = World.gameObject.findByUid( contact.GetFixtureB().GetUserData() );
 
-          if( bUid ) {
-            MessageManager.registerEngineMessage( new Message( aUid, bUid, "PreSolve", { contact: contact, manifold: manifold } ) );
+          if( goB ) {
+            MessageManager.register( new Message( goA.id, goB.id, "PreSolve", { contact: contact, manifold: manifold } ) );
           }
-          if( aUid ) {
-            MessageManager.registerEngineMessage( new Message( bUid, aUid, "PreSolve", { contact: contact, manifold: manifold } ) );
+          if( goA ) {
+            MessageManager.register( new Message( goB.id, goA.id, "PreSolve", { contact: contact, manifold: manifold } ) );
           }
         } : function() {};
 
@@ -87,14 +88,14 @@ define(
         function( _contact, _impulse ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var impulse = Box2D.wrapPointer( _impulse, Box2D.b2ContactImpulse );
-          var aUid = contact.GetFixtureA().GetUserData();
-          var bUid = contact.GetFixtureB().GetUserData();
+          var goA = World.gameObject.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = World.gameObject.findByUid( contact.GetFixtureB().GetUserData() );
 
-          if( bUid ) {
-            MessageManager.registerEngineMessage( new Message( aUid, bUid, "PostSolve", { contact: contact, impulse: impulse } ) );
+          if( goB ) {
+            MessageManager.register( new Message( goA.id, goB.id, "PostSolve", { contact: contact, impulse: impulse } ) );
           }
-          if( aUid ) {
-            MessageManager.registerEngineMessage( new Message( bUid, aUid, "PostSolve", { contact: contact, impulse: impulse } ) );
+          if( goA ) {
+            MessageManager.register( new Message( goB.id, goA.id, "PostSolve", { contact: contact, impulse: impulse } ) );
           }
         } : function() {};
 

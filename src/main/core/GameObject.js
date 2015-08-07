@@ -196,6 +196,7 @@ define(
       if( this.isActive ) {
         this.updateComponents();
       }
+      this.messages.clear();
       this.lastUpdate = Timer.time;
     };
 
@@ -481,6 +482,10 @@ define(
       }
       this.update();
       this.postUpdate();
+    };
+
+    GameObject.prototype.destroy = function() {
+      // iterate and handle component specific cleanup then destroys the GO
     };
 
     return GameObject;

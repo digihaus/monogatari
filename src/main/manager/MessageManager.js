@@ -5,16 +5,16 @@ define(
 
     var MessageManager = function() {
       this.userMessages = new LinkedList();
-      this.engineMessages = new LinkedList();
+      //this.engineMessages = new LinkedList();
     };
 
     MessageManager.prototype.register = function( message ) {
       this.userMessages.put( message );
     };
 
-    MessageManager.prototype.registerEngineMessage = function( message ) {
-      this.engineMessages.put( message );
-    };
+//    MessageManager.prototype.registerEngineMessage = function( message ) {
+//      this.engineMessages.put( message );
+//    };
 
     MessageManager.prototype.sendMessagesTo = function( go ) {
       var message;
@@ -30,16 +30,16 @@ define(
         }
       }
 
-      if( this.engineMessages.size() > 0 ) {
-        var itEngine = this.engineMessages.iterator();
-        while( itEngine.hasNext() ) {
-          message = itEngine.next();
-          if( message.to === go.uid ) {
-            go.receiveMessage( message );
-            this.engineMessages.removeByValue( message );
-          }
-        }
-      }
+      // if( this.engineMessages.size() > 0 ) {
+      //   var itEngine = this.engineMessages.iterator();
+      //   while( itEngine.hasNext() ) {
+      //     message = itEngine.next();
+      //     if( message.to === go.uid ) {
+      //       go.receiveMessage( message );
+      //       this.engineMessages.removeByValue( message );
+      //     }
+      //   }
+      // }
 
     };
 
