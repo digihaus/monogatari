@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta charset="UTF-8">
 <html>
 <head>
   <title>Physics Usage - Monogatari</title>
@@ -38,8 +39,9 @@
 
           zombie.update = function() {
             var message = this.messages.pop();
-            if( message )
-              console.log( message );
+//            if( message ) {
+//              console.log( message );
+//            }
           };
 
           m.world.children.push( zombie );
@@ -61,21 +63,20 @@
           rb2.createFixture();
 
           //<hacking>
-          /*
-          var buffer = Box2D.allocate( Box2D.intArrayFromString( "bolovo" ), 'i8', Box2D.ALLOC_STACK );
+//          var buffer = Box2D.allocate( Box2D.intArrayFromString( "bolovo" ), 'i8', Box2D.ALLOC_STACK );
+//
+//          rb2.body.SetUserData( buffer );
+//          //rb2.body.SetUserData( 35 );
+//          //console.log(  rb2.body.GetUserData() );
+//
+//          var userData = rb2.body.GetUserData();
+//          console.log( String.fromCharCode( Box2D.getValue( userData, 'i8' ) ) ); // b
+//          console.log( String.fromCharCode( Box2D.getValue( userData + 1, 'i8' ) ) ); // o
+//          console.log( String.fromCharCode( Box2D.getValue( userData + 2, 'i8' ) ) ); // l
+//          console.log( String.fromCharCode( Box2D.getValue( userData + 3, 'i8' ) ) ); // o
+//          console.log( String.fromCharCode( Box2D.getValue( userData + 4, 'i8' ) ) ); // v
+//          console.log( String.fromCharCode( Box2D.getValue( userData + 5, 'i8' ) ) ); // o
 
-          rb2.body.SetUserData( buffer );
-          //rb2.body.SetUserData( 35 );
-          //console.log(  rb2.body.GetUserData() );
-
-          var userData = rb2.body.GetUserData();
-          console.log( String.fromCharCode( Box2D.getValue( userData, 'i8' ) ) ); // b
-          console.log( String.fromCharCode( Box2D.getValue( userData + 1, 'i8' ) ) ); // o
-          console.log( String.fromCharCode( Box2D.getValue( userData + 2, 'i8' ) ) ); // l
-          console.log( String.fromCharCode( Box2D.getValue( userData + 3, 'i8' ) ) ); // o
-          console.log( String.fromCharCode( Box2D.getValue( userData + 4, 'i8' ) ) ); // v
-          console.log( String.fromCharCode( Box2D.getValue( userData + 5, 'i8' ) ) ); // o
-          */
           //</hacking>
 
           m.world.children.push( zombie2 );
