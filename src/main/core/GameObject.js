@@ -484,8 +484,31 @@ define(
       this.postUpdate();
     };
 
-    GameObject.prototype.destroy = function() {
-      // iterate and handle component specific cleanup then destroys the GO
+    GameObject.prototype.destroy = function( sceneId ) {
+      // iterate trough children destroying them
+      for( var i = 0, len = this.children.length; i < len; i++ ) {
+        this.children[ i ].destroy();
+      }
+      // iterate components and handle component specific cleanup
+      this.componentsIt.first();
+      while( this.componentsIt.hasNext() ) {
+        var component = this.componentsIt.next();
+
+        // Box2D - RigidBody
+        if( component.type === Base.RIGID_BODY ) {
+          PhysicsManager.destroyBody( component );
+        }
+
+        // Three.js
+        if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
+          SceneManager.detachFromScene( component, sceneId );
+        }
+
+        // Sound.js
+        if( component.type === Base.AUDIO_SOURCE ) {
+          component.destroy();
+        }
+      }
     };
 
     return GameObject;

@@ -74,7 +74,12 @@ define(
     // attach given component to a scene, if no scene is provided, set to default scene
     SceneManager.prototype.attachToScene = function( component, sceneId ) {
       var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
-      scene.add( component.getMesh() );
+      scene.remove( component.getMesh() );
+    };
+
+    SceneManager.prototype.detachFromScene = function( component, sceneId ) {
+      var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
+
     };
 
     SceneManager.prototype.render = function() {

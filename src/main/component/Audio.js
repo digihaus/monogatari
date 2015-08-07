@@ -41,7 +41,7 @@ define(
         this.instance.on(
           'complete', function( event ) {
             this.state = Audio.STATE_FINISHED;
-          }
+          }.bind( this )
         );
       }
     };
@@ -65,6 +65,10 @@ define(
         this.instance.stop();
         this.state = Audio.STATE_STOPPED;
       }
+    };
+
+    Audio.prototype.destroy = function() {
+      createjs.Sound.removeSound( this.source );
     };
 
     return Audio;
