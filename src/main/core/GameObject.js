@@ -169,7 +169,9 @@ define(
        */
       this.lastUpdate = 0;
 
-      this.update = ( update && typeof ( update ) === 'function' ) ? update : function() {};
+      if( update === 'function' ) {
+        this.update = update;
+      }
     };
 
     /**

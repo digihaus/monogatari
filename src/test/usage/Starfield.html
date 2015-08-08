@@ -14,18 +14,9 @@
 
           m.init( '0x000000' );
 
-          var update = function() {
-            var s = this.speed / m.timer.fps;
-            this.position.x += this.direction.x * s;
-            this.position.y += this.direction.y * s;
-
-            if( this.position.x < 0 || this.position.y > m.sceneManager.canvasHeight )
-              this.init();
-          };
-
           //STAR
           var Star = function( id ) {
-            m.GameObject.call( this, 'star_' + id, update.bind( this ) );
+            m.GameObject.call( this, 'star_' + id );
 
             this.speed = 0;
 
@@ -47,7 +38,14 @@
             this.speed = r.floating( { min: 100, max: 400 } );
           };
 
-          //Star.prototype.update = update;
+          Star.prototype.update = function() {
+            var s = this.speed / m.timer.fps;
+            this.position.x += this.direction.x * s;
+            this.position.y += this.direction.y * s;
+
+            if( this.position.x < 0 || this.position.y > m.sceneManager.canvasHeight )
+              this.init();
+          };
           //STAR
 
           //STARFIELD
@@ -83,6 +81,7 @@
           //STARFIELD
 
           var cruiser = new m.GameObject( 'cruiser' );
+          cruiser.update = function() {};
           cruiser.addComponent( new m.Sprite( '../resources/assets/cruiser.png', 256, 256 ) );
           cruiser.position.x = m.sceneManager.canvasWidth / 2;
           cruiser.position.y = m.sceneManager.canvasHeight / 2;
