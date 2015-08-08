@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+  <title>Starfield - Monogatari</title>
+  <link href="style.css" rel="stylesheet">
+  <script src="../../../lib/require.js"></script>
+  <script src="../setup.js"></script>
+  <script>
+    require(
+        [ 'Monogatari' ], function( m ) {
+          var Starfield;
+          var r = new m.Random();
+
+          m.init( '0x000000' );
+
+          var update = function() {
+            var s = this.speed / m.timer.fps;
+            this.position.x += this.direction.x * s;
+            this.position.y += this.direction.y * s;
+
+            if( this.position.x < 0 || this.position.y > m.sceneManager.canvasHeight )
+              this.init();
+          };
+
+          //STAR
+          var Star = function( id ) {
+            m.GameObject.call( this, 'star_' + id, update.bind( this ) );
+
+            this.speed = 0;
+
+            var material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF } );
+            var geometry = new THREE.BoxGeometry( 4, 4, 1 );
+
+            this.addComponent( new m.BaseThree( material, geometry ) );
+
+            this.init();
+          };
+
+          Star.prototype = Object.create( m.GameObject.prototype );
+
+          Star.prototype.init = function() {
+            this.isActive = false;
+            this.isVisible = false;
+            this.direction.x = 0;
+            this.direction.y = 1;
+            this.speed = r.floating( { min: 100, max: 400 } );
+          };
+
+          //Star.prototype.update = update;
+          //STAR
+
+          //STARFIELD
+          var STAR_COUNT = 100;
+          Starfield = function() {
+            this.buffer = new m.Map();
+            this.it = this.buffer.iterator();
+
+            for( var i = 0; i < STAR_COUNT; i++ ) {
+              var star = new Star( i );
+
+              this.buffer.put( star.id, star );
+              m.world.children.push( star );
+            }
+          };
+
+          Starfield.prototype.spawn = function() {
+            this.it.first();
+            var star = null;
+
+            while( this.it.hasNext() ) {
+              star = this.it.next();
+
+              if( star && !star.isActive && !star.isVisible ) {
+                star.isActive = true;
+                star.isVisible = true;
+                star.position.x = r.floating( { min: 0, max: m.sceneManager.canvasWidth } );
+                star.position.y = -r.floating( { min: 0, max: m.sceneManager.canvasHeight } );
+                star.position.z = 0;
+              }
+            }
+          };
+          //STARFIELD
+
+          var cruiser = new m.GameObject( 'cruiser' );
+          cruiser.addComponent( new m.Sprite( '../resources/assets/cruiser.png', 256, 256 ) );
+          cruiser.position.x = m.sceneManager.canvasWidth / 2;
+          cruiser.position.y = m.sceneManager.canvasHeight / 2;
+          cruiser.position.z = 1;
+          m.world.children.push( cruiser );
+
+          var stars = new Starfield();
+
+          m.world.update = function() {
+            stars.spawn();
+          };
+          m.run();
+        }
+    );
+  </script>
+</head>
+<body>
+</body>
+</html>
