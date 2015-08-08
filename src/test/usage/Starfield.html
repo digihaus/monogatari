@@ -18,10 +18,20 @@
           var Star = function( id ) {
             m.GameObject.call( this, 'star_' + id );
 
-            this.speed = 0;
+            this.speed = r.floating( { min: 100, max: 400 } );
 
             var material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF } );
-            var geometry = new THREE.BoxGeometry( 4, 4, 1 );
+            var geometry = null;
+
+            if( this.speed < 200 ) {
+              geometry = new THREE.BoxGeometry( 1, 1, 1 )
+            } else if( this.speed < 300 ) {
+              geometry = new THREE.BoxGeometry( 2, 2, 1 )
+            } else if( this.speed < 350 ) {
+              geometry = new THREE.BoxGeometry( 3, 3, 1 )
+            } else {
+              geometry = new THREE.BoxGeometry( 4, 4, 1 )
+            }
 
             this.addComponent( new m.BaseThree( material, geometry ) );
 
@@ -35,7 +45,6 @@
             this.isVisible = false;
             this.direction.x = 0;
             this.direction.y = 1;
-            this.speed = r.floating( { min: 100, max: 400 } );
           };
 
           Star.prototype.update = function() {
