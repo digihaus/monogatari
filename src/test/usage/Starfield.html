@@ -89,6 +89,7 @@
           };
           //STARFIELD
 
+          //CRUISER
           var cruiser = new m.GameObject( 'cruiser' );
           cruiser.update = function() {};
           cruiser.addComponent( new m.Sprite( '../resources/assets/cruiser.png', 256, 256 ) );
@@ -96,6 +97,7 @@
           cruiser.position.y = m.sceneManager.canvasHeight / 2;
           cruiser.position.z = 1;
           m.world.children.push( cruiser );
+          //CRUISER
 
           var stars = new Starfield();
 

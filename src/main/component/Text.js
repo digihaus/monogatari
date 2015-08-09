@@ -1,9 +1,9 @@
 define(
   [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( Base, BaseFont, _Three ) {
 
-    var StaticText = function( text, fontSize, fontFamily, width, height ) {
+    var Text = function( text, fontSize, fontFamily, width, height ) {
       BaseFont.call( this, fontSize, fontFamily );
-      this.type = Base.STATIC_TEXT;
+      this.type = Base.TEXT;
       this.isRenderable = true;
       this.isLoaded = false;
 
@@ -21,9 +21,9 @@ define(
       this.load();
     };
 
-    StaticText.prototype = Object.create( BaseFont.prototype );
+    Text.prototype = Object.create( BaseFont.prototype );
 
-    StaticText.prototype.reset = function( text, fontSize, fontFamily, width, height ) {
+    Text.prototype.reset = function( text, fontSize, fontFamily, width, height ) {
       this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
       this.fontSize = ( fontSize ) ? fontSize : 10;
       this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
@@ -31,7 +31,7 @@ define(
       this.h = ( height ) ? height : 64;
     };
 
-    StaticText.prototype.onLoad = function() {
+    Text.prototype.onLoad = function() {
       this.parse();
 
       this.texture = new THREE.Texture( this.renderIntoBuffer() );
@@ -53,7 +53,7 @@ define(
       this.isLoaded = true;
     };
 
-    StaticText.prototype.renderIntoBuffer = function() {
+    Text.prototype.renderIntoBuffer = function() {
       var context = this.buffer.getContext( '2d' );
 
       if( this.text.length > 0 ) {
@@ -92,6 +92,6 @@ define(
       return this.buffer;
     };
 
-    return StaticText;
+    return Text;
   }
 );

@@ -21,7 +21,7 @@ define(
     Component.BASE_FONT = 2;
     Component.RIGID_BODY = 3;
     Component.SPRITE = 4;
-    Component.STATIC_TEXT = 5;
+    Component.TEXT = 5;
     Component.AUDIO_SOURCE = 6;
     Component.PARTICLE_EMITTER = 7;
     Component.TILEMAP = 8;

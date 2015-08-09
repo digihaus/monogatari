@@ -19,7 +19,7 @@ define(
     'component/BaseThree',
     'component/RigidBody',
     'component/Sprite',
-    'component/StaticText',
+    'component/Text',
     'collection/List',
     'collection/Map',
     'collection/Tree',
@@ -44,7 +44,7 @@ define(
     BaseThree,
     RigidBody,
     Sprite,
-    StaticText,
+    Text,
     List,
     Map,
     Tree,
@@ -88,8 +88,9 @@ define(
       /**
        * The root node of the engine GameObject tree. Any GameObject will only be available to the engine when attached directly or indirectly to world.
        */
-      World.gameObject = new GameObject( 'world' );
+      World.gameObject = new GameObject( 'world', function(){} );
       this.world = World.gameObject;
+
 
       /**
        * @memberOf Monogatari
@@ -142,7 +143,7 @@ define(
       this.BaseThree = BaseThree;
       this.RigidBody = RigidBody;
       this.Sprite = Sprite;
-      this.StaticText = StaticText;
+      this.Text = Text;
     };
 
     Monogatari.prototype.init = function( bgcolor, width, height, target ) {
