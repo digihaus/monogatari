@@ -1,8 +1,8 @@
 define(
   [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( Base, BaseFont, _Three ) {
 
-    var Text = function( text, fontSize, fontFamily, width, height ) {
-      BaseFont.call( this, fontSize, fontFamily );
+    var Text = function( text, fontSize, fontFamily, width, height, color ) {
+      BaseFont.call( this, fontSize, fontFamily, color, color );
       this.type = Base.TEXT;
       this.isRenderable = true;
       this.isLoaded = false;
