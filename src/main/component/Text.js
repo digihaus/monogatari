@@ -2,7 +2,7 @@ define(
   [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( Base, BaseFont, _Three ) {
 
     var Text = function( text, fontSize, fontFamily, width, height, color ) {
-      BaseFont.call( this, fontSize, fontFamily, color, color );
+      BaseFont.call( this, fontSize, fontFamily, color  );
       this.type = Base.TEXT;
       this.isRenderable = true;
       this.isLoaded = false;
@@ -31,9 +31,54 @@ define(
       this.h = ( height ) ? height : 64;
     };
 
-    Text.prototype.onLoad = function() {
-      this.parse();
+    Text.prototype.clearBuffer = function() {
+      var context = this.buffer.getContext( '2d' );
+      context.clearRect( 0, 0, this.w, this.h );
+    };
 
+    Text.prototype.setSize = function( size ) {
+      this.fontSize = ( size ) ? size : 10;
+      this.parse();
+      this.clearBuffer();
+      this.createTexture();
+    };
+
+    Text.prototype.setFamily = function( family ) {
+      this.fontFamily = ( family ) ? family : 'Verdana';
+      this.parse();
+      this.clearBuffer();
+      this.createTexture();
+    };
+
+    Text.prototype.setColor = function( color ) {
+      this.color = ( color ) ? color : '#000';
+      this.parse();
+      this.clearBuffer();
+      this.createTexture();
+    };
+
+    Text.prototype.setText = function( text ) {
+      this.text = ( text ) ? text : '';
+      this.isLoaded = false;
+      this.clearBuffer();
+      this.createTexture();
+    };
+
+    Text.prototype.setWidth = function( width ) {
+      this.w = ( width ) ? width : 256;
+      this.isLoaded = false;
+      this.clearBuffer();
+      this.createTexture();
+    };
+
+    Text.prototype.setHeight = function( height ) {
+      this.h = ( height ) ? height : 64;
+      this.isLoaded = false;
+      this.clearBuffer();
+      this.createTexture();
+    };
+
+    Text.prototype.createTexture = function() {
       this.texture = new THREE.Texture( this.renderIntoBuffer() );
       // This line makes the textures created during execution to work properly
       this.texture.needsUpdate = true;
@@ -44,13 +89,18 @@ define(
       this.material = new THREE.MeshBasicMaterial(
         {
           map: this.texture,
-          side: THREE.DoubleSide
+          side: THREE.FrontSide
         }
       );
       this.material.transparent = true;
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
       this.mesh = new THREE.Mesh( this.geometry, this.material );
       this.isLoaded = true;
+    };
+
+    Text.prototype.onLoad = function() {
+      this.parse();
+      this.createTexture();
     };
 
     Text.prototype.renderIntoBuffer = function() {

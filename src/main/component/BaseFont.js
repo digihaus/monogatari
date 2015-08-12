@@ -9,7 +9,7 @@ define(
   [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math', 'lib/WebFont' ],
   function( Base, BaseThree, Map, Math, WebFont ) {
 
-    var Font = function( size, family, strokeColor, fillColor ) {
+    var Font = function( size, family, color ) {
       BaseThree.call( this );
       this.type = Base.BASE_FONT;
       this.isRenderable = true;
@@ -17,8 +17,7 @@ define(
 
       this.fontSize = ( size ) ? size : 10;
       this.fontFamily = ( family ) ? family : 'Verdana';
-      this.strokeColor = ( strokeColor ) ? strokeColor : '#000';
-      this.fillColor = ( fillColor ) ? fillColor : '#000';
+      this.color = ( color ) ? color : '#000';
 
       this.maxWidth = this.fontSize;
 
@@ -74,8 +73,8 @@ define(
 
         context = canvas.getContext( '2d' );
         context.clearRect( 0, 0, w, h );
-        context.strokeStyle = this.strokeColor;
-        context.fillStyle = this.fillColor;
+        context.strokeStyle = this.color;
+        context.fillStyle = this.color;
 
         context.mozImageSmoothingEnabled = false;
         context.webkitImageSmoothingEnabled = false;
@@ -87,6 +86,21 @@ define(
 
         this.fontMap.put( Font.CHARS[ i ], canvas );
       }
+    };
+
+    Font.prototype.setSize = function( size ) {
+      this.fontSize = ( size ) ? size : 10;
+      this.parse();
+    };
+
+    Font.prototype.setFamily = function( family ) {
+      this.fontFamily = ( family ) ? family : 'Verdana';
+      this.parse();
+    };
+
+    Font.prototype.setColor = function( color ) {
+      this.color = ( color ) ? color : '#000';
+      this.parse();
     };
 
     return Font;
