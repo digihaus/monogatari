@@ -22,9 +22,10 @@ define(
     Component.RIGID_BODY = 3;
     Component.SPRITE = 4;
     Component.TEXT = 5;
-    Component.AUDIO_SOURCE = 6;
-    Component.PARTICLE_EMITTER = 7;
-    Component.TILEMAP = 8;
+    Component.FLY_TEXT = 6;
+    Component.AUDIO_SOURCE = 7;
+    Component.PARTICLE_EMITTER = 8;
+    Component.TILEMAP = 9;
 
     Component.CUSTOM = -1;
 

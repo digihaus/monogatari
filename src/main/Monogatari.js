@@ -20,6 +20,7 @@ define(
     'component/RigidBody',
     'component/Sprite',
     'component/Text',
+    'component/FlyText',
     'collection/List',
     'collection/Map',
     'collection/Tree',
@@ -45,6 +46,7 @@ define(
     RigidBody,
     Sprite,
     Text,
+    FlyText,
     List,
     Map,
     Tree,
@@ -144,6 +146,7 @@ define(
       this.RigidBody = RigidBody;
       this.Sprite = Sprite;
       this.Text = Text;
+      this.FlyText = FlyText;
     };
 
     Monogatari.prototype.init = function( bgcolor, width, height, target ) {
@@ -187,7 +190,6 @@ define(
       this.timer.tick();
       this.physicsManager.update( this.timer );
       this.world.updateAll();
-      //this.messageManager.messages.clear();
     };
 
     Monogatari.prototype.render = function() {

@@ -4,7 +4,7 @@
 <head>
   <title>Starfield - Monogatari</title>
   <link href="style_starfield.css" rel="stylesheet">
-  <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
   <script src="../../../lib/require.js"></script>
   <script src="../setup.js"></script>
   <script>
@@ -106,10 +106,10 @@
 
           var t = 'We need to have people up there who can communicate what it FEELS like, not just pilots and engineers';
 
-          dialog.addComponent( new m.Text( t, 20, 'VT323', m.sceneManager.canvasWidth, 200, '#FFFFFF' ) );
+          dialog.addComponent( new m.FlyText( t, 25, 'Ubuntu Mono', m.sceneManager.canvasWidth, 200, '#FFFFFF' ) );
 
           dialog.update = function() {
-            var text = this.findComponent( m.Base.TEXT );
+            var text = this.findComponent( m.Base.FLY_TEXT );
             if( text.isLoaded ) {
               m.sceneManager.attachToScene( text );
             }

@@ -106,6 +106,10 @@ define(
     Text.prototype.renderIntoBuffer = function() {
       var context = this.buffer.getContext( '2d' );
 
+      context.imageSmoothingEnabled = false;
+      context.webkitImageSmoothingEnabled = false;
+      context.mozImageSmoothingEnabled = false;
+
       if( this.text.length > 0 ) {
         var c = this.fontMap.get( this.text[ 0 ] );
         var words = this.text.split( ' ' );

@@ -7,6 +7,14 @@ body {
     font-size: 12px;
 }
 
+canvas, img{
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
 .testButton {
     -moz-box-shadow:inset 0px -3px 7px 0px #29bbff;
     -webkit-box-shadow:inset 0px -3px 7px 0px #29bbff;
@@ -26,7 +34,7 @@ body {
     display:inline-block;
     cursor:pointer;
     color:#ffffff;
-    font-family: VT323, verdana;
+    font-family: verdana, monospace;
     font-size:15px;
     padding:9px 23px;
     text-decoration:none;

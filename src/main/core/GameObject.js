@@ -384,15 +384,22 @@ define(
         this.position.y = rigidBody.body.GetPosition().get_y() * rigidBody.conversionFactor;
       }
 
-      // For renderable components, updates engine transformations to Three.js
+
       this.componentsIt.first();
       while( this.componentsIt.hasNext() ) {
         var component = this.componentsIt.next();
+
+        // For renderable components, updates engine transformations to Three.js
         if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
           component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
           component.getMesh().rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
           component.getMesh().scale.set( -this.scale.x, this.scale.y, this.scale.z );
           component.visible = this.isVisible;
+        }
+
+        // For components that require an update
+        if( typeof( component.update ) === 'function' ){
+          component.update();
         }
       }
     };
