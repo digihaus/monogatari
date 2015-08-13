@@ -6,7 +6,7 @@ define(
       this.type = Base.FLY_TEXT;
 
       this.speed = ( speed ) ? speed : 50;
-      this.textBuffer = "";
+      this.textBuffer = '';
       this.startTime = 0;
 
       this.load();
@@ -21,7 +21,7 @@ define(
       this.w = ( width ) ? width : 256;
       this.h = ( height ) ? height : 64;
       this.speed = ( speed ) ? speed : 50;
-      this.textBuffer = "";
+      this.textBuffer = '';
       this.startTime = 0;
     };
 
@@ -54,19 +54,14 @@ define(
     };
 
     FlyText.prototype.update = function() {
-      var len = 0;
 
       if( this.startTime === 0 ) {
         this.startTime = Timer.time;
       }
 
-      if( this.speed >= 1 ) {
-        len = Math.round( ( Timer.time - this.startTime ) / this.speed );
+      var len = Math.round( ( Timer.time - this.startTime ) / this.speed );
 
-        if( len >= this.text.length ) {
-          len = this.text.length;
-        }
-
+      if( this.speed >= 1  || len >= this.text.length) {
         this.textBuffer = this.text.substring( 0, len );
       } else {
         this.textBuffer = this.text;
@@ -91,16 +86,17 @@ define(
 
       context.clearRect( 0, 0, this.w, this.h );
 
-      if( this.text.length > 0 ) {
-        var c = this.fontMap.get( this.text[ 0 ] );
+      if( this.textBuffer.length > 0 ) {
+        var c = this.fontMap.get( this.textBuffer[ 0 ] );
         var words = this.textBuffer.split( ' ' );
+        var all = this.text.split( ' ' );
 
         // The position(x,y) and scale(width, height) of a single character
         var cX = 0, cY = 0, cW = 0, cH = 0;
 
         for( var i = 0, len = words.length; i < len; i++ ) {
 
-          if( cX + ( len * cW ) >= this.w ) {
+          if( cX + ( all.length * cW ) >= this.w ) {
             cX = 0;
             cY += cH;
           }
