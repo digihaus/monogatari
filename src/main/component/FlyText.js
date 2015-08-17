@@ -10,6 +10,7 @@ define(
       this.startTime = 0;
 
       this.load();
+      this.finished = false;
     };
 
     FlyText.prototype = Object.create( Text.prototype );
@@ -21,6 +22,14 @@ define(
       this.w = ( width ) ? width : 256;
       this.h = ( height ) ? height : 64;
       this.speed = ( speed ) ? speed : 50;
+      this.textBuffer = '';
+      this.startTime = 0;
+    };
+
+    FlyText.prototype.clearBuffer = function() {
+      var context = this.buffer.getContext( '2d' );
+      context.clearRect( 0, 0, this.w, this.h );
+      this.finished = false;
       this.textBuffer = '';
       this.startTime = 0;
     };
@@ -59,22 +68,27 @@ define(
         this.startTime = Timer.time;
       }
 
-      var len = Math.round( ( Timer.time - this.startTime ) / this.speed );
+      if( !this.finished ) {
+        var len = Math.round( ( Timer.time - this.startTime ) / this.speed );
 
-      if( this.speed >= 1  || len >= this.text.length) {
-        this.textBuffer = this.text.substring( 0, len );
-      } else {
-        this.textBuffer = this.text;
-      }
+        if( this.speed >= 1 || len >= this.text.length ) {
+          this.textBuffer = this.text.substring( 0, len );
+        } else {
+          this.textBuffer = this.text;
+        }
 
-      if( this.isLoaded ) {
-        // This line makes the textures created during execution to work properly
-        this.texture.needsUpdate = true;
-        this.texture.flipY = true;
-        this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
-        this.texture.minFilter = THREE.NearestFilter;
-        this.texture.magFilter = THREE.NearestFilter;
-        this.texture.image = this.renderIntoBuffer();
+        if( this.isLoaded ) {
+          // This line makes the textures created during execution to work properly
+          this.texture.needsUpdate = true;
+          this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
+          this.texture.minFilter = THREE.NearestFilter;
+          this.texture.magFilter = THREE.NearestFilter;
+          this.texture.image = this.renderIntoBuffer();
+        }
+
+        if( this.textBuffer.length === this.text.length ) {
+          this.finished = true;
+        }
       }
     };
 

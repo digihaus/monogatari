@@ -29,53 +29,56 @@ define(
       this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
       this.w = ( width ) ? width : 256;
       this.h = ( height ) ? height : 64;
+      this.load();
+    };
+
+    Text.prototype.setSize = function( size ) {
+      this.isLoaded = false;
+      this.fontSize = ( size ) ? size : 10;
+      this.load();
+    };
+
+    Text.prototype.setFamily = function( family ) {
+      this.isLoaded = false;
+      this.fontFamily = ( family ) ? family : 'Verdana';
+      this.load();
+    };
+
+    Text.prototype.setColor = function( color ) {
+      this.isLoaded = false;
+      this.color = ( color ) ? color : '#000';
+      this.load();
+    };
+
+    Text.prototype.setText = function( text ) {
+      this.isLoaded = false;
+      this.text = ( text ) ? text : '';
+      this.load();
+    };
+
+    Text.prototype.setWidth = function( width ) {
+      this.isLoaded = false;
+      this.w = ( width ) ? width : 256;
+      this.buffer.width = this.w;
+      this.load();
+    };
+
+    Text.prototype.setHeight = function( height ) {
+      this.isLoaded = false;
+      this.h = ( height ) ? height : 64;
+      this.buffer.height = this.h;
+      this.load();
+    };
+
+    Text.prototype.onLoad = function() {
+      this.parse();
+      this.clearBuffer();
+      this.createTexture();
     };
 
     Text.prototype.clearBuffer = function() {
       var context = this.buffer.getContext( '2d' );
       context.clearRect( 0, 0, this.w, this.h );
-    };
-
-    Text.prototype.setSize = function( size ) {
-      this.fontSize = ( size ) ? size : 10;
-      this.parse();
-      this.clearBuffer();
-      this.createTexture();
-    };
-
-    Text.prototype.setFamily = function( family ) {
-      this.fontFamily = ( family ) ? family : 'Verdana';
-      this.parse();
-      this.clearBuffer();
-      this.createTexture();
-    };
-
-    Text.prototype.setColor = function( color ) {
-      this.color = ( color ) ? color : '#000';
-      this.parse();
-      this.clearBuffer();
-      this.createTexture();
-    };
-
-    Text.prototype.setText = function( text ) {
-      this.text = ( text ) ? text : '';
-      this.isLoaded = false;
-      this.clearBuffer();
-      this.createTexture();
-    };
-
-    Text.prototype.setWidth = function( width ) {
-      this.w = ( width ) ? width : 256;
-      this.isLoaded = false;
-      this.clearBuffer();
-      this.createTexture();
-    };
-
-    Text.prototype.setHeight = function( height ) {
-      this.h = ( height ) ? height : 64;
-      this.isLoaded = false;
-      this.clearBuffer();
-      this.createTexture();
     };
 
     Text.prototype.createTexture = function() {
@@ -96,11 +99,6 @@ define(
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
       this.mesh = new THREE.Mesh( this.geometry, this.material );
       this.isLoaded = true;
-    };
-
-    Text.prototype.onLoad = function() {
-      this.parse();
-      this.createTexture();
     };
 
     Text.prototype.renderIntoBuffer = function() {
