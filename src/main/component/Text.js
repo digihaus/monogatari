@@ -108,6 +108,8 @@ define(
       context.webkitImageSmoothingEnabled = false;
       context.mozImageSmoothingEnabled = false;
 
+      context.clearRect( 0, 0, this.w, this.h );
+
       if( this.text.length > 0 ) {
         var c = this.fontMap.get( this.text[ 0 ] );
         var words = this.text.split( ' ' );

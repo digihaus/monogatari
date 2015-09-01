@@ -34,9 +34,14 @@ define(
       this.startTime = 0;
     };
 
+    FlyText.prototype.setText = function( text ) {
+      this.text = ( text ) ? text : '';
+      this.clearBuffer();
+      this.createTexture();
+    };
+
     FlyText.prototype.setSpeed = function( speed ) {
       this.speed = ( speed ) ? speed : 30;
-      this.isLoaded = false;
       this.clearBuffer();
       this.createTexture();
     };
@@ -47,7 +52,7 @@ define(
     };
 
     FlyText.prototype.createTexture = function() {
-      this.texture = new THREE.Texture();
+      this.texture = ( this.texture ) ? this.texture : new THREE.Texture();
       this.texture.needsUpdate = true;
 
       this.material = new THREE.MeshBasicMaterial(

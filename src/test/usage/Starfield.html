@@ -3,7 +3,7 @@
 <html>
 <head>
   <title>Starfield - Monogatari</title>
-  <link href="style_starfield.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
   <script src="../../../lib/require.js"></script>
   <script src="../setup.js"></script>
@@ -90,22 +90,11 @@
           };
           //STARFIELD
 
-          //CRUISER
-          var cruiser = new m.GameObject( 'cruiser' );
-          cruiser.update = function() {};
-          cruiser.addComponent( new m.Sprite( '../resources/assets/cruiser.png', 256, 256 ) );
-          cruiser.position.x = m.sceneManager.canvasWidth / 2;
-          cruiser.position.y = m.sceneManager.canvasHeight / 2;
-          cruiser.position.z = 1;
-          m.world.children.push( cruiser );
-          //CRUISER
-
           //DIALOG
           var dialog = new m.GameObject( 'dialog' );
           dialog.position.set( m.sceneManager.canvasWidth / 2 + 100, m.sceneManager.canvasHeight - 200, 0 );
 
           var t = 'We need to have people up there who can communicate what it FEELS like, not just pilots and engineers';
-
           dialog.addComponent( new m.FlyText( t, 25, 'Ubuntu Mono', m.sceneManager.canvasWidth, 200, '#FFFFFF' ) );
 
           dialog.update = function() {
@@ -113,15 +102,13 @@
             if( text.isLoaded ) {
               m.sceneManager.attachToScene( text );
             }
+
+            if ( m.keyboard.isDown( m.keyboard.SPACE ) ){
+              text.setText("Be humble for you are made of earth. Be noble for you are made of stars.");
+            }
           };
           m.world.children.push( dialog );
           //DIALOG
-
-          var sound = new m.GameObject("sound");
-          sound.addComponent( new m.Audio( 'test', '../resources/assets/aircraft065.wav' ) );
-          window.play = function() {
-            sound.findComponent( m.Base.AUDIO_SOURCE ).start();
-          };
 
           var stars = new Starfield();
 
@@ -134,9 +121,7 @@
   </script>
 </head>
 <body>
-<div id="ui" style="z-index: 10; position: absolute; width: 100%; height: 100%">
-  <input type="button" value="Activate Thrusters!" onclick="play()" class="testButton">
-</div>
+<div id="ui" style="z-index: 10; position: absolute; width: 100%; height: 100%"></div>
 <div id="c" style="z-index: 1;"></div>
 </body>
 </html>
