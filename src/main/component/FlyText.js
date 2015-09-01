@@ -5,7 +5,7 @@ define(
       Text.call( this, text, fontSize, fontFamily, width, height, color );
       this.type = Base.FLY_TEXT;
 
-      this.speed = ( speed ) ? speed : 50;
+      this.speed = ( speed ) ? speed : 30;
       this.textBuffer = '';
       this.startTime = 0;
 
@@ -15,15 +15,19 @@ define(
 
     FlyText.prototype = Object.create( Text.prototype );
 
-    FlyText.prototype.reset = function( text, fontSize, fontFamily, width, height, speed ) {
+    FlyText.prototype.reset = function( text, fontSize, fontFamily, width, height, color, speed ) {
       this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
       this.fontSize = ( fontSize ) ? fontSize : 10;
       this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
       this.w = ( width ) ? width : 256;
       this.h = ( height ) ? height : 64;
-      this.speed = ( speed ) ? speed : 50;
+
+      this.speed = ( speed ) ? speed : 30;
       this.textBuffer = '';
       this.startTime = 0;
+
+      this.load();
+      this.finished = false;
     };
 
     FlyText.prototype.clearBuffer = function() {
@@ -37,13 +41,11 @@ define(
     FlyText.prototype.setText = function( text ) {
       this.text = ( text ) ? text : '';
       this.clearBuffer();
-      this.createTexture();
     };
 
     FlyText.prototype.setSpeed = function( speed ) {
       this.speed = ( speed ) ? speed : 30;
       this.clearBuffer();
-      this.createTexture();
     };
 
     FlyText.prototype.onLoad = function() {

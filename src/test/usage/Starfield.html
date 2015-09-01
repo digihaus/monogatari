@@ -4,20 +4,20 @@
 <head>
   <title>Starfield - Monogatari</title>
   <link href="style.css" rel="stylesheet">
-  <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet" type="text/css">
   <script src="../../../lib/require.js"></script>
   <script src="../setup.js"></script>
   <script>
     require(
-        [ 'Monogatari' ], function( m ) {
+        [ "Monogatari" ], function( m ) {
           var Starfield;
           var r = new m.Random();
 
-          m.init( '#000', null, null, document.getElementById( 'c' ) );
+          m.init( "#000", null, null, document.getElementById( "c" ) );
 
           //STAR
           var Star = function( id ) {
-            m.GameObject.call( this, 'star_' + id );
+            m.GameObject.call( this, "star_" + id );
 
             this.speed = r.floating( { min: 100, max: 400 } );
 
@@ -91,11 +91,11 @@
           //STARFIELD
 
           //DIALOG
-          var dialog = new m.GameObject( 'dialog' );
+          var dialog = new m.GameObject( "dialog" );
           dialog.position.set( m.sceneManager.canvasWidth / 2 + 100, m.sceneManager.canvasHeight - 200, 0 );
 
-          var t = 'We need to have people up there who can communicate what it FEELS like, not just pilots and engineers';
-          dialog.addComponent( new m.FlyText( t, 25, 'Ubuntu Mono', m.sceneManager.canvasWidth, 200, '#FFFFFF' ) );
+          var t = "We need to have people up there who can communicate what it FEELS like, not just pilots and engineers";
+          dialog.addComponent( new m.FlyText( t, 25, "Ubuntu Mono", m.sceneManager.canvasWidth, 200, "#FFFFFF" ) );
 
           dialog.update = function() {
             var text = this.findComponent( m.Base.FLY_TEXT );
@@ -103,8 +103,8 @@
               m.sceneManager.attachToScene( text );
             }
 
-            if ( m.keyboard.isDown( m.keyboard.SPACE ) ){
-              text.setText("Be humble for you are made of earth. Be noble for you are made of stars.");
+            if( m.keyboard.isDown( m.keyboard.SPACE ) ) {
+              text.setText( "Be humble for you are made of earth. Be noble for you are made of stars." );
             }
           };
           m.world.children.push( dialog );

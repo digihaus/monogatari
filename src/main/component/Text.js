@@ -2,7 +2,7 @@ define(
   [ 'component/Base', 'component/BaseFont', 'lib/Three' ], function( Base, BaseFont, _Three ) {
 
     var Text = function( text, fontSize, fontFamily, width, height, color ) {
-      BaseFont.call( this, fontSize, fontFamily, color  );
+      BaseFont.call( this, fontSize, fontFamily, color );
       this.type = Base.TEXT;
       this.isRenderable = true;
       this.isLoaded = false;
@@ -23,7 +23,7 @@ define(
 
     Text.prototype = Object.create( BaseFont.prototype );
 
-    Text.prototype.reset = function( text, fontSize, fontFamily, width, height ) {
+    Text.prototype.reset = function( text, fontSize, fontFamily, width, height, color ) {
       this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
       this.fontSize = ( fontSize ) ? fontSize : 10;
       this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
