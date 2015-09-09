@@ -12,9 +12,10 @@ define(
     'manager/PhysicsManager',
     'manager/MessageManager',
     'lib/Chance',
+    'lib/lokijs.min',
     'core/GameObject',
     'core/World',
-    'component/Audio',
+    //'component/Audio',
     'component/Base',
     'component/BaseThree',
     'component/RigidBody',
@@ -38,9 +39,10 @@ define(
     PhysicsManager,
     MessageManager,
     Chance,
+    Loki,
     GameObject,
     World,
-    Audio,
+    //Audio,
     Base,
     BaseThree,
     RigidBody,
@@ -132,6 +134,7 @@ define(
       this.stringUtils = StringUtils;
       this.browser = _browser;
       this.Random = Chance; // Class
+      this.Db = Loki;
 
       // Collection Classes
       this.List = List;
@@ -140,7 +143,7 @@ define(
       this.LinkedList = LinkedList;
 
       // Component Classes
-      this.Audio = Audio;
+      //this.Audio = Audio;
       this.Base = Base;
       this.BaseThree = BaseThree;
       this.RigidBody = RigidBody;

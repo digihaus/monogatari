@@ -23,7 +23,7 @@ define(
     Component.SPRITE = 4;
     Component.TEXT = 5;
     Component.FLY_TEXT = 6;
-    Component.AUDIO_SOURCE = 7;
+    //Component.AUDIO_SOURCE = 7;
     Component.PARTICLE_EMITTER = 8;
     Component.TILEMAP = 9;
 
