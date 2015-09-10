@@ -15,7 +15,7 @@ define(
     'lib/lokijs.min',
     'core/GameObject',
     'core/World',
-    //'component/Audio',
+    'component/Audio',
     'component/Base',
     'component/BaseThree',
     'component/RigidBody',
@@ -42,7 +42,7 @@ define(
     Loki,
     GameObject,
     World,
-    //Audio,
+    Audio,
     Base,
     BaseThree,
     RigidBody,
@@ -143,7 +143,7 @@ define(
       this.LinkedList = LinkedList;
 
       // Component Classes
-      //this.Audio = Audio;
+      this.Audio = Audio;
       this.Base = Base;
       this.BaseThree = BaseThree;
       this.RigidBody = RigidBody;
