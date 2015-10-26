@@ -466,7 +466,7 @@ define(
      * Checks for equality with the informed Game Object
      * @method
      * @instance
-     * @name find
+     * @name equals
      * @param {GameObject} go Other Game Object reference
      * @return boolean
      * @memberOf module:core/GameObject~GameObject
@@ -494,7 +494,7 @@ define(
     };
 
     GameObject.prototype.destroy = function( sceneId ) {
-      // iterate trough children destroying them
+      // iterate through children destroying them
       for( var i = 0, len = this.children.length; i < len; i++ ) {
         this.children[ i ].destroy();
       }
