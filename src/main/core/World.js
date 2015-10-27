@@ -1,22 +1,20 @@
-define( function( ) {
-
+/**
+ * Exports the {@link module:core/World~World|World} class.
+ * @module core/World
+ */
+define(
+  function() {
     var instance = null;
 
+    /**
+     * The root node of the engine GameObject tree. Any GameObject will only be available to the engine when attached directly or indirectly to world.
+     * This class is created with the engine initialization.
+     *
+     * @memberOf World
+     * @type {GameObject}
+     * @class World
+     */
     var World = function() {
-      /**
-       * The root node of the engine GameObject tree. Any GameObject will only be available to the engine when attached directly or indirectly to world.
-       *
-       * @example
-       *
-       *  var myParentGO = new m.GameObject( 'Parent' );
-       *  var myGO = new m.GameObject( 'MyGO' );
-       *  myParentGO.children.push( myGO );
-       *  world.children.push( myParentGO );
-       *
-       * @memberOf World
-       * @type {GameObject}
-       * @name world
-       */
       this.gameObject = null;
     };
 

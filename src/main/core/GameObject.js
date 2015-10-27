@@ -32,11 +32,11 @@ define(
      * MyGOClass.prototype = Object.create( m.GameObject.prototype );
      * MyGOClass.prototype.update = function() { ... };
      *
-     * @param {String} id Identifier. Not mandatory, but recommended
-     * @param {function} update The object logic. Not necessary if using inheritance
-     * @param {THREE.Vector3} position Initial position
-     * @param {THREE.Vector3} rotation Initial rotation
-     * @param {THREE.Vector3} scale Initial scale
+     * @param {String} [id] Identifier. Not mandatory, but recommended
+     * @param {function} [update] The object logic. Not necessary if using inheritance
+     * @param {THREE.Vector3} [position] Initial position
+     * @param {THREE.Vector3} [rotation] Initial rotation
+     * @param {THREE.Vector3} [scale] Initial scale
      * @class GameObject
      */
     var GameObject = function( id, update, position, rotation, scale ) {
@@ -184,7 +184,8 @@ define(
      * @memberOf module:core/GameObject~GameObject
      */
     GameObject.prototype.update = function() {
-      throw new Error( 'Update method is not implemented in GameObject id: ' + this.id );
+      // console.warn( 'Update method is not implemented in GameObject id: ' + this.id );
+      // throw new Error( 'Update method is not implemented in GameObject id: ' + this.id );
     };
 
     /**
@@ -493,6 +494,13 @@ define(
       this.postUpdate();
     };
 
+    /**
+     * Iterate (recursively) on the children Array, destroying every component, child and itself.
+     * @method
+     * @instance
+     * @name destroy
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.destroy = function( sceneId ) {
       // iterate through children destroying them
       for( var i = 0, len = this.children.length; i < len; i++ ) {
