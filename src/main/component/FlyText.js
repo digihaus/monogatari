@@ -127,12 +127,12 @@ define(
         var all = this.text.split( ' ' );
 
         // The position(x,y) and scale(width, height) of a single character
-        var cX = 4, cY = 2, cW = 0, cH = 0;
+        var cX = this.radius, cY = this.radius, cW = 0, cH = 0;
 
         for( var i = 0, len = words.length; i < len; i++ ) {
 
           if( cX + ( all.length * cW ) >= this.w ) {
-            cX = 4;
+            cX = this.radius;
             cY += cH;
           }
 
