@@ -1,5 +1,5 @@
 define(
-  [ 'core/Timer', 'component/Base', 'component/Text', 'lib/Three' ], function( Timer, Base, Text, _Three ) {
+  [ 'core/Timer', 'component/Base', 'component/Text', 'lib/Three', 'render/Context2D' ], function( Timer, Base, Text, _Three, Context2D ) {
 
     var FlyText = function( text, fontSize, fontFamily, width, height, color, speed ) {
       Text.call( this, text, fontSize, fontFamily, width, height, color );
@@ -107,18 +107,32 @@ define(
 
       context.clearRect( 0, 0, this.w, this.h );
 
+      if( this.radius > 0 ) {
+        context = Context2D.setContextColor( context, this.bubbleColor );
+        context = Context2D.setContextStrokeColor( context, this.bubbleStrokeColor );
+
+        Context2D.fillAndStrokeRoundedRect(
+          context,
+          2,
+          2,
+          this.w - (this.radius * 2) - 2,
+          this.h - (this.radius * 2) - 2,
+          this.radius
+        );
+      }
+
       if( this.textBuffer.length > 0 ) {
         var c = this.fontMap.get( this.textBuffer[ 0 ] );
         var words = this.textBuffer.split( ' ' );
         var all = this.text.split( ' ' );
 
         // The position(x,y) and scale(width, height) of a single character
-        var cX = 0, cY = 0, cW = 0, cH = 0;
+        var cX = 4, cY = 2, cW = 0, cH = 0;
 
         for( var i = 0, len = words.length; i < len; i++ ) {
 
           if( cX + ( all.length * cW ) >= this.w ) {
-            cX = 0;
+            cX = 4;
             cY += cH;
           }
 

@@ -21,6 +21,7 @@
 
           go.update = function() {
             var staticText = this.findComponent( m.Base.TEXT );
+            staticText.createBubble( 15 );
             if( staticText.isLoaded ) {
               m.sceneManager.attachToScene( staticText );
             }
