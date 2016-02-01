@@ -8,8 +8,8 @@ Currently supporting 2D games, it is composed by JS libraries like [three.js](ht
 
 ### Demo: Zombies ###
 A top-view zombie shooter.
-* URL - [gemuzon.github.io/demo/zombies/](http://gemuzon.github.io/demo/zombies/)
-* Source code - [github.com/gemuzon/zombies](http://github.com/gemuzon/zombies)
+* URL - [digihaus.github.io/demo/zombies/](http://digihaus.github.io/demo/zombies/)
+* Source code - [github.com/digihaus/zombies](http://github.com/digihaus/zombies)
 
 ### License ###
-[MIT](https://github.com/gemuzon/monogatari/blob/master/LICENSE)
+[MIT](https://github.com/digihaus/monogatari/blob/master/LICENSE)
