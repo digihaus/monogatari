@@ -19,7 +19,6 @@ define(
     /**
      * Finds the position of a given key on the Map
      * @method
-     * @abstract
      * @instance
      * @name indexOf
      * @param {Object} key The key value to be found
@@ -33,7 +32,6 @@ define(
     /**
      * Check if given key exists within the Map
      * @method
-     * @abstract
      * @instance
      * @name contains
      * @param {Object} key The key value to be found
@@ -47,7 +45,6 @@ define(
     /**
      * Return the length of the Map
      * @method
-     * @abstract
      * @instance
      * @name size
      * @memberOf module:collection/Map~Map
@@ -61,7 +58,6 @@ define(
      * Associates the specified value with the specified key in this Map. If the map previously contained a mapping for the key, the old value is
      * replaced by the specified value. If no key is provided, no values are inserted.
      * @method
-     * @abstract
      * @instance
      * @name put
      * @param {Object} key The key value
@@ -80,7 +76,6 @@ define(
     /**
      * Returns the value of a given key
      * @method
-     * @abstract
      * @instance
      * @name get
      * @param {Object} key The key value
@@ -94,7 +89,6 @@ define(
     /**
      * Removes the reference of the key and the value from the map, and if there are no other references, flags both to garbage collection
      * @method
-     * @abstract
      * @instance
      * @name remove
      * @param {Object} key The key value
@@ -111,7 +105,6 @@ define(
     /**
      * Check if the map is empty
      * @method
-     * @abstract
      * @instance
      * @name isEmpty
      * @memberOf module:collection/Map~Map
@@ -124,7 +117,6 @@ define(
     /**
      * Clear all keys and values, removing all references.
      * @method
-     * @abstract
      * @instance
      * @name clear
      * @memberOf module:collection/Map~Map
@@ -137,7 +129,6 @@ define(
     /**
      * Creates and returns an Object with iterator functionality, allowing to navigate through the values stored on the Map
      * @method
-     * @abstract
      * @instance
      * @name iterator
      * @memberOf module:collection/Map~Map
