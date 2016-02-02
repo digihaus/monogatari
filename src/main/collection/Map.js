@@ -135,7 +135,7 @@ define(
     };
 
     /**
-     * Create and return an iterator object
+     * Creates and returns an Object with iterator functionality, allowing to navigate through the values stored on the Map
      * @method
      * @abstract
      * @instance
