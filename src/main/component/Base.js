@@ -1,7 +1,14 @@
 /**
- * This is the base Component all others shall extend.
- */
+ * Exports the {@link module:component/Base~Base|Base} class.
+ * @module component/Base
+  */
 define(
+
+/**
+ * This is the base Abstract Class that all others Components shall extend.
+ * @class Base
+ */
+
   function() {
 
     var Component = function( type ) {
