@@ -1,4 +1,9 @@
-/*
+
+/**
+ * Exports the {@link module:collection/LinkedList~LinkedList|LinkedList} class.
+ * @module collection/LinkedList
+ *
+ * @licence
  * Doubly Linked List implementation in JavaScript
  * Copyright (c) 2009 Nicholas C. Zakas
  *
@@ -20,7 +25,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 define(
   [ "core/Common" ], function( Common ) {
 
@@ -30,12 +34,26 @@ define(
       this.prev = null;
     };
 
+    /**
+     * Collection of data elements, with elements directing to the next node by means of pointer.
+     * Elements can easily be inserted or removed without reallocation or reorganization of the entire
+     * structure because the data items need not be stored contiguously in memory
+     *
+     * @class LinkedList
+     */
     var LinkedList = function() {
       this._head = null;
       this._tail = null;
       this._size = 0;
     };
 
+    /**
+     * Add a value to the LinkedList, allows nulls and repeated values
+     * @method
+     * @instance
+     * @name put
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.put = function( value ) {
       var node = new LinkedListNode( value );
 
@@ -53,6 +71,14 @@ define(
       this._size++;
     };
 
+    /**
+     * Remove and returns the last value from the LinkedList
+     * @method
+     * @instance
+     * @name pop
+     * @return Object
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.pop = function() {
       return this.removeByIndex( this._size - 1 );
     };
@@ -72,6 +98,15 @@ define(
       }
     };
 
+    /**
+     * Remove a value by a given index and returns it or null if not found
+     * @method
+     * @instance
+     * @name removeByIndex
+     * @param {Number} index The index position on the List
+     * @return Object
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.removeByIndex = function( index ) {
       if( !isNaN( index ) && index > -1 && index <= this._size ) {
         var node = this._head, i = 0;
@@ -109,6 +144,15 @@ define(
       }
     };
 
+    /**
+     * Remove a value by a object index and returns it or null if not found
+     * @method
+     * @instance
+     * @name removeByIndex
+     * @param {Object} value The value on the List
+     * @return Object
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.removeByValue = function( value ) {
       if( value && this._size > 0 ) {
 
@@ -158,20 +202,50 @@ define(
       }
     };
 
+    /**
+     * Clear the whole List, removing all references to it and signaling to be garbage collected
+     * @method
+     * @instance
+     * @name clear
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.clear = function() {
       this._head = null;
       this._tail = null;
       this._size = 0;
     };
 
+    /**
+     * Returns the length of the LinkedList
+     * @method
+     * @instance
+     * @name size
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.size = function() {
       return this._size;
     };
 
+    /**
+     * Check if the LinkedList is Empty
+     * @method
+     * @instance
+     * @name isEmpty
+     * @return boolean
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.isEmpty = function() {
       return ( this._size > 0 );
     };
 
+    /**
+     * Returns an array with the values from the LinkedList
+     * @method
+     * @instance
+     * @name toArray
+     * @return Array
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.toArray = function() {
       var result = [], current = this._head;
 
@@ -183,14 +257,38 @@ define(
       return result;
     };
 
+    /**
+     * Returns a JSON object with the values from the LinkedList
+     * @method
+     * @instance
+     * @name toJSON
+     * @return {JSON}
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.toJSON = function() {
       return JSON.stringify( this.toArray() );
     };
 
+    /**
+     * Returns a stringified object with the values from the LinkedList
+     * @method
+     * @instance
+     * @name toString
+     * @return {String}
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.toString = function() {
       return this.toArray().toString();
     };
 
+    /**
+     * Creates and returns an Object with iterator functionality, allowing to navigate through the values stored on the LinkedList
+     * @method
+     * @instance
+     * @name iterator
+     * @return Object
+     * @memberOf module:collection/LinkedList~LinkedList
+     */
     LinkedList.prototype.iterator = function() {
       var Iterator = function( head, tail ) {
         this._head = head;

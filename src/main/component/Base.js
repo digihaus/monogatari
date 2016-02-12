@@ -1,8 +1,8 @@
 /**
- * Exports the {@link module:component/Base~Base|Base} class.
- * @module component/Base
+ * This is the base Component all others shall extend.
  */
 define(
+  function() {
 
   function() {
     /**
