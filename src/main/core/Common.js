@@ -1,6 +1,16 @@
+/**
+ * Exports the {@link module:core/Common~Common|Common} class.
+ * @module core/Common
+ */
+
 define(
   function() {
 
+    /**
+     * Useful common functions
+     *
+     * @class Common
+     */
     var Common = {
       sequence: 0
     };
