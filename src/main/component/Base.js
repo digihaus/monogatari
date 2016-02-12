@@ -3,8 +3,6 @@
  */
 define(
   function() {
-
-  function() {
     /**
      * This is the abstract class that all components shall extend.
      * @abstract
