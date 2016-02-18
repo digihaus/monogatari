@@ -1,14 +1,23 @@
 /**
- * This module provides the basic buffering for fonts.
- * Modules that extend this one should call parse() at some point to proper buffering.
- *
- * https://github.com/typekit/webfontloader
- * http://stemkoski.github.io/Three.js/Texture-From-Canvas.html
+ * Exports the {@link module:core/World~World|World} class.
+ * @module component/BaseFont
  */
 define(
   [ 'component/Base', 'component/BaseThree', 'collection/Map', 'core/Math', 'lib/WebFont' ],
   function( Base, BaseThree, Map, Math, WebFont ) {
 
+    /**
+     * This component provides the basic buffering for fonts.
+     * All components that extend this should call parse() at some point to proper buffering.
+     *
+     * @link https://github.com/typekit/webfontloader
+     * @link http://stemkoski.github.io/Three.js/Texture-From-Canvas.html
+     *
+     * @param {String} [size] Font size in pixels
+     * @param {String} [family] Font family name
+     * @param {String} [color] Hexadecimal color
+     * @class BaseFont
+     */
     var Font = function( size, family, color ) {
       BaseThree.call( this );
       this.type = Base.BASE_FONT;
@@ -27,8 +36,24 @@ define(
 
     Font.prototype = Object.create( BaseThree.prototype );
 
+    /**
+     * String array of characters to be parsed by the component.
+     * @constant
+     * @instance
+     * @name CHARS
+     * @memberOf module:component/BaseFont~BaseFont
+     * @example
+     * abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çÇáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜãõñÃÕÑâêîôûÂÊÎÔÛ_()-,.[]!?@$*%#&{}<>:+-/
+     */
     Font.CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çÇáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜãõñÃÕÑâêîôûÂÊÎÔÛ_()-,.[]!?@$*%#&{}<>:+-/ ';
 
+    /**
+     * Loads the external font file in memory.  When the file is loaded, calls the onLoad function.
+     * @method
+     * @instance
+     * @name load
+     * @memberOf module:component/BaseFont~BaseFont
+     */
     Font.prototype.load = function() {
       var callback = this.onLoad;
       var context = this;
@@ -45,11 +70,26 @@ define(
       );
     };
 
+    /**
+     * Callback function, to be triggered when a external font file is loaded into memory.
+     * @method
+     * @instance
+     * @name onLoad
+     * @memberOf module:component/BaseFont~BaseFont
+     */
     Font.prototype.onLoad = function() {
       this.parse();
       this.isLoaded = true;
     };
 
+    /**
+     * Parses the font on an array of canvas objects, one for each character, storing them on the internal {Map}.
+     * Equivalent to an image buffered on memory.
+     * @method
+     * @instance
+     * @name parse
+     * @memberOf module:component/BaseFont~BaseFont
+     */
     Font.prototype.parse = function() {
       var canvas = null;
       var context = null;
@@ -88,16 +128,40 @@ define(
       }
     };
 
+    /**
+     * Set the font size then re-parses for proper buffering
+     * @method
+     * @instance
+     * @name setSize
+     * @param {String} [size] Font size in pixels
+     * @memberOf module:component/BaseFont~BaseFont
+     */
     Font.prototype.setSize = function( size ) {
       this.fontSize = ( size ) ? size : 10;
       this.parse();
     };
 
+    /**
+     * Set the font family then re-parses for proper buffering
+     * @method
+     * @instance
+     * @name setFamily
+     * @param {String} [family] Font family name
+     * @memberOf module:component/BaseFont~BaseFont
+     */
     Font.prototype.setFamily = function( family ) {
       this.fontFamily = ( family ) ? family : 'Verdana';
       this.parse();
     };
 
+    /**
+     * Set the font color then re-parses for proper buffering
+     * @method
+     * @instance
+     * @name setColor
+     * @param {String} [color] Hexadecimal color
+     * @memberOf module:component/BaseFont~BaseFont
+     */
     Font.prototype.setColor = function( color ) {
       this.color = ( color ) ? color : '#000';
       this.parse();

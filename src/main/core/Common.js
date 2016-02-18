@@ -15,10 +15,6 @@ define(
       sequence: 0
     };
 
-    /**
-     * @link http://stackoverflow.com/a/2117523
-     * @returns {string}
-     */
 /*
     Common.createUniqueId = function() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
@@ -30,10 +26,28 @@ define(
     };
 */
 
+    /**
+     * Returns a sequential unique ID
+     * @method
+     * @instance
+     * @name createUniqueId
+     * @link http://stackoverflow.com/a/2117523
+     * @memberOf module:core/Common~Common
+     */
     Common.createUniqueId = function() {
       return this.sequence++;
     };
 
+    /**
+     * Check if a given Object is equal to another object
+     * @method
+     * @instance
+     * @name equals
+     * @param {object} obj
+     * @param {object} other
+     * @return {String}
+     * @memberOf module:core/Common~Common
+     */
     Common.equals = function( obj, other ) {
       if( obj === null || other === null ) {
         return obj === null && other === null;
@@ -51,12 +65,15 @@ define(
     };
 
     /**
-     * Usage: indexOf( value, array [, fromIndex] )
-     *
-     * @parameter value The value to search for.
-     * @parameter array An array through which to search.
-     * @parameter fromIndex The index of the array at which to begin the search. The default is 0, which will search the whole array.
-     * @returns index of given value on the array, -1 if not found;
+     * Find the index of a value in a given Array
+     * @method
+     * @instance
+     * @name indexOf
+     * @param {Object} value The value to search for.
+     * @param {Array} array An array through which to search.
+     * @param {Number} i The index of the array at which to begin the search. The default is 0, which will search the whole array.
+     * @return index of given value on the array, -1 if not found;
+     * @memberOf module:core/Common~Common
      */
     Common.indexOf = function( value, array, i ) {
       var len;
@@ -80,10 +97,28 @@ define(
       return -1;
     };
 
+    /**
+     * Return an string with the type of the given Object
+     * @method
+     * @instance
+     * @name typeOf
+     * @param {Object} obj
+     * @return {String}
+     * @memberOf module:core/Common~Common
+     */
     Common.typeOf = function( obj ) {
       return Object.prototype.toString.apply( obj );
     };
 
+    /**
+     * Check if given Object is an Array
+     * @method
+     * @instance
+     * @name isArray
+     * @param {Object} a
+     * @return {Boolean}
+     * @memberOf module:core/Common~Common
+     */
     Common.isArray = function( a ) {
       return this.typeOf( a ) === '[object Array]';
     };
