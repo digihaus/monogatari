@@ -3,7 +3,7 @@
  * Exports the {@link module:collection/LinkedList~LinkedList|LinkedList} class.
  * @module collection/LinkedList
  *
- * @licence
+ * @license
  * Doubly Linked List implementation in JavaScript
  * Copyright (c) 2009 Nicholas C. Zakas
  *

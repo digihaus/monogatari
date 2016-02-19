@@ -1,21 +1,26 @@
 /**
- *[ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
- *[ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
- *
- * Box2D has been tuned to work well with moving objects between 0.1 and 10 meters.
- * So this means objects between soup cans and buses in size should work well.
- * Static objects may be up to 50 meters big without too much trouble.
- * Box2D is tuned for meters, kilograms, and seconds.
+ * Exports the {@link module:component/RigidBody~RigidBody|RigidBody} class.
+ * @module component/RigidBody
  */
+
 define(
   [ 'component/Base', 'lib/Box2d' ], function( Base, _Box2d ) {
 
     /**
-     * @param {number} conversionFactor Multiplies the position from physics world (meters to screen coordinates (pixels)). Defaults to 1 (probably not what you expect).
+     * Box2D has been tuned to work well with moving objects between 0.1 and 10 meters.
+     * So this means objects between soup cans and buses in size should work well.
+     * Static objects may be up to 50 meters big without too much trouble.
+     * Box2D is tuned for meters, kilograms, and seconds.
+     *
+     * @param {Number} conversionFactor Multiplies the position from physics world (meters) to screen coordinates (pixels). Defaults to 1 (probably not what you expect).
      * @param {b2BodyDef} bodyDef Box2D physics body definition
      * @param {b2FixtureDef} materialDef Box2D physics material definition
-     * @constructor
+     * @class RigidBody
      */
+
+    // [ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
+    // [ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
+
     var RigidBody = function( conversionFactor, bodyDef, materialDef ) {
       Base.call( this, Base.RIGID_BODY );
 
@@ -33,29 +38,49 @@ define(
     RigidBody.prototype.DYNAMIC = 3;
 
     /**
+     * Sets the density of the material
+     * @instance
+     * @method
+     * @name setDensity
      * @param {number} density In kg/m^2.
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setDensity = function( density ) {
       this.materialDef.set_density( density );
     };
 
     /**
+     * Sets the friction of the material
+     * @instance
+     * @method
+     * @name setDensity
      * @param {number} friction Usually in the range [0,1].
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setFriction = function( friction ) {
       this.materialDef.set_friction( friction );
     };
 
     /**
+     * Sets the bounciness of the material
+     * @instance
+     * @method
+     * @name setBounciness
      * @param {number} bounciness Usually in the range [0,1].
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setBounciness = function( bounciness ) {
       this.materialDef.set_restitution( bounciness );
     };
 
     /**
-     * @param x Coordinate X in the physics world, NOT in pixels or game world, a proper scale is required to draw.
-     * @param y Coordinate Y in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+     * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+     * @instance
+     * @method
+     * @name setPosition
+     * @param {Number} x Coordinate X
+     * @param {Number} y Coordinate Y
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setPosition = function( x, y ) {
       this.bodyDef.get_position().set_x( x );
@@ -63,14 +88,24 @@ define(
     };
 
     /**
+     * Sets the angle (rotation) of the body.
+     * @instance
+     * @method
+     * @name setRotation
      * @param {number} angle In radians.
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setRotation = function( angle ) {
       this.bodyDef.angle.set_angle( angle );
     };
 
     /**
-     * @param shape This is mandatory.
+     * Sets geometrical shape of this RigidBody.
+     * @instance
+     * @method
+     * @name setShape
+     * @param {b2Shape} shape This is mandatory to use the component..
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setShape = function( shape ) {
       this.materialDef.set_shape( shape );
@@ -78,22 +113,38 @@ define(
 
     /**
      * Prevents the collision to be resolved by Box2D, but retains collision information.
+     * @instance
+     * @method
+     * @name setSensor
+     * @param {boolean} isSensor
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setSensor = function( isSensor ) {
       this.materialDef.set_isSensor( isSensor );
     };
 
     /**
+     * Prevents the collision to be resolved through other objects.
      * Expensive! Use with care.
+     * @instance
+     * @method
+     * @name setPreventTunneling
+     * @param {boolean} preventTunneling
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setPreventTunneling = function( preventTunneling ) {
       this.bodyDef.set_bullet( preventTunneling );
     };
 
     /**
-     * A dynamic body is a body which is affected by world forces and react to collisions.
-     * A static body is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved.
-     * A kinematic body is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body.
+     * A <b>dynamic body</b> is a body which is affected by world forces and react to collisions.<BR>
+     * A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved.<BR>
+     * A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body.
+     * @instance
+     * @method
+     * @name setType
+     * @param {Number} type
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setType = function( type ) {
       switch( type ) {
