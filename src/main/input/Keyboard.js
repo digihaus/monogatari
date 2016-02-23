@@ -1,7 +1,21 @@
+/**
+ * Exports the {@link module:input/Keyboard~Keyboard|Keyboard} class.
+ * @module input/Keyboard
+ */
 define(
   function() {
-
+    /**
+     * Map and listens keys for keyboard input
+     * @class Keyboard
+     */
     var Keyboard = function() {
+      /**
+       * Array of pressed keys, they Store a timestamp if pressed or -1 of not pressed
+       * @memberOf module:input/Keyboard~Keyboard
+       * @instance
+       * @type {Int32Array}
+       * @name pressed
+       */
       this.pressed = new Int32Array( 256 );
 
       for( var i = 0, len = this.pressed.length; i < len; i++ ) {
@@ -109,8 +123,17 @@ define(
     Keyboard.prototype.CLOSE_BRAKET = 221;
     Keyboard.prototype.SINGLE_QUOTE = 222;
 
+    /**
+     * Check if a key is pressed
+     * @method
+     * @instance
+     * @name isDown
+     * @param {Number} keyCode Constant of a key mapped
+     * @return Number Timestamp of the last time the key was pressed or null if not pressed
+     * @memberOf module:input/Keyboard~Keyboard
+     */
     Keyboard.prototype.isDown = function( keyCode ) {
-      return ( this.pressed[ keyCode ] == -1 ) ? null : this.pressed[ keyCode ];
+      return ( this.pressed[ keyCode ] === -1 ) ? null : this.pressed[ keyCode ];
     };
 
     Keyboard.prototype.onKeyDown = function( event, timer ) {

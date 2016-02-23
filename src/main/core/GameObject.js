@@ -203,10 +203,28 @@ define(
       this.lastUpdate = Timer.time;
     };
 
+    /**
+     * Method that sends a message to another GameObject through the Message protocol
+     * @method
+     * @instance
+     * @name sendMessage
+     * @param {String} to Id of the target GameObject
+     * @param {String} type A String to identify the type of the message
+     * @param {Object} message The message content
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.sendMessage = function( to, type, message ) {
       MessageManager.register( new Message( this.id, to, type, message ) );
     };
 
+    /**
+     * Method called by the MessageManager to register messages to this GameObject
+     * @method
+     * @instance
+     * @name receiveMessage
+     * @param {Message} message The message object
+     * @memberOf module:core/GameObject~GameObject
+     */
     GameObject.prototype.receiveMessage = function( message ) {
       this.messages.put( message );
     };
