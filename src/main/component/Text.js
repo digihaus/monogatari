@@ -1,26 +1,131 @@
+/**
+ * Exports the {@link module:component/Text~Text|Text} class.
+ * @module component/Text
+ */
 define(
   [ 'component/Base', 'component/BaseFont', 'lib/Three', 'render/Context2D' ], function( Base, BaseFont, _Three, Context2D ) {
 
+    /**
+     * Basic Text display component. It creates an invisible "bounding box" around the Text to limit and break lines using the parameters width and height.
+     *
+     * @param {String} [text] String containing the text to be displayed
+     * @param {String} [fontSize] Font size in pixels
+     * @param {String} [fontFamily]  Font family name
+     * @param {Number} [width] Width in pixels for the area containing the text.
+     * @param {Number} [height] Height in pixels for the area containing the text.
+     * @param {String} [color] Hexadecimal color
+     * @class Text
+     */
     var Text = function( text, fontSize, fontFamily, width, height, color ) {
       BaseFont.call( this, fontSize, fontFamily, color );
+      /**
+       * Component Type
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {Number}
+       * @name type
+       */
       this.type = Base.TEXT;
+
+      /**
+       * Flag to indicate if this component should be rendered on screen
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {Boolean}
+       * @name isRenderable
+       * @default true
+       */
       this.isRenderable = true;
+
+      /**
+       * Flag to indicate if this component is loaded on memory
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {Boolean}
+       * @name isLoaded
+       * @default false
+       */
       this.isLoaded = false;
 
+      /**
+       * Text to be rendered
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {String}
+       * @name text
+       * @default 'The quick brown fox jumps over the lazy dog'
+       */
       this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
+
+      /**
+       * Width in pixels for the area containing the text.
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {Number}
+       * @name w
+       * @default 256
+       */
       this.w = ( width ) ? width : 256;
+
+      /**
+       * Height in pixels for the area containing the text.
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {Number}
+       * @name h
+       * @default 64
+       */
       this.h = ( height ) ? height : 64;
 
+      /**
+       * Radius of the rounded corner
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {Number}
+       * @name radius
+       * @default -1
+       */
       this.radius = -1;
+
+      /**
+       * Hexadecimal color of the speech bubble
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {String}
+       * @name bubbleColor
+       * @default '#FFF'
+       */
       this.bubbleColor = '#FFF';
+
+      /**
+       * Hexadecimal color of the border of the speech bubble
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {String}
+       * @name bubbleStrokeColor
+       * @default '#000'
+       */
       this.bubbleStrokeColor = '#000';
 
-      // Buffered canvas with the final text to render
-      // It is expected to be converted into a Three.Texture
+      /**
+       * Buffered canvas with the final text to render, it is expected to be converted into a Three.Texture
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {Object}
+       * @name buffer
+       */
       this.buffer = document.createElement( 'canvas' );
       this.buffer.width = this.w;
       this.buffer.height = this.h;
 
+      /**
+       * Buffered Three.Texture with the rendered text
+       * @memberOf module:component/Text~Text
+       * @instance
+       * @type {Object}
+       * @name texture
+       * @default null
+       */
       this.texture = null;
       this.load();
     };
@@ -48,6 +153,14 @@ define(
       this.load();
     };
 
+    /**
+     * Set the font color then re-parses for proper buffering
+     * @method
+     * @instance
+     * @name setColor
+     * @param {String} [color] Hexadecimal color
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.setColor = function( color ) {
       this.isLoaded = false;
       this.color = ( color ) ? color : '#000';

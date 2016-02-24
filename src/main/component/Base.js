@@ -9,7 +9,23 @@ define(
      * @class Base
      */
     var Component = function( type ) {
+      /**
+       * Component Type
+       * @memberOf module:component/Base~Base
+       * @instance
+       * @type {Number}
+       * @name type
+       */
       this.type = ( type ) ? type : Component.BASE;
+
+      /**
+       * Flag to indicate if this component should be rendered on screen
+       * @memberOf module:component/Base~Base
+       * @instance
+       * @type {Boolean}
+       * @name isRenderable
+       * @default false
+       */
       this.isRenderable = false;
     };
 
