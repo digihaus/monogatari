@@ -132,21 +132,53 @@ define(
 
     Text.prototype = Object.create( BaseFont.prototype );
 
+    /**
+     * Sets various properties of the font then re-parses for proper buffering
+     * @method
+     * @instance
+     * @name reset
+     * @param {String} [text] Text to be displayed
+     * @param {Number} [fontSize] Font size, in pixels
+     * @param {String} [fontFamily] Font-Family, accepts web fonts
+     * @param {Number} [width] Buffer width, in pixels
+     * @param {Number} [height] Buffer height, in pixels
+     * @param {String} [color] Hexadecimal color
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.reset = function( text, fontSize, fontFamily, width, height, color ) {
       this.text = ( text ) ? text : 'The quick brown fox jumps over the lazy dog';
       this.fontSize = ( fontSize ) ? fontSize : 10;
       this.fontFamily = ( fontFamily ) ? fontFamily : 'Verdana';
       this.w = ( width ) ? width : 256;
       this.h = ( height ) ? height : 64;
+      this.color = ( color ) ? color : '#000';
       this.load();
     };
 
+    /**
+     * Set the Font-Family then re-parses for proper buffering
+     * @method
+     * @instance
+     * @name setSize
+     * @default 10
+     * @param {Number} [size] Font size, in pixels
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.setSize = function( size ) {
       this.isLoaded = false;
       this.fontSize = ( size ) ? size : 10;
       this.load();
     };
 
+    /**
+     * Set the Font-Family then re-parses for proper buffering
+     * @method
+     * @instance
+     * @name setFamily
+     * @default Verdana
+     * @param {String} [family] Font-Family, accepts web fonts
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.setFamily = function( family ) {
       this.isLoaded = false;
       this.fontFamily = ( family ) ? family : 'Verdana';
@@ -158,6 +190,7 @@ define(
      * @method
      * @instance
      * @name setColor
+     * @default #000
      * @param {String} [color] Hexadecimal color
      * @memberOf module:component/Text~Text
      */
@@ -167,12 +200,29 @@ define(
       this.load();
     };
 
+    /**
+     * Set the Text then re-parses for proper buffering
+     * @method
+     * @instance
+     * @name setText
+     * @param {String} [text] Text to be displayed
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.setText = function( text ) {
       this.isLoaded = false;
       this.text = ( text ) ? text : '';
       this.load();
     };
 
+    /**
+     * Set the width of the canvas buffer then re-parses the texture
+     * @method
+     * @instance
+     * @name setWidth
+     * @default 256
+     * @param {Number} [width] Buffer width, in pixels
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.setWidth = function( width ) {
       this.isLoaded = false;
       this.w = ( width ) ? width : 256;
@@ -180,6 +230,15 @@ define(
       this.load();
     };
 
+    /**
+     * Set the width of the canvas buffer then re-parses the texture
+     * @method
+     * @instance
+     * @name setHeight
+     * @default 64
+     * @param {Number} [height] Buffer height, in pixels
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.setHeight = function( height ) {
       this.isLoaded = false;
       this.h = ( height ) ? height : 64;
@@ -187,18 +246,42 @@ define(
       this.load();
     };
 
+    /**
+     * Callback function, triggered by the engine
+     * @method
+     * @instance
+     * @name onLoad
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.onLoad = function() {
       this.parse();
       this.clearBuffer();
       this.createTexture();
     };
 
+    /**
+     * Sets properties for a speech bubble
+     * @method
+     * @instance
+     * @name createBubble
+     * @param {Number} [radius] Radius of the rounded corners, in pixels
+     * @param {String} [bubbleColor] Hexadecimal color of the background
+     * @param {String} [bubbleStrokeColor] Hexadecimal color of the surrounding line
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.createBubble = function( radius, bubbleColor, bubbleStrokeColor ) {
       this.radius = ( radius ) ? radius : -1;
       this.bubbleColor = ( bubbleColor ) ? bubbleColor : '#FFF';
       this.bubbleStrokeColor = ( bubbleStrokeColor ) ? bubbleStrokeColor : '#000';
     };
 
+    /**
+     * Clears the internal buffer for repaint
+     * @method
+     * @instance
+     * @name clearBuffer
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.clearBuffer = function() {
       var context = this.buffer.getContext( '2d' );
       context.clearRect( 0, 0, this.w, this.h );
@@ -224,6 +307,14 @@ define(
       this.isLoaded = true;
     };
 
+    /**
+     * Renders the text with properties defined into the internal buffer texture, NOT on the screen.
+     * It is rendered on screen only during the SceneManager render cycle.
+     * @method
+     * @instance
+     * @name renderIntoBuffer
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.renderIntoBuffer = function() {
       var context = this.buffer.getContext( '2d' );
 
