@@ -16,11 +16,50 @@ define(
      */
     var BaseThree = function( material, geometry, type ) {
       Base.call( this, type || Base.BASE_THREE );
+      /**
+       * Flag to indicate if this component should be rendered on screen
+       * @memberOf module:component/BaseThree~BaseThree
+       * @instance
+       * @type {Boolean}
+       * @name isRenderable
+       * @default true
+       */
       this.isRenderable = true;
 
+      /**
+       * THREE.Texture of the component
+       * @memberOf module:component/BaseThree~BaseThree
+       * @instance
+       * @type {THREE.Texture}
+       * @name texture
+       */
       this.texture = null;
+
+      /**
+       * THREE.Material of the component
+       * @memberOf module:component/BaseThree~BaseThree
+       * @instance
+       * @type {THREE.Material}
+       * @name material
+       */
       this.material = ( material ) ? material : null;
+
+      /**
+       * THREE.Geometry of the component
+       * @memberOf module:component/BaseThree~BaseThree
+       * @instance
+       * @type {THREE.Geometry}
+       * @name geometry
+       */
       this.geometry = ( geometry ) ? geometry : null;
+
+      /**
+       * THREE.Mesh of the component
+       * @memberOf module:component/BaseThree~BaseThree
+       * @instance
+       * @type {THREE.Mesh}
+       * @name mesh
+       */
       this.mesh = ( material && geometry ) ? new THREE.Mesh( this.geometry, this.material ) : null;
     };
 

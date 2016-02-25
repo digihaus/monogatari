@@ -1,5 +1,6 @@
 /**
- * This is the base Component all others shall extend.
+ * Exports the {@link module:component/Base~Base|Base} class.
+ * @module component/Base
  */
 define(
   function() {
@@ -43,6 +44,20 @@ define(
 
     /**
      * Enumeration of component types
+     * @example
+     *
+     * Component.BASE = 0;
+     * Component.BASE_THREE = 1;
+     * Component.BASE_FONT = 2;
+     * Component.RIGID_BODY = 3;
+     * Component.SPRITE = 4;
+     * Component.TEXT = 5;
+     * Component.FLY_TEXT = 6;
+     * Component.AUDIO_SOURCE = 7;
+     * Component.PARTICLE_EMITTER = 8;
+     * Component.TILEMAP = 9;
+     * Component.CUSTOM = -1;
+     *
      * @memberOf module:component/Base~Base
      * @enum
      * @name TYPE

@@ -287,6 +287,14 @@ define(
       context.clearRect( 0, 0, this.w, this.h );
     };
 
+
+    /**
+     * Create the texture buffer based on canvas, and attach it to the component material and mesh for rendering.
+     * @method
+     * @instance
+     * @name createTexture
+     * @memberOf module:component/Text~Text
+     */
     Text.prototype.createTexture = function() {
       this.texture = new THREE.Texture( this.renderIntoBuffer() );
       // This line makes the textures created during execution to work properly
