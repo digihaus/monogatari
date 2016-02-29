@@ -195,10 +195,26 @@ define(
       this.mesh.rotation.setFromRotationMatrix( this.mesh.matrix );
     };
 
+    /**
+     * Flag the THREE.Material to be rendered
+     *
+     * @method
+     * @instance
+     * @name show
+     * @memberOf module:component/BaseThree~BaseThree
+     */
     BaseThree.prototype.show = function() {
       this.mesh.material.visible = true;
     };
 
+    /**
+     * Flag the THREE.Material to NOT be rendered
+     *
+     * @method
+     * @instance
+     * @name hide
+     * @memberOf module:component/BaseThree~BaseThree
+     */
     BaseThree.prototype.hide = function() {
       this.mesh.material.visible = false;
     };

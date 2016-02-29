@@ -13,6 +13,7 @@ define(
      * @param {Object} options Howler object parameters
      * @link http://goldfirestudios.com/blog/104/howler.js-Modern-Web-Audio-Javascript-Library
      * @memberOf module:component/Audio~Audio
+     * @class Audio
      */
     return function( options ) {
       Base.call( this, Base.AUDIO_SOURCE );

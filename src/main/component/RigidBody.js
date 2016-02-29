@@ -33,6 +33,19 @@ define(
 
     RigidBody.prototype = Object.create( Base.prototype );
 
+    /**
+     * Enumeration of rigid body types
+     * @example
+     *
+     * RigidBody.prototype.STATIC = 1;
+     * RigidBody.prototype.KINEMATIC = 2;
+     * RigidBody.prototype.DYNAMIC = 3;
+     *
+     * @memberOf module:component/RigidBody~RigidBody
+     * @enum
+     * @name TYPE
+     * @type {Number}
+     */
     RigidBody.prototype.STATIC = 1;
     RigidBody.prototype.KINEMATIC = 2;
     RigidBody.prototype.DYNAMIC = 3;
@@ -125,7 +138,7 @@ define(
 
     /**
      * Prevents the collision to be resolved through other objects.
-     * Expensive! Use with care.
+     * <b>Expensive! Use with care.</b>
      * @instance
      * @method
      * @name setPreventTunneling
@@ -163,10 +176,25 @@ define(
       }
     };
 
+    /**
+     * Prevents or allows the rotation on the RigidBody.
+     * @instance
+     * @method
+     * @name setAllowRotation
+     * @param {boolean} allowRotation
+     * @memberOf module:component/RigidBody~RigidBody
+     */
     RigidBody.prototype.setAllowRotation = function( allowRotation ) {
       this.bodyDef.set_fixedRotation( !allowRotation );
     };
 
+    /**
+     * Creates the fixture on the body of the physics world
+     * @instance
+     * @method
+     * @name createFixture
+     * @memberOf module:component/RigidBody~RigidBody
+     */
     RigidBody.prototype.createFixture = function() {
       if( this.body && this.materialDef ) {
         this.body.CreateFixture( this.materialDef );
@@ -174,25 +202,64 @@ define(
     };
 
     /**
+     * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D<br>
      * userData is (kinda) bugged on emscripten version of the box2D port, but can be worked around
      * https://github.com/kripken/box2d.js/issues/35
+     *
+     * @instance
+     * @method
+     * @name setUserData
+     * @param {Object} userData
+     * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.setUserData = function( userData ) {
       this.materialDef.set_userData( userData );
     };
 
+    /**
+     * Returns the Box2D.BodyDef from this component, null if not set;
+     * @method
+     * @instance
+     * @name getBodyDef
+     * @return {Object} BodyDef from Box2D
+     * @memberOf module:component/RigidBody~RigidBody
+     */
     RigidBody.prototype.getBodyDef = function() {
       return this.bodyDef;
     };
 
+    /**
+     * Returns the Material (Box2D.FixtureDef)from this component, null if not set;
+     * @method
+     * @instance
+     * @name getBodyDef
+     * @return {Object} FixtureDef from Box2D
+     * @memberOf module:component/RigidBody~RigidBody
+     */
     RigidBody.prototype.getMaterialDef = function() {
       return this.materialDef;
     };
 
+    /**
+     * Returns the Physics Body (Box2D.BodyDef) from this component, null if not set;
+     * @method
+     * @instance
+     * @name getBodyDef
+     * @return {Object} Body from Box2D
+     * @memberOf module:component/RigidBody~RigidBody
+     */
     RigidBody.prototype.getPhysicsBody = function() {
       return this.body;
     };
 
+    /**
+     * Returns a new instance of a RigidBody with the same values
+     * @method
+     * @instance
+     * @name clone
+     * @return {RigidBody} a clone of this RigidBody
+     * @memberOf module:component/RigidBody~RigidBody
+     */
     RigidBody.prototype.clone = function() {
       return new RigidBody( this.conversionFactor, this.bodyDef, this.materialDef );
     };
