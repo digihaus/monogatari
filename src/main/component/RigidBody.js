@@ -221,7 +221,7 @@ define(
      * @method
      * @instance
      * @name getBodyDef
-     * @return {Object} BodyDef from Box2D
+     * @return {b2BodyDef} Body Definition from Box2D
      * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.getBodyDef = function() {
@@ -233,7 +233,7 @@ define(
      * @method
      * @instance
      * @name getBodyDef
-     * @return {Object} FixtureDef from Box2D
+     * @return {b2FixtureDef} Fixture Definition from Box2D
      * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.getMaterialDef = function() {
@@ -245,7 +245,7 @@ define(
      * @method
      * @instance
      * @name getBodyDef
-     * @return {Object} Body from Box2D
+     * @return {b2Body} Body from Box2D
      * @memberOf module:component/RigidBody~RigidBody
      */
     RigidBody.prototype.getPhysicsBody = function() {

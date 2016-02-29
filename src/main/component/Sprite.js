@@ -147,10 +147,29 @@ define(
 
     Sprite.prototype = Object.create( BaseThree.prototype );
 
+    /**
+     * Returns current animation frame on the sprite sheet
+     *
+     * @method
+     * @instance
+     * @name getFrame
+     * @return {Number}
+     * @memberOf module:component/Sprite~Sprite
+     */
     Sprite.prototype.getFrame = function() {
       return this.frame;
     };
 
+    /**
+     * Set the animation frame to the given frame number. If a number greater than the number of frames in the sprite sheet is informed,
+     * the algorithm cycles through the frames as many times as needed
+     *
+     * @method
+     * @instance
+     * @name setFrame
+     * @param {Number} frame
+     * @memberOf module:component/Sprite~Sprite
+     */
     Sprite.prototype.setFrame = function( frame ) {
       this.frame = frame ? frame : 1;
 
@@ -161,6 +180,14 @@ define(
       this.texture.offset.y = this.col / this.rows;
     };
 
+    /**
+     * Moves to the next animation frame of the sprite sheet
+     *
+     * @method
+     * @instance
+     * @name nextFrame
+     * @memberOf module:component/Sprite~Sprite
+     */
     Sprite.prototype.nextFrame = function() {
       this.setFrame( ( this.frame % this.numberOfFrames ) + 1 );
     };

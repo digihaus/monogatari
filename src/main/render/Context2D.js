@@ -1,10 +1,27 @@
-define(
-  function() {
+/**
+ * Exports the {@link module:render/Context2D~Context2D|Context2D} class.
+ * @module render/Context2D
+ */
 
+define(
+  [ 'core/Math' ], function( Math ) {
+
+    /**
+     * Utility class to use context2D of the canvas. Usually used to render into a texture.
+     * @class Context2D
+     */
     var Context2D = function() {};
 
     /**
      * Clear the whole area with the given color (if no color is given, assumes a transparent rect)
+     * @instance
+     * @method
+     * @name clear
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Number} w area width
+     * @param {Number} h area height
+     * @param {String} color Hexadecimal color
+     * @memberOf module:component/Context2D~Context2D
      */
     Context2D.prototype.clear = function( context, w, h, color ) {
       this.clearRect( context, 0, 0, w, h, color );
@@ -12,6 +29,16 @@ define(
 
     /**
      * Clear a specific drawing area with the given color (if no color is given, assumes a transparent rect)
+     * @instance
+     * @method
+     * @name clearRect
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Number} x X coordinate
+     * @param {Number} y Y coordinate
+     * @param {Number} w area width
+     * @param {Number} h area height
+     * @param {String} color Hexadecimal color
+     * @memberOf module:component/Context2D~Context2D
      */
     Context2D.prototype.clearRect = function( context, x, y, w, h, color ) {
       context.clearRect( x, y, w, h );
@@ -30,6 +57,12 @@ define(
 
     /**
      * Set the color of filling and strokes
+     * @instance
+     * @method
+     * @name setContextColor
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {String} color Hexadecimal color
+     * @memberOf module:component/Context2D~Context2D
      */
     Context2D.prototype.setContextColor = function( context, color ) {
       context.strokeStyle = color;
@@ -39,6 +72,12 @@ define(
 
     /**
      * Set the color of strokes
+     * @instance
+     * @method
+     * @name setContextStrokeColor
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {String} color Hexadecimal color
+     * @memberOf module:component/Context2D~Context2D
      */
     Context2D.prototype.setContextStrokeColor = function( context, color ) {
       context.strokeStyle = color;
@@ -47,6 +86,12 @@ define(
 
     /**
      * Set the color of fill
+     * @instance
+     * @method
+     * @name setContextFillColor
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {String} color Hexadecimal color
+     * @memberOf module:component/Context2D~Context2D
      */
     Context2D.prototype.setContextFillColor = function( context, color ) {
       context.fillStyle = color;
@@ -55,6 +100,13 @@ define(
 
     /**
      * Draws a single point on the given coordinates
+     * @instance
+     * @method
+     * @name setContextFillColor
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Number} x X coordinate
+     * @param {Number} y Y coordinate
+     * @memberOf module:component/Context2D~Context2D
      */
     Context2D.prototype.point = function( context, x, y ) {
       context.beginPath();
@@ -66,6 +118,15 @@ define(
 
     /**
      * Draws a line from a coordinate (x1, y1) to another (x2, y2)
+     * @instance
+     * @method
+     * @name line
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Number} x1 X coordinate
+     * @param {Number} y1 Y coordinate
+     * @param {Number} x2 X coordinate
+     * @param {Number} y2 Y coordinate
+     * @memberOf module:component/Context2D~Context2D
      */
     Context2D.prototype.line = function( context, x1, y1, x2, y2 ) {
       context.beginPath();
@@ -76,26 +137,53 @@ define(
       context.stroke();
     };
 
+    /**
+     * Strokes a circle with the given radius (in pixels)
+     * @instance
+     * @method
+     * @name strokeCircle
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Number} radius Radius in pixels
+     * @memberOf module:component/Context2D~Context2D
+     */
     Context2D.prototype.strokeCircle = function( context, radius ) {
       // arc(x, y, radius, startAngle, endAngle, anticlockwise)
       context.beginPath();
-      context.arc( 0, 0, radius, 0, Monogatari.Constants.PI_2, true );
+      context.arc( 0, 0, radius, 0, Math.PI_2, true );
       context.closePath();
       context.stroke();
     };
 
+    /**
+     * Fills a circle with the given radius (in pixels)
+     * @instance
+     * @method
+     * @name fillCircle
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Number} radius Radius in pixels
+     * @memberOf module:component/Context2D~Context2D
+     */
     Context2D.prototype.fillCircle = function( context, radius ) {
       // arc(x, y, radius, startAngle, endAngle, anticlockwise)
       context.beginPath();
-      context.arc( 0, 0, radius, 0, Monogatari.Constants.PI_2, true );
+      context.arc( 0, 0, radius, 0, Math.PI_2, true );
       context.closePath();
       context.fill();
     };
 
+    /**
+     * Strokes and Fills a circle with the given radius (in pixels)
+     * @instance
+     * @method
+     * @name fillAndStrokeCircle
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Number} radius Radius in pixels
+     * @memberOf module:component/Context2D~Context2D
+     */
     Context2D.prototype.fillAndStrokeCircle = function( context, radius ) {
       // arc(x, y, radius, startAngle, endAngle, anticlockwise)
       context.beginPath();
-      context.arc( 0, 0, radius, 0, Monogatari.Constants.PI_2, true );
+      context.arc( 0, 0, radius, 0, Math.PI_2, true );
       context.closePath();
       context.fill();
       context.stroke();
@@ -104,11 +192,21 @@ define(
     Context2D.prototype.clipCircle = function( context, radius ) {
       // arc(x, y, radius, startAngle, endAngle, anticlockwise)
       context.beginPath();
-      context.arc( 0, 0, radius, 0, Monogatari.Constants.PI_2, true );
+      context.arc( 0, 0, radius, 0, Math.PI_2, true );
       context.closePath();
       context.clip();
     };
 
+    /**
+     * Strokes a Polygon with the given coordinates(in pixels)
+     * @instance
+     * @method
+     * @name strokePolygon
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Array} arrX Array if X coordinates
+     * @param {Array} arrY Array if Y coordinates
+     * @memberOf module:component/Context2D~Context2D
+     */
     Context2D.prototype.strokePolygon = function( context, arrX, arrY ) {
       context.beginPath();
       context.moveTo( arrX[ 0 ], arrY[ 0 ] );
@@ -122,6 +220,16 @@ define(
       context.stroke();
     };
 
+    /**
+     * Fills a Polygon with the given coordinates(in pixels)
+     * @instance
+     * @method
+     * @name fillPolygon
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Array} arrX Array if X coordinates
+     * @param {Array} arrY Array if Y coordinates
+     * @memberOf module:component/Context2D~Context2D
+     */
     Context2D.prototype.fillPolygon = function( context, arrX, arrY ) {
       context.beginPath();
       context.moveTo( arrX[ 0 ], arrY[ 0 ] );
@@ -135,6 +243,16 @@ define(
       context.fill();
     };
 
+    /**
+     * Fills and strokes a Polygon with the given coordinates(in pixels)
+     * @instance
+     * @method
+     * @name fillAndStrokePolygon
+     * @param {Object} context 2d context of a HTMLCanvasElement
+     * @param {Array} arrX Array if X coordinates
+     * @param {Array} arrY Array if Y coordinates
+     * @memberOf module:component/Context2D~Context2D
+     */
     Context2D.prototype.fillAndStrokePolygon = function( context, arrX, arrY ) {
       context.beginPath();
       context.moveTo( arrX[ 0 ], arrY[ 0 ] );
