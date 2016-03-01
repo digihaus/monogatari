@@ -2,7 +2,6 @@
  * Exports the {@link module:render/Context2D~Context2D|Context2D} class.
  * @module render/Context2D
  */
-
 define(
   [ 'core/Math' ], function( Math ) {
 
