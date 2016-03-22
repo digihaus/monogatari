@@ -1,18 +1,50 @@
+/**
+ * Exports the {@link module:manager/SceneManager~SceneManager|SceneManager} class.
+ * @module manager/SceneManager
+ */
 define(
   [ 'collection/Map', 'render/Camera2D', 'core/Math', 'lib/Detector', 'lib/Three' ],
   function( Map, Camera2D, Math, _Detector, _Three ) {
 
     var instance = null;
 
+    /**
+     * @class SceneManager
+     */
     var SceneManager = function() {
+      /**
+       * Map of Monogatari (2D) cameras
+       * @memberOf module:manager/SceneManager~SceneManager
+       * @instance
+       * @type {Map}
+       * @name cameras
+       */
       this.cameras = new Map();
       this.cameraIterator = this.cameras.iterator();
+      /**
+       * Map of three.js scenes
+       * @memberOf module:manager/SceneManager~SceneManager
+       * @instance
+       * @type {Map}
+       * @name scenes
+       */
       this.scenes = new Map();
     };
 
     SceneManager.prototype.DEFAULT_CAMERA_ID = 'default_camera_id';
     SceneManager.prototype.DEFAULT_SCENE_ID = 'default_scene_id';
 
+    /**
+     * Camera initialization, creates a Three.js camera with the given parameters. The viewport is fixed to 2D.
+     * @method
+     * @instance
+     * @name createWorld
+     * @param {String} bgcolor Hexadecimal background color
+     * @param {Number} [width] Width of the camera in pixels. Defaults to screen resolution.
+     * @param {Number} [height] Height of the camera in pixels. Defaults to screen resolution.
+     * @param {DOMElement} [target] Target node of the Dom tree to create a canvas renderer. It is attached to the body if not provided.
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
     SceneManager.prototype.init = function( bgcolor, width, height, target ) {
       // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
       this.renderer = Detector.webgl ? new THREE.WebGLRenderer( { antialias: false } ) : new THREE.CanvasRenderer();
@@ -38,12 +70,29 @@ define(
       this.createCamera();
     };
 
-    // create a THREE.scene
+    /**
+     * Creates a Scene
+     * @method
+     * @instance
+     * @name createScene
+     * @param {String} sceneId Unique identifier of a scene
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
     SceneManager.prototype.createScene = function( sceneId ) {
       this.scenes.put( sceneId ? sceneId : this.DEFAULT_SCENE_ID, new THREE.Scene() );
     };
 
-    // create a camera to a scene
+    /**
+     * Creates a Camera, and attaches a default scene to it.
+     * @method
+     * @instance
+     * @name createScene
+     * @param {String} cameraId Unique identifier of a camera
+     * @param {String} sceneId Unique identifier of a scene
+     * @param {Number} [width] Width of the camera in pixels. Defaults to canvas width.
+     * @param {Number} [height] Height of the camera in pixels. Defaults to canvas height.
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
     SceneManager.prototype.createCamera = function( cameraId, sceneId, width, height ) {
       var scene = this.scenes.get( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID );
 
@@ -71,7 +120,15 @@ define(
       }
     };
 
-    // attach given component to a scene, if no scene is provided, set to default scene
+    /**
+     * Attach given component to a scene, if no scene is provided, set to default scene
+     * @method
+     * @instance
+     * @name attachToScene
+     * @param {Object} component A Monogatari component that can be rendered
+     * @param {String} [sceneId] Unique identifier of a scene
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
     SceneManager.prototype.attachToScene = function( component, sceneId ) {
       var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
       if( scene )
@@ -80,6 +137,15 @@ define(
         console.log("Scene not Found" );
     };
 
+    /**
+     * Detach given component from a scene, if no scene is provided, set to default scene
+     * @method
+     * @instance
+     * @name attachToScene
+     * @param {Object} component A Monogatari component that can be rendered
+     * @param {String} [sceneId] Unique identifier of a scene
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
     SceneManager.prototype.detachFromScene = function( component, sceneId ) {
       var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
       if( scene )
@@ -88,6 +154,13 @@ define(
         console.log("Scene not Found" );
     };
 
+    /**
+     * Renders all cameras and scenes to the canvas.
+     * @method
+     * @instance
+     * @name render
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
     SceneManager.prototype.render = function() {
       var camera, scene;
 
