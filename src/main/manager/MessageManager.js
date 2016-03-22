@@ -1,16 +1,46 @@
+/**
+ * Exports the {@link module:manager/MessageManager~MessageManager|MessageManager} class.
+ * @module manager/MessageManager
+ */
 define(
   [ 'core/Message', 'collection/LinkedList' ], function( Message, LinkedList ) {
 
     var instance = null;
 
+    /**
+     *  @class MessageManager
+     */
     var MessageManager = function() {
+      /**
+       * LinkedList of messages to be delivered to GameObjects
+       * @memberOf module:manager/MessageManager~MessageManager
+       * @instance
+       * @type {LinkedList}
+       * @name userMessages
+       */
       this.userMessages = new LinkedList();
     };
 
+    /**
+     * Registers a message to be sent, this is called through the GameObject
+     * @memberOf module:manager/MessageManager~MessageManager
+     * @method
+     * @instance
+     * @name register
+     * @param {Message} message
+     */
     MessageManager.prototype.register = function( message ) {
       this.userMessages.put( message );
     };
 
+    /**
+     * Send the undelivered messages to the given GameObject
+     * @memberOf module:manager/MessageManager~MessageManager
+     * @method
+     * @instance
+     * @name register
+     * @param {GameObject} go Target object
+     */
     MessageManager.prototype.sendMessagesTo = function( go ) {
       var message;
       if( this.userMessages.size() > 0 ) {

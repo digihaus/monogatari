@@ -1,5 +1,5 @@
 /**
- * Exports the {@link module:core/GameObject~GameObject|GameObject} class.
+ * Exports the {@link module:core/StringUtils~StringUtils|StringUtils} class.
  * @module util/StringUtils
  */
 define(
@@ -22,8 +22,8 @@ define(
      * @instance
      * @name left
      * @param {String} str Source text
-     * @param {int} n How many characters will be returned
-     * @return String
+     * @param {Number} n How many characters will be returned
+     * @return {String}
      * @public
      */
     StringUtils.prototype.left = function( str, n ) {
@@ -42,9 +42,9 @@ define(
      * @method
      * @instance
      * @name right
-     * @param {String} str = source text
-     * @param {int} n = how many characters will be returned
-     * @return String
+     * @param {String} str source text
+     * @param {Number} n how many characters will be returned
+     * @return {String}
      * @public
      */
     StringUtils.prototype.right = function( str, n ) {
@@ -58,22 +58,65 @@ define(
       }
     };
 
-    // from string.js
+    /**
+     * Check if given string ends with given suffix
+     * @memberOf module:util/StringUtils~StringUtils
+     * @method
+     * @instance
+     * @name endsWith
+     * @param {String} str source text
+     * @param {String} suffix string suffix
+     * @return {Boolean}
+     * @public
+     */
     StringUtils.prototype.endsWith = function( str, suffix ) {
       var len = str.length - suffix.length;
       return len >= 0 && str.indexOf( suffix, len ) === len;
     };
 
-    // from string.js
+    /**
+     * Check if given string starts with given prefix
+     * @memberOf module:util/StringUtils~StringUtils
+     * @method
+     * @instance
+     * @name startsWith
+     * @param {String} str source text
+     * @param {String} prefix string prefix
+     * @return {Boolean}
+     * @public
+     */
     StringUtils.prototype.startsWith = function( str, prefix ) {
       return str.lastIndexOf( prefix, 0 ) === 0;
     };
 
-    // from goog.string
+    /**
+     * Check if given string contains given substring
+     * @memberOf module:util/StringUtils~StringUtils
+     * @method
+     * @instance
+     * @name contains
+     * @param {String} str source text
+     * @param {String} subStr slice of String to find on the source text
+     * @return {Boolean}
+     * @public
+     */
     StringUtils.prototype.contains = function( str, subStr ) {
       return str.indexOf( subStr ) != -1;
     };
 
+    /**
+     * Returns the file extension of the given source
+     * @memberOf module:util/StringUtils~StringUtils
+     * @method
+     * @instance
+     * @name getFileExtension
+     * @param {String} src source text
+     * @return {String}
+     * @example
+     * getFileExtension('test.pdf'); //pdf
+     * getFileExtension('test.png'); //png
+     * @public
+     */
     StringUtils.prototype.getFileExtension = function( src ) {
       return /\.([a-zA-Z0-9]+)/.exec( src )[ 1 ];
     };
@@ -85,7 +128,7 @@ define(
      * @instance
      * @name isBetweenSquareBrackets
      * @param {String} str String to check.
-     * @return {boolean} True if {@code str} is surrounded by square brackets
+     * @return {Boolean} True if {@code str} is surrounded by square brackets
      */
     StringUtils.prototype.isBetweenSquareBrackets = function( str ) {
       return /\[[\w|\W]+\]/.test( str );
@@ -98,7 +141,7 @@ define(
      * @instance
      * @name isUrl
      * @param {String} str String to check.
-     * @return {boolean} True if {@code str} consists of an url
+     * @return {Boolean} True if {@code str} consists of an url
      */
     StringUtils.prototype.isUrl = function( str ) {
       return this.REGEXP_URL.test( str );
@@ -111,7 +154,7 @@ define(
      * @instance
      * @name isAlpha
      * @param {String} str String to check.
-     * @return {boolean} True if {@code str} consists entirely of letters.
+     * @return {Boolean} True if {@code str} consists entirely of letters.
      */
     StringUtils.prototype.isAlpha = function( str ) {
       return !/[^a-zA-Z]/.test( str );
@@ -124,7 +167,7 @@ define(
      * @instance
      * @name isNumeric
      * @param {String} str String to check. If not a String, it will be casted to one.
-     * @return {boolean} True if {@code str} is numeric.
+     * @return {Boolean} True if {@code str} is numeric.
      */
     StringUtils.prototype.isNumeric = function( str ) {
       return !/[^0-9]/.test( str );
@@ -137,7 +180,7 @@ define(
      * @instance
      * @name isAlphaNumeric
      * @param {String} str String to check.
-     * @return {boolean} True if {@code str} is alphanumeric.
+     * @return {Boolean} True if {@code str} is alphanumeric.
      */
     StringUtils.prototype.isAlphaNumeric = function( str ) {
       return !/[^a-zA-Z0-9]/.test( str );
@@ -166,7 +209,9 @@ define(
      * @param {String} str The String to format
      * @param {Object} [arguments] All other arguments are substituted into the String
      * @returns {String} The formatted String
-     * @example var s = pc.string.format("Hello {0}", "world"); console.log(s); // Prints "Hello world"
+     * @example
+     * var s = pc.string.format("Hello {0}", "world");
+     * console.log(s); // Prints "Hello world"
      */
     StringUtils.prototype.format = function( str ) {
       var regexp, args = _ArrayUtils.flat( arguments );
