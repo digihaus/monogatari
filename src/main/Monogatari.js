@@ -1,5 +1,5 @@
 /**
- * Exports a singleton instance of {@link module:Monogatari|Monogatari} class.
+ * Exports a singleton instance of {@link module:Monogatari~Monogatari|Monogatari} class.
  * @module Monogatari
  */
 define(
@@ -71,7 +71,7 @@ define(
     _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
     /**
-     * Core class of the engine, bootstraps every other class used, by means of Static functions or class instantiations.
+     * Core of the engine, bootstraps every other entity by means of static functions or classes.
      * @class Monogatari
      */
     var Monogatari = function() {
@@ -320,7 +320,7 @@ define(
     };
 
     /**
-     * Engine logical update function
+     * Engine logical update function. Cycles through all GameObjects and needed components updating them.
      * @method
      * @instance
      * @name update
@@ -333,7 +333,7 @@ define(
     };
 
     /**
-     * Engine render function
+     * Engine render function. Cycles through all Cameras and Scenes rendering the registered components on screen.
      * @method
      * @instance
      * @name render
@@ -344,7 +344,7 @@ define(
     };
 
     /**
-     * Engine main heartbeat function
+     * Engine main heartbeat function.
      * @method
      * @instance
      * @name run
