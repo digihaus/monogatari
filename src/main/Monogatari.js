@@ -71,6 +71,7 @@ define(
     _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
     /**
+     * Core class of the engine, bootstraps every other class used, by means of Static functions or class instantiations.
      * @class Monogatari
      */
     var Monogatari = function() {
@@ -117,6 +118,12 @@ define(
        */
       this.messageManager = MessageManager;
 
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @instance
+       * @type {GameObject}
+       * @name GameObject
+       */
       this.GameObject = GameObject;
 
       // Input
@@ -159,6 +166,7 @@ define(
       /**
        * Chance.js interface
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {Object}
        * @name Random
        */
@@ -166,6 +174,7 @@ define(
       /**
        * Loki.js interface
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {Object}
        * @name Db
        */
@@ -175,24 +184,28 @@ define(
 
       /**
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {List}
        * @name List
        */
       this.List = List;
       /**
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {Map}
        * @name Map
        */
       this.Map = Map;
       /**
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {Tree}
        * @name Tree
        */
       this.Tree = Tree;
       /**
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {LinkedList}
        * @name LinkedList
        */
@@ -201,43 +214,57 @@ define(
       // Component Classes
 
       /**
+       * Audio component
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {Audio}
        * @name Audio
        */
       this.Audio = Audio;
       /**
+       * Base component
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {Base}
        * @name Base
        */
       this.Base = Base;
       /**
+       * BaseThree component
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {BaseThree}
        * @name BaseThree
        */
       this.BaseThree = BaseThree;
       /**
+       * RigidBody component
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {RigidBody}
        * @name RigidBody
        */
       this.RigidBody = RigidBody;
       /**
+       * Sprite component
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {Sprite}
        * @name Sprite
        */
       this.Sprite = Sprite;
       /**
+       * Text Component
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {Text}
        * @name Text
        */
       this.Text = Text;
       /**
+       * FlyText Component
        * @memberOf module:Monogatari~Monogatari
+       * @instance
        * @type {FlyText}
        * @name FlyText
        */
@@ -248,10 +275,10 @@ define(
      * Engine initialization function
      * @method
      * @instance
-     * @param {String} bgcolor
-     * @param {Number} width
-     * @param {Number} height
-     * @param {DOMElement} target
+     * @param {String} bgcolor Hexadecimal background color
+     * @param {Number} [width] Width of the canvas in pixels. Defaults to screen resolution.
+     * @param {Number} [height] Height of the canvas in pixels. Defaults to screen resolution.
+     * @param {DOMElement} [target] Target node of the Dom tree to create a canvas renderer. It is attached to the body if not provided.
      * @name init
      * @memberOf module:Monogatari~Monogatari
      */
