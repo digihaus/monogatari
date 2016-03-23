@@ -1,5 +1,5 @@
 /**
- * Exports a singleton instance of {@link Monogatari} class.
+ * Exports a singleton instance of {@link module:Monogatari|Monogatari} class.
  * @module Monogatari
  */
 define(
@@ -76,14 +76,14 @@ define(
     var Monogatari = function() {
 
       /**
-       * @memberOf Monogatari
+       * @memberOf module:module:Monogatari
        * @type Math
        * @name math
        */
       this.math = Math;
 
       /**
-       * @memberOf Monogatari
+       * @memberOf module:Monogatari~Monogatari
        * @type {Timer}
        * @name timer
        */
@@ -97,61 +97,164 @@ define(
 
 
       /**
-       * @memberOf Monogatari
+       * @memberOf module:Monogatari~Monogatari
        * @type {SceneManager}
        * @name sceneManager
        */
       this.sceneManager = SceneManager;
 
       /**
-       * @memberOf Monogatari
+       * @memberOf module:Monogatari~Monogatari
        * @type {PhysicsManager}
        * @name physicsManager
        */
       this.physicsManager = PhysicsManager;
 
       /**
-       * @memberOf Monogatari
+       * @memberOf module:Monogatari~Monogatari
        * @type {MesssageManager}
        * @name messageManager
        */
       this.messageManager = MessageManager;
 
-      /**
-       * Use to create new GameObjects.
-       * @type {GameObject}
-       */
       this.GameObject = GameObject;
 
       // Input
+
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Keyboard}
+       * @name keyboard
+       */
       this.keyboard = null;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Mouse}
+       * @name mouse
+       */
       this.mouse = null;
       this.gamepad = null;
 
       // Utils
+
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {ArrayUtils}
+       * @name arrayUtils
+       */
       this.arrayUtils = ArrayUtils;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {CommonUtils}
+       * @name commonUtils
+       */
       this.commonUtils = CommonUtils;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {StringUtils}
+       * @name stringUtils
+       */
       this.stringUtils = StringUtils;
       this.browser = _browser;
+      /**
+       * Chance.js interface
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Object}
+       * @name Random
+       */
       this.Random = Chance; // Class
+      /**
+       * Loki.js interface
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Object}
+       * @name Db
+       */
       this.Db = Loki;
 
       // Collection Classes
+
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {List}
+       * @name List
+       */
       this.List = List;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Map}
+       * @name Map
+       */
       this.Map = Map;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Tree}
+       * @name Tree
+       */
       this.Tree = Tree;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {LinkedList}
+       * @name LinkedList
+       */
       this.LinkedList = LinkedList;
 
       // Component Classes
+
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Audio}
+       * @name Audio
+       */
       this.Audio = Audio;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Base}
+       * @name Base
+       */
       this.Base = Base;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {BaseThree}
+       * @name BaseThree
+       */
       this.BaseThree = BaseThree;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {RigidBody}
+       * @name RigidBody
+       */
       this.RigidBody = RigidBody;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Sprite}
+       * @name Sprite
+       */
       this.Sprite = Sprite;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {Text}
+       * @name Text
+       */
       this.Text = Text;
+      /**
+       * @memberOf module:Monogatari~Monogatari
+       * @type {FlyText}
+       * @name FlyText
+       */
       this.FlyText = FlyText;
     };
 
+    /**
+     * Engine initialization function
+     * @method
+     * @instance
+     * @param {String} bgcolor
+     * @param {Number} width
+     * @param {Number} height
+     * @param {DOMElement} target
+     * @name init
+     * @memberOf module:Monogatari~Monogatari
+     */
     Monogatari.prototype.init = function( bgcolor, width, height, target ) {
       var ctx = this;
       this.sceneManager.init( bgcolor, width, height, target );
@@ -189,16 +292,37 @@ define(
 
     };
 
+    /**
+     * Engine logical update function
+     * @method
+     * @instance
+     * @name update
+     * @memberOf module:Monogatari~Monogatari
+     */
     Monogatari.prototype.update = function() {
       this.timer.tick();
       this.physicsManager.update( this.timer );
       this.world.updateAll();
     };
 
+    /**
+     * Engine render function
+     * @method
+     * @instance
+     * @name render
+     * @memberOf module:Monogatari~Monogatari
+     */
     Monogatari.prototype.render = function() {
       this.sceneManager.render();
     };
 
+    /**
+     * Engine main heartbeat function
+     * @method
+     * @instance
+     * @name run
+     * @memberOf module:Monogatari~Monogatari
+     */
     Monogatari.prototype.run = function() {
       requestAnimationFrame( this.run.bind( this ) );
       this.update();
