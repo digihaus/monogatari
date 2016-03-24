@@ -38,7 +38,7 @@ define(
      * @memberOf module:manager/MessageManager~MessageManager
      * @method
      * @instance
-     * @name register
+     * @name sendMessagesTo
      * @param {GameObject} go Target object
      */
     MessageManager.prototype.sendMessagesTo = function( go ) {
