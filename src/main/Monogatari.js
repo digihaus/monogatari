@@ -77,13 +77,15 @@ define(
     var Monogatari = function() {
 
       /**
+       * Static interface to {@link module:core/Math~Math|Math} namespace
        * @memberOf module:module:Monogatari
-       * @type Math
+       * @type {Math}
        * @name math
        */
       this.math = Math;
 
       /**
+       * Static interface to {@link module:core/Timer~Timer|Timer}
        * @memberOf module:Monogatari~Monogatari
        * @type {Timer}
        * @name timer
@@ -92,12 +94,16 @@ define(
 
       /**
        * The root node of the engine GameObject tree. Any GameObject will only be available to the engine when attached directly or indirectly to world.
+       * @memberOf module:Monogatari~Monogatari
+       * @type {GameObject}
+       * @name world
        */
       World.gameObject = new GameObject( 'world', function(){} );
       this.world = World.gameObject;
 
 
       /**
+       * Static interface to {@link module:manager/SceneManager~SceneManager|SceneManager}
        * @memberOf module:Monogatari~Monogatari
        * @type {SceneManager}
        * @name sceneManager
@@ -105,6 +111,7 @@ define(
       this.sceneManager = SceneManager;
 
       /**
+       * Static interface to {@link module:manager/PhysicsManager~PhysicsManager|PhysicsManager}
        * @memberOf module:Monogatari~Monogatari
        * @type {PhysicsManager}
        * @name physicsManager
@@ -112,13 +119,15 @@ define(
       this.physicsManager = PhysicsManager;
 
       /**
+       * Static interface to {@link module:manager/MessageManager~MessageManager|MessageManager}
        * @memberOf module:Monogatari~Monogatari
-       * @type {MesssageManager}
+       * @type {MessageManager}
        * @name messageManager
        */
       this.messageManager = MessageManager;
 
       /**
+       * Provides access to {@link module:core/GameObject~GameObject|GameObject} class.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {GameObject}
@@ -129,12 +138,14 @@ define(
       // Input
 
       /**
+       * Static interface to {@link module:input/Keyboard~Keyboard|Keyboard}
        * @memberOf module:Monogatari~Monogatari
        * @type {Keyboard}
        * @name keyboard
        */
       this.keyboard = null;
       /**
+       * Static interface to {@link module:input/Mouse~Mouse|Mouse}
        * @memberOf module:Monogatari~Monogatari
        * @type {Mouse}
        * @name mouse
@@ -145,18 +156,21 @@ define(
       // Utils
 
       /**
+       * Static interface to {@link module:util/ArrayUtils~ArrayUtils|ArrayUtils}
        * @memberOf module:Monogatari~Monogatari
        * @type {ArrayUtils}
        * @name arrayUtils
        */
       this.arrayUtils = ArrayUtils;
       /**
+       * Static interface to {@link module:util/CommonUtils~CommonUtils|CommonUtils}
        * @memberOf module:Monogatari~Monogatari
        * @type {CommonUtils}
        * @name commonUtils
        */
       this.commonUtils = CommonUtils;
       /**
+       * Static interface to {@link module:util/StringUtils~StringUtils|StringUtils}
        * @memberOf module:Monogatari~Monogatari
        * @type {StringUtils}
        * @name stringUtils
@@ -164,7 +178,7 @@ define(
       this.stringUtils = StringUtils;
       this.browser = _browser;
       /**
-       * Chance.js interface
+       * Static interface to Chance.js.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {Object}
@@ -172,7 +186,7 @@ define(
        */
       this.Random = Chance; // Class
       /**
-       * Loki.js interface
+       * Static interface to Loki.js.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {Object}
@@ -183,6 +197,7 @@ define(
       // Collection Classes
 
       /**
+       * Provides access to {@link module:collection/List~List|List} Class.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {List}
@@ -190,6 +205,7 @@ define(
        */
       this.List = List;
       /**
+       * Provides access to {@link module:collection/Map~Map|Map} Class.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {Map}
@@ -197,6 +213,7 @@ define(
        */
       this.Map = Map;
       /**
+       * Provides access to {@link module:collection/Tree~Tree|Tree} Class.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {Tree}
@@ -204,6 +221,7 @@ define(
        */
       this.Tree = Tree;
       /**
+       * Provides access to {@link module:collection/LinkedList~LinkedList|LinkedList} Class.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {LinkedList}
@@ -214,7 +232,7 @@ define(
       // Component Classes
 
       /**
-       * Audio component
+       * Provides access to {@link module:component/Audio~Audio|Audio} Component.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {Audio}
@@ -222,7 +240,7 @@ define(
        */
       this.Audio = Audio;
       /**
-       * Base component
+       * Provides access to {@link module:component/Base~Base|Base} Component.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {Base}
@@ -230,7 +248,7 @@ define(
        */
       this.Base = Base;
       /**
-       * BaseThree component
+       * Provides access to {@link module:component/BaseThree~BaseThree|BaseThree} Component.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {BaseThree}
@@ -238,7 +256,7 @@ define(
        */
       this.BaseThree = BaseThree;
       /**
-       * RigidBody component
+       * Provides access to {@link module:component/RigidBody~RigidBody|RigidBody} Component.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {RigidBody}
@@ -246,7 +264,7 @@ define(
        */
       this.RigidBody = RigidBody;
       /**
-       * Sprite component
+       * Provides access to {@link module:component/Sprite~Sprite|Sprite} Component.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {Sprite}
@@ -254,7 +272,7 @@ define(
        */
       this.Sprite = Sprite;
       /**
-       * Text Component
+       * Provides access to {@link module:component/Text~Text|Text} Component.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {Text}
@@ -262,7 +280,7 @@ define(
        */
       this.Text = Text;
       /**
-       * FlyText Component
+       * Provides access to {@link module:component/FlyText~FlyText|FlyText} Component.
        * @memberOf module:Monogatari~Monogatari
        * @instance
        * @type {FlyText}
@@ -272,7 +290,7 @@ define(
     };
 
     /**
-     * Engine initialization function
+     * Engine initialization function. Creates the default Scene and Camera and register the input events.
      * @method
      * @instance
      * @param {String} bgcolor Hexadecimal background color
@@ -320,7 +338,7 @@ define(
     };
 
     /**
-     * Engine logical update function. Cycles through all GameObjects and needed components updating them.
+     * Engine logical update function. Control engine timer and cycles through all GameObjects and needed components updating them.
      * @method
      * @instance
      * @name update
