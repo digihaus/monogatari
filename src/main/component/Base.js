@@ -28,6 +28,11 @@ define(
        * @default false
        */
       this.isRenderable = false;
+      this.state = Component.STATE_INITIALIZING;
+    };
+
+    Component.prototype.setState = function( state ){
+      this.state = state;
     };
 
     /**
@@ -35,12 +40,21 @@ define(
      * @memberOf module:component/Base~Base
      * @enum
      * @name STATE
+     * @example
+     *
+     * Component.STATE_INITIALIZING = 0;
+     * Component.STATE_BUFFERING = 1;
+     * Component.STATE_READY = 2;
+     * Component.STATE_REGISTERED = 3;
+     * Component.STATE_FAILED = -1;
+     *
      * @type {Number}
      */
     Component.STATE_INITIALIZING = 0;
     Component.STATE_BUFFERING = 1;
     Component.STATE_READY = 2;
-    Component.STATE_FAILED = 3;
+    Component.STATE_REGISTERED = 3;
+    Component.STATE_FAILED = -1;
 
     /**
      * Enumeration of component types
@@ -55,7 +69,6 @@ define(
      * Component.FLY_TEXT = 6;
      * Component.AUDIO_SOURCE = 7;
      * Component.PARTICLE_EMITTER = 8;
-     * Component.TILEMAP = 9;
      * Component.CUSTOM = -1;
      *
      * @memberOf module:component/Base~Base

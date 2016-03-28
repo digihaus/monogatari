@@ -29,18 +29,6 @@ define(
       this.isRenderable = true;
 
       /**
-       * Buffered THREE.Texture with the sprite sheet
-       * @memberOf module:component/Sprite~Sprite
-       * @instance
-       * @type {THREE.Texture}
-       * @name texture
-       */
-      this.texture = THREE.ImageUtils.loadTexture( ( source ) ? source : 'assets/bad-texture.png' );
-      this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
-      this.texture.flipY = true;
-      this.texture.minFilter = THREE.NearestFilter;
-
-      /**
        * Current row of the sprite sheet, ranges from 0 to N (like an array)
        * @memberOf module:component/Sprite~Sprite
        * @instance
@@ -128,6 +116,31 @@ define(
        */
       this.lastUpdate = 0;
 
+      this.loader = null;
+
+      this.init( source );
+    };
+
+    Sprite.prototype = Object.create( BaseThree.prototype );
+
+    Sprite.prototype.init = function( source ) {
+      // instantiate a loader
+      this.loader = new THREE.TextureLoader();
+      this.loader.load(
+        ( source ) ? source : 'assets/bad-texture.png',
+        this.loadCallBack.bind( this ),
+        this.downloadCallBack.bind( this ),
+        this.errorCallBack.bind( this )
+      );
+
+    };
+
+    Sprite.prototype.loadCallBack = function( texture ) {
+      this.texture = texture;
+      this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
+      this.texture.flipY = true;
+      this.texture.minFilter = THREE.NearestFilter;
+
       this.texture.offset.x = this.row / this.cols;
       this.texture.offset.y = this.col / this.rows;
       this.texture.repeat.set( 1 / this.cols, 1 / this.rows );
@@ -138,14 +151,25 @@ define(
           side: THREE.FrontSide
         }
       );
+
       this.material.transparent = true;
 
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
 
       this.mesh = new THREE.Mesh( this.geometry, this.material );
+
+      this.state = Base.STATE_READY;
     };
 
-    Sprite.prototype = Object.create( BaseThree.prototype );
+    Sprite.prototype.downloadCallBack = function( xhr ) {
+      console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+      this.state = Base.STATE_BUFFERING;
+    };
+
+    Sprite.prototype.errorCallBack = function( xhr ) {
+      console.log( "An exception occurred:" + xhr );
+      this.state = Base.STATE_FAILED;
+    };
 
     /**
      * Returns current animation frame on the sprite sheet
