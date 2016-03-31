@@ -311,11 +311,6 @@ define(
         PhysicsManager.attachToWorld( component );
       }
 
-      if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
-        SceneManager.attachToScene( component, this.sceneId );
-        component.setState( Base.STATE_REGISTERED );
-      }
-
       this.components.put( component.type, component );
     };
 
