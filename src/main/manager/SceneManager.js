@@ -131,10 +131,11 @@ define(
      */
     SceneManager.prototype.attachToScene = function( component, sceneId ) {
       var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
-      if( scene )
+      if( scene ) {
         scene.add( component.getMesh() );
-      else
-        console.log("Scene not Found" );
+      } else {
+        console.log( "Scene not Found" );
+      }
     };
 
     /**
@@ -148,10 +149,11 @@ define(
      */
     SceneManager.prototype.detachFromScene = function( component, sceneId ) {
       var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
-      if( scene )
+      if( scene ) {
         scene.remove( component.getMesh() );
-      else
-        console.log("Scene not Found" );
+      } else {
+        console.log( "Scene not Found" );
+      }
     };
 
     /**

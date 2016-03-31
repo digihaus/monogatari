@@ -72,10 +72,12 @@ define(
 
     Mouse.prototype.onMouseDown = function( event, timer ) {
       event.preventDefault();
+      event.stopPropagation();
       this.pressed[ event.button ] = timer.time;
     };
 
     Mouse.prototype.onMouseUp = function( event ) {
+      event.stopPropagation();
       this.pressed[ event.button ] = -1;
     };
 

@@ -26,6 +26,8 @@ define(
        */
       this.isRenderable = true;
 
+      this.state = Base.STATE_READY;
+
       /**
        * THREE.Texture of the component
        * @memberOf module:component/BaseThree~BaseThree

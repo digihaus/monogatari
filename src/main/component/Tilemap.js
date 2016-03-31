@@ -2,7 +2,10 @@ define( [ 'component/BaseThree', 'collection/Map' ], function( _BaseThree, _Map 
 
   var Tilemap = function( map, spritesheet, spritesheetRows, spritesheetCols, json ) {
     _BaseThree.call( this, null, null, _Base.TILEMAP );
+
     this.isRenderable = true;
+
+    this.state = Base.STATE_READY;
 
     // array with tiles
     this.map = map;

@@ -137,6 +137,7 @@ define(
     };
 
     Keyboard.prototype.onKeyDown = function( event, timer ) {
+      event.stopPropagation();
       if( event.keyCode == Keyboard.prototype.BACKSPACE ||
         event.keyCode == Keyboard.prototype.UP_ARROW ||
         event.keyCode == Keyboard.prototype.DOWN_ARROW ||
@@ -153,6 +154,7 @@ define(
     };
 
     Keyboard.prototype.onKeyUp = function( event ) {
+      event.stopPropagation();
       this.pressed[ event.keyCode ] = -1;
     };
 

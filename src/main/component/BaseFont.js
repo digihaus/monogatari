@@ -22,6 +22,7 @@ define(
       BaseThree.call( this );
       this.type = Base.BASE_FONT;
       this.isRenderable = true;
+      this.state = Base.STATE_READY;
       this.isLoaded = false;
 
       this.fontSize = ( size ) ? size : 10;

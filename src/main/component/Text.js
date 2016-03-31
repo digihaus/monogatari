@@ -27,6 +27,8 @@ define(
        */
       this.type = Base.TEXT;
 
+      this.state = Base.STATE_READY;
+
       /**
        * Flag to indicate if this component should be rendered on screen
        * @memberOf module:component/Text~Text

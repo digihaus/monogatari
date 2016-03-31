@@ -169,6 +169,8 @@ define(
        */
       this.lastUpdate = 0;
 
+      this.sceneId = SceneManager.DEFAULT_SCENE_ID;
+
       if( typeof( update ) === 'function' ) {
         this.update = update;
       }
@@ -301,17 +303,17 @@ define(
      * @instance
      * @name addComponent
      * @param {Component} component Any valid component
-     * @param {String} sceneId Id of the scene on the scene manager to attach this component, if not informed set to the default scene
      * @memberOf module:core/GameObject~GameObject
      */
-    GameObject.prototype.addComponent = function( component, sceneId ) {
+    GameObject.prototype.addComponent = function( component ) {
 
       if( component.type === Base.RIGID_BODY ) {
         PhysicsManager.attachToWorld( component );
       }
 
       if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
-        SceneManager.attachToScene( component, sceneId );
+        SceneManager.attachToScene( component, this.sceneId );
+        component.setState( Base.STATE_REGISTERED );
       }
 
       this.components.put( component.type, component );
@@ -403,21 +405,29 @@ define(
         this.position.y = rigidBody.body.GetPosition().get_y() * rigidBody.conversionFactor;
       }
 
-
       this.componentsIt.first();
       while( this.componentsIt.hasNext() ) {
         var component = this.componentsIt.next();
 
         // For renderable components, updates engine transformations to Three.js
-        if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
-          component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
-          component.getMesh().rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
-          component.getMesh().scale.set( -this.scale.x, this.scale.y, this.scale.z );
-          component.visible = this.isVisible;
-        }
+        if( component.isRenderable ) {
+          if( component.state === Base.STATE_READY ) {
+            SceneManager.attachToScene( component, this.sceneId );
+            component.setState( Base.STATE_REGISTERED );
+          }
 
+          if( component.state === Base.STATE_REGISTERED &&
+            typeof ( component.getMesh ) === 'function' &&
+            component.getMesh() ) {
+
+            component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
+            component.getMesh().rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
+            component.getMesh().scale.set( -this.scale.x, this.scale.y, this.scale.z );
+            component.visible = this.isVisible;
+          }
+        }
         // For components that require an update
-        if( typeof( component.update ) === 'function' ){
+        if( typeof( component.update ) === 'function' ) {
           component.update();
         }
       }
@@ -519,7 +529,7 @@ define(
      * @name destroy
      * @memberOf module:core/GameObject~GameObject
      */
-    GameObject.prototype.destroy = function( sceneId ) {
+    GameObject.prototype.destroy = function() {
       // iterate through children destroying them
       for( var i = 0, len = this.children.length; i < len; i++ ) {
         this.children[ i ].destroy();
@@ -536,7 +546,7 @@ define(
 
         // Three.js
         if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
-          SceneManager.detachFromScene( component, sceneId );
+          SceneManager.detachFromScene( component, this.sceneId );
         }
 
         // Sound.js

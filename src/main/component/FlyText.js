@@ -30,6 +30,8 @@ define(
        */
       this.type = Base.FLY_TEXT;
 
+      this.state = Base.STATE_READY;
+
       /**
        * Interval in milliseconds between each character to be displayed.
        * @memberOf module:component/FlyText~FlyText
