@@ -116,6 +116,13 @@ define(
        */
       this.lastUpdate = 0;
 
+      /**
+       * Texture loader
+       * @memberOf module:component/Sprite~Sprite
+       * @instance
+       * @type {Number}
+       * @name loader
+       */
       this.loader = null;
 
       this.init( source );
@@ -123,8 +130,16 @@ define(
 
     Sprite.prototype = Object.create( BaseThree.prototype );
 
+    /**
+     * Initialization method instantiates the texture loader and set the proper callbacks updating the state of the component accordingly
+     * @method
+     * @instance
+     * @name init
+     * @param {String} source
+     * @memberOf module:component/Sprite~Sprite
+     */
     Sprite.prototype.init = function( source ) {
-      // instantiate a loader
+      // instantiate a loader, it expects 3 callbacks
       this.loader = new THREE.TextureLoader();
       this.loader.load(
         ( source ) ? source : 'assets/bad-texture.png',
@@ -135,6 +150,14 @@ define(
 
     };
 
+    /**
+     * Texture load callback
+     * @method
+     * @instance
+     * @name loadCallBack
+     * @param {THREE.Texture} texture
+     * @memberOf module:component/Sprite~Sprite
+     */
     Sprite.prototype.loadCallBack = function( texture ) {
       this.texture = texture;
       this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
@@ -161,11 +184,27 @@ define(
       this.state = Base.STATE_READY;
     };
 
+    /**
+     * Texture downloading callback
+     * @method
+     * @instance
+     * @name loadCallBack
+     * @param {XMLHTTPResponse} xhr
+     * @memberOf module:component/Sprite~Sprite
+     */
     Sprite.prototype.downloadCallBack = function( xhr ) {
       console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
       this.state = Base.STATE_BUFFERING;
     };
 
+    /**
+     * Texture error callback
+     * @method
+     * @instance
+     * @name errorCallBack
+     * @param {XMLHTTPResponse} xhr
+     * @memberOf module:component/Sprite~Sprite
+     */
     Sprite.prototype.errorCallBack = function( xhr ) {
       console.log( "An exception occurred:" + xhr );
       this.state = Base.STATE_FAILED;
