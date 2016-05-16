@@ -3,8 +3,8 @@
 <html>
 <head>
   <title>Audio Usage - Monogatari</title>
-  <link href="style.css" rel="stylesheet">
-  <script src="../../../lib/require.js"></script>
+  <link href="css/style.css" rel="stylesheet">
+  <script src="../require.js"></script>
   <script src="../setup.js"></script>
   <script>
     require(
@@ -17,7 +17,7 @@
           music.addComponent(
               new m.Audio(
                   {
-                    urls: [ '../resources/assets/invaders.wav' ],
+                    urls: [ '../assets/invaders.wav' ],
                     onend: function() {
                       playing = false;
                     }

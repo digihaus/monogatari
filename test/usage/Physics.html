@@ -3,8 +3,8 @@
 <html>
 <head>
   <title>Physics Usage - Monogatari</title>
-  <link href="style.css" rel="stylesheet">
-  <script src="../../../lib/require.js"></script>
+  <link href="css/style.css" rel="stylesheet">
+  <script src="../require.js"></script>
   <script src="../setup.js"></script>
   <script>
     require(
@@ -28,7 +28,7 @@
           rb1.setPosition( 3, 1 );
           rb1.setUserData( zombie.uid );
 
-          var sprite = new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 );
+          var sprite = new m.Sprite( '../assets/zombies.png', 64, 64, 1, 3 );
 
           zombie.addComponent( sprite );
           zombie.addComponent( rb1 );
@@ -55,7 +55,7 @@
           rb2.setBounciness( 1 );
           rb2.setPosition( 2.7, 0.5 );
 
-          zombie2.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
+          zombie2.addComponent( new m.Sprite( '../assets/zombies.png', 64, 64, 1, 3 ) );
           zombie2.addComponent( rb2 );
 
           rb2.setShape( zombieShape );
@@ -90,7 +90,7 @@
           rb3.setBounciness( 1 );
           rb3.setPosition( 1.7, 0.5 );
 
-          zombie3.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
+          zombie3.addComponent( new m.Sprite( '../assets/zombies.png', 64, 64, 1, 3 ) );
           zombie3.addComponent( rb3 );
 
           rb3.setShape( zombieShape );
@@ -108,7 +108,7 @@
           rb4.setBounciness( 1 );
           rb4.setPosition( 2.1, 0.5 );
 
-          zombie4.addComponent( new m.Sprite( '../resources/assets/zombies.png', 64, 64, 1, 3 ) );
+          zombie4.addComponent( new m.Sprite( '../assets/zombies.png', 64, 64, 1, 3 ) );
           zombie4.addComponent( rb4 );
 
           rb4.setShape( zombieShape );
