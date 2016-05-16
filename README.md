@@ -8,7 +8,6 @@ Currently supporting 2D games, it is composed by JS libraries like [three.js](ht
 
 ### Demo: Zombies ###
 A top-view zombie shooter.
-* URL - [digihaus.github.io/demo/zombies/](http://digihaus.github.io/demo/zombies/)
 * Source code - [github.com/digihaus/zombies](http://github.com/digihaus/zombies)
 
 ### License ###
