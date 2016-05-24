@@ -28,6 +28,11 @@ define(
        * @default false
        */
       this.isRenderable = false;
+
+      /**
+       * Current component state
+       * @type {Number|number}
+       */
       this.state = Component.STATE_INITIALIZING;
     };
 
@@ -53,7 +58,8 @@ define(
     Component.STATE_INITIALIZING = 0;
     Component.STATE_BUFFERING = 1;
     Component.STATE_READY = 2;
-    Component.STATE_REGISTERED = 3;
+    Component.STATE_RUNNING = 3; 
+    Component.STATE_REGISTERED = 4;
     Component.STATE_FAILED = -1;
 
     /**

@@ -8,32 +8,23 @@
   <script src="../setup.js"></script>
   <script>
     require(
-        [ 'Monogatari' ], function( m ) {
-          m.init();
+      [ 'Monogatari' ], function( m ) {
+        m.init();
 
-          var music = new m.GameObject( 'music' );
-          var playing = false;
+        var music = new m.GameObject( 'music' );
+        var played = false;
 
-          music.addComponent(
-              new m.Audio(
-                  {
-                    urls: [ '../assets/invaders.wav' ],
-                    onend: function() {
-                      playing = false;
-                    }
-                  }
-              )
-          );
-          music.update = function() {
-            if( !playing ) {
-              this.findComponent( m.Base.AUDIO_SOURCE ).obj.play();
-              playing = true;
-            }
-          };
+        music.addComponent( new m.Audio( '../assets/invaders.wav' ) );
+        music.update = function() {
+          if( !played ) {
+            played = true;
+            this.findComponent( m.Base.AUDIO_SOURCE ).play();
+          }
+        };
 
-          m.world.children.push( music );
-          m.run();
-        }
+        m.world.children.push( music );
+        m.run();
+      }
     );
   </script>
 </head>
