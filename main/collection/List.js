@@ -2,8 +2,6 @@
  * Exports the {@link module:collection/List~List|List} class.
  * @module collection/List
  */
-
-
 define(
   [ 'core/Common' ], function( Common ) {
 

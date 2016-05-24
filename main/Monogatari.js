@@ -12,7 +12,7 @@ define(
     'manager/PhysicsManager',
     'manager/MessageManager',
     'lib/Chance',
-    'lib/lokijs.min',
+    'lib/Loki',
     'core/GameObject',
     'core/World',
     'component/Audio',

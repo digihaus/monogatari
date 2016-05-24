@@ -2,7 +2,6 @@
  * Exports the {@link module:collection/Map~Map|Map} class.
  * @module collection/Map
  */
-
 define(
   [ 'core/Common' ], function( Common ) {
 

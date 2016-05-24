@@ -3,7 +3,7 @@
  * @module component/Audio
  */
 define(
-  [ 'component/Base', 'lib/howler' ], function( Base, _howler ) {
+  [ 'component/Base', 'lib/Howler' ], function( Base, _howler ) {
 
     /**
      * Basic instance of a Howler object
