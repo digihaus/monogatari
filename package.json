@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "r.js.cmd -o build.js",
-    "docs": "rmdir dist/docs && jsdoc -c jsdoc/conf.json -t jsdoc/template -R README.md -d dist/docs/ main/**/*.js"
+    "docs": "jsdoc -c jsdoc/conf.json main/"
   },
   "devDependencies": {
     "jsdoc": "^3.4.0",

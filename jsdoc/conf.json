@@ -1,4 +1,10 @@
 {
+  "opts": {
+    "template": "jsdoc/template",
+    "destination": "dist/docs",
+    "recurse": true,
+    "readme": "README.md"
+  },
   "tags": {
     "allowUnknownTags": true
   },

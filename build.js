@@ -4,7 +4,7 @@
     paths: {
         'lib': '../lib',
         'lib/Three': '../lib/three.min',
-        'lib/Box2d': '../lib/Box2d',
+        'lib/Box2d': '../lib/box2d',
         'lib/Chance': '../lib/Chance',
         'lib/Detector': '../lib/Detector',
         'lib/Howler': '../lib/howler',
