@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: manager/SceneManager.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-collection_LinkedList.html">collection/LinkedList</a></li><li><a href="module-collection_List.html">collection/List</a></li><li><a href="module-collection_Map.html">collection/Map</a></li><li><a href="module-collection_Tree.html">collection/Tree</a></li><li><a href="module-component_Audio.html">component/Audio</a></li><li><a href="module-component_Base.html">component/Base</a></li><li><a href="module-component_BaseFont.html">component/BaseFont</a></li><li><a href="module-component_BaseThree.html">component/BaseThree</a></li><li><a href="module-component_FlyText.html">component/FlyText</a></li><li><a href="module-component_RigidBody.html">component/RigidBody</a></li><li><a href="module-component_Sprite.html">component/Sprite</a></li><li><a href="module-component_Text.html">component/Text</a></li><li><a href="module-core_Common.html">core/Common</a></li><li><a href="module-core_GameObject.html">core/GameObject</a></li><li><a href="module-core_Math.html">core/Math</a></li><li><a href="module-core_Message.html">core/Message</a></li><li><a href="module-core_Timer.html">core/Timer</a></li><li><a href="module-core_World.html">core/World</a></li><li><a href="module-input_Keyboard.html">input/Keyboard</a></li><li><a href="module-input_Mouse.html">input/Mouse</a></li><li><a href="module-manager_MessageManager.html">manager/MessageManager</a></li><li><a href="module-manager_PhysicsManager.html">manager/PhysicsManager</a></li><li><a href="module-manager_SceneManager.html">manager/SceneManager</a></li><li><a href="module-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D.html">render/Camera2D</a></li><li><a href="module-render_Context2D.html">render/Context2D</a></li><li><a href="module-util_ArrayUtils.html">util/ArrayUtils</a></li><li><a href="module-util_CommonUtils.html">util/CommonUtils</a></li><li><a href="module-util_StringUtils.html">util/StringUtils</a></li></ul><h3>Classes</h3><ul><li><a href="module-collection_LinkedList-LinkedList.html">LinkedList</a></li><li><a href="module-collection_List-List.html">List</a></li><li><a href="module-collection_Map-Map.html">Map</a></li><li><a href="module-collection_Tree-Tree.html">Tree</a></li><li><a href="module-collection_Tree-TreeNode.html">TreeNode</a></li><li><a href="module-component_Audio-Audio_Audio.html">Audio</a></li><li><a href="module-component_BaseFont-BaseFont.html">BaseFont</a></li><li><a href="module-component_BaseThree-BaseThree.html">BaseThree</a></li><li><a href="module-component_Base-Base.html">Base</a></li><li><a href="module-component_FlyText-FlyText.html">FlyText</a></li><li><a href="module-component_RigidBody-RigidBody.html">RigidBody</a></li><li><a href="module-component_Sprite-Sprite.html">Sprite</a></li><li><a href="module-component_Text-Text.html">Text</a></li><li><a href="module-core_Common-Common.html">Common</a></li><li><a href="module-core_GameObject-GameObject.html">GameObject</a></li><li><a href="module-core_Message-Message.html">Message</a></li><li><a href="module-core_Timer-Timer.html">Timer</a></li><li><a href="module-input_Keyboard-Keyboard.html">Keyboard</a></li><li><a href="module-input_Mouse-Mouse.html">Mouse</a></li><li><a href="module-manager_MessageManager-MessageManager.html">MessageManager</a></li><li><a href="module-manager_PhysicsManager-PhysicsManager.html">PhysicsManager</a></li><li><a href="module-manager_SceneManager-SceneManager.html">SceneManager</a></li><li><a href="module-Monogatari-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D-Camera2D.html">Camera2D</a></li><li><a href="module-render_Context2D-Context2D.html">Context2D</a></li><li><a href="module-util_ArrayUtils-ArrayUtils.html">ArrayUtils</a></li><li><a href="module-util_CommonUtils-CommonUtils.html">CommonUtils</a></li><li><a href="module-util_StringUtils-StringUtils.html">StringUtils</a></li><li><a href="World.World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_Math-Math.html">Math</a></li></ul>
+</nav>
+
+<div id="main">
+    <h1 class="page-title">Source: manager/SceneManager.js</h1>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Exports the {@link module:manager/SceneManager~SceneManager|SceneManager} class.
+ * @module manager/SceneManager
+ */
+define(
+  [ 'collection/Map', 'render/Camera2D', 'core/Math', 'lib/Detector', 'lib/Three' ],
+  function( Map, Camera2D, Math, _Detector, _Three ) {
+
+    var instance = null;
+
+    /**
+     * @class SceneManager
+     */
+    var SceneManager = function() {
+      /**
+       * Map of Monogatari (2D) cameras
+       * @memberOf module:manager/SceneManager~SceneManager
+       * @instance
+       * @type {Map}
+       * @name cameras
+       */
+      this.cameras = new Map();
+      this.cameraIterator = this.cameras.iterator();
+      /**
+       * Map of three.js scenes
+       * @memberOf module:manager/SceneManager~SceneManager
+       * @instance
+       * @type {Map}
+       * @name scenes
+       */
+      this.scenes = new Map();
+    };
+
+    SceneManager.prototype.DEFAULT_CAMERA_ID = 'default_camera_id';
+    SceneManager.prototype.DEFAULT_SCENE_ID = 'default_scene_id';
+
+    /**
+     * Camera initialization, creates a Three.js camera with the given parameters. The viewport is fixed to 2D.
+     * @method
+     * @instance
+     * @name createWorld
+     * @param {String} bgcolor Hexadecimal background color
+     * @param {Number} [width] Width of the camera in pixels. Defaults to screen resolution.
+     * @param {Number} [height] Height of the camera in pixels. Defaults to screen resolution.
+     * @param {DOMElement} [target] Target node of the Dom tree to create a canvas renderer. It is attached to the body if not provided.
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
+    SceneManager.prototype.init = function( bgcolor, width, height, target ) {
+      // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
+      this.renderer = Detector.webgl ? new THREE.WebGLRenderer( { antialias: false } ) : new THREE.CanvasRenderer();
+
+      // Set the background color of the renderer, with full opacity
+      this.renderer.setClearColor( ( bgcolor ) ? bgcolor : 0xFFFFFF, 1 );
+
+      // if no dimensions are provided, get the size of the inner window (content area) to create a full size renderer
+      this.canvasWidth = ( width ) ? width : window.innerWidth;
+      this.canvasHeight = ( height ) ? height : window.innerHeight;
+
+      // since the rendering area is actually 3D, a Z translation on camera is required.
+      this.z = Math.max( this.canvasWidth, this.canvasHeight );
+
+      // set the renderer size
+      this.renderer.setSize( this.canvasWidth, this.canvasHeight );
+
+      // attach a canvas tag on the body
+      var body = ( target ) ? target : document.getElementsByTagName( 'body' )[ 0 ];
+      body.appendChild( this.renderer.domElement );
+
+      this.createScene();
+      this.createCamera();
+    };
+
+    /**
+     * Creates a Scene
+     * @method
+     * @instance
+     * @name createScene
+     * @param {String} sceneId Unique identifier of a scene
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
+    SceneManager.prototype.createScene = function( sceneId ) {
+      this.scenes.put( sceneId ? sceneId : this.DEFAULT_SCENE_ID, new THREE.Scene() );
+    };
+
+    /**
+     * Creates a Camera, and attaches a default scene to it.
+     * @method
+     * @instance
+     * @name createScene
+     * @param {String} cameraId Unique identifier of a camera
+     * @param {String} sceneId Unique identifier of a scene
+     * @param {Number} [width] Width of the camera in pixels. Defaults to canvas width.
+     * @param {Number} [height] Height of the camera in pixels. Defaults to canvas height.
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
+    SceneManager.prototype.createCamera = function( cameraId, sceneId, width, height ) {
+      var scene = this.scenes.get( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID );
+
+      if( !cameraId ) {
+        cameraId = this.DEFAULT_CAMERA_ID;
+      }
+
+      if( !width ) {
+        width = this.canvasWidth;
+      }
+
+      if( !height ) {
+        height = this.canvasHeight;
+      }
+
+      if( scene ) {
+        // left, right, top, bottom, near, far
+        var camera = new Camera2D( width / -2, width / 2, height / -2, height / 2, Math.max( width, height ) / -2, Math.max( width, height ) / 2 );
+
+        camera.addScene( ( sceneId ) ? sceneId : this.DEFAULT_SCENE_ID, scene );
+        this.cameras.put( cameraId, camera );
+
+      } else {
+        console.log( 'Scene not found:' + sceneId );
+      }
+    };
+
+    /**
+     * Attach given component to a scene, if no scene is provided, set to default scene
+     * @method
+     * @instance
+     * @name attachToScene
+     * @param {Object} component A Monogatari component that can be rendered
+     * @param {String} [sceneId] Unique identifier of a scene
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
+    SceneManager.prototype.attachToScene = function( component, sceneId ) {
+      var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
+      if( scene &amp;&amp; component.getMesh() ) {
+        scene.add( component.getMesh() );
+      }
+    };
+
+    /**
+     * Detach given component from a scene, if no scene is provided, set to default scene
+     * @method
+     * @instance
+     * @name attachToScene
+     * @param {Object} component A Monogatari component that can be rendered
+     * @param {String} [sceneId] Unique identifier of a scene
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
+    SceneManager.prototype.detachFromScene = function( component, sceneId ) {
+      var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
+      if( scene &amp;&amp; component.getMesh() ) {
+        scene.remove( component.getMesh() );
+      }
+    };
+
+    /**
+     * Renders all cameras and scenes to the canvas.
+     * @method
+     * @instance
+     * @name render
+     * @memberOf module:manager/SceneManager~SceneManager
+     */
+    SceneManager.prototype.render = function() {
+      var camera, scene;
+
+      this.cameraIterator.first();
+
+      // iterate all cameras
+      while( this.cameraIterator.hasNext() ) {
+        camera = this.cameraIterator.next();
+
+        // iterate all scenes registered to render on this camera
+        for( var i = 0, len = camera.scenes.length; i &lt; len; i++ ) {
+          scene = this.scenes.get( camera.scenes[ i ] );
+
+          if( scene ) {
+            this.renderer.render( scene, camera.cam );
+          }
+        }
+      }
+    };
+
+    SceneManager.getInstance = function() {
+      if( instance === null ) {
+        instance = new SceneManager();
+      }
+      return instance;
+    };
+
+    return SceneManager.getInstance();
+  }
+);</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+    <footer>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Tue May 24 2016 15:58:15 GMT-0300 (Hora oficial do Brasil)
+    </footer>
+</div>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
