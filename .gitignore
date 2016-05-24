@@ -1,5 +1,4 @@
-/.project
-/.settings
-/.idea
-/**/node_modules/
-/dist
+.project
+.settings
+.idea
+node_modules/

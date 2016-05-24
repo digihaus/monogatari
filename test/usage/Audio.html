@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+  <title>Audio Usage - Monogatari</title>
+  <link href="css/style.css" rel="stylesheet">
+  <script src="../require.js"></script>
+  <script src="../setup.js"></script>
+  <script>
+    require(
+        [ 'Monogatari' ], function( m ) {
+          m.init();
+
+          var music = new m.GameObject( 'music' );
+          var playing = false;
+
+          music.addComponent(
+              new m.Audio(
+                  {
+                    urls: [ '../assets/invaders.wav' ],
+                    onend: function() {
+                      playing = false;
+                    }
+                  }
+              )
+          );
+          music.update = function() {
+            if( !playing ) {
+              this.findComponent( m.Base.AUDIO_SOURCE ).obj.play();
+              playing = true;
+            }
+          };
+
+          m.world.children.push( music );
+          m.run();
+        }
+    );
+  </script>
+</head>
+<body>
+<h1>Audio Test</h1>
+</body>
+</html>
