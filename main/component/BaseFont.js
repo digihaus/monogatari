@@ -21,9 +21,8 @@ define(
     var Font = function( size, family, color ) {
       BaseThree.call( this );
       this.type = Base.BASE_FONT;
+      this.state = Base.STATE_INITIALIZING;
       this.isRenderable = true;
-      this.state = Base.STATE_READY;
-      this.isLoaded = false;
 
       this.fontSize = ( size ) ? size : 10;
       this.fontFamily = ( family ) ? family : 'Verdana';
@@ -80,7 +79,7 @@ define(
      */
     Font.prototype.onLoad = function() {
       this.parse();
-      this.isLoaded = true;
+      this.state = Base.STATE_READY;
     };
 
     /**

@@ -28,6 +28,21 @@ define(
        * @default false
        */
       this.isRenderable = false;
+
+      /**
+       * Flag to indicate if this component has loadable resources
+       * @memberOf module:component/Base~Base
+       * @intance
+       * @type {Boolean}
+       * @name isLoadable
+       * @default false
+       */
+      this.isLoadable = false;
+
+      /**
+       * Current component state
+       * @type {Number|number}
+       */
       this.state = Component.STATE_INITIALIZING;
     };
 
@@ -53,7 +68,8 @@ define(
     Component.STATE_INITIALIZING = 0;
     Component.STATE_BUFFERING = 1;
     Component.STATE_READY = 2;
-    Component.STATE_REGISTERED = 3;
+    Component.STATE_RUNNING = 3; 
+    Component.STATE_REGISTERED = 4;
     Component.STATE_FAILED = -1;
 
     /**
@@ -86,7 +102,6 @@ define(
     Component.AUDIO_SOURCE = 7;
     Component.PARTICLE_EMITTER = 8;
     Component.TILEMAP = 9;
-
     Component.CUSTOM = -1;
 
     return Component;

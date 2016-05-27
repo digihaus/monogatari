@@ -27,7 +27,7 @@ define(
        */
       this.type = Base.TEXT;
 
-      this.state = Base.STATE_READY;
+      this.state = Base.STATE_INITIALIZING;
 
       /**
        * Flag to indicate if this component should be rendered on screen
@@ -38,16 +38,6 @@ define(
        * @default true
        */
       this.isRenderable = true;
-
-      /**
-       * Flag to indicate if this component is loaded on memory
-       * @memberOf module:component/Text~Text
-       * @instance
-       * @type {Boolean}
-       * @name isLoaded
-       * @default false
-       */
-      this.isLoaded = false;
 
       /**
        * Text to be rendered
@@ -167,7 +157,7 @@ define(
      * @memberOf module:component/Text~Text
      */
     Text.prototype.setSize = function( size ) {
-      this.isLoaded = false;
+      this.state = Base.STATE_INITIALIZING;
       this.fontSize = ( size ) ? size : 10;
       this.load();
     };
@@ -182,7 +172,7 @@ define(
      * @memberOf module:component/Text~Text
      */
     Text.prototype.setFamily = function( family ) {
-      this.isLoaded = false;
+      this.state = Base.STATE_INITIALIZING;
       this.fontFamily = ( family ) ? family : 'Verdana';
       this.load();
     };
@@ -197,7 +187,7 @@ define(
      * @memberOf module:component/Text~Text
      */
     Text.prototype.setColor = function( color ) {
-      this.isLoaded = false;
+      this.state = Base.STATE_INITIALIZING;
       this.color = ( color ) ? color : '#000';
       this.load();
     };
@@ -211,7 +201,7 @@ define(
      * @memberOf module:component/Text~Text
      */
     Text.prototype.setText = function( text ) {
-      this.isLoaded = false;
+      this.state = Base.STATE_INITIALIZING;
       this.text = ( text ) ? text : '';
       this.load();
     };
@@ -226,7 +216,7 @@ define(
      * @memberOf module:component/Text~Text
      */
     Text.prototype.setWidth = function( width ) {
-      this.isLoaded = false;
+      this.state = Base.STATE_INITIALIZING;
       this.w = ( width ) ? width : 256;
       this.buffer.width = this.w;
       this.load();
@@ -242,7 +232,7 @@ define(
      * @memberOf module:component/Text~Text
      */
     Text.prototype.setHeight = function( height ) {
-      this.isLoaded = false;
+      this.state = Base.STATE_INITIALIZING;
       this.h = ( height ) ? height : 64;
       this.buffer.height = this.h;
       this.load();
@@ -314,7 +304,7 @@ define(
       this.material.transparent = true;
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
       this.mesh = new THREE.Mesh( this.geometry, this.material );
-      this.isLoaded = true;
+      this.state = Base.STATE_READY;
     };
 
     /**

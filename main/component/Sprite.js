@@ -18,6 +18,8 @@ define(
     var Sprite = function( source, width, height, rows, cols ) {
       BaseThree.call( this, null, null, Base.SPRITE );
 
+      this.isLoadable = true;
+
       /**
        * Flag to indicate if this component should be rendered on screen
        * @memberOf module:component/Sprite~Sprite

@@ -1,23 +1,50 @@
 /**
- * Exports the {@link module:core/World~World|World} class.
+ * Exports the {@link module:component/Audio~Audio|Audio} class.
  * @module component/Audio
  */
 define(
-  [ 'component/Base', 'lib/Howler' ], function( Base, _howler ) {
+  [ 'component/Base', 'lib/Howler' ], function( Base, _Howler ) {
 
     /**
-     * Basic instance of a Howler object
-     * @method
-     * @instance
-     * @name anonymousFunction
-     * @param {Object} options Howler object parameters
-     * @link http://goldfirestudios.com/blog/104/howler.js-Modern-Web-Audio-Javascript-Library
+     * Encapsulates a Howler object for Audio management.
+     * @param {String} source Audio source
      * @memberOf module:component/Audio~Audio
      * @class Audio
      */
-    return function( options ) {
+    var Audio = function( source ) {
       Base.call( this, Base.AUDIO_SOURCE );
-      this.obj = new Howl( options );
+
+      this.isLoadable = true;
+
+      var ctx = this;
+
+      /**
+       * Basic instance of a Howler object
+       * @param {Object} options Howler object parameters
+       * @link http://goldfirestudios.com/blog/104/howler.js-Modern-Web-Audio-Javascript-Library
+       */
+      this.sound = new Howl({
+        urls: [ source ],
+        autoplay: false,
+        loop: false,
+        onload: function() {
+          ctx.state = Base.STATE_READY;
+        }
+      });
     };
+
+    Audio.prototype = Object.create( Base.prototype );
+    
+    Audio.prototype.play = function() {
+      this.state = Base.STATE_RUNNING;
+      this.sound.play();
+    };
+
+    Audio.prototype.stop = function() {
+      this.state = Base.STATE_READY;
+      this.sound.stop();
+    };
+
+    return Audio;
   }
 );
