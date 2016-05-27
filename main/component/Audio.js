@@ -14,6 +14,8 @@ define(
     var Audio = function( source ) {
       Base.call( this, Base.AUDIO_SOURCE );
 
+      this.isLoadable = true;
+
       var ctx = this;
 
       /**

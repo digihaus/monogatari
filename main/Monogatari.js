@@ -368,10 +368,24 @@ define(
      * @name run
      * @memberOf module:Monogatari~Monogatari
      */
-    Monogatari.prototype.run = function() {
-      requestAnimationFrame( this.run.bind( this ) );
-      this.update();
-      this.render();
+    Monogatari.prototype.run = function( loading, loaded ) {
+      if( loaded ) {
+        this.update();
+        this.render();
+
+      } else {
+        var loadPercentage = this.world.load();
+        
+        if(loading instanceof Function) {
+          loading( loadPercentage );
+        }
+        
+        if(loadPercentage == 1) {
+          loaded = true;
+        }
+      }
+
+      requestAnimationFrame( this.run.bind( this, loading, loaded ) );
     };
 
     var instance = null;
