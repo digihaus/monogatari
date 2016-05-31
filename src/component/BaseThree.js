@@ -26,7 +26,7 @@ define(
        */
       this.isRenderable = true;
 
-      this.state = Base.STATE_READY;
+      this.state = Base.STATE_INITIALIZING;
 
       /**
        * THREE.Texture of the component

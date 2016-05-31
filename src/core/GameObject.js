@@ -551,6 +551,48 @@ define(
       }
     };
 
+    GameObject.prototype.load = function() {
+
+      var resources = 0;
+      var loaded = 0;
+      var childPercentage = 0;
+
+      if(this.children.length > 0) {
+        for (var i = 0, len = this.children.length; i < len; i++) {
+          childPercentage += this.children[i].load();
+        }
+        childPercentage = childPercentage / this.children.length;
+      } else {
+        childPercentage = 1;
+      }
+
+
+      this.componentsIt.first();
+      while( this.componentsIt.hasNext() ) {
+        var component = this.componentsIt.next();
+        if( component.isLoadable ) {
+          resources++;
+          if(component.state === Base.STATE_READY) {
+            loaded++;
+          }
+        }
+      }
+
+      var loadPercentage = 0;
+
+      if(resources == 0) {
+        loadPercentage = childPercentage;
+      } else {
+        if(loaded == 0) {
+          loadPercentage = 0;
+        } else {
+          loadPercentage = (resources / loaded + childPercentage) / 2;
+        }
+      }
+
+      return loadPercentage;
+    };
+
     return GameObject;
   }
 );

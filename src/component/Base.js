@@ -30,6 +30,16 @@ define(
       this.isRenderable = false;
 
       /**
+       * Flag to indicate if this component has loadable resources
+       * @memberOf module:component/Base~Base
+       * @intance
+       * @type {Boolean}
+       * @name isLoadable
+       * @default false
+       */
+      this.isLoadable = false;
+
+      /**
        * Current component state
        * @type {Number|number}
        */
@@ -92,7 +102,6 @@ define(
     Component.AUDIO_SOURCE = 7;
     Component.PARTICLE_EMITTER = 8;
     Component.TILEMAP = 9;
-
     Component.CUSTOM = -1;
 
     return Component;
