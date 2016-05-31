@@ -9,7 +9,7 @@
     "url": "http://github.com/digihaus/monogatari"
   },
   "scripts": {
-    "build": "r.js.cmd -o build.js",
+    "build": "r.js.cmd -o config.js",
     "docs": "jsdoc -c jsdoc/conf.json src/"
   },
   "devDependencies": {
