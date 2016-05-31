@@ -1,11 +1,9 @@
-require.config(
-    {
-        baseUrl: '../../src',
-        paths: {
-            'lib': '../lib',
-            'lib/Three': '../lib/three.min',
-            'lib/Box2d': '../lib/box2d',
-            'lib/Howler': '../lib/howler'
-        }
-    }
-);
+require(['../../paths'], function( paths ) {
+
+  console.log(paths);
+
+  require.config({
+    baseUrl: '../../src',
+    paths: paths
+  });
+});

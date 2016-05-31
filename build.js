@@ -1,15 +1,20 @@
-({
+var requirejs = require('requirejs');
+
+var paths = requirejs('./paths');
+
+var config = {
   name: 'Monogatari',
   baseUrl: './src',
-  paths: {
-    'lib': '../lib',
-    'lib/Three': '../lib/three.min',
-    'lib/Box2d': '../lib/box2d',
-    'lib/Howler': '../lib/howler'
-  },
-  preserveLicenseComments: false,
+  paths: paths,
+  preserveLicenseComments: true,
   out: './build/' + process.env.npm_package_name + '.min.js',
   wrap: {
     start: '// ' + process.env.npm_package_name + '-r' + process.env.npm_package_revision
   }
-})
+};
+
+requirejs.optimize(config, function(buildResp) {
+  console.log(buildResp);
+}, function(err) {
+  console.log(err);
+});
