@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: input/Keyboard.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-collection_LinkedList.html">collection/LinkedList</a></li><li><a href="module-collection_List.html">collection/List</a></li><li><a href="module-collection_Map.html">collection/Map</a></li><li><a href="module-collection_Tree.html">collection/Tree</a></li><li><a href="module-component_Audio.html">component/Audio</a></li><li><a href="module-component_Base.html">component/Base</a></li><li><a href="module-component_BaseThree.html">component/BaseThree</a></li><li><a href="module-component_RigidBody.html">component/RigidBody</a></li><li><a href="module-component_Sprite.html">component/Sprite</a></li><li><a href="module-core_Common.html">core/Common</a></li><li><a href="module-core_GameObject.html">core/GameObject</a></li><li><a href="module-core_Math.html">core/Math</a></li><li><a href="module-core_Message.html">core/Message</a></li><li><a href="module-core_Timer.html">core/Timer</a></li><li><a href="module-core_World.html">core/World</a></li><li><a href="module-input_Keyboard.html">input/Keyboard</a></li><li><a href="module-input_Mouse.html">input/Mouse</a></li><li><a href="module-manager_MessageManager.html">manager/MessageManager</a></li><li><a href="module-manager_PhysicsManager.html">manager/PhysicsManager</a></li><li><a href="module-manager_SceneManager.html">manager/SceneManager</a></li><li><a href="module-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D.html">render/Camera2D</a></li><li><a href="module-render_Context2D.html">render/Context2D</a></li><li><a href="module-util_ArrayUtils.html">util/ArrayUtils</a></li><li><a href="module-util_CommonUtils.html">util/CommonUtils</a></li><li><a href="module-util_StringUtils.html">util/StringUtils</a></li></ul><h3>Classes</h3><ul><li><a href="module-collection_LinkedList-LinkedList.html">LinkedList</a></li><li><a href="module-collection_List-List.html">List</a></li><li><a href="module-collection_Map-Map.html">Map</a></li><li><a href="module-collection_Tree-Tree.html">Tree</a></li><li><a href="module-collection_Tree-TreeNode.html">TreeNode</a></li><li><a href="module-component_Audio-Audio.Audio.html">Audio</a></li><li><a href="module-component_BaseThree-BaseThree.html">BaseThree</a></li><li><a href="module-component_Base-Base.html">Base</a></li><li><a href="module-component_RigidBody-RigidBody.html">RigidBody</a></li><li><a href="module-component_Sprite-Sprite.html">Sprite</a></li><li><a href="module-core_Common-Common.html">Common</a></li><li><a href="module-core_GameObject-GameObject.html">GameObject</a></li><li><a href="module-core_Message-Message.html">Message</a></li><li><a href="module-core_Timer-Timer.html">Timer</a></li><li><a href="module-input_Keyboard-Keyboard.html">Keyboard</a></li><li><a href="module-input_Mouse-Mouse.html">Mouse</a></li><li><a href="module-manager_MessageManager-MessageManager.html">MessageManager</a></li><li><a href="module-manager_PhysicsManager-PhysicsManager.html">PhysicsManager</a></li><li><a href="module-manager_SceneManager-SceneManager.html">SceneManager</a></li><li><a href="module-Monogatari-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D-Camera2D.html">Camera2D</a></li><li><a href="module-render_Context2D-Context2D.html">Context2D</a></li><li><a href="module-util_ArrayUtils-ArrayUtils.html">ArrayUtils</a></li><li><a href="module-util_CommonUtils-CommonUtils.html">CommonUtils</a></li><li><a href="module-util_StringUtils-StringUtils.html">StringUtils</a></li><li><a href="World.World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_Math-Math.html">Math</a></li></ul>
+</nav>
+
+<div id="main">
+    <h1 class="page-title">Source: input/Keyboard.js</h1>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Exports the {@link module:input/Keyboard~Keyboard|Keyboard} class.
+ * @module input/Keyboard
+ */
+define(
+  function() {
+    /**
+     * Map and listens keys for keyboard input
+     * @class Keyboard
+     */
+    var Keyboard = function() {
+      /**
+       * Array of pressed keys, they Store a timestamp if pressed or -1 of not pressed
+       * @memberOf module:input/Keyboard~Keyboard
+       * @instance
+       * @type {Int32Array}
+       * @name pressed
+       */
+      this.pressed = new Int32Array( 256 );
+
+      for( var i = 0, len = this.pressed.length; i &lt; len; i++ ) {
+        this.pressed[ i ] = -1;
+      }
+    };
+
+    Keyboard.prototype.BACKSPACE = 8;
+    Keyboard.prototype.TAB = 9;
+    Keyboard.prototype.ENTER = 13;
+    Keyboard.prototype.SHIFT = 16;
+    Keyboard.prototype.CTRL = 17;
+    Keyboard.prototype.ALT = 18;
+    Keyboard.prototype.PAUSE_BREAK = 19;
+    Keyboard.prototype.CAPS_LOCK = 20;
+    Keyboard.prototype.ESCAPE = 27;
+    Keyboard.prototype.SPACE = 32;
+    Keyboard.prototype.PAGE_UP = 33;
+    Keyboard.prototype.PAGE_DOWN = 34;
+    Keyboard.prototype.END = 35;
+    Keyboard.prototype.HOME = 36;
+    Keyboard.prototype.LEFT_ARROW = 37;
+    Keyboard.prototype.UP_ARROW = 38;
+    Keyboard.prototype.RIGHT_ARROW = 39;
+    Keyboard.prototype.DOWN_ARROW = 40;
+    Keyboard.prototype.INSERT = 45;
+    Keyboard.prototype.DELETE = 46;
+    Keyboard.prototype.NUM_0 = 48;
+    Keyboard.prototype.NUM_1 = 49;
+    Keyboard.prototype.NUM_2 = 50;
+    Keyboard.prototype.NUM_3 = 51;
+    Keyboard.prototype.NUM_4 = 52;
+    Keyboard.prototype.NUM_5 = 53;
+    Keyboard.prototype.NUM_6 = 54;
+    Keyboard.prototype.NUM_7 = 55;
+    Keyboard.prototype.NUM_8 = 56;
+    Keyboard.prototype.NUM_9 = 57;
+    Keyboard.prototype.A = 65;
+    Keyboard.prototype.B = 66;
+    Keyboard.prototype.C = 67;
+    Keyboard.prototype.D = 68;
+    Keyboard.prototype.E = 69;
+    Keyboard.prototype.F = 70;
+    Keyboard.prototype.G = 71;
+    Keyboard.prototype.H = 72;
+    Keyboard.prototype.I = 73;
+    Keyboard.prototype.J = 74;
+    Keyboard.prototype.K = 75;
+    Keyboard.prototype.L = 76;
+    Keyboard.prototype.M = 77;
+    Keyboard.prototype.N = 78;
+    Keyboard.prototype.O = 79;
+    Keyboard.prototype.P = 80;
+    Keyboard.prototype.Q = 81;
+    Keyboard.prototype.R = 82;
+    Keyboard.prototype.S = 83;
+    Keyboard.prototype.T = 84;
+    Keyboard.prototype.U = 85;
+    Keyboard.prototype.V = 86;
+    Keyboard.prototype.W = 87;
+    Keyboard.prototype.X = 88;
+    Keyboard.prototype.Y = 89;
+    Keyboard.prototype.Z = 90;
+    Keyboard.prototype.LEFT_WINDOW = 91;
+    Keyboard.prototype.RIGHT_WINDOW = 92;
+    Keyboard.prototype.SELECT_KEY = 93;
+    Keyboard.prototype.NUMPAD_0 = 96;
+    Keyboard.prototype.NUMPAD_1 = 97;
+    Keyboard.prototype.NUMPAD_2 = 98;
+    Keyboard.prototype.NUMPAD_3 = 99;
+    Keyboard.prototype.NUMPAD_4 = 100;
+    Keyboard.prototype.NUMPAD_5 = 101;
+    Keyboard.prototype.NUMPAD_6 = 102;
+    Keyboard.prototype.NUMPAD_7 = 103;
+    Keyboard.prototype.NUMPAD_8 = 104;
+    Keyboard.prototype.NUMPAD_9 = 105;
+    Keyboard.prototype.MULTIPLY = 106;
+    Keyboard.prototype.ADD = 107;
+    Keyboard.prototype.SUBTRACT = 109;
+    Keyboard.prototype.DECIMAL_POINT = 110;
+    Keyboard.prototype.DIVIDE = 111;
+    Keyboard.prototype.F1 = 112;
+    Keyboard.prototype.F2 = 113;
+    Keyboard.prototype.F3 = 114;
+    Keyboard.prototype.F4 = 115;
+    Keyboard.prototype.F5 = 116;
+    Keyboard.prototype.F6 = 117;
+    Keyboard.prototype.F7 = 118;
+    Keyboard.prototype.F8 = 119;
+    Keyboard.prototype.F9 = 120;
+    Keyboard.prototype.F10 = 121;
+    Keyboard.prototype.F11 = 122;
+    Keyboard.prototype.F12 = 123;
+    Keyboard.prototype.NUM_LOCK = 144;
+    Keyboard.prototype.SCROLL_LOCK = 145;
+    Keyboard.prototype.SEMICOLON = 186;
+    Keyboard.prototype.EQUAL_SIGN = 187;
+    Keyboard.prototype.COMMA = 188;
+    Keyboard.prototype.DASH = 189;
+    Keyboard.prototype.PERIOD = 190;
+    Keyboard.prototype.FORWARD_SLASH = 191;
+    Keyboard.prototype.GRAVE_ACCENT = 192;
+    Keyboard.prototype.OPEN_BRACKET = 219;
+    Keyboard.prototype.BACK_SLASH = 220;
+    Keyboard.prototype.CLOSE_BRAKET = 221;
+    Keyboard.prototype.SINGLE_QUOTE = 222;
+
+    /**
+     * Check if a key is pressed
+     * @method
+     * @instance
+     * @name isDown
+     * @param {Number} keyCode Constant of a key mapped
+     * @return Number Timestamp of the last time the key was pressed or null if not pressed
+     * @memberOf module:input/Keyboard~Keyboard
+     */
+    Keyboard.prototype.isDown = function( keyCode ) {
+      return ( this.pressed[ keyCode ] === -1 ) ? null : this.pressed[ keyCode ];
+    };
+
+    Keyboard.prototype.onKeyDown = function( event, timer ) {
+      event.stopPropagation();
+      if( event.keyCode == Keyboard.prototype.BACKSPACE ||
+        event.keyCode == Keyboard.prototype.UP_ARROW ||
+        event.keyCode == Keyboard.prototype.DOWN_ARROW ||
+        event.keyCode == Keyboard.prototype.LEFT_ARROW ||
+        event.keyCode == Keyboard.prototype.RIGHT_ARROW ||
+        event.keyCode == Keyboard.prototype.PAGE_UP ||
+        event.keyCode == Keyboard.prototype.PAGE_DOWN ||
+        event.keyCode == Keyboard.prototype.SPACE ) {
+
+        event.preventDefault();
+      }
+
+      this.pressed[ event.keyCode ] = timer.time;
+    };
+
+    Keyboard.prototype.onKeyUp = function( event ) {
+      event.stopPropagation();
+      this.pressed[ event.keyCode ] = -1;
+    };
+
+    return Keyboard;
+  }
+);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+    <footer>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Tue May 31 2016 19:06:55 GMT-0300 (Hora oficial do Brasil)
+    </footer>
+</div>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

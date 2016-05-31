@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: util/ArrayUtils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-collection_LinkedList.html">collection/LinkedList</a></li><li><a href="module-collection_List.html">collection/List</a></li><li><a href="module-collection_Map.html">collection/Map</a></li><li><a href="module-collection_Tree.html">collection/Tree</a></li><li><a href="module-component_Audio.html">component/Audio</a></li><li><a href="module-component_Base.html">component/Base</a></li><li><a href="module-component_BaseThree.html">component/BaseThree</a></li><li><a href="module-component_RigidBody.html">component/RigidBody</a></li><li><a href="module-component_Sprite.html">component/Sprite</a></li><li><a href="module-core_Common.html">core/Common</a></li><li><a href="module-core_GameObject.html">core/GameObject</a></li><li><a href="module-core_Math.html">core/Math</a></li><li><a href="module-core_Message.html">core/Message</a></li><li><a href="module-core_Timer.html">core/Timer</a></li><li><a href="module-core_World.html">core/World</a></li><li><a href="module-input_Keyboard.html">input/Keyboard</a></li><li><a href="module-input_Mouse.html">input/Mouse</a></li><li><a href="module-manager_MessageManager.html">manager/MessageManager</a></li><li><a href="module-manager_PhysicsManager.html">manager/PhysicsManager</a></li><li><a href="module-manager_SceneManager.html">manager/SceneManager</a></li><li><a href="module-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D.html">render/Camera2D</a></li><li><a href="module-render_Context2D.html">render/Context2D</a></li><li><a href="module-util_ArrayUtils.html">util/ArrayUtils</a></li><li><a href="module-util_CommonUtils.html">util/CommonUtils</a></li><li><a href="module-util_StringUtils.html">util/StringUtils</a></li></ul><h3>Classes</h3><ul><li><a href="module-collection_LinkedList-LinkedList.html">LinkedList</a></li><li><a href="module-collection_List-List.html">List</a></li><li><a href="module-collection_Map-Map.html">Map</a></li><li><a href="module-collection_Tree-Tree.html">Tree</a></li><li><a href="module-collection_Tree-TreeNode.html">TreeNode</a></li><li><a href="module-component_Audio-Audio.Audio.html">Audio</a></li><li><a href="module-component_BaseThree-BaseThree.html">BaseThree</a></li><li><a href="module-component_Base-Base.html">Base</a></li><li><a href="module-component_RigidBody-RigidBody.html">RigidBody</a></li><li><a href="module-component_Sprite-Sprite.html">Sprite</a></li><li><a href="module-core_Common-Common.html">Common</a></li><li><a href="module-core_GameObject-GameObject.html">GameObject</a></li><li><a href="module-core_Message-Message.html">Message</a></li><li><a href="module-core_Timer-Timer.html">Timer</a></li><li><a href="module-input_Keyboard-Keyboard.html">Keyboard</a></li><li><a href="module-input_Mouse-Mouse.html">Mouse</a></li><li><a href="module-manager_MessageManager-MessageManager.html">MessageManager</a></li><li><a href="module-manager_PhysicsManager-PhysicsManager.html">PhysicsManager</a></li><li><a href="module-manager_SceneManager-SceneManager.html">SceneManager</a></li><li><a href="module-Monogatari-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D-Camera2D.html">Camera2D</a></li><li><a href="module-render_Context2D-Context2D.html">Context2D</a></li><li><a href="module-util_ArrayUtils-ArrayUtils.html">ArrayUtils</a></li><li><a href="module-util_CommonUtils-CommonUtils.html">CommonUtils</a></li><li><a href="module-util_StringUtils-StringUtils.html">StringUtils</a></li><li><a href="World.World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_Math-Math.html">Math</a></li></ul>
+</nav>
+
+<div id="main">
+    <h1 class="page-title">Source: util/ArrayUtils.js</h1>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Exports the {@link module:util/ArrayUtils~ArrayUtils|ArrayUtils} class.
+ * @module util/ArrayUtils
+ */
+define(
+  //https://github.com/techfort/PowerArray
+  [ 'util/CommonUtils' ], function( CommonUtils ) {
+
+    /**
+     * Utility class for arrays
+     * @class ArrayUtils
+     */
+    var ArrayUtils = function() {};
+
+    /**
+     * Concatenates two Float32Arrays
+     * @link http://stackoverflow.com/questions/4554252/typed-arrays-in-gecko-2-float32array-concatenation-and-expansion
+     * @method
+     * @instance
+     * @param {Float32Array} first First array to be concatenated
+     * @param {Float32Array} second Second array to be concatenated
+     * @name float32Concat
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     */
+    ArrayUtils.prototype.float32Concat = function( first, second ) {
+      var firstLength = first.length;
+      var result = new Float32Array( firstLength + second.length );
+
+      result.set( first );
+      result.set( second, firstLength );
+
+      return result;
+    };
+
+    /**
+     * Sorts the contents of the given array
+     * @method
+     * @instance
+     * @name quicksort
+     * @param {Array} array Unsorted Array
+     * @return {Array}
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     */
+    ArrayUtils.prototype.quicksort = function( array ) {
+      if( array.length === 0 ) {
+        return [];
+      }
+
+      var head = [];
+      var tail = [];
+      var pivot = array[ 0 ];
+
+      for( var i = 1, len = array.length; i &lt; len; i++ ) {
+        ( array[ i ] &lt; pivot ) ? head[ head.length ] = array[ i ] : tail[ tail.length ] = array[ i ];
+      }
+
+      return this.quicksort( head ).concat( pivot, this.quicksort( tail ) );
+    };
+
+    /**
+     * Create and return a new array containing non-repeating values
+     * @method
+     * @instance
+     * @name unique
+     * @param {Array} array Unsorted Array
+     * @return {Array}
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     */
+    ArrayUtils.prototype.unique = function( array ) {
+      var newArr = [];
+      var found = false;
+
+      for( var x = 0, len = array.length; x &lt; len; x++ ) {
+        found = false;
+        for( var y = 0; y &lt; newArr.length; y++ ) {
+          if( CommonUtils.equals( array[ x ], newArr[ y ] ) ) {
+            found = true;
+            break;
+          }
+        }
+
+        if( !found ) {
+          newArr.push( array[ x ] );
+        }
+      }
+
+      return newArr;
+    };
+
+    /**
+     * Sort the contents of the given Array alphabetically
+     * @method
+     * @instance
+     * @name alphabeticalSort
+     * @param {Array} array Unsorted Array
+     * @return {Array}
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     */
+    ArrayUtils.prototype.alphabeticalSort = function( array ) {
+      if( this.isArray( array ) ) {
+        array.sort(
+          function( a, b ) {
+            return ( a.group &lt; b.group ) ? -1 : ( a.group &lt; b.group ) ? 1 : 0;
+          }
+        );
+        return array;
+      } else {
+        return null;
+      }
+    };
+
+    /**
+     * Removes elements of the given array
+     * @method
+     * @instance
+      @link http://ejohn.org/blog/javascript-array-remove/
+     * @name remove
+     * @param {Array} array Array to be processed
+     * @param {Number} from Array index
+     * @param {Number} to Array index
+     * @return {Array}
+     * @example
+     *  // Remove the second item from the array:
+     *  array.remove(1);
+     *  // Remove the second-to-last item from the array:
+     *  array.remove(-2);
+     *  // Remove the second and third items from the array:
+     *  array.remove(1,2);
+     *  // Remove the last and second-to-last items from the array:
+     *  array.remove(-2,-1);
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     */
+    ArrayUtils.prototype.remove = function( array, from, to ) {
+      var rest = array.slice( ( to || from ) + 1 || array.length );
+      array.length = from &lt; 0 ? array.length + from : from;
+      return array.push.apply( array, rest );
+    };
+
+    /**
+     * Compares the contents of two given arrays
+     * @method
+     * @instance
+     * @name remove
+     * @param {Array} arr1 Array to be compared
+     * @param {Array} arr2 Array to be compared
+     * @return {Boolean}
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     */
+    ArrayUtils.prototype.equals = function( arr1, arr2 ) {
+      var len1 = arr1.length, len2 = arr2.length;
+
+      if( len1 != len2 ) {
+        return false;
+      }
+
+      for( var i = 0; i &lt; len2; i++ ) {
+
+        if( this.isArray( arr1[ i ] ) ) { // nested array
+          if( !this.equals( arr1[ i ], arr2[ i ] ) ) {
+            return false;
+          } else {
+            continue;
+          }
+        }
+
+        if( !CommonUtils.equals( arr1[ i ], arr2[ i ] ) ) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    /**
+     * Take the intersection between two arrays and returns elements present both.
+     * @method
+     * @instance
+     * @name intersection
+     * @param {Array} arr1 Array to be compared
+     * @param {Array} arr2 Array to be compared
+     * @return {Array}
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     */
+    ArrayUtils.prototype.intersection = function( arr1, arr2 ) {
+      var rest = concat.apply( Array.prototype, slice.call( arr2, 1 ) );
+
+      return this.unique( arr1 ).filter(
+        function( value ) {
+          return this.inArray( value, rest );
+        }
+      );
+    };
+
+    /**
+     * Produce an array that contains items that are on the first array and not on the second
+     * @method
+     * @instance
+     * @name difference
+     * @param {Array} arr1 Array to be compared
+     * @param {Array} arr2 Array to be compared
+     * @return {Array}
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     */
+    ArrayUtils.prototype.difference = function( arr1, arr2 ) {
+      var rest = this.concat.apply( Array.prototype, this.slice.call( arr2, 1 ) );
+
+      return this.unique( arr1 ).filter(
+        function( value ) {
+          return !this.inArray( value, rest );
+        }
+      );
+    };
+
+    /**
+     * Splits the Array in sizeable chunks
+     * @from Carlos R. L. Rodrigues http://jsfromhell.com/array/chunk [rev. #1]
+     * @method
+     * @instance
+     * @name difference
+     * @param {Array} a Array to be processed
+     * @param {Number} s size of chunk
+     * @return {Array}
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     * @example
+     * // Input
+     * chunk([1,2,3,4,5,6,7], 3);
+     * //Output:
+     * [[1,2,3],[4,5,6],[7]];
+     */
+    ArrayUtils.prototype.chunk = function( a, s ) {
+      for( var x, i = 0, c = -1, l = a.length, n = []; i &lt; l; i++ ) {
+        ( x = i % s ) ? n[ c ][ x ] = a[ i ] : n[ ++c ] = [ a[ i ] ];
+      }
+      return n;
+    };
+
+    /**
+     * Creates a flat array (one dimensional)
+     * @method
+     * @instance
+     * @name difference
+     * @param {Array} arr Array to be processed
+     * @return {Array}
+     * @memberOf module:util/ArrayUtils~ArrayUtils
+     * @example
+     *  //Input:
+     *  [[1,2,3],[4,5,6],[7]];
+     *  //Output:
+     *  [1,2,3,4,5,6,7];
+     */
+    ArrayUtils.prototype.flat = function( arr ) {
+      return arr.reduce(
+        function( a, b ) {
+          return a.concat( b );
+        }, []
+      );
+    };
+
+    return new ArrayUtils();
+  }
+);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+    <footer>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Tue May 31 2016 19:06:55 GMT-0300 (Hora oficial do Brasil)
+    </footer>
+</div>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
