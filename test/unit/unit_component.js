@@ -25,27 +25,3 @@ QUnit.test(
     run();
   }
 );
-
-/**
- require(
- [ 'component/Sprite' ], function( Sprite ) {
-    var sprite = new Sprite( 'assets/zombies.png', 64, 64, 1, 3 );
-    assert( sprite != null, 'Sprite created', 'component', sprite );
-  }
- );
-
- require(
- [ 'component/StaticText' ], function( StaticText ) {
-    var text = new StaticText( 'OROMIO', 12, "Caesar Dressing" );
-    assert( text != null, 'StaticText created', 'component', text );
-    text.load();
-  }
- );
-
- require(
- [ 'component/RigidBody' ], function( RigidBody ) {
-    var body = new RigidBody();
-    assert( body != null, 'RigidBody created', 'component', body );
-  }
- );
- */

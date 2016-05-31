@@ -3,8 +3,8 @@
  * @module manager/SceneManager
  */
 define(
-  [ 'collection/Map', 'render/Camera2D', 'core/Math', 'lib/Detector', 'lib/Three' ],
-  function( Map, Camera2D, Math, _Detector, _Three ) {
+  [ 'collection/Map', 'render/Camera2D', 'core/Math', 'lib/Three' ],
+  function( Map, Camera2D, Math, _Three ) {
 
     var instance = null;
 
@@ -47,7 +47,9 @@ define(
      */
     SceneManager.prototype.init = function( bgcolor, width, height, target ) {
       // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
-      this.renderer = Detector.webgl ? new THREE.WebGLRenderer( { antialias: false } ) : new THREE.CanvasRenderer();
+      this.renderer = !!window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) )
+                      ? new THREE.WebGLRenderer( { antialias: false } )
+                      : new THREE.CanvasRenderer();
 
       // Set the background color of the renderer, with full opacity
       this.renderer.setClearColor( ( bgcolor ) ? bgcolor : 0xFFFFFF, 1 );
