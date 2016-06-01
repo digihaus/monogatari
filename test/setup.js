@@ -1,9 +1,8 @@
-require(['../../paths'], function( paths ) {
-
-  console.log(paths);
-
+require.config({
+  baseUrl: '../../src'
+});
+require(['../config/paths'], function( paths ) {
   require.config({
-    baseUrl: '../../src',
     paths: paths
   });
 });

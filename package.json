@@ -1,16 +1,9 @@
 {
   "name": "monogatari",
-  "version": "1.0.0",
-  "description": "JavaScript game engine",
-  "main": "build/monogatari.min.js",
-  "license": "MIT",
-  "repository": {
-    "type":"git",
-    "url": "http://github.com/digihaus/monogatari"
-  },
+  "revision": "1",
   "scripts": {
-    "build": "node build.js",
-    "docs": "jsdoc -c jsdoc/conf.json src/"
+    "build": "node config/build.js",
+    "docs": "jsdoc -c config/jsdoc/conf.json src/"
   },
   "devDependencies": {
     "jsdoc": "^3.4.0",

@@ -9,7 +9,7 @@ var config = {
   preserveLicenseComments: true,
   out: './build/' + process.env.npm_package_name + '.min.js',
   wrap: {
-    start: '// ' + process.env.npm_package_name + '-r' + process.env.npm_package_revision
+    start: '/*! ' + process.env.npm_package_name + '-r' + process.env.npm_package_revision + ' */'
   }
 };
 
