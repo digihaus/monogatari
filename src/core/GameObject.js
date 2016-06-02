@@ -406,19 +406,22 @@ define(
 
         // For renderable components, updates engine transformations to Three.js
         if( component.isRenderable ) {
-          if( component.state === Base.STATE_READY ) {
+
+          if( component.state === Base.STATE_REGISTERED ) {
+
+            if( typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
+              component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
+              component.getMesh().rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
+              component.getMesh().scale.set( -this.scale.x, this.scale.y, this.scale.z );
+              component.visible = this.isVisible;
+            }
+
+          } else if( component.state === Base.STATE_READY ) {
             SceneManager.attachToScene( component, this.sceneId );
             component.setState( Base.STATE_REGISTERED );
-          }
 
-          if( component.state === Base.STATE_REGISTERED &&
-            typeof ( component.getMesh ) === 'function' &&
-            component.getMesh() ) {
-
-            component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
-            component.getMesh().rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
-            component.getMesh().scale.set( -this.scale.x, this.scale.y, this.scale.z );
-            component.visible = this.isVisible;
+          } else if( component.state === Base.STATE_LOADED ) {
+            component.buildMesh();
           }
         }
         // For components that require an update
@@ -552,14 +555,13 @@ define(
     };
 
     GameObject.prototype.load = function() {
-
       var resources = 0;
       var loaded = 0;
       var childPercentage = 0;
 
-      if(this.children.length > 0) {
-        for (var i = 0, len = this.children.length; i < len; i++) {
-          childPercentage += this.children[i].load();
+      if( this.children.length > 0 ) {
+        for( var i = 0, len = this.children.length; i < len; i++ ) {
+          childPercentage += this.children[ i ].load();
         }
         childPercentage = childPercentage / this.children.length;
       } else {
@@ -572,7 +574,7 @@ define(
         var component = this.componentsIt.next();
         if( component.isLoadable ) {
           resources++;
-          if(component.state === Base.STATE_READY) {
+          if( component.state === Base.STATE_LOADED ) {
             loaded++;
           }
         }
@@ -580,10 +582,10 @@ define(
 
       var loadPercentage = 0;
 
-      if(resources == 0) {
+      if( resources == 0 ) {
         loadPercentage = childPercentage;
       } else {
-        if(loaded == 0) {
+        if( loaded == 0 ) {
           loadPercentage = 0;
         } else {
           loadPercentage = (resources / loaded + childPercentage) / 2;

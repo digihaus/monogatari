@@ -181,9 +181,7 @@ define(
 
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
 
-      this.mesh = new THREE.Mesh( this.geometry, this.material );
-
-      this.state = Base.STATE_READY;
+      this.state = Base.STATE_LOADED;
     };
 
     /**

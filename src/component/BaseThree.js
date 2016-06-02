@@ -67,6 +67,11 @@ define(
 
     BaseThree.prototype = Object.create( Base.prototype );
 
+    BaseThree.prototype.buildMesh = function () {
+      this.mesh = ( this.material && this.geometry ) ? new THREE.Mesh( this.geometry, this.material ) : null;
+      this.state = Base.STATE_READY;
+    };
+
     /**
      * Set a new material for the component
      * @method

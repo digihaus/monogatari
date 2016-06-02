@@ -28,7 +28,7 @@ define(
         autoplay: false,
         loop: false,
         onload: function() {
-          ctx.state = Base.STATE_READY;
+          ctx.state = Base.STATE_LOADED;
         }
       });
     };
@@ -41,7 +41,7 @@ define(
     };
 
     Audio.prototype.stop = function() {
-      this.state = Base.STATE_READY;
+      this.state = Base.STATE_LOADED;
       this.sound.stop();
     };
 
