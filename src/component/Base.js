@@ -3,37 +3,21 @@ define(
 
     /**
      * Base class that all components extend.
+     * @abstract
      * @exports component/Base
      */
     var Base = function( type ) {
-
       /**
        * Actual component type.
        * @type {module:component/Base.TYPE}
-       * @default TYPE.BASE
        */
-      this.type = ( type ) ? type : Base.TYPE.BASE;
+      this.type = type;
 
       /**
        * Current component state.
        * @type {module:component/Base.STATE}
-       * @default STATE.INITIALIZING
        */
       this.state = Base.STATE.INITIALIZING;
-
-      /**
-       * Indicates if the component should be rendered on screen.
-       * @type {Boolean}
-       * @default false
-       */
-      this.isRenderable = false;
-
-      /**
-       * Indicates if the component has loadable resources.
-       * @type {Boolean}
-       * @default false
-       */
-      this.isLoadable = false;
     };
 
     /**
@@ -41,16 +25,12 @@ define(
      * @enum {number}
      */
     Base.TYPE = {
-      /** Abstract basic type. */
-      BASE: 0,
-      /** Abstract basic type for THREE usage. */
-      BASE_THREE: 1,
-      /** Physics for Box2d. */
-      RIGID_BODY: 2,
       /** Managed 2D asset renderable by THREE. */
-      SPRITE: 3,
+      SPRITE: 0,
+      /** Physics for Box2d. */
+      RIGID_BODY: 1,
       /** Audio source. */
-      AUDIO: 4
+      AUDIO: 2
     };
 
     /**

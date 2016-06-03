@@ -18,18 +18,6 @@ define(
     var Sprite = function( source, width, height, rows, cols ) {
       BaseThree.call( this, null, null, Base.TYPE.SPRITE );
 
-      this.isLoadable = true;
-
-      /**
-       * Flag to indicate if this component should be rendered on screen
-       * @memberOf module:component/Sprite~Sprite
-       * @instance
-       * @type {Boolean}
-       * @name isRenderable
-       * @default true
-       */
-      this.isRenderable = true;
-
       /**
        * Current row of the sprite sheet, ranges from 0 to N (like an array)
        * @memberOf module:component/Sprite~Sprite

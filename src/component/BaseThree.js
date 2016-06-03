@@ -1,7 +1,3 @@
-/**
- * Exports the {@link module:component/BaseThree~BaseThree|BaseThree} class.
- * @module component/BaseThree
- */
 define(
   [ 'component/Base', 'lib/Three' ], function( Base, _Three ) {
 
@@ -15,18 +11,7 @@ define(
      * @class BaseThree
      */
     var BaseThree = function( material, geometry, type ) {
-      Base.call( this, type || Base.TYPE.BASE_THREE );
-      /**
-       * Flag to indicate if this component should be rendered on screen
-       * @memberOf module:component/BaseThree~BaseThree
-       * @instance
-       * @type {Boolean}
-       * @name isRenderable
-       * @default true
-       */
-      this.isRenderable = true;
-
-      this.state = Base.STATE.INITIALIZING;
+      Base.call( this, type );
 
       /**
        * THREE.Texture of the component
@@ -89,18 +74,6 @@ define(
     };
 
     /**
-     * Returns the Material from this component
-     * @method
-     * @instance
-     * @name setMaterial
-     * @return {THREE.Material} Material from Three.js
-     * @memberOf module:component/BaseThree~BaseThree
-     */
-    BaseThree.prototype.getMaterial = function() {
-      return this.material;
-    };
-
-    /**
      * Set a new geometry for the component
      * @method
      * @instance
@@ -111,18 +84,6 @@ define(
     BaseThree.prototype.setGeometry = function( geometry ) {
       this.geometry = ( geometry ) ? geometry : null;
       this.updateMesh();
-    };
-
-    /**
-     * Returns the Geometry from this component
-     * @method
-     * @instance
-     * @name setMaterial
-     * @return {THREE.Geometry} Geometry from Three.js
-     * @memberOf module:component/BaseThree~BaseThree
-     */
-    BaseThree.prototype.getGeometry = function() {
-      return this.geometry;
     };
 
     /**
@@ -137,30 +98,6 @@ define(
         this.mesh.geometry = this.geometry;
         this.mesh.material = this.material;
       }
-    };
-
-    /**
-     * Returns the THREE.Mesh from this component, null if no material and/or Geometries set.
-     * @method
-     * @instance
-     * @name setMaterial
-     * @return {THREE.Mesh} Mesh from Three.js
-     * @memberOf module:component/BaseThree~BaseThree
-     */
-    BaseThree.prototype.getMesh = function() {
-      return this.mesh;
-    };
-
-    /**
-     * Returns the THREE.Texture from this component, null if not set;
-     * @method
-     * @instance
-     * @name getTexture
-     * @return {THREE.Texture} Texture from Three.js
-     * @memberOf module:component/BaseThree~BaseThree
-     */
-    BaseThree.prototype.getTexture = function() {
-      return this.texture;
     };
 
     /**

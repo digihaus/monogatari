@@ -377,7 +377,7 @@ define(
       this.componentsIt.first();
       while( this.componentsIt.hasNext() ) {
         c = this.componentsIt.next();
-        if( c.isRenderable ) {
+        if( c.type === Base.TYPE.SPRITE ) {
           list.push( c );
         }
       }
@@ -405,16 +405,13 @@ define(
         var component = this.componentsIt.next();
 
         // For renderable components, updates engine transformations to Three.js
-        if( component.isRenderable ) {
+        if( component.type === Base.TYPE.SPRITE ) {
 
           if( component.state === Base.STATE.REGISTERED ) {
-
-            if( typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
-              component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
-              component.getMesh().rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
-              component.getMesh().scale.set( -this.scale.x, this.scale.y, this.scale.z );
-              component.visible = this.isVisible;
-            }
+            component.mesh.position.set( this.position.x, this.position.y, this.position.z );
+            component.mesh.rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
+            component.mesh.scale.set( -this.scale.x, this.scale.y, this.scale.z );
+            component.visible = this.isVisible;
 
           } else if( component.state === Base.STATE.READY ) {
             SceneManager.attachToScene( component, this.sceneId );
@@ -543,7 +540,7 @@ define(
         }
 
         // Three.js
-        if( component.isRenderable && typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
+        if( component.type === Base.TYPE.SPRITE ) {
           SceneManager.detachFromScene( component, this.sceneId );
         }
 
@@ -572,7 +569,7 @@ define(
       this.componentsIt.first();
       while( this.componentsIt.hasNext() ) {
         var component = this.componentsIt.next();
-        if( component.isLoadable ) {
+        if( component.type === Base.TYPE.SPRITE || component.type === Base.TYPE.AUDIO ) {
           resources++;
           if( component.state === Base.STATE.LOADED ) {
             loaded++;

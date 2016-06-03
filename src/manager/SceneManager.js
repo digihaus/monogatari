@@ -134,8 +134,8 @@ define(
      */
     SceneManager.prototype.attachToScene = function( component, sceneId ) {
       var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
-      if( scene && component.getMesh() ) {
-        scene.add( component.getMesh() );
+      if( scene && component.mesh ) {
+        scene.add( component.mesh );
       }
     };
 
@@ -150,8 +150,8 @@ define(
      */
     SceneManager.prototype.detachFromScene = function( component, sceneId ) {
       var scene = this.scenes.get( sceneId ? sceneId : this.DEFAULT_SCENE_ID );
-      if( scene && component.getMesh() ) {
-        scene.remove( component.getMesh() );
+      if( scene && component.mesh ) {
+        scene.remove( component.mesh );
       }
     };
 
