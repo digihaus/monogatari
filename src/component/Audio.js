@@ -12,7 +12,7 @@ define(
      * @class Audio
      */
     var Audio = function( source ) {
-      Base.call( this, Base.AUDIO_SOURCE );
+      Base.call( this, Base.TYPE.AUDIO );
 
       this.isLoadable = true;
 
@@ -28,7 +28,7 @@ define(
         autoplay: false,
         loop: false,
         onload: function() {
-          ctx.state = Base.STATE_LOADED;
+          ctx.state = Base.STATE.LOADED;
         }
       });
     };
@@ -36,12 +36,12 @@ define(
     Audio.prototype = Object.create( Base.prototype );
     
     Audio.prototype.play = function() {
-      this.state = Base.STATE_RUNNING;
+      this.state = Base.STATE.RUNNING;
       this.sound.play();
     };
 
     Audio.prototype.stop = function() {
-      this.state = Base.STATE_LOADED;
+      this.state = Base.STATE.LOADED;
       this.sound.stop();
     };
 

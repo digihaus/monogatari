@@ -42,7 +42,7 @@ define(
      * @class Audio
      */
     var Audio = function( source ) {
-      Base.call( this, Base.AUDIO_SOURCE );
+      Base.call( this, Base.TYPE.AUDIO );
 
       this.isLoadable = true;
 
@@ -58,7 +58,7 @@ define(
         autoplay: false,
         loop: false,
         onload: function() {
-          ctx.state = Base.STATE_READY;
+          ctx.state = Base.STATE.LOADED;
         }
       });
     };
@@ -66,12 +66,12 @@ define(
     Audio.prototype = Object.create( Base.prototype );
     
     Audio.prototype.play = function() {
-      this.state = Base.STATE_RUNNING;
+      this.state = Base.STATE.RUNNING;
       this.sound.play();
     };
 
     Audio.prototype.stop = function() {
-      this.state = Base.STATE_READY;
+      this.state = Base.STATE.LOADED;
       this.sound.stop();
     };
 
@@ -86,7 +86,7 @@ define(
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Thu Jun 02 2016 13:45:23 GMT-0300 (Hora oficial do Brasil)
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Thu Jun 02 2016 22:52:04 GMT-0300 (BRT)
     </footer>
 </div>
 

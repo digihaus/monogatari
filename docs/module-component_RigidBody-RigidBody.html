@@ -53,7 +53,10 @@
 
 
 <div class="description">
-    Box2D has been tuned to work well with moving objects between 0.1 and 10 meters.So this means objects between soup cans and buses in size should work well.Static objects may be up to 50 meters big without too much trouble.Box2D is tuned for meters, kilograms, and seconds.
+    Box2D has been tuned to work well with moving objects between 0.1 and 10 meters.
+So this means objects between soup cans and buses in size should work well.
+Static objects may be up to 50 meters big without too much trouble.
+Box2D is tuned for meters, kilograms, and seconds.
 </div>
 
 
@@ -315,7 +318,9 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>RigidBody.prototype.STATIC = 1;RigidBody.prototype.KINEMATIC = 2;RigidBody.prototype.DYNAMIC = 3;</code></pre>
+    <pre class="prettyprint"><code>RigidBody.prototype.STATIC = 1;
+RigidBody.prototype.KINEMATIC = 2;
+RigidBody.prototype.DYNAMIC = 3;</code></pre>
 
 
 
@@ -518,110 +523,6 @@
 
     
 
-    <h4 class="name" id="getBodyDef"><span class="type-signature"></span>getBodyDef<span class="signature">()</span><span class="type-signature"> &rarr; {b2FixtureDef}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Returns the Material (Box2D.FixtureDef)from this component, null if not set;
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="component_RigidBody.js.html">component/RigidBody.js</a>, <a href="component_RigidBody.js.html#line231">line 231</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Fixture Definition from Box2D
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">b2FixtureDef</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="getBodyDef"><span class="type-signature"></span>getBodyDef<span class="signature">()</span><span class="type-signature"> &rarr; {b2BodyDef}</span></h4>
 
     
@@ -712,6 +613,110 @@
     <dd>
         
 <span class="param-type">b2BodyDef</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getBodyDef"><span class="type-signature"></span>getBodyDef<span class="signature">()</span><span class="type-signature"> &rarr; {b2FixtureDef}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns the Material (Box2D.FixtureDef)from this component, null if not set;
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="component_RigidBody.js.html">component/RigidBody.js</a>, <a href="component_RigidBody.js.html#line231">line 231</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Fixture Definition from Box2D
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">b2FixtureDef</span>
 
 
     </dd>
@@ -1515,7 +1520,8 @@
 
 
 <div class="description">
-    Prevents the collision to be resolved through other objects.<b>Expensive! Use with care.</b>
+    Prevents the collision to be resolved through other objects.
+<b>Expensive! Use with care.</b>
 </div>
 
 
@@ -2039,7 +2045,9 @@
 
 
 <div class="description">
-    A <b>dynamic body</b> is a body which is affected by world forces and react to collisions.<BR>A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved.<BR>A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body.
+    A <b>dynamic body</b> is a body which is affected by world forces and react to collisions.<BR>
+A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved.<BR>
+A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body.
 </div>
 
 
@@ -2170,7 +2178,9 @@
 
 
 <div class="description">
-    Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D<br>userData is (kinda) bugged on emscripten version of the box2D port, but can be worked aroundhttps://github.com/kripken/box2d.js/issues/35
+    Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D<br>
+userData is (kinda) bugged on emscripten version of the box2D port, but can be worked around
+https://github.com/kripken/box2d.js/issues/35
 </div>
 
 
@@ -2306,7 +2316,7 @@
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Thu Jun 02 2016 13:45:24 GMT-0300 (Hora oficial do Brasil)
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Thu Jun 02 2016 22:52:04 GMT-0300 (BRT)
     </footer>
 </div>
 

@@ -22,7 +22,7 @@ define(
     // [ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
 
     var RigidBody = function( conversionFactor, bodyDef, materialDef ) {
-      Base.call( this, Base.RIGID_BODY );
+      Base.call( this, Base.TYPE.RIGID_BODY );
 
       this.conversionFactor = ( conversionFactor ) ? conversionFactor : 1;
       this.bodyDef = ( bodyDef ) ? bodyDef : new Box2D.b2BodyDef();

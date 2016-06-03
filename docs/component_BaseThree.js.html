@@ -45,7 +45,7 @@ define(
      * @class BaseThree
      */
     var BaseThree = function( material, geometry, type ) {
-      Base.call( this, type || Base.BASE_THREE );
+      Base.call( this, type || Base.TYPE.BASE_THREE );
       /**
        * Flag to indicate if this component should be rendered on screen
        * @memberOf module:component/BaseThree~BaseThree
@@ -56,7 +56,7 @@ define(
        */
       this.isRenderable = true;
 
-      this.state = Base.STATE_INITIALIZING;
+      this.state = Base.STATE.INITIALIZING;
 
       /**
        * THREE.Texture of the component
@@ -96,6 +96,14 @@ define(
     };
 
     BaseThree.prototype = Object.create( Base.prototype );
+
+    /**
+     *
+     */
+    BaseThree.prototype.buildMesh = function() {
+      this.mesh = ( this.material &amp;&amp; this.geometry ) ? new THREE.Mesh( this.geometry, this.material ) : null;
+      this.state = Base.STATE.READY;
+    };
 
     /**
      * Set a new material for the component
@@ -263,7 +271,7 @@ define(
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Thu Jun 02 2016 13:45:23 GMT-0300 (Hora oficial do Brasil)
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Thu Jun 02 2016 22:52:04 GMT-0300 (BRT)
     </footer>
 </div>
 

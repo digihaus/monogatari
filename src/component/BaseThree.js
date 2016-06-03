@@ -15,7 +15,7 @@ define(
      * @class BaseThree
      */
     var BaseThree = function( material, geometry, type ) {
-      Base.call( this, type || Base.BASE_THREE );
+      Base.call( this, type || Base.TYPE.BASE_THREE );
       /**
        * Flag to indicate if this component should be rendered on screen
        * @memberOf module:component/BaseThree~BaseThree
@@ -26,7 +26,7 @@ define(
        */
       this.isRenderable = true;
 
-      this.state = Base.STATE_INITIALIZING;
+      this.state = Base.STATE.INITIALIZING;
 
       /**
        * THREE.Texture of the component
@@ -67,9 +67,12 @@ define(
 
     BaseThree.prototype = Object.create( Base.prototype );
 
-    BaseThree.prototype.buildMesh = function () {
+    /**
+     *
+     */
+    BaseThree.prototype.buildMesh = function() {
       this.mesh = ( this.material && this.geometry ) ? new THREE.Mesh( this.geometry, this.material ) : null;
-      this.state = Base.STATE_READY;
+      this.state = Base.STATE.READY;
     };
 
     /**

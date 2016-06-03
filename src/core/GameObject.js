@@ -307,7 +307,7 @@ define(
      */
     GameObject.prototype.addComponent = function( component ) {
 
-      if( component.type === Base.RIGID_BODY ) {
+      if( component.type === Base.TYPE.RIGID_BODY ) {
         PhysicsManager.attachToWorld( component );
       }
 
@@ -394,7 +394,7 @@ define(
     GameObject.prototype.updateComponents = function() {
       // Updates object position from Box2D to the engine based on physics simulation (if applicable).
       // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
-      var rigidBody = this.findComponent( Base.RIGID_BODY );
+      var rigidBody = this.findComponent( Base.TYPE.RIGID_BODY );
       if( rigidBody ) {
         this.position.x = rigidBody.body.GetPosition().get_x() * rigidBody.conversionFactor;
         this.position.y = rigidBody.body.GetPosition().get_y() * rigidBody.conversionFactor;
@@ -407,7 +407,7 @@ define(
         // For renderable components, updates engine transformations to Three.js
         if( component.isRenderable ) {
 
-          if( component.state === Base.STATE_REGISTERED ) {
+          if( component.state === Base.STATE.REGISTERED ) {
 
             if( typeof ( component.getMesh ) === 'function' && component.getMesh() ) {
               component.getMesh().position.set( this.position.x, this.position.y, this.position.z );
@@ -416,11 +416,11 @@ define(
               component.visible = this.isVisible;
             }
 
-          } else if( component.state === Base.STATE_READY ) {
+          } else if( component.state === Base.STATE.READY ) {
             SceneManager.attachToScene( component, this.sceneId );
-            component.setState( Base.STATE_REGISTERED );
+            component.setState( Base.STATE.REGISTERED );
 
-          } else if( component.state === Base.STATE_LOADED ) {
+          } else if( component.state === Base.STATE.LOADED ) {
             component.buildMesh();
           }
         }
@@ -538,7 +538,7 @@ define(
         var component = this.componentsIt.next();
 
         // Box2D - RigidBody
-        if( component.type === Base.RIGID_BODY ) {
+        if( component.type === Base.TYPE.RIGID_BODY ) {
           PhysicsManager.destroyBody( component );
         }
 
@@ -548,7 +548,7 @@ define(
         }
 
         // Sound.js
-        if( component.type === Base.AUDIO_SOURCE ) {
+        if( component.type === Base.TYPE.AUDIO ) {
           component.destroy();
         }
       }
@@ -574,7 +574,7 @@ define(
         var component = this.componentsIt.next();
         if( component.isLoadable ) {
           resources++;
-          if( component.state === Base.STATE_LOADED ) {
+          if( component.state === Base.STATE.LOADED ) {
             loaded++;
           }
         }

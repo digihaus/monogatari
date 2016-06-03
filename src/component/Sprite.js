@@ -16,7 +16,7 @@ define(
      * @class Sprite
      */
     var Sprite = function( source, width, height, rows, cols ) {
-      BaseThree.call( this, null, null, Base.SPRITE );
+      BaseThree.call( this, null, null, Base.TYPE.SPRITE );
 
       this.isLoadable = true;
 
@@ -181,7 +181,7 @@ define(
 
       this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
 
-      this.state = Base.STATE_LOADED;
+      this.state = Base.STATE.LOADED;
     };
 
     /**
@@ -194,7 +194,7 @@ define(
      */
     Sprite.prototype.downloadCallBack = function( xhr ) {
       console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-      this.state = Base.STATE_BUFFERING;
+      this.state = Base.STATE.BUFFERING;
     };
 
     /**
@@ -207,7 +207,7 @@ define(
      */
     Sprite.prototype.errorCallBack = function( xhr ) {
       console.log( "An exception occurred:" + xhr );
-      this.state = Base.STATE_FAILED;
+      this.state = Base.STATE.FAILED;
     };
 
     /**
