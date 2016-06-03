@@ -1,105 +1,77 @@
-/**
- * Exports the {@link module:component/Base~Base|Base} class.
- * @module component/Base
- */
 define(
-    function () {
+  function() {
+
+    /**
+     * Base class that all components extend.
+     * @exports component/Base
+     */
+    var Base = function( type ) {
 
       /**
-       * This is the abstract class that all components shall extend.
-       * @abstract
-       * @class Base
+       * Actual component type.
+       * @type {module:component/Base.TYPE}
+       * @default TYPE.BASE
        */
-      var Component = function (type) {
-        /**
-         * Component Type
-         * @memberOf module:component/Base~Base
-         * @instance
-         * @type {Number}
-         * @name type
-         */
-        this.type = ( type ) ? type : Component.TYPE.BASE;
-
-        /**
-         * Flag to indicate if this component should be rendered on screen
-         * @memberOf module:component/Base~Base
-         * @instance
-         * @type {Boolean}
-         * @name isRenderable
-         * @default false
-         */
-        this.isRenderable = false;
-
-        /**
-         * Flag to indicate if this component has loadable resources
-         * @memberOf module:component/Base~Base
-         * @intance
-         * @type {Boolean}
-         * @name isLoadable
-         * @default false
-         */
-        this.isLoadable = false;
-
-        /**
-         * Current component state
-         * @type {Number|number}
-         */
-        this.state = Component.STATE.INITIALIZING;
-      };
-
-      Component.prototype.setState = function (state) {
-        this.state = state;
-      };
+      this.type = ( type ) ? type : Base.TYPE.BASE;
 
       /**
-       * Enumeration of component types
-       * @example
-       *
-       * TYPE.BASE
-       * TYPE.BASE_THREE
-       * TYPE.RIGID_BODY
-       * TYPE.SPRITE
-       * TYPE.AUDIO
-       *
-       * @memberOf module:component/Base~Base
-       * @enum
-       * @name TYPE
-       * @type {Number}
+       * Current component state.
+       * @type {module:component/Base.STATE}
+       * @default STATE.INITIALIZING
        */
-      Component.TYPE = {
-        BASE: 0,
-        BASE_THREE: 1,
-        RIGID_BODY: 2,
-        SPRITE: 3,
-        AUDIO: 4
-      };
+      this.state = Base.STATE.INITIALIZING;
 
       /**
-       * Enumeration of component states
-       * @memberOf module:component/Base~Base
-       * @enum
-       * @name STATE
-       * @example
-       *
-       * STATE.INITIALIZING
-       * STATE.BUFFERING
-       * STATE.LOADED
-       * STATE.READY
-       * STATE.REGISTERED
-       * STATE.FAILED
-       *
-       * @type {Number}
+       * Indicates if the component should be rendered on screen.
+       * @type {Boolean}
+       * @default false
        */
-      Component.STATE = {
-        INITIALIZING: 0,
-        BUFFERING: 1,
-        LOADED: 2,
-        READY: 3,
-        RUNNING: 4,
-        REGISTERED: 5,
-        FAILED: -1
-      };
+      this.isRenderable = false;
 
-      return Component;
-    }
+      /**
+       * Indicates if the component has loadable resources.
+       * @type {Boolean}
+       * @default false
+       */
+      this.isLoadable = false;
+    };
+
+    /**
+     * Enumeration of component types.
+     * @enum {number}
+     */
+    Base.TYPE = {
+      /** Abstract basic type. */
+      BASE: 0,
+      /** Abstract basic type for THREE usage. */
+      BASE_THREE: 1,
+      /** Physics for Box2d. */
+      RIGID_BODY: 2,
+      /** Managed 2D asset renderable by THREE. */
+      SPRITE: 3,
+      /** Audio source. */
+      AUDIO: 4
+    };
+
+    /**
+     * Enumeration of component states.
+     * @enum {number}
+     */
+    Base.STATE = {
+      /** Component was created and may need further steps before use. */
+      INITIALIZING: 0,
+      /** Component is buffering resources. */
+      BUFFERING: 1,
+      /** Component resources are loaded. */
+      LOADED: 2,
+      /** Component is built and ready for use. */
+      READY: 3,
+      /** Component is active. */
+      RUNNING: 4,
+      /** Component is registered for internal management. */
+      REGISTERED: 5
+    };
+
+    return Base;
+  }
 );

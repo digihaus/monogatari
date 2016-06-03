@@ -418,7 +418,7 @@ define(
 
           } else if( component.state === Base.STATE.READY ) {
             SceneManager.attachToScene( component, this.sceneId );
-            component.setState( Base.STATE.REGISTERED );
+            component.state = Base.STATE.REGISTERED;
 
           } else if( component.state === Base.STATE.LOADED ) {
             component.buildMesh();
