@@ -38,18 +38,20 @@ define(
      * @enum {number}
      */
     Base.STATE = {
-      /** Component was created and may need further steps before use. */
+      /** Component was created and may need further steps before use */
       INITIALIZING: 0,
-      /** Component is buffering resources. */
+      /** Component is buffering resources */
       BUFFERING: 1,
-      /** Component resources are loaded. */
+      /** Component resources are loaded */
       LOADED: 2,
-      /** Component is built and ready for use. */
+      /** Component is built and ready for use */
       READY: 3,
-      /** Component is active. */
+      /** Component is active */
       RUNNING: 4,
-      /** Component is registered for internal management. */
-      REGISTERED: 5
+      /** Component is registered for internal management */
+      REGISTERED: 5,
+      /** An error occurred and the component cannot be used */
+      FAILED: -1
     };
 
     return Base;

@@ -15,7 +15,6 @@ define(
     'core/World',
     'component/Audio',
     'component/Base',
-    'component/BaseThree',
     'component/RigidBody',
     'component/Sprite',
     'collection/List',
@@ -38,7 +37,6 @@ define(
     World,
     Audio,
     Base,
-    BaseThree,
     RigidBody,
     Sprite,
     List,
@@ -223,14 +221,7 @@ define(
        * @name Base
        */
       this.Base = Base;
-      /**
-       * Provides access to {@link module:component/BaseThree~BaseThree|BaseThree} Component.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {BaseThree}
-       * @name BaseThree
-       */
-      this.BaseThree = BaseThree;
+
       /**
        * Provides access to {@link module:component/RigidBody~RigidBody|RigidBody} Component.
        * @memberOf module:Monogatari~Monogatari

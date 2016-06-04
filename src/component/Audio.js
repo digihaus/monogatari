@@ -2,16 +2,16 @@ define(
   [ 'component/Base', 'lib/Howler' ], function( Base, _Howler ) {
 
     /**
-     * Encapsulates a {@link http://goldfirestudios.com/blog/104/howler.js-Modern-Web-Audio-Javascript-Library|Howler} object for Audio management.
+     * Encapsulates a {@link http://howlerjs.com|howler.js} object for Audio management.
      * @param {String} audio Audio source URI
-     * @exports component/Audio
      * @extends {module:component/Base}
+     * @exports component/Audio
      */
     var Audio = function( source ) {
       Base.call( this, Base.TYPE.AUDIO );
 
       /**
-       * Basic instance of a {@link http://goldfirestudios.com/blog/104/howler.js-Modern-Web-Audio-Javascript-Library|Howler} object.
+       * Basic instance of a {@link http://howlerjs.com|howler.js} object.
        */
       this.sound = new Howl( {
         urls: [ source ],
