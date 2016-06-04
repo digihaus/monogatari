@@ -185,7 +185,7 @@ define(
 
     /**
      * Returns a new instance of a RigidBody with the same values.
-     * @return {RigidBody} a clone of this RigidBody
+     * @return {module:component/RigidBody} a clone of this RigidBody
      */
     RigidBody.prototype.clone = function() {
       return new RigidBody( this.conversionFactor, this.bodyDef, this.materialDef );
