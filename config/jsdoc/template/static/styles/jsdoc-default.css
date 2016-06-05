@@ -5,7 +5,7 @@ html {
 }
 
 body {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: monospace;
     background-color: white;
     margin: 0;
     color: #454545;
@@ -22,10 +22,6 @@ a:hover {
 
 header {
     display: block;
-}
-
-tt, code, kbd, samp {
-    font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }
 
 .class-description {
@@ -48,7 +44,6 @@ article dl {
     margin: 4px 0 0 0;
     height: 100%;
     font-size: 12px;
-    font-family: "Consolas", "Menlo", "Courier", monospace;
 }
 
 article dt {
@@ -78,7 +73,6 @@ nav {
 }
 
 nav ul {
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', arial, sans-serif;
     font-size: 100%;
     padding: 0;
     margin: 0;
@@ -86,7 +80,6 @@ nav ul {
 }
 
 nav ul a, nav ul a:visited, nav ul a:active {
-    font-family: Consolas, Monaco, 'Andale Mono', monospace;
     color: #4D4E53;
 }
 
@@ -130,8 +123,9 @@ h4 {
 
 h5 {
     margin: 16px 0 0 0;
+    padding-bottom: 2px;
     text-transform: uppercase;
-    font-size: 10px;
+    font-weight: normal;
     border-bottom: 1px solid whitesmoke;
 }
 
@@ -174,11 +168,7 @@ h6 {
 }
 
 .type-signature {
-    color: #aaa;
-}
-
-.name, .signature {
-    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    font-weight: normal;
 }
 
 .details {
@@ -219,7 +209,8 @@ h6 {
 }
 
 .description {
-    padding: 10px 0 10px 0;
+    padding: 4px 0 4px 0;
+    font-family: sans-serif;
 }
 
 .code-caption {
@@ -291,13 +282,11 @@ h6 {
     border-spacing: 0;
     border: 0;
     border-collapse: collapse;
-    width: 100%;
-    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    width: 80%;
 }
 
 .params .name, .props .name, .name code {
     color: #4D4E53;
-    font-family: Consolas, Monaco, 'Andale Mono', monospace;
     font-size: 100%;
 }
 
@@ -336,14 +325,13 @@ h6 {
 }
 
 h4.name {
-    margin-top: 36px;
+    margin-top: 35px;
     margin-bottom: 10px;
     background-color: whitesmoke;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 header h2 {
-    font-family: Consolas, Monaco, 'Andale Mono', monospace;
     margin-bottom: 20px;
     font-size: 18px;
     font-weight: normal;
@@ -352,7 +340,7 @@ header h2 {
 h3.subsection-title {
     font-weight: normal;
     text-transform: uppercase;
-    margin: 20px 0 10px 0;
+    margin: 50px 0 10px 0;
     border-bottom: 1px solid #CCC;
 }
 
@@ -409,4 +397,12 @@ article ul {
 
 div.param-desc {
     font-size: 12px;
+}
+
+span.param-type {
+    color: darkgray;
+}
+
+article {
+    font-family: sans-serif;
 }

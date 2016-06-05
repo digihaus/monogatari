@@ -245,6 +245,33 @@ For quick creation of GOs, it is also possible to use composition.
 
 
 
+
+
+
+
+
+
+
+
+
+
+    <h5>Example:</h5>
+    
+    <pre class="prettyprint"><code>// Composition
+var myGO = new m.GameObject( myGOId, myGOUpdateFunction );
+
+// Inheritance
+var MyGOClass = function( id ) {
+ m.GameObject.call( this, id );
+};
+MyGOClass.prototype = Object.create( m.GameObject.prototype );
+MyGOClass.prototype.update = function() { ... };</code></pre>
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -279,34 +306,6 @@ For quick creation of GOs, it is also possible to use composition.
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>// Composition
-var myGO = new m.GameObject( myGOId, myGOUpdateFunction );
-
-// Inheritance
-var MyGOClass = function( id ) {
- m.GameObject.call( this, id );
-};
-MyGOClass.prototype = Object.create( m.GameObject.prototype );
-MyGOClass.prototype.update = function() { ... };</code></pre>
-
-
 
     
     </div>
@@ -1186,6 +1185,20 @@ Recommended to be explicitly set.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1220,21 +1233,6 @@ Recommended to be explicitly set.
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -1263,6 +1261,20 @@ Recommended to be explicitly set.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1297,21 +1309,6 @@ Recommended to be explicitly set.
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -1340,6 +1337,20 @@ Recommended to be explicitly set.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1374,21 +1385,6 @@ Recommended to be explicitly set.
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -1451,6 +1447,25 @@ Recommended to be explicitly set.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+    
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1485,31 +1500,6 @@ Recommended to be explicitly set.
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    boolean
-</div>
-
-
-
-    
-
-
 
         
             
@@ -1573,6 +1563,37 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">GameObject</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1607,39 +1628,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">GameObject</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
 
         
             
@@ -1703,6 +1691,37 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">GameObject</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1737,39 +1756,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">GameObject</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
 
         
             
@@ -1832,6 +1818,37 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Component</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1866,39 +1883,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Component</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
 
         
             
@@ -1927,6 +1911,25 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+    
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1961,31 +1964,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Number
-</div>
-
-
-
-    
-
-
 
         
             
@@ -2048,6 +2026,25 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+    
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2082,31 +2079,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Number
-</div>
-
-
-
-    
-
-
 
         
             
@@ -2135,6 +2107,25 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+    
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2169,31 +2160,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Array
-</div>
-
-
-
-    
-
-
 
         
             
@@ -2256,6 +2222,20 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2290,21 +2270,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -2390,6 +2355,20 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2424,21 +2403,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -2467,6 +2431,20 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2501,21 +2479,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -2578,6 +2541,20 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2612,21 +2589,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -2689,6 +2651,20 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2723,21 +2699,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -2846,6 +2807,20 @@ null if not found
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2880,21 +2855,6 @@ null if not found
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -2924,6 +2884,20 @@ It is called on every engine cycle, making it the place to put specific logic.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2958,21 +2932,6 @@ It is called on every engine cycle, making it the place to put specific logic.
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -3002,6 +2961,25 @@ Automatically called from the main game loop
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+    
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -3036,31 +3014,6 @@ Automatically called from the main game loop
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    boolean
-</div>
-
-
-
-    
-
-
 
         
             
@@ -3089,6 +3042,20 @@ Automatically called from the main game loop
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -3124,21 +3091,6 @@ Automatically called from the main game loop
     
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
     
 
@@ -3156,7 +3108,7 @@ Automatically called from the main game loop
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Sat Jun 04 2016 15:11:49 GMT-0300 (BRT)
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> | Sun Jun 05 2016 13:27:38 GMT-0300 (BRT)
     </footer>
 </div>
 
