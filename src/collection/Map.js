@@ -1,14 +1,11 @@
-/**
- * Exports the {@link module:collection/Map~Map|Map} class.
- * @module collection/Map
- */
 define(
   [ 'core/Common' ], function( Common ) {
 
     /**
      * An object that maps keys to values. A map cannot contain duplicate keys, each key can map to at most one value.
-     * Does not allow null keys, but allow null values.
-     * @class Map
+     * Does not allow null keys, but allows null values.
+     * @requires core/Common
+     * @exports collection/Map
      */
     var Map = function() {
       this.keySet = [];
@@ -16,25 +13,17 @@ define(
     };
 
     /**
-     * Finds the position of a given key on the Map
-     * @method
-     * @instance
-     * @name indexOf
-     * @param {Object} key The key value to be found
-     * @memberOf module:collection/Map~Map
-     * @returns {Number} index of given value on the array, -1 if not found;
+     * Finds the position of a given key on the map.
+     * @param {Object} key - The key value to be found
+     * @returns {Number} Index of given value on the array, -1 if not found
      */
     Map.prototype.indexOf = function( key ) {
       return Common.indexOf( key, this.keySet );
     };
 
     /**
-     * Check if given key exists within the Map
-     * @method
-     * @instance
-     * @name contains
-     * @param {Object} key The key value to be found
-     * @memberOf module:collection/Map~Map
+     * Checks if given key exists within the map.
+     * @param {Object} key - The key value to be found
      * @returns {Boolean}
      */
     Map.prototype.contains = function( key ) {
@@ -42,11 +31,7 @@ define(
     };
 
     /**
-     * Return the length of the Map
-     * @method
-     * @instance
-     * @name size
-     * @memberOf module:collection/Map~Map
+     * Returns the length of the map.
      * @returns {Number}
      */
     Map.prototype.size = function() {
@@ -54,14 +39,10 @@ define(
     };
 
     /**
-     * Associates the specified value with the specified key in this Map. If the map previously contained a mapping for the key, the old value is
+     * Associates the specified value with the specified key in this map. If the map previously contained a mapping for the key, the old value is
      * replaced by the specified value. If no key is provided, no values are inserted.
-     * @method
-     * @instance
-     * @name put
-     * @param {Object} key The key value
-     * @param {Object} value The value to be stored
-     * @memberOf module:collection/Map~Map
+     * @param {Object} key - The key value
+     * @param {Object} value - The value to be stored
      */
     Map.prototype.put = function( key, value ) {
       if( key || key === 0 ) {
@@ -73,12 +54,8 @@ define(
     };
 
     /**
-     * Returns the value of a given key
-     * @method
-     * @instance
-     * @name get
-     * @param {Object} key The key value
-     * @memberOf module:collection/Map~Map
+     * Returns the value of a given key.
+     * @param {Object} key - The key value
      * @returns {Object}
      */
     Map.prototype.get = function( key ) {
@@ -86,12 +63,8 @@ define(
     };
 
     /**
-     * Removes the reference of the key and the value from the map, and if there are no other references, flags both to garbage collection
-     * @method
-     * @instance
-     * @name remove
-     * @param {Object} key The key value
-     * @memberOf module:collection/Map~Map
+     * Removes the reference of the key and the value from the map, and if there are no other references, flags both to garbage collection.
+     * @param {Object} key - The key value
      */
     Map.prototype.remove = function( key ) {
       var keyIndex = this.indexOf( key );
@@ -102,11 +75,7 @@ define(
     };
 
     /**
-     * Check if the map is empty
-     * @method
-     * @instance
-     * @name isEmpty
-     * @memberOf module:collection/Map~Map
+     * Check if the map is empty.
      * @returns {Boolean}
      */
     Map.prototype.isEmpty = function() {
@@ -115,10 +84,6 @@ define(
 
     /**
      * Clear all keys and values, removing all references.
-     * @method
-     * @instance
-     * @name clear
-     * @memberOf module:collection/Map~Map
      */
     Map.prototype.clear = function() {
       this.keySet.length = 0;
@@ -126,12 +91,8 @@ define(
     };
 
     /**
-     * Creates and returns an Object with iterator functionality, allowing to navigate through the values stored on the Map
-     * @method
-     * @instance
-     * @name iterator
-     * @memberOf module:collection/Map~Map
-     * @returns {Object}
+     * Creates and returns an object with iterator functionality, allowing to navigate through the values stored on the map.
+     * @returns {Object} Iterator
      */
     Map.prototype.iterator = function() {
       var Iterator = function( keys, values ) {

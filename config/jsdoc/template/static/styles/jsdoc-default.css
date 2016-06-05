@@ -1,13 +1,20 @@
+@font-face {
+    font-family: 'inconsolata';
+    src: url('../fonts/inconsolata.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html {
     overflow: auto;
     background-color: white;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 body {
-    font-family: monospace;
+    font-family: 'inconsolata';
     background-color: white;
-    margin: 0;
+    margin: 0;''
     color: #454545;
 }
 
@@ -79,8 +86,8 @@ nav ul {
     list-style-type: none;
 }
 
-nav ul a, nav ul a:visited, nav ul a:active {
-    color: #4D4E53;
+nav li {
+    padding: 0 0 4px 0;
 }
 
 nav h3 {
@@ -117,8 +124,7 @@ h2, h3 {
 
 h4 {
     margin-bottom: 12px;
-    color: #4d4e53;
-    font-weight: bold;
+    color: #EE0080;
 }
 
 h5 {
@@ -169,6 +175,7 @@ h6 {
 
 .type-signature {
     font-weight: normal;
+    color: gray;
 }
 
 .details {
@@ -210,7 +217,6 @@ h6 {
 
 .description {
     padding: 4px 0 4px 0;
-    font-family: sans-serif;
 }
 
 .code-caption {
@@ -328,7 +334,6 @@ h4.name {
     margin-top: 35px;
     margin-bottom: 10px;
     background-color: whitesmoke;
-    font-weight: bold;
 }
 
 header h2 {
@@ -401,8 +406,4 @@ div.param-desc {
 
 span.param-type {
     color: darkgray;
-}
-
-article {
-    font-family: sans-serif;
 }

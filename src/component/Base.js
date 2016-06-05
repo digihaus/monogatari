@@ -9,33 +9,33 @@ define(
     var Base = function( type ) {
       /**
        * Actual component type.
-       * @type {module:component/Base.TYPE}
+       * @type module:component/Base.TYPE
        */
       this.type = type;
 
       /**
        * Current component state.
-       * @type {module:component/Base.STATE}
+       * @type module:component/Base.STATE
        */
       this.state = Base.STATE.INITIALIZING;
     };
 
     /**
      * Enumeration of component types.
-     * @enum {number}
+     * @enum {Number}
      */
     Base.TYPE = {
-      /** Managed 2D asset renderable by THREE. */
+      /** Managed 2D asset renderable by THREE */
       SPRITE: 0,
-      /** Physics for Box2d. */
+      /** Physics for Box2d */
       RIGID_BODY: 1,
-      /** Audio source. */
+      /** Audio source */
       AUDIO: 2
     };
 
     /**
      * Enumeration of component states.
-     * @enum {number}
+     * @enum {Number}
      */
     Base.STATE = {
       /** Component was created and may need further steps before use */
@@ -44,7 +44,7 @@ define(
       BUFFERING: 1,
       /** Component resources are loaded */
       LOADED: 2,
-      /** Component is built and ready for use */
+      /** Component is built and ready to use */
       READY: 3,
       /** Component is active */
       RUNNING: 4,
