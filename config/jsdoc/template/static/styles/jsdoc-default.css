@@ -94,7 +94,6 @@ nav h3 {
     margin-top: 20px;
     margin-bottom: 8px;
     font-size: 14px;
-    border-bottom: 1px solid lightgray;
     text-transform: uppercase;
     font-weight: normal;
 }
@@ -344,9 +343,8 @@ header h2 {
 
 h3.subsection-title {
     font-weight: normal;
-    text-transform: uppercase;
+    text-decoration: underline;
     margin: 50px 0 10px 0;
-    border-bottom: 1px solid #CCC;
 }
 
 nav h2 {
@@ -356,10 +354,9 @@ nav h2 {
 
 article ul {
     margin: 0;
-    padding: 0 0 0 30px;
+    padding: 0;
     font-size: 12px;
-    list-style-position: inside;
-    list-style-type: square;
+    list-style-type: none;
 }
 
 .params, .props {
