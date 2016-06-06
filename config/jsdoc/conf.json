@@ -3,7 +3,8 @@
     "template": "config/jsdoc/template",
     "destination": "docs",
     "recurse": true,
-    "readme": "README.md"
+    "readme": "README.md",
+    "package": "package.json"
   },
   "tags": {
     "allowUnknownTags": true
@@ -14,10 +15,11 @@
   },
   "plugins": [],
   "templates": {
-    "cleverLinks": true,
-    "monospaceLinks": true,
+    "cleverLinks": false,
+    "monospaceLinks": false,
     "default": {
-      "outputSourceFiles": false
+      "outputSourceFiles": false,
+      "includeDate": false
     }
   }
 }
