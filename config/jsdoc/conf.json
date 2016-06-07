@@ -3,8 +3,7 @@
     "template": "config/jsdoc/template",
     "destination": "docs",
     "recurse": true,
-    "readme": "README.md",
-    "package": "package.json"
+    "readme": "README.md"
   },
   "tags": {
     "allowUnknownTags": true

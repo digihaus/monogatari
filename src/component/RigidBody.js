@@ -12,7 +12,7 @@ define(
      * @param {Number} conversionFactor - Multiplies the position from physics world (meters) to screen coordinates (pixels). Defaults to 1 (probably not what you expect).
      * @param {b2BodyDef} bodyDef - Box2D physics body definition
      * @param {b2FixtureDef} materialDef - Box2D physics material definition
-     * @extends {module:component/Base}
+     * @extends component/Base
      * @exports component/RigidBody
      */
 

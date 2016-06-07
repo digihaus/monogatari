@@ -227,6 +227,7 @@ h6 {
     overflow: auto;
     color: lightgray;
     font-size: 12px;
+    margin: 5px 0 0 0;
 }
 
 .prettyprint.source {
@@ -238,10 +239,10 @@ h6 {
 }
 
 .prettyprint code {
-    font-size: 14px;
+    font-family: 'inconsolata';
     line-height: 18px;
     display: block;
-    padding: 8px 8px;
+    padding: 8px 10px;
     margin: 0;
     background-color: #fff;
     color: #4D4E53;
