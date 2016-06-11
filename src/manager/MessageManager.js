@@ -1,47 +1,32 @@
-/**
- * Exports the {@link module:manager/MessageManager~MessageManager|MessageManager} class.
- * @module manager/MessageManager
- */
 define(
   [ 'core/Message', 'collection/LinkedList' ], function( Message, LinkedList ) {
 
-    var instance = null;
+    /**
+     * @requires core/Message
+     * @requires collection/LinkedList
+     * @exports manager/MessageManager
+     */
+    var MessageManager = {};
 
     /**
-     *  @class MessageManager
+     * List of messages to be delivered to GameObjects.
+     * @type {module:collection/LinkedList}
      */
-    var MessageManager = function() {
-      /**
-       * LinkedList of messages to be delivered to GameObjects
-       * @memberOf module:manager/MessageManager~MessageManager
-       * @instance
-       * @type {LinkedList}
-       * @name userMessages
-       */
-      this.userMessages = new LinkedList();
-    };
+    MessageManager.userMessages = new LinkedList();
 
     /**
-     * Registers a message to be sent, this is called through the GameObject
-     * @memberOf module:manager/MessageManager~MessageManager
-     * @method
-     * @instance
-     * @name register
-     * @param {Message} message
+     * Registers a message to be sent, this is called through the GameObject.
+     * @param {module:core/Message} message
      */
-    MessageManager.prototype.register = function( message ) {
+    MessageManager.register = function( message ) {
       this.userMessages.put( message );
     };
 
     /**
-     * Send the undelivered messages to the given GameObject
-     * @memberOf module:manager/MessageManager~MessageManager
-     * @method
-     * @instance
-     * @name sendMessagesTo
-     * @param {GameObject} go Target object
+     * Sends the undelivered messages to the given GameObject.
+     * @param {module:core/GameObject} go - Target object
      */
-    MessageManager.prototype.sendMessagesTo = function( go ) {
+    MessageManager.sendMessagesTo = function( go ) {
       var message;
       if( this.userMessages.size() > 0 ) {
         var itUser = this.userMessages.iterator();
@@ -54,16 +39,8 @@ define(
           }
         }
       }
-
     };
 
-    MessageManager.getInstance = function() {
-      if( instance === null ) {
-        instance = new MessageManager();
-      }
-      return instance;
-    };
-
-    return MessageManager.getInstance();
+    return MessageManager;
   }
 );
