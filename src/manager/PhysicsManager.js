@@ -1,103 +1,88 @@
-/**
- * Exports the {@link module:manager/PhysicsManager~PhysicsManager|PhysicsManager} class.
- * @module manager/PhysicsManager
- */
 define(
-  [ 'lib/Box2d', 'core/Timer', 'core/World', 'core/Message', 'manager/MessageManager' ], function( _Box2d, Timer, World, Message, MessageManager ) {
+  [ 'lib/Box2d', 'core/Timer', 'core/Message', 'manager/MessageManager' ], function( _Box2d, Timer, Message, MessageManager ) {
 
     /**
-     * @class PhysicsManager
+     * @requires lib/Box2d
+     * @requires core/Timer
+     * @requires core/Message
+     * @requires manager/MessageManager
+     * @exports manager/PhysicsManager
      */
-    var PhysicsManager = function() {
-      /**
-       * Box2D Physics World
-       * @memberOf module:manager/PhysicsManager~PhysicsManager
-       * @instance
-       * @type {Box2D.b2World}
-       * @name world
-       * @default null
-       */
-      this.world = null;
-
-      /**
-       * Number of Velocity Iterations on the physics world. The more iterations, the more accurate the calculations
-       * @memberOf module:manager/PhysicsManager~PhysicsManager
-       * @instance
-       * @type {Number}
-       * @name velocityIterations
-       * @default 2
-       */
-      this.velocityIterations = 2;
-
-      /**
-       * Number of Position Iterations on the physics world. The more iterations, the more accurate the calculations
-       * @memberOf module:manager/PhysicsManager~PhysicsManager
-       * @instance
-       * @type {Number}
-       * @name positionIterations
-       * @default 2
-       */
-      this.positionIterations = 2;
-
-      /**
-       * Flag to remove any accumulated forces at every physics update
-       * @memberOf module:manager/PhysicsManager~PhysicsManager
-       * @instance
-       * @type {Number}
-       * @name clearForcesOnUpdate
-       * @default false
-       */
-      this.clearForcesOnUpdate = false;
-
-      this.BEGIN_CONTACT = 1; // 0001
-      this.END_CONTACT = 2; // 0010
-      this.BEGIN_END_CONTACT = 3; // 0011
-      this.PRE_SOLVE = 4; // 0100
-      this.POST_SOLVE = 8; // 1000
-      this.ALL_LISTENERS = 15; //1111
-
-      this.listeners = 0; //0000
-
-      this.contactListener = null;
-    };
+    var PhysicsManager = {};
 
     /**
-     * Creates the physics World on box2D with given properties
-     * @method
-     * @instance
-     * @name createWorld
-     * @param {THREE.Vector2} gravity 2D vector pointing the direction of the gravity
-     * @param {Boolean} allowSleep flag if an object can sleep outside the boundaries of the physics world
-     * @param {String} listeners constants to signal which listeners will be active
-     * @memberOf module:manager/PhysicsManager~PhysicsManager
+     * Box2D Physics World.
+     * @type {Box2D.b2World}
+     * @default null
      */
-    PhysicsManager.prototype.createWorld = function( gravity, allowSleep, listeners ) {
+    PhysicsManager.world = null;
+
+    /**
+     * Number of Velocity Iterations on the physics world. The more iterations, the more accurate the calculations.
+     * @type {Number}
+     * @default 2
+     */
+    PhysicsManager.velocityIterations = 2;
+
+    /**
+     * Number of Position Iterations on the physics world. The more iterations, the more accurate the calculations.
+     * @type {Number}
+     * @default 2
+     */
+    PhysicsManager.positionIterations = 2;
+
+    /**
+     * Flag to remove any accumulated forces at every physics update.
+     * @type {Number}
+     * @default false
+     */
+    PhysicsManager.clearForcesOnUpdate = false;
+
+    /** @constant */
+    PhysicsManager.BEGIN_CONTACT = 1; // 0001
+    /** @constant */
+    PhysicsManager.END_CONTACT = 2; // 0010
+    /** @constant */
+    PhysicsManager.BEGIN_END_CONTACT = 3; // 0011
+    /** @constant */
+    PhysicsManager.PRE_SOLVE = 4; // 0100
+    /** @constant */
+    PhysicsManager.POST_SOLVE = 8; // 1000
+    /** @constant */
+    PhysicsManager.ALL_LISTENERS = 15; //1111
+
+    /** */
+    PhysicsManager.listeners = 0; //0000
+
+    /** */
+    PhysicsManager.contactListener = null;
+
+    /**
+     * Creates the physics World on box2D with given properties.
+     * @param {THREE.Vector2} gravity - 2D vector pointing the direction of the gravity
+     * @param {Boolean} allowSleep - Flags if an object can sleep outside the boundaries of the physics world
+     * @param {String} listeners - Constants to signal which listeners will be active
+     * @param {module:core/GameObject} world - Root node of GameObject tree
+     */
+    PhysicsManager.createWorld = function( gravity, allowSleep, listeners, world ) {
       this.world = new Box2D.b2World( new Box2D.b2Vec2( gravity.x, gravity.y ), allowSleep || false );
       this.listeners = ( listeners ) ? listeners : this.BEGIN_END_CONTACT; //0011
-      this.createListener();
+      this.createListener( world );
     };
 
     /**
-     * Attaches a given Rigid Body to the Physics World of Box2D
-     * @method
-     * @instance
-     * @name attachToWorld
-     * @param {RigidBody} rigidBody A Monogatari RigidBody component to be attached
-     * @memberOf module:manager/PhysicsManager~PhysicsManager
+     * Attaches a given Rigid Body to the Physics World of Box2D.
+     * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
      */
-    PhysicsManager.prototype.attachToWorld = function( rigidBody ) {
+    PhysicsManager.attachToWorld = function( rigidBody ) {
       rigidBody.body = this.world.CreateBody( rigidBody.bodyDef );
     };
 
     /**
-     * Destroys a given Rigid Body on the Physics World of Box2D
-     * @method
-     * @instance
-     * @name destroyBody
-     * @param {RigidBody} rigidBody A Monogatari RigidBody component to be attached
-     * @memberOf module:manager/PhysicsManager~PhysicsManager
+     * Destroys a given Rigid Body on the Physics World of Box2D.
+     * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
      */
-    PhysicsManager.prototype.destroyBody = function( rigidBody ) {
+    PhysicsManager.destroyBody = function( rigidBody ) {
       return this.world.DestroyBody( rigidBody.bodyDef );
     };
 
@@ -105,19 +90,16 @@ define(
      * Creates the callback functions to the listeners set on the createWorld method. <br>
      * The listeners will contain the information about the contacts and send them a Message through the MessageManager class. <br>
      * Some callback functions like preSolve and postSolve are called constantly, be aware of messages flooding between Game Objects.
-     * @method
-     * @instance
-     * @name createListener
-     * @memberOf module:manager/PhysicsManager~PhysicsManager
+     * @param {module:core/GameObject} world - Root node of GameObject tree
      */
-    PhysicsManager.prototype.createListener = function() {
+    PhysicsManager.createListener = function( world ) {
       this.contactListener = new Box2D.JSContactListener();
 
       this.contactListener.BeginContact = ( this.listeners & this.BEGIN_CONTACT ) ?
         function( _contact ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-          var goA = World.gameObject.findByUid( contact.GetFixtureA().GetUserData() );
-          var goB = World.gameObject.findByUid( contact.GetFixtureB().GetUserData() );
+          var goA = world.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = world.findByUid( contact.GetFixtureB().GetUserData() );
 
           if( goB ) {
             MessageManager.register( new Message( goA.id, goB.id, "BeginContact", contact ) );
@@ -131,8 +113,8 @@ define(
       this.contactListener.EndContact = ( this.listeners & this.END_CONTACT ) ?
         function( _contact ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-          var goA = World.gameObject.findByUid( contact.GetFixtureA().GetUserData() );
-          var goB = World.gameObject.findByUid( contact.GetFixtureB().GetUserData() );
+          var goA = world.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = world.findByUid( contact.GetFixtureB().GetUserData() );
 
           if( goB ) {
             MessageManager.register( new Message( goA.id, goB.id, "EndContact", contact ) );
@@ -146,8 +128,8 @@ define(
         function( _contact, _oldManifold ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var manifold = Box2D.wrapPointer( _oldManifold, Box2D.b2Manifold );
-          var goA = World.gameObject.findByUid( contact.GetFixtureA().GetUserData() );
-          var goB = World.gameObject.findByUid( contact.GetFixtureB().GetUserData() );
+          var goA = world.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = world.findByUid( contact.GetFixtureB().GetUserData() );
 
           if( goB ) {
             MessageManager.register( new Message( goA.id, goB.id, "PreSolve", { contact: contact, manifold: manifold } ) );
@@ -161,8 +143,8 @@ define(
         function( _contact, _impulse ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var impulse = Box2D.wrapPointer( _impulse, Box2D.b2ContactImpulse );
-          var goA = World.gameObject.findByUid( contact.GetFixtureA().GetUserData() );
-          var goB = World.gameObject.findByUid( contact.GetFixtureB().GetUserData() );
+          var goA = world.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = world.findByUid( contact.GetFixtureB().GetUserData() );
 
           if( goB ) {
             MessageManager.register( new Message( goA.id, goB.id, "PostSolve", { contact: contact, impulse: impulse } ) );
@@ -177,12 +159,8 @@ define(
 
     /**
      * Physics world heartbeat, updates based on the engine FPS and the current velocity and position Iterations.
-     * @method
-     * @instance
-     * @name update
-     * @memberOf module:manager/PhysicsManager~PhysicsManager
      */
-    PhysicsManager.prototype.update = function() {
+    PhysicsManager.update = function() {
       if( this.world ) {
         var fps = Timer.fps;
 
@@ -197,15 +175,6 @@ define(
       }
     };
 
-    var instance = null;
-
-    PhysicsManager.getInstance = function() {
-      if( instance === null ) {
-        instance = new PhysicsManager();
-      }
-      return instance;
-    };
-
-    return PhysicsManager.getInstance();
+    return PhysicsManager;
   }
 );

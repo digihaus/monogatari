@@ -242,7 +242,7 @@ h6 {
     font-family: 'inconsolata';
     line-height: 18px;
     display: block;
-    padding: 8px 10px;
+    padding: 6px 10px 10px 12px;
     margin: 0;
     background-color: #fff;
     color: #4D4E53;
@@ -353,7 +353,6 @@ nav h2 {
 article ul {
     margin: 0;
     padding: 0;
-    font-size: 12px;
     list-style-type: none;
 }
 

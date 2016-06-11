@@ -1,7 +1,3 @@
-/**
- * Exports the {@link module:render/Camera2D~Camera2D|Camera2D} class.
- * @module render/Camera2D
- */
 define(
   [ 'lib/Three' ], function ( _Three ) {
 
@@ -13,15 +9,13 @@ define(
      * @param {Number} bottom
      * @param {Number} near
      * @param {Number} far
-     * @class Camera2D
+     * @requires lib/Three
+     * @exports render/Camera2D
      */
     var Camera2D = function ( left, right, top, bottom, near, far ) {
       /**
-       * A THREE.Camera object
-       * @memberOf module:render/Camera2D~Camera2D
-       * @instance
+       * A THREE.Camera object.
        * @type {THREE.OrthographicCamera}
-       * @name cam
        */
       this.cam = new THREE.OrthographicCamera( left, right, top, bottom, near, far );
 
@@ -29,23 +23,16 @@ define(
       this.cam.position.set( right, bottom, far );
 
       /**
-       * Array of scenes to be rendered on this camera
-       * @memberOf module:render/Camera2D~Camera2D
-       * @instance
+       * Array of scenes to be rendered on this camera.
        * @type {Array}
-       * @name scenes
        */
       this.scenes = [];
     };
 
     /**
-     * Add a scene to this Camera
-     * @instance
-     * @method
-     * @name setContextFillColor
-     * @param {String} sceneId Scene ID
-     * @param {THREE.Scene} scene THREE.Scene object
-     * @memberOf module:render/Camera2D~Camera2D
+     * Add a scene to this Camera.
+     * @param {String} sceneId - Scene ID
+     * @param {THREE.Scene} scene - THREE.Scene object
      */
     Camera2D.prototype.addScene = function ( sceneId, scene ) {
       if ( sceneId && typeof sceneId === 'string' ) {

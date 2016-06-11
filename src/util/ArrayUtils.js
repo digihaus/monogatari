@@ -1,28 +1,21 @@
-/**
- * Exports the {@link module:util/ArrayUtils~ArrayUtils|ArrayUtils} class.
- * @module util/ArrayUtils
- */
 define(
   //https://github.com/techfort/PowerArray
   [ 'util/CommonUtils' ], function( CommonUtils ) {
 
     /**
-     * Utility class for arrays
-     * @class ArrayUtils
+     * Utility methods for arrays.
+     * @requires util/CommonUtils
+     * @exports util/ArrayUtils
      */
-    var ArrayUtils = function() {};
+    var ArrayUtils = {};
 
     /**
-     * Concatenates two Float32Arrays
+     * Concatenates two Float32Arrays.
      * @link http://stackoverflow.com/questions/4554252/typed-arrays-in-gecko-2-float32array-concatenation-and-expansion
-     * @method
-     * @instance
-     * @param {Float32Array} first First array to be concatenated
-     * @param {Float32Array} second Second array to be concatenated
-     * @name float32Concat
-     * @memberOf module:util/ArrayUtils~ArrayUtils
+     * @param {Float32Array} first - First array to be concatenated
+     * @param {Float32Array} second - Second array to be concatenated
      */
-    ArrayUtils.prototype.float32Concat = function( first, second ) {
+    ArrayUtils.float32Concat = function( first, second ) {
       var firstLength = first.length;
       var result = new Float32Array( firstLength + second.length );
 
@@ -33,15 +26,11 @@ define(
     };
 
     /**
-     * Sorts the contents of the given array
-     * @method
-     * @instance
-     * @name quicksort
-     * @param {Array} array Unsorted Array
+     * Sorts the contents of the given array.
+     * @param {Array} array - Unsorted Array
      * @return {Array}
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      */
-    ArrayUtils.prototype.quicksort = function( array ) {
+    ArrayUtils.quicksort = function( array ) {
       if( array.length === 0 ) {
         return [];
       }
@@ -58,15 +47,11 @@ define(
     };
 
     /**
-     * Create and return a new array containing non-repeating values
-     * @method
-     * @instance
-     * @name unique
-     * @param {Array} array Unsorted Array
+     * Creates and returns a new array containing non-repeating values.
+     * @param {Array} array - Unsorted Array
      * @return {Array}
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      */
-    ArrayUtils.prototype.unique = function( array ) {
+    ArrayUtils.unique = function( array ) {
       var newArr = [];
       var found = false;
 
@@ -88,15 +73,11 @@ define(
     };
 
     /**
-     * Sort the contents of the given Array alphabetically
-     * @method
-     * @instance
-     * @name alphabeticalSort
-     * @param {Array} array Unsorted Array
+     * Sort the contents of the given Array alphabetically.
+     * @param {Array} array - Unsorted Array
      * @return {Array}
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      */
-    ArrayUtils.prototype.alphabeticalSort = function( array ) {
+    ArrayUtils.alphabeticalSort = function( array ) {
       if( this.isArray( array ) ) {
         array.sort(
           function( a, b ) {
@@ -111,13 +92,10 @@ define(
 
     /**
      * Removes elements of the given array
-     * @method
-     * @instance
-      @link http://ejohn.org/blog/javascript-array-remove/
-     * @name remove
-     * @param {Array} array Array to be processed
-     * @param {Number} from Array index
-     * @param {Number} to Array index
+     * @link http://ejohn.org/blog/javascript-array-remove/
+     * @param {Array} array - Array to be processed
+     * @param {Number} from - Array index
+     * @param {Number} to - Array index
      * @return {Array}
      * @example
      *  // Remove the second item from the array:
@@ -128,25 +106,20 @@ define(
      *  array.remove(1,2);
      *  // Remove the last and second-to-last items from the array:
      *  array.remove(-2,-1);
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      */
-    ArrayUtils.prototype.remove = function( array, from, to ) {
+    ArrayUtils.remove = function( array, from, to ) {
       var rest = array.slice( ( to || from ) + 1 || array.length );
       array.length = from < 0 ? array.length + from : from;
       return array.push.apply( array, rest );
     };
 
     /**
-     * Compares the contents of two given arrays
-     * @method
-     * @instance
-     * @name remove
-     * @param {Array} arr1 Array to be compared
-     * @param {Array} arr2 Array to be compared
+     * Compares the contents of two given arrays.
+     * @param {Array} arr1 - Array to be compared
+     * @param {Array} arr2 - Array to be compared
      * @return {Boolean}
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      */
-    ArrayUtils.prototype.equals = function( arr1, arr2 ) {
+    ArrayUtils.equals = function( arr1, arr2 ) {
       var len1 = arr1.length, len2 = arr2.length;
 
       if( len1 != len2 ) {
@@ -173,15 +146,11 @@ define(
 
     /**
      * Take the intersection between two arrays and returns elements present both.
-     * @method
-     * @instance
-     * @name intersection
-     * @param {Array} arr1 Array to be compared
-     * @param {Array} arr2 Array to be compared
+     * @param {Array} arr1 - Array to be compared
+     * @param {Array} arr2 - Array to be compared
      * @return {Array}
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      */
-    ArrayUtils.prototype.intersection = function( arr1, arr2 ) {
+    ArrayUtils.intersection = function( arr1, arr2 ) {
       var rest = concat.apply( Array.prototype, slice.call( arr2, 1 ) );
 
       return this.unique( arr1 ).filter(
@@ -192,16 +161,12 @@ define(
     };
 
     /**
-     * Produce an array that contains items that are on the first array and not on the second
-     * @method
-     * @instance
-     * @name difference
-     * @param {Array} arr1 Array to be compared
-     * @param {Array} arr2 Array to be compared
+     * Produce an array that contains items that are on the first array and not on the second.
+     * @param {Array} arr1 - Array to be compared
+     * @param {Array} arr2 - Array to be compared
      * @return {Array}
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      */
-    ArrayUtils.prototype.difference = function( arr1, arr2 ) {
+    ArrayUtils.difference = function( arr1, arr2 ) {
       var rest = this.concat.apply( Array.prototype, this.slice.call( arr2, 1 ) );
 
       return this.unique( arr1 ).filter(
@@ -212,22 +177,18 @@ define(
     };
 
     /**
-     * Splits the Array in sizeable chunks
+     * Splits the Array in sizeable chunks.
      * @from Carlos R. L. Rodrigues http://jsfromhell.com/array/chunk [rev. #1]
-     * @method
-     * @instance
-     * @name difference
-     * @param {Array} a Array to be processed
-     * @param {Number} s size of chunk
+     * @param {Array} a - Array to be processed
+     * @param {Number} s - Size of chunk
      * @return {Array}
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      * @example
      * // Input
      * chunk([1,2,3,4,5,6,7], 3);
      * //Output:
      * [[1,2,3],[4,5,6],[7]];
      */
-    ArrayUtils.prototype.chunk = function( a, s ) {
+    ArrayUtils.chunk = function( a, s ) {
       for( var x, i = 0, c = -1, l = a.length, n = []; i < l; i++ ) {
         ( x = i % s ) ? n[ c ][ x ] = a[ i ] : n[ ++c ] = [ a[ i ] ];
       }
@@ -235,20 +196,16 @@ define(
     };
 
     /**
-     * Creates a flat array (one dimensional)
-     * @method
-     * @instance
-     * @name difference
-     * @param {Array} arr Array to be processed
+     * Creates a flat array (one dimensional).
+     * @param {Array} arr - Array to be processed
      * @return {Array}
-     * @memberOf module:util/ArrayUtils~ArrayUtils
      * @example
-     *  //Input:
-     *  [[1,2,3],[4,5,6],[7]];
-     *  //Output:
-     *  [1,2,3,4,5,6,7];
+     * //Input:
+     * [[1,2,3],[4,5,6],[7]];
+     * //Output:
+     * [1,2,3,4,5,6,7];
      */
-    ArrayUtils.prototype.flat = function( arr ) {
+    ArrayUtils.flat = function( arr ) {
       return arr.reduce(
         function( a, b ) {
           return a.concat( b );
@@ -256,6 +213,6 @@ define(
       );
     };
 
-    return new ArrayUtils();
+    return ArrayUtils;
   }
 );

@@ -1,7 +1,3 @@
-/**
- * Exports a singleton instance of {@link module:Monogatari~Monogatari|Monogatari} class.
- * @module Monogatari
- */
 define(
   [
     'core/Timer',
@@ -12,7 +8,6 @@ define(
     'manager/PhysicsManager',
     'manager/MessageManager',
     'core/GameObject',
-    'core/World',
     'component/Audio',
     'component/Base',
     'component/RigidBody',
@@ -22,31 +17,26 @@ define(
     'collection/Tree',
     'collection/LinkedList',
     'util/ArrayUtils',
-    'util/CommonUtils',
-    'util/StringUtils'
+    'util/CommonUtils'
   ],
-  function(
-    Timer,
-    Math,
-    Keyboard,
-    Mouse,
-    SceneManager,
-    PhysicsManager,
-    MessageManager,
-    GameObject,
-    World,
-    Audio,
-    Base,
-    RigidBody,
-    Sprite,
-    List,
-    Map,
-    Tree,
-    LinkedList,
-    ArrayUtils,
-    CommonUtils,
-    StringUtils
-  ) {
+  function( Timer,
+            Math,
+            Keyboard,
+            Mouse,
+            SceneManager,
+            PhysicsManager,
+            MessageManager,
+            GameObject,
+            Audio,
+            Base,
+            RigidBody,
+            Sprite,
+            List,
+            Map,
+            Tree,
+            LinkedList,
+            ArrayUtils,
+            CommonUtils ) {
 
     var _browser = {};
     _browser.agent = window.navigator.userAgent;
@@ -61,197 +51,156 @@ define(
     _browser.isIE = ( _browser.agent.indexOf( 'MSIE' ) > -1 );
 
     /**
-     * Core of the engine, bootstraps every other entity by means of static functions or classes.
-     * @class Monogatari
+     * Core of the engine, bootstraps every other entity and exposes them.
+     * @requires core/Timer
+     * @requires core/Math
+     * @requires input/Keyboard
+     * @requires input/Mouse
+     * @requires manager/SceneManager
+     * @requires manager/PhysicsManager
+     * @requires manager/MessageManager
+     * @requires core/GameObject
+     * @requires component/Audio
+     * @requires component/Base
+     * @requires component/RigidBody
+     * @requires component/Sprite
+     * @requires collection/List
+     * @requires collection/Map
+     * @requires collection/Tree
+     * @requires collection/LinkedList
+     * @requires util/ArrayUtils
+     * @requires util/CommonUtils
+     * @exports Monogatari
      */
-    var Monogatari = function() {
+    var Monogatari = {};
 
-      /**
-       * Static interface to {@link module:core/Math~Math|Math} namespace
-       * @memberOf module:module:Monogatari
-       * @type {Math}
-       * @name math
-       */
-      this.math = Math;
+    /**
+     * Exposes the {@link module:core/Math|Math} module.
+     * @type {module:core/Math}
+     */
+    Monogatari.math = Math;
 
-      /**
-       * Static interface to {@link module:core/Timer~Timer|Timer}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {Timer}
-       * @name timer
-       */
-      this.timer = Timer;
+    /**
+     * Exposes the {@link module:core/Timer|Timer} module.
+     * @type {module:core/Timer}
+     */
+    Monogatari.timer = Timer;
 
-      /**
-       * The root node of the engine GameObject tree. Any GameObject will only be available to the engine when attached directly or indirectly to world.
-       * @memberOf module:Monogatari~Monogatari
-       * @type {GameObject}
-       * @name world
-       */
-      World.gameObject = new GameObject( 'world', function(){} );
-      this.world = World.gameObject;
+    /**
+     * Exposes the root node of the engine GameObject tree.
+     * Any GameObject will only be available to the engine when attached directly or indirectly to world.
+     * @type {module:core/GameObject}
+     */
+    Monogatari.world = new GameObject( 'world', function() {} );
 
+    /**
+     * Exposes the {@link module:manager/SceneManager|SceneManager}.
+     * @type {module:manager/SceneManager}
+     */
+    Monogatari.sceneManager = SceneManager;
 
-      /**
-       * Static interface to {@link module:manager/SceneManager~SceneManager|SceneManager}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {SceneManager}
-       * @name sceneManager
-       */
-      this.sceneManager = SceneManager;
+    /**
+     * Exposes the {@link module:manager/PhysicsManager|PhysicsManager}.
+     * @type {module:manager/PhysicsManager}
+     */
+    Monogatari.physicsManager = PhysicsManager;
 
-      /**
-       * Static interface to {@link module:manager/PhysicsManager~PhysicsManager|PhysicsManager}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {PhysicsManager}
-       * @name physicsManager
-       */
-      this.physicsManager = PhysicsManager;
+    /**
+     * Exposes the {@link module:manager/MessageManager|MessageManager}.
+     * @type {module:manager/MessageManager}
+     */
+    Monogatari.messageManager = MessageManager;
 
-      /**
-       * Static interface to {@link module:manager/MessageManager~MessageManager|MessageManager}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {MessageManager}
-       * @name messageManager
-       */
-      this.messageManager = MessageManager;
+    /**
+     * Exposes the {@link module:core/GameObject|GameObject} class module.
+     * @type {module:core/GameObject}
+     */
+    Monogatari.GameObject = GameObject;
 
-      /**
-       * Provides access to {@link module:core/GameObject~GameObject|GameObject} class.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {GameObject}
-       * @name GameObject
-       */
-      this.GameObject = GameObject;
+    /**
+     * Exposes the {@link module:input/Keyboard|Keyboard} module.
+     * @type {module:input/Keyboard}
+     */
+    Monogatari.keyboard = null;
 
-      // Input
+    /**
+     * Exposes the {@link module:input/Mouse|Mouse} module.
+     * @type {module:input/Mouse}
+     */
+    Monogatari.mouse = null;
 
-      /**
-       * Static interface to {@link module:input/Keyboard~Keyboard|Keyboard}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {Keyboard}
-       * @name keyboard
-       */
-      this.keyboard = null;
-      /**
-       * Static interface to {@link module:input/Mouse~Mouse|Mouse}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {Mouse}
-       * @name mouse
-       */
-      this.mouse = null;
-      this.gamepad = null;
+    /**
+     * Exposes the {@link module:util/ArrayUtils|ArrayUtils} module.
+     * @type {module:util/ArrayUtils}
+     */
+    Monogatari.arrayUtils = ArrayUtils;
 
-      // Utils
+    /**
+     * Exposes the {@link module:util/CommonUtils|CommonUtils} module.
+     * @type {module:util/CommonUtils}
+     */
+    Monogatari.commonUtils = CommonUtils;
 
-      /**
-       * Static interface to {@link module:util/ArrayUtils~ArrayUtils|ArrayUtils}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {ArrayUtils}
-       * @name arrayUtils
-       */
-      this.arrayUtils = ArrayUtils;
-      /**
-       * Static interface to {@link module:util/CommonUtils~CommonUtils|CommonUtils}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {CommonUtils}
-       * @name commonUtils
-       */
-      this.commonUtils = CommonUtils;
-      /**
-       * Static interface to {@link module:util/StringUtils~StringUtils|StringUtils}
-       * @memberOf module:Monogatari~Monogatari
-       * @type {StringUtils}
-       * @name stringUtils
-       */
-      this.stringUtils = StringUtils;
-      this.browser = _browser;
+    /** */
+    Monogatari.browser = _browser;
 
-      // Collection Classes
+    /**
+     * Exposes the {@link module:collection/List|List} collection module class.
+     * @type {module:ollection/List}
+     */
+    Monogatari.List = List;
 
-      /**
-       * Provides access to {@link module:collection/List~List|List} Class.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {List}
-       * @name List
-       */
-      this.List = List;
-      /**
-       * Provides access to {@link module:collection/Map~Map|Map} Class.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {Map}
-       * @name Map
-       */
-      this.Map = Map;
-      /**
-       * Provides access to {@link module:collection/Tree~Tree|Tree} Class.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {Tree}
-       * @name Tree
-       */
-      this.Tree = Tree;
-      /**
-       * Provides access to {@link module:collection/LinkedList~LinkedList|LinkedList} Class.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {LinkedList}
-       * @name LinkedList
-       */
-      this.LinkedList = LinkedList;
+    /**
+     * Exposes the {@link module:collection/Map|Map} collection module class.
+     * @type {module:collection/Map}
+     */
+    Monogatari.Map = Map;
 
-      // Component Classes
+    /**
+     * Exposes the {@link module:collection/Tree|Tree} collection module class.
+     * @type {module:collection/Tree}
+     */
+    Monogatari.Tree = Tree;
 
-      /**
-       * Provides access to {@link module:component/Audio~Audio|Audio} Component.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {Audio}
-       * @name Audio
-       */
-      this.Audio = Audio;
-      /**
-       * Provides access to {@link module:component/Base~Base|Base} Component.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {Base}
-       * @name Base
-       */
-      this.Base = Base;
+    /**
+     * Exposes the {@link module:collection/LinkedList|LinkedList} collection module class.
+     * @type {module:collection/LinkedList}
+     */
+    Monogatari.LinkedList = LinkedList;
 
-      /**
-       * Provides access to {@link module:component/RigidBody~RigidBody|RigidBody} Component.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {RigidBody}
-       * @name RigidBody
-       */
-      this.RigidBody = RigidBody;
-      /**
-       * Provides access to {@link module:component/Sprite~Sprite|Sprite} Component.
-       * @memberOf module:Monogatari~Monogatari
-       * @instance
-       * @type {Sprite}
-       * @name Sprite
-       */
-      this.Sprite = Sprite;
-    };
+    /**
+     * Exposes the {@link module:component/Audio|Audio} component module class.
+     * @type {module:component/Audio}
+     */
+    Monogatari.Audio = Audio;
+
+    /**
+     * PExposes the {@link module:component/Base|Base} component module class.
+     * @type {module:component/Base}
+     */
+    Monogatari.Base = Base;
+
+    /**
+     * Exposes the {@link module:component/RigidBody|RigidBody} component module class.
+     * @type {module:component/RigidBody}
+     */
+    Monogatari.RigidBody = RigidBody;
+
+    /**
+     * Exposes the {@link module:component/Sprite|Sprite} component module class.
+     * @type {module:component/Sprite}
+     */
+    Monogatari.Sprite = Sprite;
+
 
     /**
      * Engine initialization function. Creates the default Scene and Camera and register the input events.
-     * @method
-     * @instance
-     * @param {String} bgcolor Hexadecimal background color
-     * @param {Number} [width] Width of the canvas in pixels. Defaults to screen resolution.
-     * @param {Number} [height] Height of the canvas in pixels. Defaults to screen resolution.
-     * @param {DOMElement} [target] Target node of the Dom tree to create a canvas renderer. It is attached to the body if not provided.
-     * @name init
-     * @memberOf module:Monogatari~Monogatari
+     * @param {String} bgcolor - Hexadecimal background color
+     * @param {Number} [width] - Width of the canvas in pixels. Defaults to screen resolution.
+     * @param {Number} [height] - Height of the canvas in pixels. Defaults to screen resolution.
+     * @param {DOMElement} [target] T- arget node of the Dom tree to create a canvas renderer. It is attached to the body if not provided.
      */
-    Monogatari.prototype.init = function( bgcolor, width, height, target ) {
+    Monogatari.init = function( bgcolor, width, height, target ) {
       var ctx = this;
       this.sceneManager.init( bgcolor, width, height, target );
 
@@ -289,13 +238,9 @@ define(
     };
 
     /**
-     * Engine logical update function. Control engine timer and cycles through all GameObjects and needed components updating them.
-     * @method
-     * @instance
-     * @name update
-     * @memberOf module:Monogatari~Monogatari
+     * Engine logical update function. Controls engine timer and cycles through all GameObjects and needed components while updating them.
      */
-    Monogatari.prototype.update = function() {
+    Monogatari.update = function() {
       this.timer.tick();
       this.physicsManager.update( this.timer );
       this.world.updateAll();
@@ -303,35 +248,27 @@ define(
 
     /**
      * Engine render function. Cycles through all Cameras and Scenes rendering the registered components on screen.
-     * @method
-     * @instance
-     * @name render
-     * @memberOf module:Monogatari~Monogatari
      */
-    Monogatari.prototype.render = function() {
+    Monogatari.render = function() {
       this.sceneManager.render();
     };
 
     /**
      * Engine main heartbeat function.
-     * @method
-     * @instance
-     * @name run
-     * @memberOf module:Monogatari~Monogatari
      */
-    Monogatari.prototype.run = function( loading, loaded ) {
+    Monogatari.run = function( loading, loaded ) {
       if( loaded ) {
         this.update();
         this.render();
 
       } else {
         var loadPercentage = this.world.load();
-        
-        if(loading instanceof Function) {
+
+        if( loading instanceof Function ) {
           loading( loadPercentage );
         }
-        
-        if(loadPercentage == 1) {
+
+        if( loadPercentage == 1 ) {
           loaded = true;
         }
       }
@@ -339,15 +276,6 @@ define(
       requestAnimationFrame( this.run.bind( this, loading, loaded ) );
     };
 
-    var instance = null;
-
-    Monogatari.getInstance = function() {
-      if( instance === null ) {
-        instance = new Monogatari();
-      }
-      return instance;
-    };
-
-    return Monogatari.getInstance();
+    return Monogatari;
   }
 );

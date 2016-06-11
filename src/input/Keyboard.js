@@ -127,6 +127,10 @@ define(
       return ( this.pressed[ keyCode ] === -1 ) ? null : this.pressed[ keyCode ];
     };
 
+    /**
+     * @param {Event} event
+     * @param {module:core/Timer} timer
+     */
     Keyboard.prototype.onKeyDown = function( event, timer ) {
       event.stopPropagation();
       
@@ -144,6 +148,9 @@ define(
       this.pressed[ event.keyCode ] = timer.time;
     };
 
+    /**
+     * @param {Event} event
+     */
     Keyboard.prototype.onKeyUp = function( event ) {
       event.stopPropagation();
       this.pressed[ event.keyCode ] = -1;
