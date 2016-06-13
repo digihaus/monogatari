@@ -37,21 +37,21 @@ define(
      */
     Mouse.BUTTON = {
       /** Left Mouse Button */
-      LMB: 1,
+      LMB: 0,
       /** Middle Mouse Button */
-      MID: 2,
+      MID: 1,
       /** Right Mouse Button */
-      RMB: 3,
+      RMB: 2,
       /** Mouse Button 3 */
-      B3: 4,
+      B3: 3,
       /** Mouse Button 4 */
-      B4: 5,
+      B4: 4,
       /** Mouse Button 5 */
-      B5: 6,
+      B5: 5,
       /** Mouse Button 6 */
-      B6: 7,
+      B6: 6,
       /** Mouse Button 7 */
-      B7: 8
+      B7: 7
     };
 
     /**

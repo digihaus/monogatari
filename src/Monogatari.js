@@ -124,10 +124,24 @@ define(
     Monogatari.keyboard = null;
 
     /**
+     * Exposes the {@link module:input/Keyboard.KEY|Keyboard Keys} enum.
+     * @constant
+     * @type {module:input/Keyboard.KEY}
+     */
+    Monogatari.KB_KEY = Keyboard.KEY;
+
+    /**
      * Exposes the {@link module:input/Mouse|Mouse} module.
      * @type {module:input/Mouse}
      */
     Monogatari.mouse = null;
+
+    /**
+     * Exposes the {@link module:input/Mouse.BUTTON|Mouse Buttons} enum.
+     * @constant
+     * @type {module:input/Mouse.BUTTON}
+     */
+    Monogatari.MOUSE_BTN = Mouse.BUTTON;
 
     /**
      * Exposes the {@link module:util/ArrayUtils|ArrayUtils} module.
@@ -146,7 +160,7 @@ define(
 
     /**
      * Exposes the {@link module:collection/List|List} collection module class.
-     * @type {module:ollection/List}
+     * @type {module:collection/List}
      */
     Monogatari.List = List;
 
@@ -231,7 +245,7 @@ define(
       );
       window.addEventListener(
         'mouseup', function( event ) {
-          ctx.mouse.onMouseUp( event, ctx.timer );
+          ctx.mouse.onMouseUp( event );
         }, false
       );
 
