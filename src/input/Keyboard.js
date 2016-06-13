@@ -16,8 +16,11 @@ define(
       }
     };
 
+    /**
+     * @enum
+     */
     Keyboard.KEY = {
-      BACKSPACE: 8,
+      /** */ BACKSPACE: 8,
       TAB: 9,
       ENTER: 13,
       SHIFT: 16,
