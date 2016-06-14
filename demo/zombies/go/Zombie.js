@@ -13,7 +13,6 @@ define( [ 'Monogatari', 'zombies/lib/chance', 'zombies/go/single/Hero' ], functi
     this.addComponent( new m.Sprite( 'assets/sprites/zombies.png', 64, 64, 3, 3 ) );
     this.init();
 
-    m.sceneManager.attachToScene( this );
     m.world.children.push( this );
   };
 
@@ -38,8 +37,8 @@ define( [ 'Monogatari', 'zombies/lib/chance', 'zombies/go/single/Hero' ], functi
 
       this.lookAt( Hero.position );
 
-      this.position.x += this.rotation.x * speed;
-      this.position.y += this.rotation.y * speed;
+      this.position.x += this.direction.x * speed;
+      this.position.y += this.direction.y * speed;
 
       var startFrame = this.bersek ? 4 : 1;
 

@@ -14,7 +14,6 @@ define( [ 'Monogatari' ], function( m ) {
     this.speed = SPEED;
     this.animationSpeed = ANIMATION_SPEED;
 
-    m.sceneManager.attachToScene( this );
     m.world.children.push( this );
   };
 
@@ -24,18 +23,19 @@ define( [ 'Monogatari' ], function( m ) {
     var speed = this.speed / m.timer.fps;
     var sprite = this.findComponent( m.Base.TYPE.SPRITE );
 
-    if ( ( m.timer.time - sprite.lastUpdate ) > this.animationSpeed ) {
-      sprite.nextFrame();
-      sprite.lastUpdate = m.timer.time;
+    if( this.isActive ) {
+      if( ( m.timer.time - sprite.lastUpdate ) > this.animationSpeed ) {
+        sprite.nextFrame();
+        sprite.lastUpdate = m.timer.time;
+      }
+      this.position.x += this.direction.x * speed;
+      this.position.y += this.direction.y * speed;
     }
 
-    this.position.x += this.rotation.x * speed;
-    this.position.y += this.rotation.y * speed;
-
-    if ( this.position.x < 0 //
-        || this.position.x > m.sceneManager.canvasWidth //
-        || this.position.y < 0 //
-        || this.position.y > m.sceneManager.canvasHeight ) {
+    if( this.position.x < 0 //
+      || this.position.x > m.sceneManager.canvasWidth //
+      || this.position.y < 0 //
+      || this.position.y > m.sceneManager.canvasHeight ) {
       this.reset();
     }
   };

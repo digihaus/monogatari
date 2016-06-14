@@ -9,8 +9,7 @@ define( [ 'Monogatari', 'zombies/buffer/Bullets' ], function( m, Bullets ) {
 
     this.addComponent( new m.Sprite( 'assets/sprites/generico_tosco2.png', 64, 64, 1, 2 ) );
     this.init();
-
-    m.sceneManager.attachToScene( this );
+    
     m.world.children.push( this );
   };
 
