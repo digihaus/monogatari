@@ -38,6 +38,6 @@ function startGame() {
       }
     };
 
-    m.run(function(){}, false);
+    m.run();
   } );
 }

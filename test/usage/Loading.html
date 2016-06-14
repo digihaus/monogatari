@@ -7,15 +7,13 @@
   <script src="../require.js"></script>
   <script src="../setup.js"></script>
   <script>
-
-    var loading = function( percentage ) {
-      console.log(percentage);
-      document.getElementById('loading').innerText = percentage;
-    };
-
     require(
         ['Monogatari'], function (m) {
           m.init();
+
+          m.loadingProgress = function( percentage ) {
+            document.getElementById('loading').innerText = percentage + '%';
+          };
 
           var catGO = new m.GameObject('cat');
           var catSprite = new m.Sprite( '../assets/meow.png', 512, 512 );
@@ -32,12 +30,12 @@
           m.world.children.push(catGO);
           m.world.children.push(zombieGO);
 
-          m.run(loading);
+          m.run();
         }
     );
   </script>
 </head>
 <body>
-  <div>Loaded: <span id="loading">0</span></div>
+  <div>Loaded: <span id="loading">0%</span></div>
 </body>
 </html>

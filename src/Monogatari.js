@@ -91,7 +91,8 @@ define(
      * Any GameObject will only be available to the engine when attached directly or indirectly to world.
      * @type {module:core/GameObject}
      */
-    Monogatari.world = new GameObject( 'world', function() {} );
+    Monogatari.world = new GameObject( 'world', function() {
+    } );
 
     /**
      * Exposes the {@link module:manager/SceneManager|SceneManager}.
@@ -269,25 +270,31 @@ define(
 
     /**
      * Engine main heartbeat function.
+     * @param {Boolean} [loaded] - If all assets in current world finished loading
      */
-    Monogatari.run = function( loading, loaded ) {
+    Monogatari.run = function( loaded ) {
       if( loaded ) {
         this.update();
         this.render();
 
       } else {
         var loadPercentage = this.world.load();
-
-        if( loading instanceof Function ) {
-          loading( loadPercentage );
-        }
-
         if( loadPercentage == 1 ) {
           loaded = true;
         }
+        Monogatari.loadingProgress( loadPercentage * 100);
       }
 
-      requestAnimationFrame( this.run.bind( this, loading, loaded ) );
+      requestAnimationFrame( this.run.bind( this, loaded ) );
+    };
+
+    /**
+     * Function to be overridden with a way to show the asset loading progress.
+     * @param {Number} percentage - The total percentage of loaded assets
+     * @abstract
+     */
+    Monogatari.loadingProgress = function( percentage ) {
+      console.log( percentage + '%' );
     };
 
     return Monogatari;
