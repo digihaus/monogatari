@@ -1,4 +1,4 @@
-Monogatari
+Monogatari [![Build Status](https://travis-ci.org/digihaus/monogatari.svg?branch=master)](https://travis-ci.org/digihaus/monogatari)
 ==========
 
 ### JavaScript game engine ###
