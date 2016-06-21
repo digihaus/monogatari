@@ -3,10 +3,12 @@
   "revision": "1",
   "scripts": {
     "build": "node config/build.js",
-    "docs": "jsdoc -c config/jsdoc/conf.json src/"
+    "docs": "jsdoc -c config/jsdoc/conf.json src/",
+    "test": "node-qunit-phantomjs test/unit/execute.html --verbose"
   },
   "devDependencies": {
     "jsdoc": "^3.4.0",
+    "node-qunit-phantomjs": "^1.4.0",
     "requirejs": "^2.2.0"
   }
 }
