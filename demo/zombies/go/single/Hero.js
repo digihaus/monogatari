@@ -18,7 +18,6 @@ define( [ 'Monogatari', 'zombies/buffer/Bullets' ], function( m, Bullets ) {
   Hero.prototype.init = function() {
     this.life = 100;
     this.dead = false;
-    this.isVisible = true;
     this.isActive = true;
     this.lastUpdate = 0;
     this.lastReceivedAttack = 0;

@@ -20,7 +20,6 @@ define( [ 'Monogatari', 'zombies/lib/chance', 'zombies/go/single/Hero' ], functi
 
   Zombie.prototype.init = function() {
     this.isActive = false;
-    this.isVisible = false;
     this.position.set( -2000, 2000, 0 );
     this.life = LIFE;
     this.speed = SPEED;

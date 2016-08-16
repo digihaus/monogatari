@@ -23,9 +23,8 @@ define( [ 'Monogatari', 'zombies/lib/chance', 'zombies/go/Zombie' ], function( m
     while ( this.bufferIt.hasNext() ) {
       zombie = this.bufferIt.next();
 
-      if ( zombie && !zombie.isActive && !zombie.isVisible ) {
+      if ( zombie && !zombie.isActive ) {
         zombie.isActive = true;
-        zombie.isVisible = true;
 
         if ( r.bool( { likelihood : 5 } ) ) {
           zombie.goBersek();

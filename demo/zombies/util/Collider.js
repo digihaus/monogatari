@@ -22,11 +22,13 @@ define( [ 'zombies/go/single/Hero', 'zombies/buffer/Zombies', 'zombies/buffer/Bu
       while ( bulletsIt.hasNext() ) {
         var b = bulletsIt.next();
 
-        if ( collided( b.position, 8, z.position, 32 ) ) {
-          b.reset();
-          z.receiveShoot();
-          if ( z.life <= 0 ) {
-            currentScore++;
+        if( b.isActive ) {
+          if( collided( b.position, 8, z.position, 32 ) ) {
+            b.reset();
+            z.receiveShoot();
+            if( z.life <= 0 ) {
+              currentScore++;
+            }
           }
         }
       }

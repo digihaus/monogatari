@@ -6,9 +6,7 @@ define( [ 'Monogatari' ], function( m ) {
   var Bullet = function( id ) {
     m.GameObject.call( this, 'bullet_' + id );
 
-    this.position.set( -2000, 2000, 0 );
     this.isActive = false;
-    this.isVisible = false;
 
     this.addComponent( new m.Sprite( 'assets/sprites/bullet.png', 16, 16, 2, 1 ) );
     this.speed = SPEED;
@@ -24,12 +22,18 @@ define( [ 'Monogatari' ], function( m ) {
     var sprite = this.findComponent( m.Base.TYPE.SPRITE );
 
     if( this.isActive ) {
+      sprite.show();
+
       if( ( m.timer.time - sprite.lastUpdate ) > this.animationSpeed ) {
         sprite.nextFrame();
         sprite.lastUpdate = m.timer.time;
       }
+
       this.position.x += this.direction.x * speed;
       this.position.y += this.direction.y * speed;
+
+    } else {
+      sprite.hide();
     }
 
     if( this.position.x < 0 //
@@ -42,8 +46,6 @@ define( [ 'Monogatari' ], function( m ) {
 
   Bullet.prototype.reset = function() {
     this.isActive = false;
-    this.isVisible = false;
-    this.position.set( -2000, 3000, 0 );
   };
 
   return Bullet;

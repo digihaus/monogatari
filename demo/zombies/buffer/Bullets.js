@@ -24,11 +24,8 @@ define( [ 'Monogatari', 'zombies/go/Bullet' ], function( m, Bullet ) {
 
       while ( this.bufferIt.hasNext() ) {
         obj = this.bufferIt.next();
-        if ( obj && !obj.isActive && !obj.isVisible ) {
-          var sprite = obj.findComponent( m.Base.TYPE.SPRITE );
-
+        if ( obj && !obj.isActive ) {
           obj.isActive = true;
-          obj.isVisible = true;
           obj.position.set( fromX, fromY, 0 );
           obj.lookAt( m.mouse.position );
 
