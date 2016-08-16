@@ -213,14 +213,18 @@ define(
      * Flag the THREE.Material to be rendered.
      */
     Sprite.prototype.show = function() {
-      this.mesh.material.visible = true;
+      if( this.mesh ) {
+        this.mesh.material.visible = true;
+      }
     };
 
     /**
      * Flag the THREE.Material to NOT be rendered.
      */
     Sprite.prototype.hide = function() {
-      this.mesh.material.visible = false;
+      if( this.mesh ) {
+        this.mesh.material.visible = false;
+      }
     };
 
     return Sprite;

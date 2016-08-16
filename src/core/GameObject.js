@@ -117,12 +117,6 @@ define(
       this.children = [];
 
       /**
-       * Controls if this Game Object will be rendered on canvas.
-       * @type {Boolean}
-       */
-      this.isVisible = true;
-
-      /**
        * Controls if this Game Object will be updated on engine cycle.
        * @type {Boolean}
        */
@@ -316,7 +310,6 @@ define(
             component.mesh.position.set( this.position.x, this.position.y, this.position.z );
             component.mesh.rotation.set( this.rotation.x, this.rotation.y, this.rotation.z );
             component.mesh.scale.set( -this.scale.x, this.scale.y, this.scale.z );
-            component.visible = this.isVisible;
 
           } else if( component.state === Base.STATE.READY ) {
             SceneManager.attachToScene( component, this.sceneId );
