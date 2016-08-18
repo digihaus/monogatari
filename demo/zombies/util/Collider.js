@@ -40,7 +40,7 @@ define( [ 'zombies/go/single/Hero', 'zombies/buffer/Zombies', 'zombies/buffer/Bu
   function collided( positionA, radiusA, positionB, radiusB ) {
     var dist = positionA.distanceTo( positionB );
     var radius = radiusA + radiusB;
-    return ( dist < radius ) ? true : false;
+    return dist < radius;
   }
 
   Collider.getInstance = function() {
@@ -48,7 +48,7 @@ define( [ 'zombies/go/single/Hero', 'zombies/buffer/Zombies', 'zombies/buffer/Bu
       instance = new Collider();
     }
     return instance;
-  }
+  };
 
   return Collider.getInstance();
 } );
