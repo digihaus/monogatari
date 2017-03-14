@@ -1,7 +1,7 @@
 define(
   [ 'core/Timer' ],
   function( Timer ) {
-    
+
     /**
      * Basic protocol to allow communication between Game Objects of the engine.
      * @param {String} from - The ID of the GameObject that is sending the message

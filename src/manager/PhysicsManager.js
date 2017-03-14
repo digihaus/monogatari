@@ -15,7 +15,14 @@ define(
      * @type {Box2D.b2World}
      * @default null
      */
-    PhysicsManager.world = null;
+    PhysicsManager.physicsWorld = null;
+
+    /**
+     * Monogatari GameObject World.
+     * @type {GameObject}
+     * @default null
+     */
+    PhysicsManager.gameObjectWorld = null;
 
     /**
      * Number of Velocity Iterations on the physics world. The more iterations, the more accurate the calculations.
@@ -65,9 +72,10 @@ define(
      * @param {module:core/GameObject} world - Root node of GameObject tree
      */
     PhysicsManager.createWorld = function( gravity, allowSleep, listeners, world ) {
-      this.world = new Box2D.b2World( new Box2D.b2Vec2( gravity.x, gravity.y ), allowSleep || false );
-      this.listeners = ( listeners ) ? listeners : this.BEGIN_END_CONTACT; //0011
-      this.createListener( world );
+      this.physicsWorld = new Box2D.b2World( new Box2D.b2Vec2( gravity.x, gravity.y ), allowSleep || false );
+      this.gameObjectWorld = world;
+      this.listeners = ( listeners ) ? listeners : this.POST_SOLVE; //1000
+      this.createListener( this.physicsWorld );
     };
 
     /**
@@ -75,7 +83,7 @@ define(
      * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
      */
     PhysicsManager.attachToWorld = function( rigidBody ) {
-      rigidBody.body = this.world.CreateBody( rigidBody.bodyDef );
+      rigidBody.body = this.physicsWorld.CreateBody( rigidBody.bodyDef );
     };
 
     /**
@@ -83,7 +91,7 @@ define(
      * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
      */
     PhysicsManager.destroyBody = function( rigidBody ) {
-      return this.world.DestroyBody( rigidBody.bodyDef );
+      return this.physicsWorld.DestroyBody( rigidBody.bodyDef );
     };
 
     /**
@@ -98,14 +106,17 @@ define(
       this.contactListener.BeginContact = ( this.listeners & this.BEGIN_CONTACT ) ?
         function( _contact ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-          var goA = world.findByUid( contact.GetFixtureA().GetUserData() );
-          var goB = world.findByUid( contact.GetFixtureB().GetUserData() );
+          var goA = PhysicsManager.gameObjectWorld.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = PhysicsManager.gameObjectWorld.findByUid( contact.GetFixtureB().GetUserData() );
 
+          if(  goA.id === 'world' || goB.id === 'world' ){
+            return;
+          }
           if( goB ) {
-            MessageManager.register( new Message( goA.id, goB.id, "BeginContact", contact ) );
+            MessageManager.register( new Message( goA.id, goB.id, "BeginContact", { contact: contact, go: goA } ) );
           }
           if( goA ) {
-            MessageManager.register( new Message( goB.id, goA.id, "BeginContact", contact ) );
+            MessageManager.register( new Message( goB.id, goA.id, "BeginContact", { contact: contact, go: goB } ) );
           }
 
         } : function() {};
@@ -113,14 +124,17 @@ define(
       this.contactListener.EndContact = ( this.listeners & this.END_CONTACT ) ?
         function( _contact ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
-          var goA = world.findByUid( contact.GetFixtureA().GetUserData() );
-          var goB = world.findByUid( contact.GetFixtureB().GetUserData() );
+          var goA = PhysicsManager.gameObjectWorld.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = PhysicsManager.gameObjectWorld.findByUid( contact.GetFixtureB().GetUserData() );
 
+          if(  goA.id === 'world' || goB.id === 'world' ){
+            return;
+          }
           if( goB ) {
-            MessageManager.register( new Message( goA.id, goB.id, "EndContact", contact ) );
+            MessageManager.register( new Message( goA.id, goB.id, "EndContact", { contact: contact, go: goA } ) );
           }
           if( goA ) {
-            MessageManager.register( new Message( goB.id, goA.id, "EndContact", contact ) );
+            MessageManager.register( new Message( goB.id, goA.id, "EndContact", { contact: contact, go: goB } ) );
           }
         } : function() {};
 
@@ -128,14 +142,17 @@ define(
         function( _contact, _oldManifold ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var manifold = Box2D.wrapPointer( _oldManifold, Box2D.b2Manifold );
-          var goA = world.findByUid( contact.GetFixtureA().GetUserData() );
-          var goB = world.findByUid( contact.GetFixtureB().GetUserData() );
+          var goA = PhysicsManager.gameObjectWorld.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = PhysicsManager.gameObjectWorld.findByUid( contact.GetFixtureB().GetUserData() );
 
+          if(  goA.id === 'world' || goB.id === 'world' ){
+            return;
+          }
           if( goB ) {
-            MessageManager.register( new Message( goA.id, goB.id, "PreSolve", { contact: contact, manifold: manifold } ) );
+            MessageManager.register( new Message( goA.id, goB.id, "PreSolve", { contact: contact, manifold: manifold, go: goA } ) );
           }
           if( goA ) {
-            MessageManager.register( new Message( goB.id, goA.id, "PreSolve", { contact: contact, manifold: manifold } ) );
+            MessageManager.register( new Message( goB.id, goA.id, "PreSolve", { contact: contact, manifold: manifold, go: goB } ) );
           }
         } : function() {};
 
@@ -143,34 +160,37 @@ define(
         function( _contact, _impulse ) {
           var contact = Box2D.wrapPointer( _contact, Box2D.b2Contact );
           var impulse = Box2D.wrapPointer( _impulse, Box2D.b2ContactImpulse );
-          var goA = world.findByUid( contact.GetFixtureA().GetUserData() );
-          var goB = world.findByUid( contact.GetFixtureB().GetUserData() );
+          var goA = PhysicsManager.gameObjectWorld.findByUid( contact.GetFixtureA().GetUserData() );
+          var goB = PhysicsManager.gameObjectWorld.findByUid( contact.GetFixtureB().GetUserData() );
 
+          if(  goA.id === 'world' || goB.id === 'world' ){
+            return;
+          }
           if( goB ) {
-            MessageManager.register( new Message( goA.id, goB.id, "PostSolve", { contact: contact, impulse: impulse } ) );
+            MessageManager.register( new Message( goA.id, goB.id, "PostSolve", { contact: contact, impulse: impulse, go: goA } ) );
           }
           if( goA ) {
-            MessageManager.register( new Message( goB.id, goA.id, "PostSolve", { contact: contact, impulse: impulse } ) );
+            MessageManager.register( new Message( goB.id, goA.id, "PostSolve", { contact: contact, impulse: impulse, go: goB } ) );
           }
         } : function() {};
 
-      this.world.SetContactListener( this.contactListener );
+      this.physicsWorld.SetContactListener( this.contactListener );
     };
 
     /**
      * Physics world heartbeat, updates based on the engine FPS and the current velocity and position Iterations.
      */
     PhysicsManager.update = function() {
-      if( this.world ) {
+      if( this.physicsWorld ) {
         var fps = Timer.fps;
 
         // Frame rate at which to update physics ( 1 / FPS or 1.0 / 60.0 )
         var physicsFrameRate = ( fps ) ? 1 / fps : Timer.FRAME_RATE_60FPS;
 
-        this.world.Step( physicsFrameRate, this.velocityIterations, this.positionIterations );
+        this.physicsWorld.Step( physicsFrameRate, this.velocityIterations, this.positionIterations );
 
         if( this.clearForcesOnUpdate ) {
-          this.world.ClearForces();
+          this.physicsWorld.ClearForces();
         }
       }
     };

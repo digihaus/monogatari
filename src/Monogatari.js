@@ -19,24 +19,26 @@ define(
     'util/ArrayUtils',
     'util/CommonUtils'
   ],
-  function( Timer,
-            Math,
-            Keyboard,
-            Mouse,
-            SceneManager,
-            PhysicsManager,
-            MessageManager,
-            GameObject,
-            Audio,
-            Base,
-            RigidBody,
-            Sprite,
-            List,
-            Map,
-            Tree,
-            LinkedList,
-            ArrayUtils,
-            CommonUtils ) {
+  function(
+    Timer,
+    Math,
+    Keyboard,
+    Mouse,
+    SceneManager,
+    PhysicsManager,
+    MessageManager,
+    GameObject,
+    Audio,
+    Base,
+    RigidBody,
+    Sprite,
+    List,
+    Map,
+    Tree,
+    LinkedList,
+    ArrayUtils,
+    CommonUtils
+  ) {
 
     var _browser = {};
     _browser.agent = window.navigator.userAgent;
@@ -91,8 +93,10 @@ define(
      * Any GameObject will only be available to the engine when attached directly or indirectly to world.
      * @type {module:core/GameObject}
      */
-    Monogatari.world = new GameObject( 'world', function() {
-    } );
+    Monogatari.world = new GameObject(
+      'world', function() {
+      }
+    );
 
     /**
      * Exposes the {@link module:manager/SceneManager|SceneManager}.
@@ -207,7 +211,6 @@ define(
      */
     Monogatari.Sprite = Sprite;
 
-
     /**
      * Engine initialization function. Creates the default Scene and Camera and register the input events.
      * @param {String} bgcolor - Hexadecimal background color
@@ -282,7 +285,7 @@ define(
         if( loadPercentage == 1 ) {
           loaded = true;
         }
-        Monogatari.loadingProgress( loadPercentage * 100);
+        Monogatari.loadingProgress( loadPercentage * 100 );
       }
 
       requestAnimationFrame( this.run.bind( this, loaded ) );
