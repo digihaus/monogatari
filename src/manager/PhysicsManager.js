@@ -74,7 +74,7 @@ define(
     PhysicsManager.createWorld = function( gravity, allowSleep, listeners, world ) {
       this.physicsWorld = new Box2D.b2World( new Box2D.b2Vec2( gravity.x, gravity.y ), allowSleep || false );
       this.gameObjectWorld = world;
-      this.listeners = ( listeners ) ? listeners : this.POST_SOLVE; //1000
+      this.listeners = ( listeners ) ? listeners : this.BEGIN_END_CONTACT; //0011
       this.createListener( this.physicsWorld );
     };
 

@@ -39,6 +39,7 @@
           // Only zombie 1 displays messages, to avoid flood of information
           zombie.update = function() {
             var message = this.messages.pop();
+            sprite.nextFrame();
             if( message ) {
               console.log( message );
             }
