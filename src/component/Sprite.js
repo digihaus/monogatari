@@ -112,10 +112,12 @@ define(
           this.texture.offset.x = this.row / this.cols;
           this.texture.offset.y = this.col / this.rows;
           this.texture.repeat.set( 1 / this.cols, 1 / this.rows );
-          this.material = new THREE.MeshBasicMaterial( {
-            map: this.texture,
-            side: THREE.FrontSide
-          } );
+          this.material = new THREE.MeshBasicMaterial(
+            {
+              map: this.texture,
+              side: THREE.FrontSide
+            }
+          );
           this.material.transparent = true;
           this.geometry = new THREE.PlaneBufferGeometry( this.w, this.h, 1, 1 );
           this.state = Base.STATE.LOADED;
@@ -175,38 +177,6 @@ define(
         this.mesh.geometry = this.geometry;
         this.mesh.material = this.material;
       }
-    };
-
-    /**
-     * Rotate an object around an arbitrary axis in object space ({@link http://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js|reference}).
-     *
-     * @param {THREE.Vector3} [axis] - The reference axis for rotation
-     * @param {Number} [radians] - Radian degrees to rotate
-     */
-    Sprite.prototype.rotateAroundObjectAxis = function( axis, radians ) {
-      var rotObjectMatrix = new THREE.Matrix4();
-      rotObjectMatrix.makeRotationAxis( axis.normalize(), radians );
-      this.mesh.matrix.multiply( rotObjectMatrix );
-      this.mesh.rotation.setFromRotationMatrix( this.mesh.matrix );
-    };
-
-    /**
-     * Rotate an object around an arbitrary axis in world space ({@link http://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js|reference}).
-     *
-     * @example
-     * // rotation of 90 degrees on the x-axis
-     * var xAxis = new THREE.Vector3(1,0,0);
-     * rotateAroundWorldAxis( xAxis, Math.PI / 180);
-     *
-     * @param {THREE.Vector3} [axis] - The reference axis for rotation
-     * @param {Number} [radians] - Radian degrees to rotate
-     */
-    Sprite.prototype.rotateAroundWorldAxis = function( axis, radians ) {
-      var rotWorldMatrix = new THREE.Matrix4();
-      rotWorldMatrix.makeRotationAxis( axis.normalize(), radians );
-      rotWorldMatrix.multiply( this.mesh.matrix );                // pre-multiply
-      this.mesh.matrix = rotWorldMatrix;
-      this.mesh.rotation.setFromRotationMatrix( this.mesh.matrix );
     };
 
     /**
