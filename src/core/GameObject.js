@@ -286,6 +286,7 @@ define(
       }
       return list;
     };
+
     /**
      * Rotate an object around an arbitrary axis ({@link http://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js|reference}).
      *
@@ -301,6 +302,26 @@ define(
       var rotWorldMatrix = new THREE.Matrix4();
       rotWorldMatrix.makeRotationAxis( axis.normalize(), radians );
       this.rotation.setFromRotationMatrix( rotWorldMatrix );
+    };
+
+    /**
+     * Rotate an object around a pivot position
+     *
+     * @param {THREE.Vector3} [pivot] - The reference pivot for rotation
+     * @param {Number} [radians] - Radian degrees to rotate
+     */
+    GameObject.prototype.rotateAroundPivot = function( pivot, radians ) {
+      var c = Math.cos( radians );
+      var s = Math.sin( radians );
+
+      var oldX = this.position.x - pivot.x;
+      var oldy = this.position.y - pivot.y;
+
+      var newX = oldX * c - oldy * s;
+      var newY = oldX * s + oldy * c;
+
+      this.position.x = newX + pivot.x;
+      this.position.y = newY + pivot.y;
     };
 
     /**
