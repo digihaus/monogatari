@@ -16,7 +16,7 @@
 <body>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-collection_LinkedList.html">collection/LinkedList</a></li><li><a href="module-collection_List.html">collection/List</a></li><li><a href="module-collection_Map.html">collection/Map</a></li><li><a href="module-collection_Tree.html">collection/Tree</a></li><li><a href="module-component_Audio.html">component/Audio</a></li><li><a href="module-component_Base.html">component/Base</a></li><li><a href="module-component_RigidBody.html">component/RigidBody</a></li><li><a href="module-component_Sprite.html">component/Sprite</a></li><li><a href="module-core_Common.html">core/Common</a></li><li><a href="module-core_GameObject.html">core/GameObject</a></li><li><a href="module-core_Math.html">core/Math</a></li><li><a href="module-core_Message.html">core/Message</a></li><li><a href="module-core_Timer.html">core/Timer</a></li><li><a href="module-input_Keyboard.html">input/Keyboard</a></li><li><a href="module-input_Mouse.html">input/Mouse</a></li><li><a href="module-manager_MessageManager.html">manager/MessageManager</a></li><li><a href="module-manager_PhysicsManager.html">manager/PhysicsManager</a></li><li><a href="module-manager_SceneManager.html">manager/SceneManager</a></li><li><a href="module-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D.html">render/Camera2D</a></li><li><a href="module-render_Context2D.html">render/Context2D</a></li><li><a href="module-util_ArrayUtils.html">util/ArrayUtils</a></li><li><a href="module-util_CommonUtils.html">util/CommonUtils</a></li></ul><h3>Classes</h3><ul><li><a href="TreeNode.html">TreeNode</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-collection_LinkedList.html">collection/LinkedList</a></li><li><a href="module-collection_List.html">collection/List</a></li><li><a href="module-collection_Map.html">collection/Map</a></li><li><a href="module-collection_Tree.html">collection/Tree</a></li><li><a href="module-component_Audio.html">component/Audio</a></li><li><a href="module-component_Base.html">component/Base</a></li><li><a href="module-component_Canvas.html">component/Canvas</a></li><li><a href="module-component_RigidBody.html">component/RigidBody</a></li><li><a href="module-component_Sprite.html">component/Sprite</a></li><li><a href="module-core_Common.html">core/Common</a></li><li><a href="module-core_GameObject.html">core/GameObject</a></li><li><a href="module-core_Math.html">core/Math</a></li><li><a href="module-core_Message.html">core/Message</a></li><li><a href="module-core_Timer.html">core/Timer</a></li><li><a href="module-input_Keyboard.html">input/Keyboard</a></li><li><a href="module-input_Mouse.html">input/Mouse</a></li><li><a href="module-manager_MessageManager.html">manager/MessageManager</a></li><li><a href="module-manager_PhysicsManager.html">manager/PhysicsManager</a></li><li><a href="module-manager_SceneManager.html">manager/SceneManager</a></li><li><a href="module-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D.html">render/Camera2D</a></li><li><a href="module-render_Context2D.html">render/Context2D</a></li><li><a href="module-util_ArrayUtils.html">util/ArrayUtils</a></li><li><a href="module-util_CommonUtils.html">util/CommonUtils</a></li></ul><h3>Classes</h3><ul><li><a href="TreeNode.html">TreeNode</a></li></ul>
 </nav>
 
 <div id="main">
@@ -2765,6 +2765,317 @@
             
 
             <td class="description last">Component type constant, as listed on the Base component</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id="rotateAroundAxis"><span class="type-signature"></span>rotateAroundAxis<span class="signature">(axis<span class="signature-attributes">opt</span>, radians<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Rotate an object around an arbitrary axis (<a href="http://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js">reference</a>).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>axis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The reference axis for rotation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>radians</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Radian degrees to rotate</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example:</h5>
+    
+    <pre class="prettyprint"><code>// rotation of 90 degrees on the x-axisvar xAxis = new THREE.Vector3(1,0,0);rotateAroundWorldAxis( xAxis, Math.PI / 180);</code></pre>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id="rotateAroundPivot"><span class="type-signature"></span>rotateAroundPivot<span class="signature">(pivot<span class="signature-attributes">opt</span>, radians<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Rotate an object around a pivot position
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pivot</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The reference pivot for rotation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>radians</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Radian degrees to rotate</td>
         </tr>
 
     

@@ -16,7 +16,7 @@
 <body>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-collection_LinkedList.html">collection/LinkedList</a></li><li><a href="module-collection_List.html">collection/List</a></li><li><a href="module-collection_Map.html">collection/Map</a></li><li><a href="module-collection_Tree.html">collection/Tree</a></li><li><a href="module-component_Audio.html">component/Audio</a></li><li><a href="module-component_Base.html">component/Base</a></li><li><a href="module-component_RigidBody.html">component/RigidBody</a></li><li><a href="module-component_Sprite.html">component/Sprite</a></li><li><a href="module-core_Common.html">core/Common</a></li><li><a href="module-core_GameObject.html">core/GameObject</a></li><li><a href="module-core_Math.html">core/Math</a></li><li><a href="module-core_Message.html">core/Message</a></li><li><a href="module-core_Timer.html">core/Timer</a></li><li><a href="module-input_Keyboard.html">input/Keyboard</a></li><li><a href="module-input_Mouse.html">input/Mouse</a></li><li><a href="module-manager_MessageManager.html">manager/MessageManager</a></li><li><a href="module-manager_PhysicsManager.html">manager/PhysicsManager</a></li><li><a href="module-manager_SceneManager.html">manager/SceneManager</a></li><li><a href="module-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D.html">render/Camera2D</a></li><li><a href="module-render_Context2D.html">render/Context2D</a></li><li><a href="module-util_ArrayUtils.html">util/ArrayUtils</a></li><li><a href="module-util_CommonUtils.html">util/CommonUtils</a></li></ul><h3>Classes</h3><ul><li><a href="TreeNode.html">TreeNode</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-collection_LinkedList.html">collection/LinkedList</a></li><li><a href="module-collection_List.html">collection/List</a></li><li><a href="module-collection_Map.html">collection/Map</a></li><li><a href="module-collection_Tree.html">collection/Tree</a></li><li><a href="module-component_Audio.html">component/Audio</a></li><li><a href="module-component_Base.html">component/Base</a></li><li><a href="module-component_Canvas.html">component/Canvas</a></li><li><a href="module-component_RigidBody.html">component/RigidBody</a></li><li><a href="module-component_Sprite.html">component/Sprite</a></li><li><a href="module-core_Common.html">core/Common</a></li><li><a href="module-core_GameObject.html">core/GameObject</a></li><li><a href="module-core_Math.html">core/Math</a></li><li><a href="module-core_Message.html">core/Message</a></li><li><a href="module-core_Timer.html">core/Timer</a></li><li><a href="module-input_Keyboard.html">input/Keyboard</a></li><li><a href="module-input_Mouse.html">input/Mouse</a></li><li><a href="module-manager_MessageManager.html">manager/MessageManager</a></li><li><a href="module-manager_PhysicsManager.html">manager/PhysicsManager</a></li><li><a href="module-manager_SceneManager.html">manager/SceneManager</a></li><li><a href="module-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D.html">render/Camera2D</a></li><li><a href="module-render_Context2D.html">render/Context2D</a></li><li><a href="module-util_ArrayUtils.html">util/ArrayUtils</a></li><li><a href="module-util_CommonUtils.html">util/CommonUtils</a></li></ul><h3>Classes</h3><ul><li><a href="TreeNode.html">TreeNode</a></li></ul>
 </nav>
 
 <div id="main">
@@ -40,7 +40,12 @@
     <div class="container-overview">
     
         
-            <div class="description">Component used for interaction with the <a href="https://github.com/kripken/box2d.js/">box2d.js Emscripten port</a>. <br><br>Box2D has been tuned to work well with moving objects between 0.1 and 10 meters.So this means objects between soup cans and buses in size should work well.Static objects may be up to 50 meters big without too much trouble.Box2D is tuned for meters, kilograms, and seconds.</div>
+            <div class="description">Component used for interaction with the <a href="https://github.com/kripken/box2d.js/">box2d.js Emscripten port</a>. <br>
+<br>
+Box2D has been tuned to work well with moving objects between 0.1 and 10 meters.
+So this means objects between soup cans and buses in size should work well.
+Static objects may be up to 50 meters big without too much trouble.
+Box2D is tuned for meters, kilograms, and seconds.</div>
         
 
         
@@ -1404,7 +1409,8 @@
 
 
 <div class="description">
-    Prevents the collision to be resolved through other objects.<b>Expensive! Use with care.</b>
+    Prevents the collision to be resolved through other objects.
+<b>Expensive! Use with care.</b>
 </div>
 
 
@@ -1954,7 +1960,8 @@
 
 
 <div class="description">
-    Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.It is (kinda) bugged on emscripten port, but can be <a href="https://github.com/kripken/box2d.js/issues/35">worked around</a>.
+    Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
+It is (kinda) bugged on emscripten port, but can be <a href="https://github.com/kripken/box2d.js/issues/35">worked around</a>.
 </div>
 
 
