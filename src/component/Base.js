@@ -30,7 +30,9 @@ define(
       /** Physics for Box2d */
       RIGID_BODY: 1,
       /** Audio source */
-      AUDIO: 2
+      AUDIO: 2,
+      /** canvas2D for primitives */
+      CANVAS: 3
     };
 
     /**

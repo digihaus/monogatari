@@ -11,7 +11,7 @@ define(
      * @extends {module:component/Base}
      * @exports component/Sprite
      */
-    var Sprite = function( source, width, height, rows, cols ) {
+    var Sprite = function( source, width, height, rows, cols, material ) {
       Base.call( this, Base.TYPE.SPRITE );
 
       /**
