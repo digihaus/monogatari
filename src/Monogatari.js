@@ -12,6 +12,7 @@ define(
     'component/Base',
     'component/RigidBody',
     'component/Sprite',
+    'component/Canvas',
     'collection/List',
     'collection/Map',
     'collection/Tree',
@@ -32,6 +33,7 @@ define(
     Base,
     RigidBody,
     Sprite,
+    Canvas,
     List,
     Map,
     Tree,
@@ -210,6 +212,8 @@ define(
      * @type {module:component/Sprite}
      */
     Monogatari.Sprite = Sprite;
+
+    Monogatari.Canvas = Canvas;
 
     /**
      * Engine initialization function. Creates the default Scene and Camera and register the input events.

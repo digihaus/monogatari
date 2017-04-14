@@ -341,7 +341,7 @@ define(
         var component = this.componentsIt.next();
 
         // For renderable components, updates engine transformations to Three.js
-        if( component.type === Base.TYPE.SPRITE ) {
+        if( component.type === Base.TYPE.SPRITE || component.type === Base.TYPE.CANVAS ) {
 
           if( component.state === Base.STATE.REGISTERED ) {
             component.mesh.position.set( this.position.x, this.position.y, this.position.z );
