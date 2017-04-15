@@ -3,6 +3,7 @@ define(
     'core/Common',
     'core/Timer',
     'core/Message',
+    'core/Math',
     'collection/Map',
     'collection/LinkedList',
     'component/Base',
@@ -11,7 +12,7 @@ define(
     'manager/SceneManager',
     'lib/Three'
   ],
-  function( Common, Timer, Message, Map, LinkedList, Base, MessageManager, PhysicsManager, SceneManager, _Three ) {
+  function( Common, Timer, Message, Math, Map, LinkedList, Base, MessageManager, PhysicsManager, SceneManager, _Three ) {
 
     /**
      * The main build block of the engine. Create the game classes by inheriting from the Game Object.
@@ -299,9 +300,7 @@ define(
      * @param {Number} [radians] - Radian degrees to rotate
      */
     GameObject.prototype.rotateAroundAxis = function( axis, radians ) {
-      var rotWorldMatrix = new THREE.Matrix4();
-      rotWorldMatrix.makeRotationAxis( axis.normalize(), radians );
-      this.rotation.setFromRotationMatrix( rotWorldMatrix );
+      this.rotation = Math.rotateAroundAxis( this.rotation, axis, radians );
     };
 
     /**
@@ -311,17 +310,7 @@ define(
      * @param {Number} [radians] - Radian degrees to rotate
      */
     GameObject.prototype.rotateAroundPivot = function( pivot, radians ) {
-      var c = Math.cos( radians );
-      var s = Math.sin( radians );
-
-      var oldX = this.position.x - pivot.x;
-      var oldy = this.position.y - pivot.y;
-
-      var newX = oldX * c - oldy * s;
-      var newY = oldX * s + oldy * c;
-
-      this.position.x = newX + pivot.x;
-      this.position.y = newY + pivot.y;
+      this.position = Math.rotateAroundPivot( this.position, pivot, radians );
     };
 
     /**

@@ -250,6 +250,58 @@ define(
       return n | 0;
     };
 
+    Math.cos = window.Math.cos;
+    Math.sin = window.Math.sin;
+    Math.tan = window.Math.tan;
+
+    Math.acos = window.Math.acos;
+    Math.asin = window.Math.asin;
+    Math.atan = window.Math.atan;
+
+    /**
+     * Rotate an object around an arbitrary axis ({@link http://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js|reference}).
+     *
+     * @example
+     * // rotation of 90 degrees on the x-axis
+     * var xAxis = new THREE.Vector3(1,0,0);
+     * rotateAroundWorldAxis( xAxis, Math.PI / 180);
+     *
+     * @param {THREE.Vector3} [rotation] - The reference rotation vector
+     * @param {THREE.Vector3} [axis] - The reference axis for rotation
+     * @param {Number} [radians] - Radian degrees to rotate
+     */
+    Math.rotateAroundAxis = function( rotation, axis, radians ) {
+      var rotWorldMatrix = new THREE.Matrix4();
+      var result = rotation.clone();
+      rotWorldMatrix.makeRotationAxis( axis.normalize(), radians );
+      result.transformDirection( rotWorldMatrix );
+      return result;
+    };
+
+    /**
+     * Rotate an object around a pivot position
+     *
+     * @param {THREE.Vector3} [position] - The reference position vector
+     * @param {THREE.Vector3} [pivot] - The reference pivot for rotation
+     * @param {Number} [radians] - Radian degrees to rotate
+     */
+    Math.rotateAroundPivot = function( position, pivot, radians ) {
+      var c = this.cos( radians );
+      var s = this.sin( radians );
+      var result = position.clone();
+
+      var oldX = result.x - pivot.x;
+      var oldy = result.y - pivot.y;
+
+      var newX = oldX * c - oldy * s;
+      var newY = oldX * s + oldy * c;
+
+      result.x = newX + pivot.x;
+      result.y = newY + pivot.y;
+
+      return result;
+    };
+
     return Math;
   }
 );

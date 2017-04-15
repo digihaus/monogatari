@@ -1,5 +1,5 @@
 define(
-  [ 'core/Common', 'component/Base', 'render/Context2D', 'lib/Three' ], function( Common, Base, Context2D, _Three ) {
+  [ 'core/Common', 'core/Math', 'component/Base', 'lib/Three' ], function( Common, Math, Base, _Three ) {
 
     /**
      * @param {Number} [width] - Width in pixels for one animation frame
@@ -23,13 +23,24 @@ define(
       this.context = this.canvas.getContext( "2d" );
 
       this.draw = (draw) ? draw : function() {
+        var hw = this.w / 2;
+        var hh = this.h / 2;
+        var radius = Math.min( hw, hh );
+
         this.context.beginPath();
-        this.context.arc( this.w / 2, this.h / 2, this.w / 2, 0, 2 * Math.PI, false );
-        this.context.fillStyle = "#FF0000";
-        this.context.fill();
+
+        this.context.arc( hw, hh, radius, 0, 2 * Math.PI, false );
         this.context.lineWidth = 1;
-        this.context.strokeStyle = "#FF3333";
+        this.context.fillStyle = "rgba(255, 45, 21, 0.4)";
+        this.context.strokeStyle = "rgba(255, 45, 21, 0.9)";
+
+        this.context.fill();
+
+        this.context.moveTo( hw, hh );
+        this.context.lineTo( 0, 0 );
         this.context.stroke();
+
+        this.context.closePath();
       };
 
       /**
@@ -70,6 +81,8 @@ define(
 
       this.state = Base.STATE.READY;
     };
+
+    Canvas.prototype = Object.create( Base.prototype );
 
     Canvas.prototype.update = function() {
       this.context.imageSmoothingEnabled = false;
