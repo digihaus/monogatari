@@ -19,7 +19,36 @@
           m.world.children.push( sun );
 
           var planet = new m.GameObject( 'planet' );
-          planet.addComponent( new m.Canvas( 128, 128 ) );
+
+          // custom render
+          var drawCallback = function(){
+            var hw = this.w / 2;
+            var hh = this.h / 2;
+            var radius = Math.min( hw, hh );
+
+            this.context.beginPath();
+
+            this.context.moveTo( radius, 0 );
+            this.context.lineTo( hw - radius, 0 );
+            this.context.quadraticCurveTo( hw, 0, hw, 0 + radius );
+            this.context.lineTo( hw, hh - radius );
+            this.context.quadraticCurveTo( hw, hh, hw - radius, hh );
+            this.context.lineTo( radius, hh );
+            this.context.quadraticCurveTo( 0, hh, 0, hh - radius );
+            this.context.lineTo( 0, radius );
+            this.context.quadraticCurveTo( 0, 0, radius, 0 );
+
+            this.context.lineWidth = 1;
+            this.context.fillStyle = "rgba(25, 110, 255, 0.4)";
+            this.context.strokeStyle = "rgba(25, 110, 255, 0.9)";
+
+            this.context.fill();
+
+            this.context.stroke();
+
+            this.context.closePath();
+          };
+          planet.addComponent( new m.Canvas( 128, 128, drawCallback ) );
 
           sun.children.push( planet );
 
