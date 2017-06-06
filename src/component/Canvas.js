@@ -44,8 +44,6 @@ define(
       this.draw();
 
       this.texture = new THREE.Texture( this.canvas );
-      // This makes the textures created during execution to work properly
-      this.texture.needsUpdate = true;
       this.texture.flipY = true;
       this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
       this.texture.minFilter = THREE.NearestFilter;
@@ -86,6 +84,9 @@ define(
       this.clear();
 
       this.draw();
+
+      // This makes the textures created during execution to work properly
+      this.texture.needsUpdate = true;
 
       this.texture.image = this.canvas;
     };
