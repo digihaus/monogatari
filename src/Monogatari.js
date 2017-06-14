@@ -17,6 +17,7 @@ define(
     'collection/Map',
     'collection/Tree',
     'collection/LinkedList',
+    'util/Random',
     'util/ArrayUtils',
     'util/CommonUtils'
   ],
@@ -38,6 +39,7 @@ define(
     Map,
     Tree,
     LinkedList,
+    Random,
     ArrayUtils,
     CommonUtils
   ) {
@@ -72,6 +74,7 @@ define(
      * @requires collection/Map
      * @requires collection/Tree
      * @requires collection/LinkedList
+     * @requires util/Random
      * @requires util/ArrayUtils
      * @requires util/CommonUtils
      * @exports Monogatari
@@ -149,6 +152,12 @@ define(
      * @type {module:input/Mouse.BUTTON}
      */
     Monogatari.MOUSE_BTN = Mouse.BUTTON;
+
+    /**
+     * Exposes the {@link module:util/Random|Random} module.
+     * @type {module:util/Random}
+     */
+    Monogatari.Random = new Random();
 
     /**
      * Exposes the {@link module:util/ArrayUtils|ArrayUtils} module.

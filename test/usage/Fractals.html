@@ -43,7 +43,7 @@
               new THREE.Vector3( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight - 200, 0 )
           );
 
-          var update = function() {
+          tree.update = function() {
             for( var i = 0, len = 100; i < len; i++ ) {
               if( !branches[ i ].done ) {
                 branches.push( branches[ i ].grow( 0 ) );
@@ -55,8 +55,6 @@
               branches[ i ].end.y += getRandomArbitrary( -1, 1 );
             }
           };
-
-          tree.update = update;
 
           var draw = function() {
             this.setColor( "#FFFFFF" );

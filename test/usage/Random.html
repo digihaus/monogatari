@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+  <title>Random Usage - Monogatari</title>
+  <link href="css/style.css" rel="stylesheet">
+  <script src="../require.js"></script>
+  <script src="../setup.js"></script>
+  <script>
+    require(
+        [ 'Monogatari' ], function( m ) {
+          for( var i = 0; i < 10; i++ ) {
+            m.Random.init("bolovo");
+            console.log( "random bool: "+  m.Random.bool( 1, 10 )  );
+            console.log( "random integer: " +  m.Random.integer( 1, 10 ) );
+            console.log( "random percentage (43%): " +  m.Random.percentage( 43 ) );
+          }
+        }
+    );
+  </script>
+</head>
+<body>
+</body>
+</html>
