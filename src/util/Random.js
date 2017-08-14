@@ -7,12 +7,16 @@ define(
      * @requires core/Math
      * @exports util/Random
      */
-    var Random = function(){
+    var Random = function() {
       this.init();
     };
 
     Random.prototype.init = function( seed ) {
-      this.mt =  new MersenneTwister( seed );
+      if( !seed ) {
+        seed = new Date();
+      }
+
+      this.mt = new MersenneTwister( seed );
     };
 
     Random.prototype.bool = function() {
