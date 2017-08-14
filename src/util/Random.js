@@ -13,7 +13,7 @@ define(
 
     Random.prototype.init = function( seed ) {
       if( !seed ) {
-        seed = new Date();
+        seed = new Date().getTime();
       }
 
       this.mt = new MersenneTwister( seed );
