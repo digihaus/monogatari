@@ -11,12 +11,10 @@
         [ 'Monogatari' ], function( m ) {
           m.init( "#000" );
 
+          m.Random.init();
+
           var tree = new m.GameObject( 'tree' );
           tree.position.set( m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0 );
-
-          function getRandomArbitrary( min, max ) {
-            return Math.floor( Math.random() * (max - min + 1) ) + min;
-          }
 
           var Branch = function( begin, end ) {
             this.begin = begin ? begin : new THREE.Vector3( 0, 0, 0 );
@@ -51,8 +49,8 @@
                 branches[ i ].done = true;
               }
 
-              branches[ i ].end.x += getRandomArbitrary( -1, 1 );
-              branches[ i ].end.y += getRandomArbitrary( -1, 1 );
+              branches[ i ].end.x += m.Random.integer( -1, 1 );
+              branches[ i ].end.y += m.Random.integer( -1, 1 );
             }
           };
 

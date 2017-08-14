@@ -246,8 +246,8 @@ define(
      * @returns {Number} Nearest downwards integer of n.
      */
     Math.floor = function( n ) {
-      // return n + ( n < 0 ? -1 : 0 ) >> 0;
-      return n | 0;
+      return n + ( n < 0 ? -1 : 0 ) >> 0;
+      //return n | 0;
     };
 
     Math.cos = window.Math.cos;
