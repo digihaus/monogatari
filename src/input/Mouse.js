@@ -1,4 +1,4 @@
-var THREE = require('three.min.js');
+var THREE = require('link/Three');
 
 /**
  * Map and listens buttons and positions for mouse input

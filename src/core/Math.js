@@ -1,4 +1,4 @@
-var THREE = require('three.min.js');
+var THREE = require('link/Three');
 
 /**
  * Complimentary math functions and constants.

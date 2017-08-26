@@ -40,7 +40,8 @@
     <div class="container-overview">
     
         
-            <div class="description">The main build block of the engine. Create the game classes by inheriting from the Game Object.For quick creation of GOs, it is also possible to use composition.</div>
+            <div class="description">The main build block of the engine. Create the game classes by inheriting from the Game Object.
+For quick creation of GOs, it is also possible to use composition.</div>
         
 
         
@@ -248,7 +249,15 @@
 
     <h5>Example:</h5>
     
-    <pre class="prettyprint"><code>// Compositionvar myGO = new m.GameObject( myGOId, myGOUpdateFunction );// Inheritancevar MyGOClass = function( id ) { m.GameObject.call( this, id );};MyGOClass.prototype = Object.create( m.GameObject.prototype );MyGOClass.prototype.update = function() { ... };</code></pre>
+    <pre class="prettyprint"><code>// Composition
+var myGO = new m.GameObject( myGOId, myGOUpdateFunction );
+
+// Inheritance
+var MyGOClass = function( id ) {
+ m.GameObject.call( this, id );
+};
+MyGOClass.prototype = Object.create( m.GameObject.prototype );
+MyGOClass.prototype.update = function() { ... };</code></pre>
 
 
 
@@ -628,7 +637,8 @@
 
 
 <div class="description">
-    The Game Object id, used to recover the GO instance wherever necessary.Recommended to be explicitly set.
+    The Game Object id, used to recover the GO instance wherever necessary.
+Recommended to be explicitly set.
 </div>
 
 
@@ -1477,7 +1487,8 @@
 
 
 <div class="description">
-    Iterate, find (recursively) and return reference to the Game Object with the given id in the children Array.null if not found.
+    Iterate, find (recursively) and return reference to the Game Object with the given id in the children Array.
+null if not found.
 </div>
 
 
@@ -1604,7 +1615,8 @@
 
 
 <div class="description">
-    Iterate, find (recursively) and return reference to the Game Object with the given uid in the children Array.null if not found.
+    Iterate, find (recursively) and return reference to the Game Object with the given uid in the children Array.
+null if not found.
 </div>
 
 
@@ -2941,7 +2953,9 @@
 
     <h5>Example:</h5>
     
-    <pre class="prettyprint"><code>// rotation of 90 degrees on the x-axisvar xAxis = new THREE.Vector3(1,0,0);rotateAroundWorldAxis( xAxis, Math.PI / 180);</code></pre>
+    <pre class="prettyprint"><code>// rotation of 90 degrees on the x-axis
+var xAxis = new THREE.Vector3(1,0,0);
+rotateAroundWorldAxis( xAxis, Math.PI / 180);</code></pre>
 
 
 
@@ -3304,7 +3318,8 @@
 
 
 <div class="description">
-    Method to be overridden when inheriting from Game Object.It is called on every engine cycle, making it the place to put specific logic.
+    Method to be overridden when inheriting from Game Object.
+It is called on every engine cycle, making it the place to put specific logic.
 </div>
 
 
@@ -3380,7 +3395,8 @@
 
 
 <div class="description">
-    Iterate (recursively) on the children Array, calling update and postUpdate methods for every child and for itself.Automatically called from the main game loop.
+    Iterate (recursively) on the children Array, calling update and postUpdate methods for every child and for itself.
+Automatically called from the main game loop.
 </div>
 
 
@@ -3537,7 +3553,7 @@
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
     </footer>
 </div>
 

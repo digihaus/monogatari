@@ -3,15 +3,18 @@
   "revision": "1",
   "scripts": {
     "build": "node config/build.js",
+    "live": "node config/build.js watch",
     "docs": "jsdoc -c config/jsdoc/conf.json src/",
     "test": "node-qunit-phantomjs test/unit/execute.html --verbose"
   },
   "devDependencies": {
     "browserify": "^14.4.0",
     "colors": "^1.1.2",
+    "howler": "^2.0.4",
     "jsdoc": "^3.4.0",
     "live-server": "^1.2.0",
     "node-qunit-phantomjs": "^1.4.0",
+    "three": "^0.87.1",
     "watch": "^1.0.2"
   }
 }

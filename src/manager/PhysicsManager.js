@@ -1,4 +1,4 @@
-var Box2D = require('link/box2d');
+var Box2D = require('link/Box2D');
 var Timer = require('core/Timer');
 var Message = require('core/Message');
 var MessageManager = require('manager/MessageManager');

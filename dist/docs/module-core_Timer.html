@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Module: manager/MessageManager | Monogatari Docs</title>
+    <title>Module: core/Timer | Monogatari Docs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -20,7 +20,7 @@
 </nav>
 
 <div id="main">
-    <h1 class="page-title">Module: manager/MessageManager</h1>
+    <h1 class="page-title">Module: core/Timer</h1>
     
 
 
@@ -46,14 +46,6 @@
     
 
     
-        <h3 class="subsection-title">Requires</h3>
-
-        <ul>
-            <li><a href="module-core_Message.html">module:core/Message</a></li>
-        
-            <li><a href="module-collection_LinkedList.html">module:collection/LinkedList</a></li>
-        </ul>
-    
 
 <div class="clear"></div>
 
@@ -74,13 +66,287 @@
 
         
             
-<h4 class="name" id=".userMessages"><span class="type-signature">(static) </span>userMessages<span class="type-signature"> :<a href="module-collection_LinkedList.html">module:collection/LinkedList</a></span></h4>
+<h4 class="name" id=".fps"><span class="type-signature">(static) </span>fps<span class="type-signature"> :Number</span></h4>
 
 
 
 
 <div class="description">
-    List of messages to be delivered to GameObjects.
+    Current frames per second, calculated by tick().
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="module-core_Timer.html#.tick">module:core/Timer.tick</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".FRAME_RATE_60FPS"><span class="type-signature">(static, constant) </span>FRAME_RATE_60FPS<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    1 second / 60 frames = 0.016666666667
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".frameTicks"><span class="type-signature">(static) </span>frameTicks<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    Tick counter.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".lastFrameTime"><span class="type-signature">(static) </span>lastFrameTime<span class="type-signature"> :Number</span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".lastTime"><span class="type-signature">(static) </span>lastTime<span class="type-signature"> :Number</span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".time"><span class="type-signature">(static) </span>time<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    Current time.
 </div>
 
 
@@ -140,14 +406,15 @@
 
     
 
-    <h4 class="name" id=".register"><span class="type-signature">(static) </span>register<span class="signature">(message)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".tick"><span class="type-signature">(static) </span>tick<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Registers a message to be sent, this is called through the GameObject.
+    Calculates the rate of frames per second the engine is running.
+It is called on each cycle of engine update.
 </div>
 
 
@@ -156,150 +423,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-core_Message.html">module:core/Message</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".sendMessagesTo"><span class="type-signature">(static) </span>sendMessagesTo<span class="signature">(go)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Sends the undelivered messages to the given GameObject.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>go</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="module-core_GameObject.html">module:core/GameObject</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Target object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -372,7 +495,7 @@
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
     </footer>
 </div>
 

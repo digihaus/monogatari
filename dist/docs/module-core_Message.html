@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Module: component/Audio | Monogatari Docs</title>
+    <title>Module: core/Message | Monogatari Docs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -20,7 +20,7 @@
 </nav>
 
 <div id="main">
-    <h1 class="page-title">Module: component/Audio</h1>
+    <h1 class="page-title">Module: core/Message</h1>
     
 
 
@@ -40,7 +40,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Encapsulates a <a href="http://howlerjs.com">howler.js</a> object for Audio management.</div>
+            <div class="description">Basic protocol to allow communication between Game Objects of the engine.</div>
         
 
         
@@ -66,7 +66,7 @@
 
         <tr>
             
-                <td class="name"><code>audio</code></td>
+                <td class="name"><code>from</code></td>
             
 
             <td class="type">
@@ -82,7 +82,76 @@
 
             
 
-            <td class="description last">Audio source URI</td>
+            <td class="description last">The ID of the GameObject that is sending the message</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The ID of the GameObject that is destined to receive the message</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Subject</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The message itself, any complex structure is accepted, not limited to strings</td>
         </tr>
 
     
@@ -148,18 +217,13 @@
     </div>
 
     
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="module-component_Base.html">module:component/Base</a></li>
-    </ul>
-
 
     
+        <h3 class="subsection-title">Requires</h3>
 
+        <ul>
+            <li><a href="module-core_Timer.html">module:core/Timer</a></li>
+        </ul>
     
 
 <div class="clear"></div>
@@ -177,65 +241,6 @@
 <div class="clear"></div>
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="sound"><span class="type-signature"></span>sound<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Basic instance of a <a href="http://howlerjs.com">howler.js</a> object.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
 
 <div class="clear"></div>
 
@@ -247,14 +252,14 @@
 
     
 
-    <h4 class="name" id="play"><span class="type-signature"></span>play<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="equals"><span class="type-signature"></span>equals<span class="signature">(other)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Starts playing the loaded sound.
+    Checks for equality with the informed message.
 </div>
 
 
@@ -265,94 +270,69 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
+    <h5>Parameters:</h5>
     
 
+<table class="params">
+
+    <tbody>
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
+        <tr>
+            
+                <td class="name"><code>other</code></td>
             
 
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-core_Message.html">module:core/Message</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Other Message reference</td>
+        </tr>
+
     
+    </tbody>
+</table>
 
-    <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;
+    </dd>
+</dl>
 
     
-
-
-
-<div class="description">
-    Stops playing the sound.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -411,7 +391,7 @@
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
     </footer>
 </div>
 

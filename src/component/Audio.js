@@ -1,5 +1,5 @@
 var Base = require('component/Base');
-var _Howler = require('howler.min.js');
+var Howler = require('link/Howler');
 
 /**
  * Encapsulates a {@link http://howlerjs.com|howler.js} object for Audio management.
@@ -13,8 +13,8 @@ var Audio = function (source) {
   /**
    * Basic instance of a {@link http://howlerjs.com|howler.js} object.
    */
-  this.sound = new _Howler.Howl({
-    urls: [source],
+  this.sound = new Howler.Howl({
+    src: [source],
     autoplay: false,
     loop: false,
     onload: function () {

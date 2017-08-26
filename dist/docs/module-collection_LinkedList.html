@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Module: collection/Tree | Monogatari Docs</title>
+    <title>Module: collection/LinkedList | Monogatari Docs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -20,7 +20,7 @@
 </nav>
 
 <div id="main">
-    <h1 class="page-title">Module: collection/Tree</h1>
+    <h1 class="page-title">Module: collection/LinkedList</h1>
     
 
 
@@ -40,9 +40,9 @@
     <div class="container-overview">
     
         
-            <div class="description">Collection of data elements sorted hierarchically from root to leaf, with child nodes connected by means of a pointer.
-Elements can easily be inserted or removed without reallocation or reorganization of the entire structure
-because the data items need not be stored contiguously in memory.</div>
+            <div class="description">Collection of data elements, with elements directing to the next node by means of pointer.
+Elements can easily be inserted or removed without reallocation or reorganization of the entire
+structure because the data items need not be stored contiguously in memory.</div>
         
 
         
@@ -158,7 +158,7 @@ because the data items need not be stored contiguously in memory.</div>
 
 
 <div class="description">
-    Clears the entire tree and flags it for garbage collection.
+    Clears the whole list, removing all references to it and signaling to be garbage collected.
 </div>
 
 
@@ -227,14 +227,14 @@ because the data items need not be stored contiguously in memory.</div>
 
     
 
-    <h4 class="name" id="find"><span class="type-signature"></span>find<span class="signature">(data, startNode<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="TreeNode.html">TreeNode</a>}</span></h4>
+    <h4 class="name" id="contains"><span class="type-signature"></span>contains<span class="signature">(value)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Finds a given value in the tree and returns the TreeNode containing it or null if not found.
+    Checks if the list contains an element equals the value parameter.
 </div>
 
 
@@ -255,7 +255,7 @@ because the data items need not be stored contiguously in memory.</div>
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
@@ -268,51 +268,10 @@ because the data items need not be stored contiguously in memory.</div>
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">The value to be searched</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>startNode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="TreeNode.html">TreeNode</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">A pointer to a TreeNode, start from root if not provided</td>
+            <td class="description last">The value to check</td>
         </tr>
 
     
@@ -339,7 +298,107 @@ because the data items need not be stored contiguously in memory.</div>
 <dl>
     <dt>
         
-<span class="param-type"><a href="TreeNode.html">TreeNode</a></span>
+<span class="param-type">Boolean</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="module-core_Common.html#.equals">module:core/Common.equals</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id="isEmpty"><span class="type-signature"></span>isEmpty<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Check if the list is empty.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Boolean</span>
 
 
     </dt>
@@ -395,14 +454,14 @@ because the data items need not be stored contiguously in memory.</div>
 
     
 
-    <h4 class="name" id="listChildren"><span class="type-signature"></span>listChildren<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="iterator"><span class="type-signature"></span>iterator<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
 
 
 <div class="description">
-    List of immediate children of the given data.
+    Creates and returns an object with iterator functionality, allowing to navigate through the values stored on the list.
 </div>
 
 
@@ -432,12 +491,12 @@ because the data items need not be stored contiguously in memory.</div>
 <dl>
     <dt>
         
-<span class="param-type">Array</span>
+<span class="param-type">Object</span>
 
 
     </dt>
     <dd>
-        &nbsp;Array of child nodes
+        &nbsp;
     </dd>
 </dl>
 
@@ -488,14 +547,14 @@ because the data items need not be stored contiguously in memory.</div>
 
     
 
-    <h4 class="name" id="listDescendants"><span class="type-signature"></span>listDescendants<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="pop"><span class="type-signature"></span>pop<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
 
 
 <div class="description">
-    List of all children of the given data.
+    Remove and returns the last value from the list.
 </div>
 
 
@@ -525,12 +584,12 @@ because the data items need not be stored contiguously in memory.</div>
 <dl>
     <dt>
         
-<span class="param-type">Array</span>
+<span class="param-type">Object</span>
 
 
     </dt>
     <dd>
-        &nbsp;Array of child nodes
+        &nbsp;
     </dd>
 </dl>
 
@@ -581,14 +640,14 @@ because the data items need not be stored contiguously in memory.</div>
 
     
 
-    <h4 class="name" id="move"><span class="type-signature"></span>move<span class="signature">(data, parent)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(value)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Move a given data to the new given parent.
+    Adds a value to the list, allows nulls and repeated values.
 </div>
 
 
@@ -609,7 +668,7 @@ because the data items need not be stored contiguously in memory.</div>
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
@@ -625,30 +684,7 @@ because the data items need not be stored contiguously in memory.</div>
 
             
 
-            <td class="description last">Value</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>parent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="TreeNode.html">TreeNode</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Parent node</td>
+            <td class="description last">Value to be added</td>
         </tr>
 
     
@@ -714,14 +750,14 @@ because the data items need not be stored contiguously in memory.</div>
 
     
 
-    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(data, parent<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="removeByIndex"><span class="type-signature"></span>removeByIndex<span class="signature">(index)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
 
 
 <div class="description">
-    Puts a value inside the tree under the given parent node.
+    Removes a value by a given index and returns it or null if not found.
 </div>
 
 
@@ -742,64 +778,23 @@ because the data items need not be stored contiguously in memory.</div>
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>index</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Number</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>parent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="TreeNode.html">TreeNode</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
+            <td class="description last">The index position on the list</td>
         </tr>
 
     
@@ -819,6 +814,23 @@ because the data items need not be stored contiguously in memory.</div>
 
 
 
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Object</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;The object removed from the list.
+    </dd>
+</dl>
+
+    
 
 
 
@@ -865,14 +877,14 @@ because the data items need not be stored contiguously in memory.</div>
 
     
 
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="removeByValue"><span class="type-signature"></span>removeByValue<span class="signature">(value)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
 
 
 <div class="description">
-    Remove a node based on given value.
+    Removes a value by an object index and returns it or null if not found.
 </div>
 
 
@@ -893,7 +905,7 @@ because the data items need not be stored contiguously in memory.</div>
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
@@ -909,12 +921,105 @@ because the data items need not be stored contiguously in memory.</div>
 
             
 
-            <td class="description last">Value stored on a TreeNode.</td>
+            <td class="description last">The value on the list</td>
         </tr>
 
     
     </tbody>
 </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Object</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id="size"><span class="type-signature"></span>size<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns the length of the list.
+</div>
+
+
+
+
+
+
+
 
 
 
@@ -982,7 +1087,7 @@ because the data items need not be stored contiguously in memory.</div>
 
 
 <div class="description">
-    Transforms the tree values to an Array.
+    Returns an array with the values from the list.
 </div>
 
 
@@ -1064,6 +1169,192 @@ because the data items need not be stored contiguously in memory.</div>
 </dl>
 
         
+            
+
+    
+
+    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON<span class="signature">()</span><span class="type-signature"> &rarr; {JSON}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a JSON object with the values from the list.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">JSON</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a stringified object with the values from the list.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">String</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
     
 
     
@@ -1080,7 +1371,7 @@ because the data items need not be stored contiguously in memory.</div>
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
     </footer>
 </div>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Module: render/Camera2D | Monogatari Docs</title>
+    <title>Module: component/Base | Monogatari Docs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -20,7 +20,7 @@
 </nav>
 
 <div id="main">
-    <h1 class="page-title">Module: render/Camera2D</h1>
+    <h1 class="page-title">Module: component/Base</h1>
     
 
 
@@ -40,7 +40,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Utility class that holds the THREE camera and the information of which scenes should be rendered in which camera.</div>
+            <div class="description">Base class that all components extend.</div>
         
 
         
@@ -54,155 +54,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>left</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>right</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>top</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>bottom</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>near</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>far</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -265,12 +116,6 @@
     
 
     
-        <h3 class="subsection-title">Requires</h3>
-
-        <ul>
-            <li>module:lib/Three</li>
-        </ul>
-    
 
 <div class="clear"></div>
 
@@ -291,13 +136,404 @@
 
         
             
-<h4 class="name" id="cam"><span class="type-signature"></span>cam<span class="type-signature"> :THREE.OrthographicCamera</span></h4>
+<h4 class="name" id=".STATE"><span class="type-signature">(static) </span>STATE<span class="type-signature"> :Number</span></h4>
 
 
 
 
 <div class="description">
-    A THREE.Camera object.
+    Enumeration of component states.
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>INITIALIZING</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Component was created and may need further steps before use</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>BUFFERING</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Component is buffering resources</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>LOADED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Component resources are loaded</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>READY</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Component is built and ready to use</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>RUNNING</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Component is active</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>REGISTERED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Component is registered for internal management</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>FAILED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An error occurred and the component cannot be used</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".TYPE"><span class="type-signature">(static) </span>TYPE<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    Enumeration of component types.
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>SPRITE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Managed 2D asset renderable by THREE</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>RIGID_BODY</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Physics for Box2d</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>AUDIO</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Audio source</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>CANVAS</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">canvas2D for primitives</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="state"><span class="type-signature"></span>state<span class="type-signature"> :<a href="module-component_Base.html#.STATE">module:component/Base.STATE</a></span></h4>
+
+
+
+
+<div class="description">
+    Current component state.
 </div>
 
 
@@ -346,13 +582,13 @@
 
         
             
-<h4 class="name" id="scenes"><span class="type-signature"></span>scenes<span class="type-signature"> :Array</span></h4>
+<h4 class="name" id="type"><span class="type-signature"></span>type<span class="type-signature"> :<a href="module-component_Base.html#.TYPE">module:component/Base.TYPE</a></span></h4>
 
 
 
 
 <div class="description">
-    Array of scenes to be rendered on this camera.
+    Actual component type.
 </div>
 
 
@@ -404,143 +640,6 @@
 
 <div class="clear"></div>
 
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="addScene"><span class="type-signature"></span>addScene<span class="signature">(sceneId, scene)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Add a scene to this Camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>sceneId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Scene ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>scene</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">THREE.Scene</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">THREE.Scene object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
     
 
     
@@ -557,7 +656,7 @@
 
 
     <footer>
-        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
     </footer>
 </div>
 

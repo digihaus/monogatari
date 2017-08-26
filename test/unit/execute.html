@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Unit Tests</title>
   <link href="vendor/qunit-1.18.0.css" rel="stylesheet">
@@ -7,22 +8,19 @@
   <script>
     QUnit.config.autostart = false;
   </script>
-  <script src="../require.js"></script>
-  <script src="../setup.js"></script>
+  <script src="../../dist/monogatari.min.js"></script>
+</head>
+
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script>
+    window.m = Monogatari;
+    QUnit.load();
+    QUnit.start();
+  </script>
   <script src="unit_collection.js"></script>
   <script src="unit_component.js"></script>
-  <script>
-    require(
-        [ 'Monogatari' ], function( m ) {
-          window.m = m;
-          QUnit.load();
-          QUnit.start();
-        }
-    );
-  </script>
-</head>
-<body>
-<div id="qunit"></div>
-<div id="qunit-fixture"></div>
 </body>
+
 </html>
