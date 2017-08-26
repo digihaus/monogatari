@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <html>
+
 <head>
   <title>Loading - Monogatari</title>
   <link href="css/style.css" rel="stylesheet">
-  <script src="../require.js"></script>
-  <script src="../setup.js"></script>
-  <script>
-    require(
-        ['Monogatari'], function (m) {
-          m.init();
-
-          m.loadingProgress = function( percentage ) {
-            document.getElementById('loading').innerText = percentage + '%';
-          };
-
-          var catGO = new m.GameObject('cat');
-          var catSprite = new m.Sprite( '../assets/meow.png', 512, 512 );
-
-          catGO.addComponent(catSprite);
-          catGO.position.set(m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0);
-
-          var zombieGO = new m.GameObject('zombie');
-          var zombieSprite = new m.Sprite( '../assets/zombies.png', 64, 64, 1, 3 );
-
-          zombieGO.addComponent(zombieSprite);
-          zombieGO.position.set(m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0);
-
-          m.world.children.push(catGO);
-          m.world.children.push(zombieGO);
-
-          m.run();
-        }
-    );
-  </script>
+  <script src="../../dist/monogatari.min.js"></script>
 </head>
+
 <body>
   <div>Loaded: <span id="loading">0%</span></div>
+  <script>
+    var m = Monogatari;
+
+    m.init();
+
+    m.loadingProgress = function (percentage) {
+      document.getElementById('loading').innerText = percentage + '%';
+    };
+
+    var catGO = new m.GameObject('cat');
+    var catSprite = new m.Sprite('../assets/meow.png', 512, 512);
+
+    catGO.addComponent(catSprite);
+    catGO.position.set(m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0);
+
+    var zombieGO = new m.GameObject('zombie');
+    var zombieSprite = new m.Sprite('../assets/zombies.png', 64, 64, 1, 3);
+
+    zombieGO.addComponent(zombieSprite);
+    zombieGO.position.set(m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0);
+
+    m.world.children.push(catGO);
+    m.world.children.push(zombieGO);
+
+    m.run();
+  </script>
 </body>
+
 </html>

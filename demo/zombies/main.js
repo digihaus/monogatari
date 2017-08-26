@@ -1,11 +1,10 @@
-require( [ 'Monogatari' ], function( m ) {
-  m.init( "#000" );
-  startGame();
-} );
+m = Monogatari; 
+m.init( "#000" );
+startGame();
 
 function startGame() {
-  require( [ 'Monogatari', 'zombies/go/single/Hero', 'zombies/buffer/Bullets', 'zombies/buffer/Zombies', 'zombies/util/Collider' ], //
-  function( m, Hero, Bullets, Zombies, Collider ) {
+  require( [ 'zombies/go/single/Hero', 'zombies/buffer/Bullets', 'zombies/buffer/Zombies', 'zombies/util/Collider' ], //
+  function( Hero, Bullets, Zombies, Collider ) {
 
     var score = 0;
     var gameOver = false;

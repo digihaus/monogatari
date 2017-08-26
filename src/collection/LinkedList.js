@@ -1,5 +1,4 @@
-define(
-  [ "core/Common" ], function( Common ) {
+    var Common = require('core/Common');
 
     var LinkedListNode = function( value ) {
       this.value = ( value ) ? value : null;
@@ -270,6 +269,4 @@ define(
       return new Iterator( this._head, this._tail );
     };
 
-    return LinkedList;
-  }
-);
+    module.exports = LinkedList;

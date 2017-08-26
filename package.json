@@ -7,8 +7,11 @@
     "test": "node-qunit-phantomjs test/unit/execute.html --verbose"
   },
   "devDependencies": {
+    "browserify": "^14.4.0",
+    "colors": "^1.1.2",
     "jsdoc": "^3.4.0",
+    "live-server": "^1.2.0",
     "node-qunit-phantomjs": "^1.4.0",
-    "requirejs": "^2.2.0"
+    "watch": "^1.0.2"
   }
 }

@@ -1,57 +1,56 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <html>
+
 <head lang="en">
   <meta charset="UTF-8">
   <title>Message Usage - Monogatari</title>
   <link href="css/style.css" rel="stylesheet">
-  <script src="../require.js"></script>
-  <script src="../setup.js"></script>
-  <script>
-    require(
-        [ 'Monogatari' ], function( m ) {
-          m.init();
-
-          var one = new m.GameObject( 'one' );
-          var two = new m.GameObject( 'two' );
-
-          one.lastMessage = 0;
-          one.update = function() {
-            //read message
-            var message = this.messages.pop();
-            if( message )
-              console.log( message );
-
-            //send message
-            if( ( m.timer.time - this.lastMessage ) > 1000 ) {
-              this.sendMessage( 'two', 'bolovo', 'from_one' );
-              this.lastMessage = m.timer.time;
-            }
-          };
-
-          two.lastMessage = 0;
-          two.update = function() {
-            //read message
-            var message = this.messages.pop();
-            if( message )
-              console.log( message );
-
-            //send message
-            if( ( m.timer.time - this.lastMessage ) > 5000 ) {
-              this.sendMessage( 'one', 'oromio', 'from_two' );
-              this.lastMessage = m.timer.time;
-            }
-          };
-
-          m.world.children.push( one );
-          m.world.children.push( two );
-
-          m.run();
-        }
-    );
-  </script>
+  <script src="../../dist/monogatari.min.js"></script>
 </head>
-<body>
 
+<body>
+  <script>
+    var m = Monogatari;
+
+    m.init();
+
+    var one = new m.GameObject('one');
+    var two = new m.GameObject('two');
+
+    one.lastMessage = 0;
+    one.update = function () {
+      //read message
+      var message = this.messages.pop();
+      if (message)
+        console.log(message);
+
+      //send message
+      if ((m.timer.time - this.lastMessage) > 1000) {
+        this.sendMessage('two', 'bolovo', 'from_one');
+        this.lastMessage = m.timer.time;
+      }
+    };
+
+    two.lastMessage = 0;
+    two.update = function () {
+      //read message
+      var message = this.messages.pop();
+      if (message)
+        console.log(message);
+
+      //send message
+      if ((m.timer.time - this.lastMessage) > 5000) {
+        this.sendMessage('one', 'oromio', 'from_two');
+        this.lastMessage = m.timer.time;
+      }
+    };
+
+    m.world.children.push(one);
+    m.world.children.push(two);
+
+    m.run();
+  </script>
 </body>
+
 </html>
