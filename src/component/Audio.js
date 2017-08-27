@@ -1,5 +1,5 @@
 var Base = require('component/Base');
-var Howler = require('link/howler');
+var Howler = require('link/Howler');
 
 /**
  * Encapsulates a {@link http://howlerjs.com|howler.js} object for Audio management.

@@ -1,7 +1,7 @@
 var Map = require('collection/Map');
 var Camera2D = require('render/Camera2D');
 var Math = require('core/Math');
-var THREE = require('link/three');
+var THREE = require('link/Three');
 
 var instance = null;
 

@@ -1,4 +1,4 @@
-var THREE = require('link/three');
+var THREE = require('link/Three');
 
 /**
  * Utility class that holds the THREE camera and the information of which scenes should be rendered in which camera.
