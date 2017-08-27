@@ -1,5 +1,5 @@
 var Base = require('component/Base');
-var THREE = require('link/Three');
+var THREE = require('link/three');
 
 /**
  * Sprite and sprite sheet component, rendered by {@link http://threejs.org|three.js}.

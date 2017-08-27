@@ -1,5 +1,5 @@
 var Base = require('component/Base');
-var Box2D = require('link/Box2D');
+var Box2D = require('link/box2d');
 
 /**
  * Component used for interaction with the {@link https://github.com/kripken/box2d.js/|box2d.js Emscripten port}. <br>

@@ -1,7 +1,7 @@
 var Common = require('core/Common');
 var Math = require('core/Math');
 var Base = require('component/Base');
-var THREE = require('link/Three');
+var THREE = require('link/three');
 
 /**
  * @param {Number} [width] - Width in pixels for one animation frame

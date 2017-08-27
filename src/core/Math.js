@@ -1,4 +1,4 @@
-var THREE = require('link/Three');
+var THREE = require('link/three');
 
 /**
  * Complimentary math functions and constants.

@@ -8,7 +8,7 @@ var Base = require('component/Base');
 var MessageManager = require('manager/MessageManager');
 var PhysicsManager = require('manager/PhysicsManager');
 var SceneManager = require('manager/SceneManager');
-var THREE = require('link/Three');
+var THREE = require('link/three');
 
 /**
  * The main build block of the engine. Create the game classes by inheriting from the Game Object.

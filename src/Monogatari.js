@@ -56,8 +56,8 @@ _browser.isIE = (_browser.agent.indexOf('MSIE') > -1);
  */
 var Monogatari = {};
 
-Monogatari.THREE = require('link/Three');
-Monogatari.Box2D = require('link/Box2D');
+Monogatari.THREE = require('link/three');
+Monogatari.Box2D = require('link/box2d');
 
 /**
  * Exposes the {@link module:core/Math|Math} module.
