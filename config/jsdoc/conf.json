@@ -1,7 +1,7 @@
 {
   "opts": {
     "template": "config/jsdoc/template",
-    "destination": "dist/docs",
+    "destination": "dist/docs/api",
     "recurse": true,
     "readme": "README.md"
   },
