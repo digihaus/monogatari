@@ -25,10 +25,23 @@ const compile = () => {
         if (err) {
             console.log(err);
         } else {
+            mkdirSync('./dist');
             fs.writeFileSync('./dist/monogatari.min.js', buf);
             console.log("Done creating ./dist/monogatari.min.js file.".bgWhite.black);
         }
     });
+};
+
+const mkdirSync = (dir) => {
+    if (fs.existsSync(dir)) return;
+    try {
+        fs.mkdirSync(dir);
+    } catch (err) {
+        if (err.code == 'ENOENT') {
+            mkdirSync(path.dirname(dir));
+            mkdirSync(dir);
+        }
+    }
 };
 
 const args = process.argv.slice(2);
