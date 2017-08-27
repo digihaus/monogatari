@@ -25,9 +25,13 @@ const compile = () => {
         if (err) {
             console.log(err);
         } else {
-            mkdirSync('./dist');
-            fs.writeFileSync('./dist/monogatari.min.js', buf);
-            console.log("Done creating ./dist/monogatari.min.js file.".bgWhite.black);
+            clean("./dist", () => {
+                if (!fs.existsSync('./dist')) {
+                    mkdirSync('./dist');
+                }
+                fs.writeFileSync('./dist/monogatari.min.js', buf);
+                console.log("Done creating ./dist/monogatari.min.js file.".bgWhite.black);
+            });
         }
     });
 };
@@ -42,6 +46,22 @@ const mkdirSync = (dir) => {
             mkdirSync(dir);
         }
     }
+};
+
+const clean = (dir, callback) => {
+    if (fs.existsSync(dir)) {
+        fs.readdirSync(dir).forEach(file => {
+            var srcPath = path.join(dir, file);
+            if (fs.lstatSync(srcPath).isDirectory()) {
+                clean(srcPath, () => {
+                    fs.rmdirSync(srcPath);
+                });
+            } else {
+                fs.unlinkSync(srcPath);
+            }
+        });
+    }
+    if (callback) callback();
 };
 
 const args = process.argv.slice(2);
