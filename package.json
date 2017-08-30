@@ -1,9 +1,9 @@
 {
   "name": "@digihaus/monogatari",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha",
   "description": "JavaScript game engine",
   "license": "MIT",
-  "main": "./dist/monogatari",
+  "main": "dist/monogatari",
   "scripts": {
     "install": "node config/build.js && jsdoc -c config/jsdoc/conf.json src/",
     "test": "node-qunit-phantomjs test/unit/execute.html --verbose",

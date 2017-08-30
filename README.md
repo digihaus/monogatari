@@ -7,7 +7,7 @@ Currently supports 2D games and it's composed by the libraries [three.js](http:/
 
 Check a simple example [here](http://digi.haus/demo/zombies) or read the API [documentation](http://digi.haus/monogatari/docs).
 
-Latest build from master is available [here](http://digi.haus/monogatari/monogatari.min.js).
+Latest build from master is available [here](http://digi.haus/monogatari/monogatari.js).
 
 ### License ###
 [MIT](https://github.com/digihaus/monogatari/blob/master/LICENSE)

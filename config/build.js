@@ -29,8 +29,8 @@ const compile = () => {
                 if (!fs.existsSync('./dist')) {
                     mkdirSync('./dist');
                 }
-                fs.writeFileSync('./dist/monogatari.min.js', buf);
-                console.log("Done creating ./dist/monogatari.min.js file.".bgWhite.black);
+                fs.writeFileSync('./dist/monogatari.js', buf);
+                console.log("Done creating ./dist/monogatari.js file.".bgWhite.black);
             });
         }
     });
