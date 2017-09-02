@@ -27,7 +27,7 @@ const compile = () => {
         } else {
             fs.emptyDirSync('./dist');
             fs.writeFileSync('./dist/monogatari.js', buf);
-            fs.copySync('./dist/monogatari.js', './dist/latest/monogatari.js');
+            //fs.copySync('./dist/monogatari.js', './dist/latest/monogatari.js');
             console.log("Done creating ./dist/monogatari.js file.".bgWhite.black);
         }
     });
