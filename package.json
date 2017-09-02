@@ -13,6 +13,7 @@
   "devDependencies": {
     "browserify": "^14.4.0",
     "colors": "^1.1.2",
+    "fs-extra": "^4.0.1",
     "howler": "^2.0.4",
     "jsdoc": "^3.4.0",
     "live-server": "^1.2.0",

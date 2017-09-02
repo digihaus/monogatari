@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const browserify = require('browserify');
 const liveServer = require("live-server");
@@ -25,43 +25,12 @@ const compile = () => {
         if (err) {
             console.log(err);
         } else {
-            clean("./dist", () => {
-                if (!fs.existsSync('./dist')) {
-                    mkdirSync('./dist');
-                }
-                fs.writeFileSync('./dist/monogatari.js', buf);
-                console.log("Done creating ./dist/monogatari.js file.".bgWhite.black);
-            });
+            fs.emptyDirSync('./dist');
+            fs.writeFileSync('./dist/monogatari.js', buf);
+            fs.copySync('./dist', './dist/latest');
+            console.log("Done creating ./dist/monogatari.js file.".bgWhite.black);
         }
     });
-};
-
-const mkdirSync = (dir) => {
-    if (fs.existsSync(dir)) return;
-    try {
-        fs.mkdirSync(dir);
-    } catch (err) {
-        if (err.code == 'ENOENT') {
-            mkdirSync(path.dirname(dir));
-            mkdirSync(dir);
-        }
-    }
-};
-
-const clean = (dir, callback) => {
-    if (fs.existsSync(dir)) {
-        fs.readdirSync(dir).forEach(file => {
-            var srcPath = path.join(dir, file);
-            if (fs.lstatSync(srcPath).isDirectory()) {
-                clean(srcPath, () => {
-                    fs.rmdirSync(srcPath);
-                });
-            } else {
-                fs.unlinkSync(srcPath);
-            }
-        });
-    }
-    if (callback) callback();
 };
 
 const args = process.argv.slice(2);
