@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "dist/monogatari",
   "scripts": {
-    "build": "node config/build.js && npm test && jsdoc -c config/jsdoc/conf.json src/",
+    "build": "node config/build.js && npm test && npm docs",
     "test": "node-qunit-phantomjs test/unit/execute.html --verbose",
     "live": "node config/build.js watch",
     "docs": "jsdoc -c config/jsdoc/conf.json src/"
