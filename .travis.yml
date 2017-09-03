@@ -4,7 +4,7 @@ node_js:
 env:
   - GH_TOKEN=$GITHUB_TOKEN
 script:
-  - npm run integrate"
+  - "npm run integrate"
 cache:
   directories:
     - "node_modules"
