@@ -1,6 +1,6 @@
 {
   "name": "@digihaus/monogatari",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "JavaScript game engine",
   "license": "MIT",
   "main": "monogatari.js",
