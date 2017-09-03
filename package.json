@@ -5,8 +5,8 @@
   "license": "MIT",
   "main": "dist/latest/monogatari",
   "scripts": {
-    "integrate": "npm version prerelease && npm run build && npm run docs && npm test && npm run deploy",
-    "deploy": "node config/deploy.js && npm publish",
+    "integrate": "npm run build && npm run docs && npm test && npm run deploy",
+    "deploy": "node config/deploy.js",
     "build": "node config/build.js",
     "test": "node-qunit-phantomjs test/unit/execute.html --verbose",
     "live": "node config/build.js -live",
