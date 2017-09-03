@@ -3,14 +3,14 @@
   "version": "1.0.0-alpha.3",
   "description": "JavaScript game engine",
   "license": "MIT",
-  "main": "dist/latest/monogatari",
+  "main": "monogatari.js",
   "scripts": {
-    "integrate": "npm run build && npm run docs && npm test && npm run deploy",
-    "deploy": "node config/deploy.js",
     "build": "node config/build.js",
     "test": "node-qunit-phantomjs test/unit/execute.html --verbose",
     "live": "node config/build.js -live",
-    "docs": "jsdoc -c config/jsdoc/conf.json src/"
+    "docs": "jsdoc -c config/jsdoc/conf.json src/",
+    "deploy": "node config/deploy.js",
+    "integrate": "npm run build && npm run docs && npm test && npm run deploy"
   },
   "devDependencies": {
     "browserify": "^14.4.0",
