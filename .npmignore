@@ -1,6 +1,0 @@
-config/
-lib/
-src/
-test/
-.gitignore
-.travis.yml
