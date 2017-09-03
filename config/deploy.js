@@ -12,12 +12,12 @@ const deploy = () => {
 
     ghpages.publish('dist/latest', { dest: 'latest', repo: repo }, function (err) {
         if (err) {
-            console.log('Error deploying to gh-pages'.red);
+            console.log('Error deploying to gh-pages'.red, err);
         } else {
             console.log('Done deploy to gh-pages '.grey + 'latest/'.cyan);
             ghpages.publish('dist/' + version, { dest: version, repo: repo }, function (err) {
                 if (err) {
-                    console.log('Error deploying to gh-pages'.red);
+                    console.log('Error deploying to gh-pages'.red, err);
                 } else {
                     console.log('Done deploy to gh-pages '.grey + version.cyan + '/'.cyan);
                 }
