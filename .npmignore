@@ -1,6 +1,7 @@
 config/
+dist/
 lib/
 src/
 test/
-dist/docs/
+.gitignore
 .travis.yml

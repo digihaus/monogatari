@@ -2,21 +2,7 @@ language: node_js
 node_js:
   - "node"
 script:
-  - "npm run build"
+  - "npm run integrate"
 cache:
   directories:
     - "node_modules"
-deploy:
-  - provider: pages
-    local_dir: dist
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    on:
-      branch: master
-  - provider: releases
-    local_dir: dist
-    skip_cleanup: true
-    api-key: $GITHUB_TOKEN
-    file: monogatari.js
-    on:
-      tags: true
