@@ -1,10 +1,8 @@
 language: node_js
 node_js:
   - "node"
-env:
-  - GH_TOKEN=$GITHUB_TOKEN
 script:
-  - "npm run integrate"
+  - "npm run build && run test"
 cache:
   directories:
     - "node_modules"
