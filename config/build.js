@@ -5,8 +5,6 @@ const liveServer = require('live-server');
 const watch = require('watch');
 const colors = require('colors');
 
-const distDir = 'dist/latest';
-
 const liveServerParams = {
     port: 8080,
     host: '0.0.0.0',
@@ -19,7 +17,11 @@ const liveServerParams = {
 const browserifyParams = {
     entries: 'src/Monogatari.js', // entry point
     paths: 'src',
-    standalone: 'Monogatari' // wrap with UMD
+    standalone: 'Monogatari', // wrap with UMD
+    noParse: [
+        require.resolve('three'), 
+        require.resolve('howler')
+    ]
 };
 
 const compile = () => {
@@ -29,8 +31,6 @@ const compile = () => {
             console.log(err);
         } else {
             fs.writeFileSync('monogatari.js', buf);
-            fs.emptyDirSync(distDir);
-            fs.copySync('monogatari.js', distDir + '/monogatari.js');
             console.log('Done creating '.grey + 'monogatari.js'.cyan + ' file'.grey);
         }
     });
@@ -39,7 +39,6 @@ const compile = () => {
 const args = process.argv.slice(2);
 
 if (args[0] === '-live') {
-    liveServer.start(liveServerParams);
     watch.watchTree('./src', function (f, curr, prev) {
         if (typeof f == 'object' && prev === null && curr === null) {
             compile();
@@ -51,6 +50,7 @@ if (args[0] === '-live') {
             compile();
         }
     });
+    liveServer.start(liveServerParams);
 } else {
     compile();
 }

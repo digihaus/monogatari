@@ -1,6 +1,7 @@
 var Timer = require('core/Timer');
-var Keyboard = require('input/Keyboard');
 var Math = require('core/Math');
+var Random = require('core/Random');
+var Keyboard = require('input/Keyboard');
 var Mouse = require('input/Mouse');
 var SceneManager = require('manager/SceneManager');
 var PhysicsManager = require('manager/PhysicsManager');
@@ -11,13 +12,11 @@ var Base = require('component/Base');
 var RigidBody = require('component/RigidBody');
 var Sprite = require('component/Sprite');
 var Canvas = require('component/Canvas');
+var ArrayUtils = require('collection/ArrayUtils');
 var List = require('collection/List');
 var Map = require('collection/Map');
 var Tree = require('collection/Tree');
 var LinkedList = require('collection/LinkedList');
-var Random = require('util/Random');
-var ArrayUtils = require('util/ArrayUtils');
-var CommonUtils = require('util/CommonUtils');
 
 var _browser = {};
 _browser.agent = window.navigator.userAgent;
@@ -35,6 +34,7 @@ _browser.isIE = (_browser.agent.indexOf('MSIE') > -1);
  * Core of the engine, bootstraps every other entity and exposes them.
  * @requires core/Timer
  * @requires core/Math
+ * @requires core/Random
  * @requires input/Keyboard
  * @requires input/Mouse
  * @requires manager/SceneManager
@@ -45,13 +45,11 @@ _browser.isIE = (_browser.agent.indexOf('MSIE') > -1);
  * @requires component/Base
  * @requires component/RigidBody
  * @requires component/Sprite
+ * @requires collection/ArrayUtils
  * @requires collection/List
  * @requires collection/Map
  * @requires collection/Tree
  * @requires collection/LinkedList
- * @requires util/Random
- * @requires util/ArrayUtils
- * @requires util/CommonUtils
  * @exports Monogatari
  */
 var Monogatari = {};
@@ -132,22 +130,16 @@ Monogatari.mouse = null;
 Monogatari.MOUSE_BTN = Mouse.BUTTON;
 
 /**
- * Exposes the {@link module:util/Random|Random} module.
- * @type {module:util/Random}
+ * Exposes the {@link module:core/Random|Random} module.
+ * @type {module:core/Random}
  */
 Monogatari.Random = new Random();
 
 /**
- * Exposes the {@link module:util/ArrayUtils|ArrayUtils} module.
- * @type {module:util/ArrayUtils}
+ * Exposes the {@link module:collection/ArrayUtils|ArrayUtils} module.
+ * @type {module:collection/ArrayUtils}
  */
 Monogatari.arrayUtils = ArrayUtils;
-
-/**
- * Exposes the {@link module:util/CommonUtils|CommonUtils} module.
- * @type {module:util/CommonUtils}
- */
-Monogatari.commonUtils = CommonUtils;
 
 /** */
 Monogatari.browser = _browser;

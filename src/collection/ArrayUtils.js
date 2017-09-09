@@ -1,11 +1,11 @@
 //https://github.com/techfort/PowerArray
 
-var CommonUtils = require('util/CommonUtils');
+var Common = require('core/Common');
 
 /**
  * Utility methods for arrays.
- * @requires util/CommonUtils
- * @exports util/ArrayUtils
+ * @requires core/Common
+ * @exports collection/ArrayUtils
  */
 var ArrayUtils = {};
 
@@ -58,7 +58,7 @@ ArrayUtils.unique = function (array) {
   for (var x = 0, len = array.length; x < len; x++) {
     found = false;
     for (var y = 0; y < newArr.length; y++) {
-      if (CommonUtils.equals(array[x], newArr[y])) {
+      if (Common.equals(array[x], newArr[y])) {
         found = true;
         break;
       }
@@ -136,7 +136,7 @@ ArrayUtils.equals = function (arr1, arr2) {
       }
     }
 
-    if (!CommonUtils.equals(arr1[i], arr2[i])) {
+    if (!Common.equals(arr1[i], arr2[i])) {
       return false;
     }
   }
