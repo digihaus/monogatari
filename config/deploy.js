@@ -2,13 +2,8 @@ const fs = require('fs-extra');
 const ghpages = require('gh-pages');
 const colors = require('colors');
 
-const distDir = 'dist/latest';
-
 const deploy = () => {
     console.log('Running deploy...'.grey);
-
-    fs.emptyDirSync(distDir);
-    fs.copySync('monogatari.js', distDir + '/monogatari.js');
 
     var version = process.env.npm_package_version.split('-')[0];
     var repo = process.env.GH_TOKEN ? 'https://' + process.env.GH_TOKEN + '@github.com/digihaus/monogatari.git' : undefined;

@@ -5,6 +5,8 @@ const liveServer = require('live-server');
 const watch = require('watch');
 const colors = require('colors');
 
+const distDir = 'dist/latest';
+
 const liveServerParams = {
     port: 8080,
     host: '0.0.0.0',
@@ -31,6 +33,8 @@ const compile = () => {
             console.log(err);
         } else {
             fs.writeFileSync('monogatari.js', buf);
+            fs.emptyDirSync(distDir);
+            fs.copySync('monogatari.js', distDir + '/monogatari.js');
             console.log('Done creating '.grey + 'monogatari.js'.cyan + ' file'.grey);
         }
     });
