@@ -48070,8 +48070,9 @@ process.umask = function() { return 0; };
 
 },{}],7:[function(require,module,exports){
 var Timer = require('core/Timer');
-var Keyboard = require('input/Keyboard');
 var Math = require('core/Math');
+var Random = require('core/Random');
+var Keyboard = require('input/Keyboard');
 var Mouse = require('input/Mouse');
 var SceneManager = require('manager/SceneManager');
 var PhysicsManager = require('manager/PhysicsManager');
@@ -48082,13 +48083,11 @@ var Base = require('component/Base');
 var RigidBody = require('component/RigidBody');
 var Sprite = require('component/Sprite');
 var Canvas = require('component/Canvas');
+var ArrayUtils = require('collection/ArrayUtils');
 var List = require('collection/List');
 var Map = require('collection/Map');
 var Tree = require('collection/Tree');
 var LinkedList = require('collection/LinkedList');
-var Random = require('util/Random');
-var ArrayUtils = require('util/ArrayUtils');
-var CommonUtils = require('util/CommonUtils');
 
 var _browser = {};
 _browser.agent = window.navigator.userAgent;
@@ -48106,6 +48105,7 @@ _browser.isIE = (_browser.agent.indexOf('MSIE') > -1);
  * Core of the engine, bootstraps every other entity and exposes them.
  * @requires core/Timer
  * @requires core/Math
+ * @requires core/Random
  * @requires input/Keyboard
  * @requires input/Mouse
  * @requires manager/SceneManager
@@ -48116,13 +48116,11 @@ _browser.isIE = (_browser.agent.indexOf('MSIE') > -1);
  * @requires component/Base
  * @requires component/RigidBody
  * @requires component/Sprite
+ * @requires collection/ArrayUtils
  * @requires collection/List
  * @requires collection/Map
  * @requires collection/Tree
  * @requires collection/LinkedList
- * @requires util/Random
- * @requires util/ArrayUtils
- * @requires util/CommonUtils
  * @exports Monogatari
  */
 var Monogatari = {};
@@ -48203,22 +48201,16 @@ Monogatari.mouse = null;
 Monogatari.MOUSE_BTN = Mouse.BUTTON;
 
 /**
- * Exposes the {@link module:util/Random|Random} module.
- * @type {module:util/Random}
+ * Exposes the {@link module:core/Random|Random} module.
+ * @type {module:core/Random}
  */
 Monogatari.Random = new Random();
 
 /**
- * Exposes the {@link module:util/ArrayUtils|ArrayUtils} module.
- * @type {module:util/ArrayUtils}
+ * Exposes the {@link module:collection/ArrayUtils|ArrayUtils} module.
+ * @type {module:collection/ArrayUtils}
  */
 Monogatari.arrayUtils = ArrayUtils;
-
-/**
- * Exposes the {@link module:util/CommonUtils|CommonUtils} module.
- * @type {module:util/CommonUtils}
- */
-Monogatari.commonUtils = CommonUtils;
 
 /** */
 Monogatari.browser = _browser;
@@ -48363,7 +48355,224 @@ Monogatari.loadingProgress = function (percentage) {
 };
 
 module.exports = Monogatari;
-},{"collection/LinkedList":8,"collection/List":9,"collection/Map":10,"collection/Tree":11,"component/Audio":12,"component/Base":13,"component/Canvas":14,"component/RigidBody":15,"component/Sprite":16,"core/GameObject":18,"core/Math":19,"core/Timer":21,"input/Keyboard":22,"input/Mouse":23,"link/Box2D":24,"link/Three":26,"manager/MessageManager":27,"manager/PhysicsManager":28,"manager/SceneManager":29,"util/ArrayUtils":31,"util/CommonUtils":32,"util/Random":34}],8:[function(require,module,exports){
+},{"collection/ArrayUtils":8,"collection/LinkedList":9,"collection/List":10,"collection/Map":11,"collection/Tree":12,"component/Audio":13,"component/Base":14,"component/Canvas":15,"component/RigidBody":16,"component/Sprite":17,"core/GameObject":19,"core/Math":20,"core/Random":22,"core/Timer":23,"input/Keyboard":24,"input/Mouse":25,"link/Box2D":26,"link/Three":28,"manager/MessageManager":29,"manager/PhysicsManager":30,"manager/SceneManager":31}],8:[function(require,module,exports){
+//https://github.com/techfort/PowerArray
+
+var Common = require('core/Common');
+
+/**
+ * Utility methods for arrays.
+ * @requires core/Common
+ * @exports collection/ArrayUtils
+ */
+var ArrayUtils = {};
+
+/**
+ * Concatenates two Float32Arrays.
+ * @link http://stackoverflow.com/questions/4554252/typed-arrays-in-gecko-2-float32array-concatenation-and-expansion
+ * @param {Float32Array} first - First array to be concatenated
+ * @param {Float32Array} second - Second array to be concatenated
+ */
+ArrayUtils.float32Concat = function (first, second) {
+  var firstLength = first.length;
+  var result = new Float32Array(firstLength + second.length);
+
+  result.set(first);
+  result.set(second, firstLength);
+
+  return result;
+};
+
+/**
+ * Sorts the contents of the given array.
+ * @param {Array} array - Unsorted Array
+ * @return {Array}
+ */
+ArrayUtils.quicksort = function (array) {
+  if (array.length === 0) {
+    return [];
+  }
+
+  var head = [];
+  var tail = [];
+  var pivot = array[0];
+
+  for (var i = 1, len = array.length; i < len; i++) {
+    (array[i] < pivot) ? head[head.length] = array[i] : tail[tail.length] = array[i];
+  }
+
+  return this.quicksort(head).concat(pivot, this.quicksort(tail));
+};
+
+/**
+ * Creates and returns a new array containing non-repeating values.
+ * @param {Array} array - Unsorted Array
+ * @return {Array}
+ */
+ArrayUtils.unique = function (array) {
+  var newArr = [];
+  var found = false;
+
+  for (var x = 0, len = array.length; x < len; x++) {
+    found = false;
+    for (var y = 0; y < newArr.length; y++) {
+      if (Common.equals(array[x], newArr[y])) {
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      newArr.push(array[x]);
+    }
+  }
+
+  return newArr;
+};
+
+/**
+ * Sort the contents of the given Array alphabetically.
+ * @param {Array} array - Unsorted Array
+ * @return {Array}
+ */
+ArrayUtils.alphabeticalSort = function (array) {
+  if (this.isArray(array)) {
+    array.sort(
+      function (a, b) {
+        return (a.group < b.group) ? -1 : (a.group < b.group) ? 1 : 0;
+      }
+    );
+    return array;
+  } else {
+    return null;
+  }
+};
+
+/**
+ * Removes elements of the given array
+ * @link http://ejohn.org/blog/javascript-array-remove/
+ * @param {Array} array - Array to be processed
+ * @param {Number} from - Array index
+ * @param {Number} to - Array index
+ * @return {Array}
+ * @example
+ *  // Remove the second item from the array:
+ *  array.remove(1);
+ *  // Remove the second-to-last item from the array:
+ *  array.remove(-2);
+ *  // Remove the second and third items from the array:
+ *  array.remove(1,2);
+ *  // Remove the last and second-to-last items from the array:
+ *  array.remove(-2,-1);
+ */
+ArrayUtils.remove = function (array, from, to) {
+  var rest = array.slice((to || from) + 1 || array.length);
+  array.length = from < 0 ? array.length + from : from;
+  return array.push.apply(array, rest);
+};
+
+/**
+ * Compares the contents of two given arrays.
+ * @param {Array} arr1 - Array to be compared
+ * @param {Array} arr2 - Array to be compared
+ * @return {Boolean}
+ */
+ArrayUtils.equals = function (arr1, arr2) {
+  var len1 = arr1.length, len2 = arr2.length;
+
+  if (len1 != len2) {
+    return false;
+  }
+
+  for (var i = 0; i < len2; i++) {
+
+    if (this.isArray(arr1[i])) { // nested array
+      if (!this.equals(arr1[i], arr2[i])) {
+        return false;
+      } else {
+        continue;
+      }
+    }
+
+    if (!Common.equals(arr1[i], arr2[i])) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+/**
+ * Take the intersection between two arrays and returns elements present both.
+ * @param {Array} arr1 - Array to be compared
+ * @param {Array} arr2 - Array to be compared
+ * @return {Array}
+ */
+ArrayUtils.intersection = function (arr1, arr2) {
+  var rest = concat.apply(Array.prototype, slice.call(arr2, 1));
+
+  return this.unique(arr1).filter(
+    function (value) {
+      return this.inArray(value, rest);
+    }
+  );
+};
+
+/**
+ * Produce an array that contains items that are on the first array and not on the second.
+ * @param {Array} arr1 - Array to be compared
+ * @param {Array} arr2 - Array to be compared
+ * @return {Array}
+ */
+ArrayUtils.difference = function (arr1, arr2) {
+  var rest = this.concat.apply(Array.prototype, this.slice.call(arr2, 1));
+
+  return this.unique(arr1).filter(
+    function (value) {
+      return !this.inArray(value, rest);
+    }
+  );
+};
+
+/**
+ * Splits the Array in sizeable chunks.
+ * @from Carlos R. L. Rodrigues http://jsfromhell.com/array/chunk [rev. #1]
+ * @param {Array} a - Array to be processed
+ * @param {Number} s - Size of chunk
+ * @return {Array}
+ * @example
+ * // Input
+ * chunk([1,2,3,4,5,6,7], 3);
+ * //Output:
+ * [[1,2,3],[4,5,6],[7]];
+ */
+ArrayUtils.chunk = function (a, s) {
+  for (var x, i = 0, c = -1, l = a.length, n = []; i < l; i++) {
+    (x = i % s) ? n[c][x] = a[i] : n[++c] = [a[i]];
+  }
+  return n;
+};
+
+/**
+ * Creates a flat array (one dimensional).
+ * @param {Array} arr - Array to be processed
+ * @return {Array}
+ * @example
+ * //Input:
+ * [[1,2,3],[4,5,6],[7]];
+ * //Output:
+ * [1,2,3,4,5,6,7];
+ */
+ArrayUtils.flat = function (arr) {
+  return arr.reduce(
+    function (a, b) {
+      return a.concat(b);
+    }, []
+  );
+};
+
+module.exports = ArrayUtils;
+},{"core/Common":18}],9:[function(require,module,exports){
     var Common = require('core/Common');
 
     var LinkedListNode = function( value ) {
@@ -48636,7 +48845,7 @@ module.exports = Monogatari;
     };
 
     module.exports = LinkedList;
-},{"core/Common":17}],9:[function(require,module,exports){
+},{"core/Common":18}],10:[function(require,module,exports){
 var Common = require('core/Common');
 
 /**
@@ -48765,7 +48974,7 @@ List.prototype.iterator = function () {
 
 module.exports = List;
 
-},{"core/Common":17}],10:[function(require,module,exports){
+},{"core/Common":18}],11:[function(require,module,exports){
 var Common = require('core/Common');
 
 /**
@@ -48897,7 +49106,7 @@ Map.prototype.iterator = function () {
 
 module.exports = Map;
 
-},{"core/Common":17}],11:[function(require,module,exports){
+},{"core/Common":18}],12:[function(require,module,exports){
 var Common = require('core/Common');
 
 /**
@@ -49058,7 +49267,7 @@ Tree.prototype.toArray = function () {
 };
 
 module.exports = Tree;
-},{"core/Common":17}],12:[function(require,module,exports){
+},{"core/Common":18}],13:[function(require,module,exports){
 var Base = require('component/Base');
 var Howler = require('link/Howler');
 
@@ -49103,7 +49312,7 @@ Audio.prototype.stop = function () {
 };
 
 module.exports = Audio;
-},{"component/Base":13,"link/Howler":25}],13:[function(require,module,exports){
+},{"component/Base":14,"link/Howler":27}],14:[function(require,module,exports){
 /**
  * Base class that all components extend.
  * @abstract
@@ -49160,7 +49369,7 @@ Base.STATE = {
 };
 
 module.exports = Base;
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var Common = require('core/Common');
 var Math = require('core/Math');
 var Base = require('component/Base');
@@ -49451,7 +49660,7 @@ Canvas.prototype.setAlpha = function (alpha) {
 };
 
 module.exports = Canvas;
-},{"component/Base":13,"core/Common":17,"core/Math":19,"link/Three":26}],15:[function(require,module,exports){
+},{"component/Base":14,"core/Common":18,"core/Math":20,"link/Three":28}],16:[function(require,module,exports){
 var Base = require('component/Base');
 var Box2D = require('link/Box2D');
 
@@ -49646,7 +49855,7 @@ RigidBody.prototype.clone = function () {
 };
 
 module.exports = RigidBody;
-},{"component/Base":13,"link/Box2D":24}],16:[function(require,module,exports){
+},{"component/Base":14,"link/Box2D":26}],17:[function(require,module,exports){
 var Base = require('component/Base');
 var THREE = require('link/Three');
 
@@ -49847,7 +50056,7 @@ Sprite.prototype.hide = function () {
 };
 
 module.exports = Sprite;
-},{"component/Base":13,"link/Three":26}],17:[function(require,module,exports){
+},{"component/Base":14,"link/Three":28}],18:[function(require,module,exports){
 /**
  * Useful common functions
  * @exports core/Common
@@ -49930,8 +50139,104 @@ Common.isArray = function (a) {
   return this.typeOf(a) === '[object Array]';
 };
 
+/**
+ * Checks if a given object is a Monogatari GameObject.
+ * @param {Object} object - The value to be tested
+ * @return {Boolean}
+ */
+Common.isGameObject = function (object) {
+  return (object && object.id && object.equals instanceof Function && object.update instanceof Function);
+};
+
+/**
+ * Parses a given String to the float pixel value of it.
+ * @param {String} text
+ * @return {Number}
+ * @example
+ * parseUnitSizeToPixel('10pt'); //12.5
+ * parseUnitSizeToPixel('10pc'); //150
+ * parseUnitSizeToPixel('10mm'); //35.43307
+ * parseUnitSizeToPixel('10cm'); //354.3307
+ * parseUnitSizeToPixel('10in'); //900
+ */
+Common.parseUnitSizeToPixel = function (text) {
+  var len = text.length - 2;
+  if (len < 0) {
+    return text;
+  }
+  if (text.indexOf('pt') === len) {
+    return parseFloat(text.substring(0, len)) * 1.25;
+  }
+  if (text.indexOf('pc') === len) {
+    return parseFloat(text.substring(0, len)) * 15;
+  }
+  if (text.indexOf('mm') === len) {
+    return parseFloat(text.substring(0, len)) * 3.543307;
+  }
+  if (text.indexOf('cm') === len) {
+    return parseFloat(text.substring(0, len)) * 35.43307;
+  }
+  if (text.indexOf('in') === len) {
+    return parseFloat(text.substring(0, len)) * 90;
+  }
+  if (text.indexOf('px') === len) {
+    return parseFloat(text.substring(0, len));
+  }
+  return parseFloat(text);
+};
+
+/**
+ * http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+ * @example
+ * alert( rgbToHex(0, 51, 255) ); // #0033ff
+ */
+Common.rgbToHex = function (r, g, b) {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+};
+
+/**
+ * @example
+ * alert( hexToRgb("#0033ff").g ); // "51";
+ * alert( hexToRgb("#03f").g ); // "51
+ */
+Common.hexToRgb = function (hex) {
+  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(
+    shorthandRegex, function (m, r, g, b) {
+      return r + r + g + g + b + b;
+    }
+  );
+
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+};
+
+/**
+ * Stores a given value on the Local Storage.
+ * @param {String} key - Unique identifier on the Local Storage
+ * @param {Object} val - The value to be stored
+ * @param {Boolean} isObject - Boolean to flag if is an Object
+ * @example
+ * store('num', '1');
+ * store('on', 'true');
+ * store('name', 'pamela');
+ * store('obj', {'hello': 'world'}, true);
+ */
+Common.store = function (key, val, isObject) {
+  if (isObject) {
+    localStorage.setItem(key, JSON.stringify(val));
+  } else {
+    localStorage.setItem(key, val);
+  }
+};
+
 module.exports = Common;
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var Common = require('core/Common');
 var Timer = require('core/Timer');
 var Message = require('core/Message');
@@ -50421,7 +50726,7 @@ GameObject.prototype.load = function () {
 };
 
 module.exports = GameObject;
-},{"collection/LinkedList":8,"collection/Map":10,"component/Base":13,"core/Common":17,"core/Math":19,"core/Message":20,"core/Timer":21,"link/Three":26,"manager/MessageManager":27,"manager/PhysicsManager":28,"manager/SceneManager":29}],19:[function(require,module,exports){
+},{"collection/LinkedList":9,"collection/Map":11,"component/Base":14,"core/Common":18,"core/Math":20,"core/Message":21,"core/Timer":23,"link/Three":28,"manager/MessageManager":29,"manager/PhysicsManager":30,"manager/SceneManager":31}],20:[function(require,module,exports){
 var THREE = require('link/Three');
 
 /**
@@ -50726,7 +51031,7 @@ Math.rotateAroundPivot = function (position, pivot, radians) {
 };
 
 module.exports = Math;
-},{"link/Three":26}],20:[function(require,module,exports){
+},{"link/Three":28}],21:[function(require,module,exports){
 var Timer = require('core/Timer');
 
 /**
@@ -50756,1121 +51061,42 @@ Message.prototype.equals = function (other) {
 };
 
 module.exports = Message;
-},{"core/Timer":21}],21:[function(require,module,exports){
-/**
- * @exports core/Timer
- */
-var Timer = {};
-
-/**
- * Current time.
- * @type {Number}
- */
-Timer.time = 0;
-
-/**
- * @type {Number}
- */
-Timer.lastTime = 0;
-
-/**
- * @type {Number}
- */
-Timer.lastFrameTime = 0;
-
-/**
- * Tick counter.
- * @type {Number}
- */
-Timer.frameTicks = 0;
-
-/**
- * Current frames per second, calculated by {@link module:core/Timer#tick|tick()}.
- * @see module:core/Timer.tick
- * @type {Number}
- */
-Timer.fps = 60;
-
-/**
- * 1 second / 60 frames = 0.016666666667
- * @constant
- * @type {Number}
- */
-Timer.FRAME_RATE_60FPS = 0.016666666667;
-
-/**
- * Calculates the rate of frames per second the engine is running.
- * It is called on each cycle of engine update.
- */
-Timer.tick = function () {
-  var now = Date.now();
-
-  this.time += now - this.lastTime;
-  this.lastTime = now;
-
-  // Initiates lastFrameTime for first cycle
-  if (this.lastFrameTime == 0) {
-    this.lastFrameTime = this.time;
-  }
-
-  var frameDelta = this.time - this.lastFrameTime;
-
-  if (frameDelta >= 1000) {
-    // Gets the stored frame ticks for 1 second (FPS)
-    this.fps = this.frameTicks;
-    this.frameTicks = 0;
-    this.lastFrameTime = this.time;
-  }
-
-  // Frame counting
-  this.frameTicks++;
-};
-
-module.exports = Timer;
-},{}],22:[function(require,module,exports){
-/**
- * Map and listens keys for keyboard input.
- * @exports input/Keyboard
- */
-var Keyboard = function () {
-  /**
-   * Array of pressed keys, they Store a timestamp if pressed or -1 of not pressed.
-   * @type {Int32Array}
-   */
-  this.pressed = new Int32Array(256);
-
-  for (var i = 0, len = this.pressed.length; i < len; i++) {
-    this.pressed[i] = -1;
-  }
-};
-
-/**
- * @enum
- */
-Keyboard.KEY = {
-      /** */ BACKSPACE: 8,
-  TAB: 9,
-  ENTER: 13,
-  SHIFT: 16,
-  CTRL: 17,
-  ALT: 18,
-  PAUSE_BREAK: 19,
-  CAPS_LOCK: 20,
-  ESCAPE: 27,
-  SPACE: 32,
-  PAGE_UP: 33,
-  PAGE_DOWN: 34,
-  END: 35,
-  HOME: 36,
-  LEFT_ARROW: 37,
-  UP_ARROW: 38,
-  RIGHT_ARROW: 39,
-  DOWN_ARROW: 40,
-  INSERT: 45,
-  DELETE: 46,
-  NUM_0: 48,
-  NUM_1: 49,
-  NUM_2: 50,
-  NUM_3: 51,
-  NUM_4: 52,
-  NUM_5: 53,
-  NUM_6: 54,
-  NUM_7: 55,
-  NUM_8: 56,
-  NUM_9: 57,
-  A: 65,
-  B: 66,
-  C: 67,
-  D: 68,
-  E: 69,
-  F: 70,
-  G: 71,
-  H: 72,
-  I: 73,
-  J: 74,
-  K: 75,
-  L: 76,
-  M: 77,
-  N: 78,
-  O: 79,
-  P: 80,
-  Q: 81,
-  R: 82,
-  S: 83,
-  T: 84,
-  U: 85,
-  V: 86,
-  W: 87,
-  X: 88,
-  Y: 89,
-  Z: 90,
-  LEFT_WINDOW: 91,
-  RIGHT_WINDOW: 92,
-  SELECT_KEY: 93,
-  NUMPAD_0: 96,
-  NUMPAD_1: 97,
-  NUMPAD_2: 98,
-  NUMPAD_3: 99,
-  NUMPAD_4: 100,
-  NUMPAD_5: 101,
-  NUMPAD_6: 102,
-  NUMPAD_7: 103,
-  NUMPAD_8: 104,
-  NUMPAD_9: 105,
-  MULTIPLY: 106,
-  ADD: 107,
-  SUBTRACT: 109,
-  DECIMAL_POINT: 110,
-  DIVIDE: 111,
-  F1: 112,
-  F2: 113,
-  F3: 114,
-  F4: 115,
-  F5: 116,
-  F6: 117,
-  F7: 118,
-  F8: 119,
-  F9: 120,
-  F10: 121,
-  F11: 122,
-  F12: 123,
-  NUM_LOCK: 144,
-  SCROLL_LOCK: 145,
-  SEMICOLON: 186,
-  EQUAL_SIGN: 187,
-  COMMA: 188,
-  DASH: 189,
-  PERIOD: 190,
-  FORWARD_SLASH: 191,
-  GRAVE_ACCENT: 192,
-  OPEN_BRACKET: 219,
-  BACK_SLASH: 220,
-  CLOSE_BRAKET: 221,
-  SINGLE_QUOTE: 222
-};
-
-/**
- * Checks if a key is pressed.
- * @param {Number} keyCode - Constant of a key mapped
- * @return {Number} Timestamp of the last time the key was pressed or null if not pressed
- */
-Keyboard.prototype.isDown = function (keyCode) {
-  return (this.pressed[keyCode] === -1) ? null : this.pressed[keyCode];
-};
-
-/**
- * @param {Event} event
- * @param {module:core/Timer} timer
- */
-Keyboard.prototype.onKeyDown = function (event, timer) {
-  event.stopPropagation();
-
-  if (event.keyCode == Keyboard.KEY.BACKSPACE ||
-    event.keyCode == Keyboard.KEY.UP_ARROW ||
-    event.keyCode == Keyboard.KEY.DOWN_ARROW ||
-    event.keyCode == Keyboard.KEY.LEFT_ARROW ||
-    event.keyCode == Keyboard.KEY.RIGHT_ARROW ||
-    event.keyCode == Keyboard.KEY.PAGE_UP ||
-    event.keyCode == Keyboard.KEY.PAGE_DOWN ||
-    event.keyCode == Keyboard.KEY.SPACE) {
-    event.preventDefault();
-  }
-
-  this.pressed[event.keyCode] = timer.time;
-};
-
-/**
- * @param {Event} event
- */
-Keyboard.prototype.onKeyUp = function (event) {
-  event.stopPropagation();
-  this.pressed[event.keyCode] = -1;
-};
-
-module.exports = Keyboard;
-},{}],23:[function(require,module,exports){
-var THREE = require('link/Three');
-
-/**
- * Map and listens buttons and positions for mouse input
- * @requires lib/Three
- * @exports input/Mouse
- */
-var Mouse = function () {
-  /**
-   * Array of pressed buttons, they Store a timestamp if pressed or -1 of not pressed.
-   * @type {Int32Array}
-   */
-  this.pressed = new Int32Array(8);
-
-  /**
-   * 3D vector of mouse of the position based on a DOM element (that is not the body tag).
-   * @type {THREE.Vector3}
-   * @default Vector3( 0, 0, 0 )
-   */
-  this.buffer = new THREE.Vector3(0, 0, 0);
-
-  /**
-   * 3D vector of mouse position.
-   * @type {THREE.Vector3}
-   * @default Vector3( 0, 0, 0 )
-   */
-  this.position = new THREE.Vector3(0, 0, 0);
-
-  for (var i = 0, len = this.length; i < len; i++) {
-    this.pressed[i] = -1;
-  }
-};
-
-/**
- * @enum
- */
-Mouse.BUTTON = {
-  /** Left Mouse Button */
-  LMB: 0,
-  /** Middle Mouse Button */
-  MID: 1,
-  /** Right Mouse Button */
-  RMB: 2,
-  /** Mouse Button 3 */
-  B3: 3,
-  /** Mouse Button 4 */
-  B4: 4,
-  /** Mouse Button 5 */
-  B5: 5,
-  /** Mouse Button 6 */
-  B6: 6,
-  /** Mouse Button 7 */
-  B7: 7
-};
-
-/**
- * Checks if a button is pressed.
- * @param {Number} keyCode - Constant of a button mapped
- * @return {Number} Timestamp of the last time the key was pressed or null if not pressed
- */
-Mouse.prototype.isDown = function (button) {
-  return (this.pressed[button] === -1) ? null : this.pressed[button];
-};
-
-/**
- * @param {Event} event
- */
-Mouse.prototype.onMouseMove = function (event) {
-  this.position.set(event.clientX, event.clientY, 0);
-};
-
-/**
- * @param {Event} event
- * @param {module:core/Timer} timer
- */
-Mouse.prototype.onMouseDown = function (event, timer) {
-  event.preventDefault();
-  event.stopPropagation();
-  this.pressed[event.button] = timer.time;
-};
-
-/**
- * @param {Event} event
- */
-Mouse.prototype.onMouseUp = function (event) {
-  event.stopPropagation();
-  this.pressed[event.button] = -1;
-};
-
-/**
- * Captures the position of the mouse using the given element as reference.
- * @param {DOMElement} e - Target node of the Dom tree to watch.
- * @return {THREE.Vector3}
- */
-Mouse.prototype.getMousePositionOnElement = function (e) {
-  var rect = e.getBoundingClientRect();
-  this.buffer.set(this.position.x - rect.left, this.position.y - rect.top, 0);
-  return this.buffer;
-};
-
-module.exports = Mouse;
-},{"link/Three":26}],24:[function(require,module,exports){
-//added "module.exports = Box2D;" to original lib file
-var Box2D = require('../../lib/Box2D_v2.3.1_min');
-module.exports = new Box2D();
-},{"../../lib/Box2D_v2.3.1_min":1}],25:[function(require,module,exports){
-module.exports = require('howler');
-
-},{"howler":3}],26:[function(require,module,exports){
-module.exports = require('three');
-
-},{"three":6}],27:[function(require,module,exports){
-var Message = require('core/Message');
-var LinkedList = require('collection/LinkedList');
-
-/**
- * @requires core/Message
- * @requires collection/LinkedList
- * @exports manager/MessageManager
- */
-var MessageManager = {};
-
-/**
- * List of messages to be delivered to GameObjects.
- * @type {module:collection/LinkedList}
- */
-MessageManager.userMessages = new LinkedList();
-
-/**
- * Registers a message to be sent, this is called through the GameObject.
- * @param {module:core/Message} message
- */
-MessageManager.register = function (message) {
-  this.userMessages.put(message);
-};
-
-/**
- * Sends the undelivered messages to the given GameObject.
- * @param {module:core/GameObject} go - Target object
- */
-MessageManager.sendMessagesTo = function (go) {
-  var message;
-  if (this.userMessages.size() > 0) {
-    var itUser = this.userMessages.iterator();
-
-    while (itUser.hasNext()) {
-      message = itUser.next();
-      if (message.to === go.id) {
-        go.receiveMessage(message);
-        this.userMessages.removeByValue(message);
-      }
-    }
-  }
-};
-
-module.exports = MessageManager;
-},{"collection/LinkedList":8,"core/Message":20}],28:[function(require,module,exports){
-var Box2D = require('link/Box2D');
-var Timer = require('core/Timer');
-var Message = require('core/Message');
-var MessageManager = require('manager/MessageManager');
-
-/**
- * @requires lib/Box2d
- * @requires core/Timer
- * @requires core/Message
- * @requires manager/MessageManager
- * @exports manager/PhysicsManager
- */
-var PhysicsManager = {};
-
-/**
- * Box2D Physics World.
- * @type {Box2D.b2World}
- * @default null
- */
-PhysicsManager.physicsWorld = null;
-
-/**
- * Monogatari GameObject World.
- * @type {GameObject}
- * @default null
- */
-PhysicsManager.gameObjectWorld = null;
-
-/**
- * Number of Velocity Iterations on the physics world. The more iterations, the more accurate the calculations.
- * @type {Number}
- * @default 2
- */
-PhysicsManager.velocityIterations = 2;
-
-/**
- * Number of Position Iterations on the physics world. The more iterations, the more accurate the calculations.
- * @type {Number}
- * @default 2
- */
-PhysicsManager.positionIterations = 2;
-
-/**
- * Flag to remove any accumulated forces at every physics update.
- * @type {Number}
- * @default false
- */
-PhysicsManager.clearForcesOnUpdate = false;
-
-/** @constant */
-PhysicsManager.BEGIN_CONTACT = 1; // 0001
-/** @constant */
-PhysicsManager.END_CONTACT = 2; // 0010
-/** @constant */
-PhysicsManager.BEGIN_END_CONTACT = 3; // 0011
-/** @constant */
-PhysicsManager.PRE_SOLVE = 4; // 0100
-/** @constant */
-PhysicsManager.POST_SOLVE = 8; // 1000
-/** @constant */
-PhysicsManager.ALL_LISTENERS = 15; //1111
-
-/** */
-PhysicsManager.listeners = 0; //0000
-
-/** */
-PhysicsManager.contactListener = null;
-
-/**
- * Creates the physics World on box2D with given properties.
- * @param {THREE.Vector2} gravity - 2D vector pointing the direction of the gravity
- * @param {Boolean} allowSleep - Flags if an object can sleep outside the boundaries of the physics world
- * @param {String} listeners - Constants to signal which listeners will be active
- * @param {module:core/GameObject} world - Root node of GameObject tree
- */
-PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
-  this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep || false);
-  this.gameObjectWorld = world;
-  this.listeners = (listeners) ? listeners : this.BEGIN_END_CONTACT; //0011
-  this.createListener(this.physicsWorld);
-};
-
-/**
- * Attaches a given Rigid Body to the Physics World of Box2D.
- * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
- */
-PhysicsManager.attachToWorld = function (rigidBody) {
-  rigidBody.body = this.physicsWorld.CreateBody(rigidBody.bodyDef);
-};
-
-/**
- * Destroys a given Rigid Body on the Physics World of Box2D.
- * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
- */
-PhysicsManager.destroyBody = function (rigidBody) {
-  return this.physicsWorld.DestroyBody(rigidBody.bodyDef);
-};
-
-/**
- * Creates the callback functions to the listeners set on the createWorld method. <br>
- * The listeners will contain the information about the contacts and send them a Message through the MessageManager class. <br>
- * Some callback functions like preSolve and postSolve are called constantly, be aware of messages flooding between Game Objects.
- * @param {module:core/GameObject} world - Root node of GameObject tree
- */
-PhysicsManager.createListener = function (world) {
-  this.contactListener = new Box2D.JSContactListener();
-
-  this.contactListener.BeginContact = (this.listeners & this.BEGIN_CONTACT) ?
-    function (_contact) {
-      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
-      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
-      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
-
-      if (goA.id === 'world' || goB.id === 'world') {
-        return;
-      }
-      if (goB) {
-        MessageManager.register(new Message(goA.id, goB.id, "BeginContact", { contact: contact, go: goA }));
-      }
-      if (goA) {
-        MessageManager.register(new Message(goB.id, goA.id, "BeginContact", { contact: contact, go: goB }));
-      }
-
-    } : function () { };
-
-  this.contactListener.EndContact = (this.listeners & this.END_CONTACT) ?
-    function (_contact) {
-      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
-      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
-      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
-
-      if (goA.id === 'world' || goB.id === 'world') {
-        return;
-      }
-      if (goB) {
-        MessageManager.register(new Message(goA.id, goB.id, "EndContact", { contact: contact, go: goA }));
-      }
-      if (goA) {
-        MessageManager.register(new Message(goB.id, goA.id, "EndContact", { contact: contact, go: goB }));
-      }
-    } : function () { };
-
-  this.contactListener.PreSolve = (this.listeners & this.PRE_SOLVE) ?
-    function (_contact, _oldManifold) {
-      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
-      var manifold = Box2D.wrapPointer(_oldManifold, Box2D.b2Manifold);
-      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
-      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
-
-      if (goA.id === 'world' || goB.id === 'world') {
-        return;
-      }
-      if (goB) {
-        MessageManager.register(new Message(goA.id, goB.id, "PreSolve", { contact: contact, manifold: manifold, go: goA }));
-      }
-      if (goA) {
-        MessageManager.register(new Message(goB.id, goA.id, "PreSolve", { contact: contact, manifold: manifold, go: goB }));
-      }
-    } : function () { };
-
-  this.contactListener.PostSolve = (this.listeners & this.POST_SOLVE) ?
-    function (_contact, _impulse) {
-      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
-      var impulse = Box2D.wrapPointer(_impulse, Box2D.b2ContactImpulse);
-      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
-      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
-
-      if (goA.id === 'world' || goB.id === 'world') {
-        return;
-      }
-      if (goB) {
-        MessageManager.register(new Message(goA.id, goB.id, "PostSolve", { contact: contact, impulse: impulse, go: goA }));
-      }
-      if (goA) {
-        MessageManager.register(new Message(goB.id, goA.id, "PostSolve", { contact: contact, impulse: impulse, go: goB }));
-      }
-    } : function () { };
-
-  this.physicsWorld.SetContactListener(this.contactListener);
-};
-
-/**
- * Physics world heartbeat, updates based on the engine FPS and the current velocity and position Iterations.
- */
-PhysicsManager.update = function () {
-  if (this.physicsWorld) {
-    var fps = Timer.fps;
-
-    // Frame rate at which to update physics ( 1 / FPS or 1.0 / 60.0 )
-    var physicsFrameRate = (fps) ? 1 / fps : Timer.FRAME_RATE_60FPS;
-
-    this.physicsWorld.Step(physicsFrameRate, this.velocityIterations, this.positionIterations);
-
-    if (this.clearForcesOnUpdate) {
-      this.physicsWorld.ClearForces();
-    }
-  }
-};
-
-module.exports = PhysicsManager;
-},{"core/Message":20,"core/Timer":21,"link/Box2D":24,"manager/MessageManager":27}],29:[function(require,module,exports){
-var Map = require('collection/Map');
-var Camera2D = require('render/Camera2D');
+},{"core/Timer":23}],22:[function(require,module,exports){
 var Math = require('core/Math');
-var THREE = require('link/Three');
-
-var instance = null;
 
 /**
- * @requires collection/Map
- * @requires render/Camera2D
+ * Utility methods for random number generator.s
  * @requires core/Math
- * @requires lib/Three
- * @exports manager/SceneManager
+ * @exports core/Random
  */
-var SceneManager = {};
-
-/**
- * Map of Monogatari (2D) cameras.
- * @type {module:collection/Map}
- */
-SceneManager.cameras = new Map();
-SceneManager.cameraIterator = SceneManager.cameras.iterator();
-
-/**
- * Map of three.js scenes.
- * @type {module:collection/Map}
- */
-SceneManager.scenes = new Map();
-
-/** @constant */
-SceneManager.DEFAULT_CAMERA_ID = 'default_camera_id';
-/** @constant */
-SceneManager.DEFAULT_SCENE_ID = 'default_scene_id';
-
-/**
- * Camera initialization, creates a Three.js camera with the given parameters. The viewport is fixed to 2D.
- * @param {String} bgcolor - Hexadecimal background color
- * @param {Number} [width] - Width of the camera in pixels. Defaults to screen resolution
- * @param {Number} [height] - Height of the camera in pixels. Defaults to screen resolution
- * @param {DOMElement} [target] - Target node of the Dom tree to create a canvas renderer. It is attached to the body if not provided
- */
-SceneManager.init = function (bgcolor, width, height, target) {
-  // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
-  var canvas = document.createElement('canvas');
-  this.renderer = !!window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
-    ? new THREE.WebGLRenderer({ antialias: false })
-    : new THREE.CanvasRenderer();
-
-  // Set the background color of the renderer, with full opacity
-  this.renderer.setClearColor((bgcolor) ? bgcolor : 0xFFFFFF, 1);
-
-  // if no dimensions are provided, get the size of the inner window (content area) to create a full size renderer
-  this.canvasWidth = (width) ? width : window.innerWidth;
-  this.canvasHeight = (height) ? height : window.innerHeight;
-
-  // since the rendering area is actually 3D, a Z translation on camera is required.
-  this.z = Math.max(this.canvasWidth, this.canvasHeight);
-
-  // set the renderer size
-  this.renderer.setSize(this.canvasWidth, this.canvasHeight);
-
-  // attach a canvas tag on the body
-  var body = (target) ? target : document.getElementsByTagName('body')[0];
-  body.appendChild(this.renderer.domElement);
-
-  this.createScene();
-  this.createCamera();
+var Random = function () {
+  this.init();
 };
 
-/**
- * Creates a Scene.
- * @param {String} sceneId - Unique identifier of a scene
- */
-SceneManager.createScene = function (sceneId) {
-  this.scenes.put(sceneId ? sceneId : this.DEFAULT_SCENE_ID, new THREE.Scene());
+Random.prototype.init = function (seed) {
+  if (!seed) {
+    seed = new Date().getTime();
+  }
+
+  this.mt = new MersenneTwister(seed);
 };
 
-/**
- * Creates a Camera, and attaches a default scene to it.
- * @param {String} cameraId - Unique identifier of a camera
- * @param {String} sceneId - Unique identifier of a scene
- * @param {Number} [width] - Width of the camera in pixels. Defaults to canvas width
- * @param {Number} [height] - Height of the camera in pixels. Defaults to canvas height
- */
-SceneManager.createCamera = function (cameraId, sceneId, width, height) {
-  var scene = this.scenes.get((sceneId) ? sceneId : this.DEFAULT_SCENE_ID);
-
-  if (!cameraId) {
-    cameraId = this.DEFAULT_CAMERA_ID;
-  }
-
-  if (!width) {
-    width = this.canvasWidth;
-  }
-
-  if (!height) {
-    height = this.canvasHeight;
-  }
-
-  if (scene) {
-    // left, right, top, bottom, near, far
-    var camera = new Camera2D(width / -2, width / 2, height / -2, height / 2, Math.max(width, height) / -2, Math.max(width, height) / 2);
-
-    camera.addScene((sceneId) ? sceneId : this.DEFAULT_SCENE_ID, scene);
-    this.cameras.put(cameraId, camera);
-
-  } else {
-    console.log('Scene not found:' + sceneId);
-  }
+Random.prototype.bool = function () {
+  return this.mt.random() * 100 < 50;
 };
 
-/**
- * Attach given component to a scene, if no scene is provided, set to default scene.
- * @param {Object} component - A Monogatari component that can be rendered
- * @param {String} [sceneId] - Unique identifier of a scene
- */
-SceneManager.attachToScene = function (component, sceneId) {
-  var scene = this.scenes.get(sceneId ? sceneId : this.DEFAULT_SCENE_ID);
-  if (scene && component.mesh) {
-    scene.add(component.mesh);
-  }
+Random.prototype.integer = function (min, max) {
+  var _min = min || 0;
+  var _max = max || 100;
+  return Math.floor(this.mt.random() * (_max - _min + 1) + _min);
 };
 
-/**
- * Detach given component from a scene, if no scene is provided, set to default scene.
- * @param {Object} component - A Monogatari component that can be rendered
- * @param {String} [sceneId] - Unique identifier of a scene
- */
-SceneManager.detachFromScene = function (component, sceneId) {
-  var scene = this.scenes.get(sceneId ? sceneId : this.DEFAULT_SCENE_ID);
-  if (scene && component.mesh) {
-    scene.remove(component.mesh);
-  }
+Random.prototype.percentage = function (chance) {
+  return this.mt.random() * 100 < chance;
 };
 
-/**
- * Renders all cameras and scenes to the canvas.
- */
-SceneManager.render = function () {
-  var camera, scene;
+module.exports = Random;
 
-  this.cameraIterator.first();
-
-  // iterate all cameras
-  while (this.cameraIterator.hasNext()) {
-    camera = this.cameraIterator.next();
-
-    // iterate all scenes registered to render on this camera
-    for (var i = 0, len = camera.scenes.length; i < len; i++) {
-      scene = this.scenes.get(camera.scenes[i]);
-
-      if (scene) {
-        this.renderer.render(scene, camera.cam);
-      }
-    }
-  }
-};
-
-module.exports = SceneManager;
-},{"collection/Map":10,"core/Math":19,"link/Three":26,"render/Camera2D":30}],30:[function(require,module,exports){
-var THREE = require('link/Three');
-
-/**
- * Utility class that holds the THREE camera and the information of which scenes should be rendered in which camera.
- * @param {Number} left
- * @param {Number} right
- * @param {Number} top
- * @param {Number} bottom
- * @param {Number} near
- * @param {Number} far
- * @requires lib/Three
- * @exports render/Camera2D
- */
-var Camera2D = function (left, right, top, bottom, near, far) {
-  /**
-   * A THREE.Camera object.
-   * @type {THREE.OrthographicCamera}
-   */
-  this.cam = new THREE.OrthographicCamera(left, right, top, bottom, near, far);
-
-  // Translates the point of origin (0,0,0), to the top left corner
-  this.cam.position.set(right, bottom, far);
-
-  /**
-   * Array of scenes to be rendered on this camera.
-   * @type {Array}
-   */
-  this.scenes = [];
-};
-
-/**
- * Add a scene to this Camera.
- * @param {String} sceneId - Scene ID
- * @param {THREE.Scene} scene - THREE.Scene object
- */
-Camera2D.prototype.addScene = function (sceneId, scene) {
-  if (sceneId && typeof sceneId === 'string') {
-    this.scenes.push(sceneId);
-  }
-};
-
-module.exports = Camera2D;
-},{"link/Three":26}],31:[function(require,module,exports){
-//https://github.com/techfort/PowerArray
-
-var CommonUtils = require('util/CommonUtils');
-
-/**
- * Utility methods for arrays.
- * @requires util/CommonUtils
- * @exports util/ArrayUtils
- */
-var ArrayUtils = {};
-
-/**
- * Concatenates two Float32Arrays.
- * @link http://stackoverflow.com/questions/4554252/typed-arrays-in-gecko-2-float32array-concatenation-and-expansion
- * @param {Float32Array} first - First array to be concatenated
- * @param {Float32Array} second - Second array to be concatenated
- */
-ArrayUtils.float32Concat = function (first, second) {
-  var firstLength = first.length;
-  var result = new Float32Array(firstLength + second.length);
-
-  result.set(first);
-  result.set(second, firstLength);
-
-  return result;
-};
-
-/**
- * Sorts the contents of the given array.
- * @param {Array} array - Unsorted Array
- * @return {Array}
- */
-ArrayUtils.quicksort = function (array) {
-  if (array.length === 0) {
-    return [];
-  }
-
-  var head = [];
-  var tail = [];
-  var pivot = array[0];
-
-  for (var i = 1, len = array.length; i < len; i++) {
-    (array[i] < pivot) ? head[head.length] = array[i] : tail[tail.length] = array[i];
-  }
-
-  return this.quicksort(head).concat(pivot, this.quicksort(tail));
-};
-
-/**
- * Creates and returns a new array containing non-repeating values.
- * @param {Array} array - Unsorted Array
- * @return {Array}
- */
-ArrayUtils.unique = function (array) {
-  var newArr = [];
-  var found = false;
-
-  for (var x = 0, len = array.length; x < len; x++) {
-    found = false;
-    for (var y = 0; y < newArr.length; y++) {
-      if (CommonUtils.equals(array[x], newArr[y])) {
-        found = true;
-        break;
-      }
-    }
-
-    if (!found) {
-      newArr.push(array[x]);
-    }
-  }
-
-  return newArr;
-};
-
-/**
- * Sort the contents of the given Array alphabetically.
- * @param {Array} array - Unsorted Array
- * @return {Array}
- */
-ArrayUtils.alphabeticalSort = function (array) {
-  if (this.isArray(array)) {
-    array.sort(
-      function (a, b) {
-        return (a.group < b.group) ? -1 : (a.group < b.group) ? 1 : 0;
-      }
-    );
-    return array;
-  } else {
-    return null;
-  }
-};
-
-/**
- * Removes elements of the given array
- * @link http://ejohn.org/blog/javascript-array-remove/
- * @param {Array} array - Array to be processed
- * @param {Number} from - Array index
- * @param {Number} to - Array index
- * @return {Array}
- * @example
- *  // Remove the second item from the array:
- *  array.remove(1);
- *  // Remove the second-to-last item from the array:
- *  array.remove(-2);
- *  // Remove the second and third items from the array:
- *  array.remove(1,2);
- *  // Remove the last and second-to-last items from the array:
- *  array.remove(-2,-1);
- */
-ArrayUtils.remove = function (array, from, to) {
-  var rest = array.slice((to || from) + 1 || array.length);
-  array.length = from < 0 ? array.length + from : from;
-  return array.push.apply(array, rest);
-};
-
-/**
- * Compares the contents of two given arrays.
- * @param {Array} arr1 - Array to be compared
- * @param {Array} arr2 - Array to be compared
- * @return {Boolean}
- */
-ArrayUtils.equals = function (arr1, arr2) {
-  var len1 = arr1.length, len2 = arr2.length;
-
-  if (len1 != len2) {
-    return false;
-  }
-
-  for (var i = 0; i < len2; i++) {
-
-    if (this.isArray(arr1[i])) { // nested array
-      if (!this.equals(arr1[i], arr2[i])) {
-        return false;
-      } else {
-        continue;
-      }
-    }
-
-    if (!CommonUtils.equals(arr1[i], arr2[i])) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-/**
- * Take the intersection between two arrays and returns elements present both.
- * @param {Array} arr1 - Array to be compared
- * @param {Array} arr2 - Array to be compared
- * @return {Array}
- */
-ArrayUtils.intersection = function (arr1, arr2) {
-  var rest = concat.apply(Array.prototype, slice.call(arr2, 1));
-
-  return this.unique(arr1).filter(
-    function (value) {
-      return this.inArray(value, rest);
-    }
-  );
-};
-
-/**
- * Produce an array that contains items that are on the first array and not on the second.
- * @param {Array} arr1 - Array to be compared
- * @param {Array} arr2 - Array to be compared
- * @return {Array}
- */
-ArrayUtils.difference = function (arr1, arr2) {
-  var rest = this.concat.apply(Array.prototype, this.slice.call(arr2, 1));
-
-  return this.unique(arr1).filter(
-    function (value) {
-      return !this.inArray(value, rest);
-    }
-  );
-};
-
-/**
- * Splits the Array in sizeable chunks.
- * @from Carlos R. L. Rodrigues http://jsfromhell.com/array/chunk [rev. #1]
- * @param {Array} a - Array to be processed
- * @param {Number} s - Size of chunk
- * @return {Array}
- * @example
- * // Input
- * chunk([1,2,3,4,5,6,7], 3);
- * //Output:
- * [[1,2,3],[4,5,6],[7]];
- */
-ArrayUtils.chunk = function (a, s) {
-  for (var x, i = 0, c = -1, l = a.length, n = []; i < l; i++) {
-    (x = i % s) ? n[c][x] = a[i] : n[++c] = [a[i]];
-  }
-  return n;
-};
-
-/**
- * Creates a flat array (one dimensional).
- * @param {Array} arr - Array to be processed
- * @return {Array}
- * @example
- * //Input:
- * [[1,2,3],[4,5,6],[7]];
- * //Output:
- * [1,2,3,4,5,6,7];
- */
-ArrayUtils.flat = function (arr) {
-  return arr.reduce(
-    function (a, b) {
-      return a.concat(b);
-    }, []
-  );
-};
-
-module.exports = ArrayUtils;
-},{"util/CommonUtils":32}],32:[function(require,module,exports){
-/**
- * Common utility class.
- * @exports util/CommonUtils
- */
-var CommonUtils = {};
-
-/**
- * Parses a given String to the float pixel value of it.
- * @param {String} text
- * @return {Number}
- * @example
- * parseUnitSizeToPixel('10pt'); //12.5
- * parseUnitSizeToPixel('10pc'); //150
- * parseUnitSizeToPixel('10mm'); //35.43307
- * parseUnitSizeToPixel('10cm'); //354.3307
- * parseUnitSizeToPixel('10in'); //900
- */
-CommonUtils.parseUnitSizeToPixel = function (text) {
-  var len = text.length - 2;
-  if (len < 0) {
-    return text;
-  }
-  if (text.indexOf('pt') === len) {
-    return parseFloat(text.substring(0, len)) * 1.25;
-  }
-  if (text.indexOf('pc') === len) {
-    return parseFloat(text.substring(0, len)) * 15;
-  }
-  if (text.indexOf('mm') === len) {
-    return parseFloat(text.substring(0, len)) * 3.543307;
-  }
-  if (text.indexOf('cm') === len) {
-    return parseFloat(text.substring(0, len)) * 35.43307;
-  }
-  if (text.indexOf('in') === len) {
-    return parseFloat(text.substring(0, len)) * 90;
-  }
-  if (text.indexOf('px') === len) {
-    return parseFloat(text.substring(0, len));
-  }
-  return parseFloat(text);
-};
-
-/**
- * http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
- * @example
- * alert( rgbToHex(0, 51, 255) ); // #0033ff
- */
-CommonUtils.rgbToHex = function (r, g, b) {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-};
-
-/**
- * @example
- * alert( hexToRgb("#0033ff").g ); // "51";
- * alert( hexToRgb("#03f").g ); // "51
- */
-CommonUtils.hexToRgb = function (hex) {
-  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(
-    shorthandRegex, function (m, r, g, b) {
-      return r + r + g + g + b + b;
-    }
-  );
-
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-};
-
-/**
- * Stores a given value on the Local Storage.
- * @param {String} key - Unique identifier on the Local Storage
- * @param {Object} val - The value to be stored
- * @param {Boolean} isObject - Boolean to flag if is an Object
- * @example
- * store('num', '1');
- * store('on', 'true');
- * store('name', 'pamela');
- * store('obj', {'hello': 'world'}, true);
- */
-CommonUtils.store = function (key, val, isObject) {
-  if (isObject) {
-    localStorage.setItem(key, JSON.stringify(val));
-  } else {
-    localStorage.setItem(key, val);
-  }
-};
-
-/**
- * Checks if a given object is a Monogatari GameObject.
- * @param {Object} object - The value to be tested
- * @return {Boolean}
- */
-CommonUtils.isGameObject = function (object) {
-  return (object && object.id && object.equals instanceof Function && object.update instanceof Function);
-};
-
-module.exports = CommonUtils;
-},{}],33:[function(require,module,exports){
 /*
   I've wrapped Makoto Matsumoto and Takuji Nishimura's code in a namespace
   so it's better encapsulated. Now you can have multiple random number generators
@@ -52081,44 +51307,800 @@ MersenneTwister.prototype.genrand_res53 = function () {
   return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
 };
 
-module.exports = MersenneTwister;
 /* These real versions are due to Isaku Wada, 2002/01/09 added */
-},{}],34:[function(require,module,exports){
-var MersenneTwister = require('util/MersenneTwister');
-var Math = require('core/Math');
+
+},{"core/Math":20}],23:[function(require,module,exports){
+/**
+ * @exports core/Timer
+ */
+var Timer = {};
 
 /**
- * Utility methods for random number generator.
- * @requires lib/mersenne-twister
- * @requires core/Math
- * @exports util/Random
+ * Current time.
+ * @type {Number}
  */
-var Random = function () {
-  this.init();
-};
+Timer.time = 0;
 
-Random.prototype.init = function (seed) {
-  if (!seed) {
-    seed = new Date().getTime();
+/**
+ * @type {Number}
+ */
+Timer.lastTime = 0;
+
+/**
+ * @type {Number}
+ */
+Timer.lastFrameTime = 0;
+
+/**
+ * Tick counter.
+ * @type {Number}
+ */
+Timer.frameTicks = 0;
+
+/**
+ * Current frames per second, calculated by {@link module:core/Timer#tick|tick()}.
+ * @see module:core/Timer.tick
+ * @type {Number}
+ */
+Timer.fps = 60;
+
+/**
+ * 1 second / 60 frames = 0.016666666667
+ * @constant
+ * @type {Number}
+ */
+Timer.FRAME_RATE_60FPS = 0.016666666667;
+
+/**
+ * Calculates the rate of frames per second the engine is running.
+ * It is called on each cycle of engine update.
+ */
+Timer.tick = function () {
+  var now = Date.now();
+
+  this.time += now - this.lastTime;
+  this.lastTime = now;
+
+  // Initiates lastFrameTime for first cycle
+  if (this.lastFrameTime == 0) {
+    this.lastFrameTime = this.time;
   }
 
-  this.mt = new MersenneTwister(seed);
+  var frameDelta = this.time - this.lastFrameTime;
+
+  if (frameDelta >= 1000) {
+    // Gets the stored frame ticks for 1 second (FPS)
+    this.fps = this.frameTicks;
+    this.frameTicks = 0;
+    this.lastFrameTime = this.time;
+  }
+
+  // Frame counting
+  this.frameTicks++;
 };
 
-Random.prototype.bool = function () {
-  return this.mt.random() * 100 < 50;
+module.exports = Timer;
+},{}],24:[function(require,module,exports){
+/**
+ * Map and listens keys for keyboard input.
+ * @exports input/Keyboard
+ */
+var Keyboard = function () {
+  /**
+   * Array of pressed keys, they Store a timestamp if pressed or -1 of not pressed.
+   * @type {Int32Array}
+   */
+  this.pressed = new Int32Array(256);
+
+  for (var i = 0, len = this.pressed.length; i < len; i++) {
+    this.pressed[i] = -1;
+  }
 };
 
-Random.prototype.integer = function (min, max) {
-  var _min = min || 0;
-  var _max = max || 100;
-  return Math.floor(this.mt.random() * (_max - _min + 1) + _min);
+/**
+ * @enum
+ */
+Keyboard.KEY = {
+      /** */ BACKSPACE: 8,
+  TAB: 9,
+  ENTER: 13,
+  SHIFT: 16,
+  CTRL: 17,
+  ALT: 18,
+  PAUSE_BREAK: 19,
+  CAPS_LOCK: 20,
+  ESCAPE: 27,
+  SPACE: 32,
+  PAGE_UP: 33,
+  PAGE_DOWN: 34,
+  END: 35,
+  HOME: 36,
+  LEFT_ARROW: 37,
+  UP_ARROW: 38,
+  RIGHT_ARROW: 39,
+  DOWN_ARROW: 40,
+  INSERT: 45,
+  DELETE: 46,
+  NUM_0: 48,
+  NUM_1: 49,
+  NUM_2: 50,
+  NUM_3: 51,
+  NUM_4: 52,
+  NUM_5: 53,
+  NUM_6: 54,
+  NUM_7: 55,
+  NUM_8: 56,
+  NUM_9: 57,
+  A: 65,
+  B: 66,
+  C: 67,
+  D: 68,
+  E: 69,
+  F: 70,
+  G: 71,
+  H: 72,
+  I: 73,
+  J: 74,
+  K: 75,
+  L: 76,
+  M: 77,
+  N: 78,
+  O: 79,
+  P: 80,
+  Q: 81,
+  R: 82,
+  S: 83,
+  T: 84,
+  U: 85,
+  V: 86,
+  W: 87,
+  X: 88,
+  Y: 89,
+  Z: 90,
+  LEFT_WINDOW: 91,
+  RIGHT_WINDOW: 92,
+  SELECT_KEY: 93,
+  NUMPAD_0: 96,
+  NUMPAD_1: 97,
+  NUMPAD_2: 98,
+  NUMPAD_3: 99,
+  NUMPAD_4: 100,
+  NUMPAD_5: 101,
+  NUMPAD_6: 102,
+  NUMPAD_7: 103,
+  NUMPAD_8: 104,
+  NUMPAD_9: 105,
+  MULTIPLY: 106,
+  ADD: 107,
+  SUBTRACT: 109,
+  DECIMAL_POINT: 110,
+  DIVIDE: 111,
+  F1: 112,
+  F2: 113,
+  F3: 114,
+  F4: 115,
+  F5: 116,
+  F6: 117,
+  F7: 118,
+  F8: 119,
+  F9: 120,
+  F10: 121,
+  F11: 122,
+  F12: 123,
+  NUM_LOCK: 144,
+  SCROLL_LOCK: 145,
+  SEMICOLON: 186,
+  EQUAL_SIGN: 187,
+  COMMA: 188,
+  DASH: 189,
+  PERIOD: 190,
+  FORWARD_SLASH: 191,
+  GRAVE_ACCENT: 192,
+  OPEN_BRACKET: 219,
+  BACK_SLASH: 220,
+  CLOSE_BRAKET: 221,
+  SINGLE_QUOTE: 222
 };
 
-Random.prototype.percentage = function (chance) {
-  return this.mt.random() * 100 < chance;
+/**
+ * Checks if a key is pressed.
+ * @param {Number} keyCode - Constant of a key mapped
+ * @return {Number} Timestamp of the last time the key was pressed or null if not pressed
+ */
+Keyboard.prototype.isDown = function (keyCode) {
+  return (this.pressed[keyCode] === -1) ? null : this.pressed[keyCode];
 };
 
-module.exports = Random;
-},{"core/Math":19,"util/MersenneTwister":33}]},{},[7])(7)
+/**
+ * @param {Event} event
+ * @param {module:core/Timer} timer
+ */
+Keyboard.prototype.onKeyDown = function (event, timer) {
+  event.stopPropagation();
+
+  if (event.keyCode == Keyboard.KEY.BACKSPACE ||
+    event.keyCode == Keyboard.KEY.UP_ARROW ||
+    event.keyCode == Keyboard.KEY.DOWN_ARROW ||
+    event.keyCode == Keyboard.KEY.LEFT_ARROW ||
+    event.keyCode == Keyboard.KEY.RIGHT_ARROW ||
+    event.keyCode == Keyboard.KEY.PAGE_UP ||
+    event.keyCode == Keyboard.KEY.PAGE_DOWN ||
+    event.keyCode == Keyboard.KEY.SPACE) {
+    event.preventDefault();
+  }
+
+  this.pressed[event.keyCode] = timer.time;
+};
+
+/**
+ * @param {Event} event
+ */
+Keyboard.prototype.onKeyUp = function (event) {
+  event.stopPropagation();
+  this.pressed[event.keyCode] = -1;
+};
+
+module.exports = Keyboard;
+},{}],25:[function(require,module,exports){
+var THREE = require('link/Three');
+
+/**
+ * Map and listens buttons and positions for mouse input
+ * @requires lib/Three
+ * @exports input/Mouse
+ */
+var Mouse = function () {
+  /**
+   * Array of pressed buttons, they Store a timestamp if pressed or -1 of not pressed.
+   * @type {Int32Array}
+   */
+  this.pressed = new Int32Array(8);
+
+  /**
+   * 3D vector of mouse of the position based on a DOM element (that is not the body tag).
+   * @type {THREE.Vector3}
+   * @default Vector3( 0, 0, 0 )
+   */
+  this.buffer = new THREE.Vector3(0, 0, 0);
+
+  /**
+   * 3D vector of mouse position.
+   * @type {THREE.Vector3}
+   * @default Vector3( 0, 0, 0 )
+   */
+  this.position = new THREE.Vector3(0, 0, 0);
+
+  for (var i = 0, len = this.length; i < len; i++) {
+    this.pressed[i] = -1;
+  }
+};
+
+/**
+ * @enum
+ */
+Mouse.BUTTON = {
+  /** Left Mouse Button */
+  LMB: 0,
+  /** Middle Mouse Button */
+  MID: 1,
+  /** Right Mouse Button */
+  RMB: 2,
+  /** Mouse Button 3 */
+  B3: 3,
+  /** Mouse Button 4 */
+  B4: 4,
+  /** Mouse Button 5 */
+  B5: 5,
+  /** Mouse Button 6 */
+  B6: 6,
+  /** Mouse Button 7 */
+  B7: 7
+};
+
+/**
+ * Checks if a button is pressed.
+ * @param {Number} keyCode - Constant of a button mapped
+ * @return {Number} Timestamp of the last time the key was pressed or null if not pressed
+ */
+Mouse.prototype.isDown = function (button) {
+  return (this.pressed[button] === -1) ? null : this.pressed[button];
+};
+
+/**
+ * @param {Event} event
+ */
+Mouse.prototype.onMouseMove = function (event) {
+  this.position.set(event.clientX, event.clientY, 0);
+};
+
+/**
+ * @param {Event} event
+ * @param {module:core/Timer} timer
+ */
+Mouse.prototype.onMouseDown = function (event, timer) {
+  event.preventDefault();
+  event.stopPropagation();
+  this.pressed[event.button] = timer.time;
+};
+
+/**
+ * @param {Event} event
+ */
+Mouse.prototype.onMouseUp = function (event) {
+  event.stopPropagation();
+  this.pressed[event.button] = -1;
+};
+
+/**
+ * Captures the position of the mouse using the given element as reference.
+ * @param {DOMElement} e - Target node of the Dom tree to watch.
+ * @return {THREE.Vector3}
+ */
+Mouse.prototype.getMousePositionOnElement = function (e) {
+  var rect = e.getBoundingClientRect();
+  this.buffer.set(this.position.x - rect.left, this.position.y - rect.top, 0);
+  return this.buffer;
+};
+
+module.exports = Mouse;
+},{"link/Three":28}],26:[function(require,module,exports){
+//added "module.exports = Box2D;" to original lib file
+var Box2D = require('../../lib/Box2D_v2.3.1_min');
+module.exports = new Box2D();
+},{"../../lib/Box2D_v2.3.1_min":1}],27:[function(require,module,exports){
+module.exports = require('howler');
+
+},{"howler":3}],28:[function(require,module,exports){
+module.exports = require('three');
+
+},{"three":6}],29:[function(require,module,exports){
+var Message = require('core/Message');
+var LinkedList = require('collection/LinkedList');
+
+/**
+ * @requires core/Message
+ * @requires collection/LinkedList
+ * @exports manager/MessageManager
+ */
+var MessageManager = {};
+
+/**
+ * List of messages to be delivered to GameObjects.
+ * @type {module:collection/LinkedList}
+ */
+MessageManager.userMessages = new LinkedList();
+
+/**
+ * Registers a message to be sent, this is called through the GameObject.
+ * @param {module:core/Message} message
+ */
+MessageManager.register = function (message) {
+  this.userMessages.put(message);
+};
+
+/**
+ * Sends the undelivered messages to the given GameObject.
+ * @param {module:core/GameObject} go - Target object
+ */
+MessageManager.sendMessagesTo = function (go) {
+  var message;
+  if (this.userMessages.size() > 0) {
+    var itUser = this.userMessages.iterator();
+
+    while (itUser.hasNext()) {
+      message = itUser.next();
+      if (message.to === go.id) {
+        go.receiveMessage(message);
+        this.userMessages.removeByValue(message);
+      }
+    }
+  }
+};
+
+module.exports = MessageManager;
+},{"collection/LinkedList":9,"core/Message":21}],30:[function(require,module,exports){
+var Box2D = require('link/Box2D');
+var Timer = require('core/Timer');
+var Message = require('core/Message');
+var MessageManager = require('manager/MessageManager');
+
+/**
+ * @requires lib/Box2d
+ * @requires core/Timer
+ * @requires core/Message
+ * @requires manager/MessageManager
+ * @exports manager/PhysicsManager
+ */
+var PhysicsManager = {};
+
+/**
+ * Box2D Physics World.
+ * @type {Box2D.b2World}
+ * @default null
+ */
+PhysicsManager.physicsWorld = null;
+
+/**
+ * Monogatari GameObject World.
+ * @type {GameObject}
+ * @default null
+ */
+PhysicsManager.gameObjectWorld = null;
+
+/**
+ * Number of Velocity Iterations on the physics world. The more iterations, the more accurate the calculations.
+ * @type {Number}
+ * @default 2
+ */
+PhysicsManager.velocityIterations = 2;
+
+/**
+ * Number of Position Iterations on the physics world. The more iterations, the more accurate the calculations.
+ * @type {Number}
+ * @default 2
+ */
+PhysicsManager.positionIterations = 2;
+
+/**
+ * Flag to remove any accumulated forces at every physics update.
+ * @type {Number}
+ * @default false
+ */
+PhysicsManager.clearForcesOnUpdate = false;
+
+/** @constant */
+PhysicsManager.BEGIN_CONTACT = 1; // 0001
+/** @constant */
+PhysicsManager.END_CONTACT = 2; // 0010
+/** @constant */
+PhysicsManager.BEGIN_END_CONTACT = 3; // 0011
+/** @constant */
+PhysicsManager.PRE_SOLVE = 4; // 0100
+/** @constant */
+PhysicsManager.POST_SOLVE = 8; // 1000
+/** @constant */
+PhysicsManager.ALL_LISTENERS = 15; //1111
+
+/** */
+PhysicsManager.listeners = 0; //0000
+
+/** */
+PhysicsManager.contactListener = null;
+
+/**
+ * Creates the physics World on box2D with given properties.
+ * @param {THREE.Vector2} gravity - 2D vector pointing the direction of the gravity
+ * @param {Boolean} allowSleep - Flags if an object can sleep outside the boundaries of the physics world
+ * @param {String} listeners - Constants to signal which listeners will be active
+ * @param {module:core/GameObject} world - Root node of GameObject tree
+ */
+PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
+  this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep || false);
+  this.gameObjectWorld = world;
+  this.listeners = (listeners) ? listeners : this.BEGIN_END_CONTACT; //0011
+  this.createListener(this.physicsWorld);
+};
+
+/**
+ * Attaches a given Rigid Body to the Physics World of Box2D.
+ * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
+ */
+PhysicsManager.attachToWorld = function (rigidBody) {
+  rigidBody.body = this.physicsWorld.CreateBody(rigidBody.bodyDef);
+};
+
+/**
+ * Destroys a given Rigid Body on the Physics World of Box2D.
+ * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
+ */
+PhysicsManager.destroyBody = function (rigidBody) {
+  return this.physicsWorld.DestroyBody(rigidBody.bodyDef);
+};
+
+/**
+ * Creates the callback functions to the listeners set on the createWorld method. <br>
+ * The listeners will contain the information about the contacts and send them a Message through the MessageManager class. <br>
+ * Some callback functions like preSolve and postSolve are called constantly, be aware of messages flooding between Game Objects.
+ * @param {module:core/GameObject} world - Root node of GameObject tree
+ */
+PhysicsManager.createListener = function (world) {
+  this.contactListener = new Box2D.JSContactListener();
+
+  this.contactListener.BeginContact = (this.listeners & this.BEGIN_CONTACT) ?
+    function (_contact) {
+      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
+      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
+      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
+
+      if (goA.id === 'world' || goB.id === 'world') {
+        return;
+      }
+      if (goB) {
+        MessageManager.register(new Message(goA.id, goB.id, "BeginContact", { contact: contact, go: goA }));
+      }
+      if (goA) {
+        MessageManager.register(new Message(goB.id, goA.id, "BeginContact", { contact: contact, go: goB }));
+      }
+
+    } : function () { };
+
+  this.contactListener.EndContact = (this.listeners & this.END_CONTACT) ?
+    function (_contact) {
+      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
+      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
+      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
+
+      if (goA.id === 'world' || goB.id === 'world') {
+        return;
+      }
+      if (goB) {
+        MessageManager.register(new Message(goA.id, goB.id, "EndContact", { contact: contact, go: goA }));
+      }
+      if (goA) {
+        MessageManager.register(new Message(goB.id, goA.id, "EndContact", { contact: contact, go: goB }));
+      }
+    } : function () { };
+
+  this.contactListener.PreSolve = (this.listeners & this.PRE_SOLVE) ?
+    function (_contact, _oldManifold) {
+      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
+      var manifold = Box2D.wrapPointer(_oldManifold, Box2D.b2Manifold);
+      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
+      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
+
+      if (goA.id === 'world' || goB.id === 'world') {
+        return;
+      }
+      if (goB) {
+        MessageManager.register(new Message(goA.id, goB.id, "PreSolve", { contact: contact, manifold: manifold, go: goA }));
+      }
+      if (goA) {
+        MessageManager.register(new Message(goB.id, goA.id, "PreSolve", { contact: contact, manifold: manifold, go: goB }));
+      }
+    } : function () { };
+
+  this.contactListener.PostSolve = (this.listeners & this.POST_SOLVE) ?
+    function (_contact, _impulse) {
+      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
+      var impulse = Box2D.wrapPointer(_impulse, Box2D.b2ContactImpulse);
+      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
+      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
+
+      if (goA.id === 'world' || goB.id === 'world') {
+        return;
+      }
+      if (goB) {
+        MessageManager.register(new Message(goA.id, goB.id, "PostSolve", { contact: contact, impulse: impulse, go: goA }));
+      }
+      if (goA) {
+        MessageManager.register(new Message(goB.id, goA.id, "PostSolve", { contact: contact, impulse: impulse, go: goB }));
+      }
+    } : function () { };
+
+  this.physicsWorld.SetContactListener(this.contactListener);
+};
+
+/**
+ * Physics world heartbeat, updates based on the engine FPS and the current velocity and position Iterations.
+ */
+PhysicsManager.update = function () {
+  if (this.physicsWorld) {
+    var fps = Timer.fps;
+
+    // Frame rate at which to update physics ( 1 / FPS or 1.0 / 60.0 )
+    var physicsFrameRate = (fps) ? 1 / fps : Timer.FRAME_RATE_60FPS;
+
+    this.physicsWorld.Step(physicsFrameRate, this.velocityIterations, this.positionIterations);
+
+    if (this.clearForcesOnUpdate) {
+      this.physicsWorld.ClearForces();
+    }
+  }
+};
+
+module.exports = PhysicsManager;
+},{"core/Message":21,"core/Timer":23,"link/Box2D":26,"manager/MessageManager":29}],31:[function(require,module,exports){
+var Map = require('collection/Map');
+var Camera2D = require('render/Camera2D');
+var Math = require('core/Math');
+var THREE = require('link/Three');
+
+var instance = null;
+
+/**
+ * @requires collection/Map
+ * @requires render/Camera2D
+ * @requires core/Math
+ * @requires lib/Three
+ * @exports manager/SceneManager
+ */
+var SceneManager = {};
+
+/**
+ * Map of Monogatari (2D) cameras.
+ * @type {module:collection/Map}
+ */
+SceneManager.cameras = new Map();
+SceneManager.cameraIterator = SceneManager.cameras.iterator();
+
+/**
+ * Map of three.js scenes.
+ * @type {module:collection/Map}
+ */
+SceneManager.scenes = new Map();
+
+/** @constant */
+SceneManager.DEFAULT_CAMERA_ID = 'default_camera_id';
+/** @constant */
+SceneManager.DEFAULT_SCENE_ID = 'default_scene_id';
+
+/**
+ * Camera initialization, creates a Three.js camera with the given parameters. The viewport is fixed to 2D.
+ * @param {String} bgcolor - Hexadecimal background color
+ * @param {Number} [width] - Width of the camera in pixels. Defaults to screen resolution
+ * @param {Number} [height] - Height of the camera in pixels. Defaults to screen resolution
+ * @param {DOMElement} [target] - Target node of the Dom tree to create a canvas renderer. It is attached to the body if not provided
+ */
+SceneManager.init = function (bgcolor, width, height, target) {
+  // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
+  var canvas = document.createElement('canvas');
+  this.renderer = !!window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    ? new THREE.WebGLRenderer({ antialias: false })
+    : new THREE.CanvasRenderer();
+
+  // Set the background color of the renderer, with full opacity
+  this.renderer.setClearColor((bgcolor) ? bgcolor : 0xFFFFFF, 1);
+
+  // if no dimensions are provided, get the size of the inner window (content area) to create a full size renderer
+  this.canvasWidth = (width) ? width : window.innerWidth;
+  this.canvasHeight = (height) ? height : window.innerHeight;
+
+  // since the rendering area is actually 3D, a Z translation on camera is required.
+  this.z = Math.max(this.canvasWidth, this.canvasHeight);
+
+  // set the renderer size
+  this.renderer.setSize(this.canvasWidth, this.canvasHeight);
+
+  // attach a canvas tag on the body
+  var body = (target) ? target : document.getElementsByTagName('body')[0];
+  body.appendChild(this.renderer.domElement);
+
+  this.createScene();
+  this.createCamera();
+};
+
+/**
+ * Creates a Scene.
+ * @param {String} sceneId - Unique identifier of a scene
+ */
+SceneManager.createScene = function (sceneId) {
+  this.scenes.put(sceneId ? sceneId : this.DEFAULT_SCENE_ID, new THREE.Scene());
+};
+
+/**
+ * Creates a Camera, and attaches a default scene to it.
+ * @param {String} cameraId - Unique identifier of a camera
+ * @param {String} sceneId - Unique identifier of a scene
+ * @param {Number} [width] - Width of the camera in pixels. Defaults to canvas width
+ * @param {Number} [height] - Height of the camera in pixels. Defaults to canvas height
+ */
+SceneManager.createCamera = function (cameraId, sceneId, width, height) {
+  var scene = this.scenes.get((sceneId) ? sceneId : this.DEFAULT_SCENE_ID);
+
+  if (!cameraId) {
+    cameraId = this.DEFAULT_CAMERA_ID;
+  }
+
+  if (!width) {
+    width = this.canvasWidth;
+  }
+
+  if (!height) {
+    height = this.canvasHeight;
+  }
+
+  if (scene) {
+    // left, right, top, bottom, near, far
+    var camera = new Camera2D(width / -2, width / 2, height / -2, height / 2, Math.max(width, height) / -2, Math.max(width, height) / 2);
+
+    camera.addScene((sceneId) ? sceneId : this.DEFAULT_SCENE_ID, scene);
+    this.cameras.put(cameraId, camera);
+
+  } else {
+    console.log('Scene not found:' + sceneId);
+  }
+};
+
+/**
+ * Attach given component to a scene, if no scene is provided, set to default scene.
+ * @param {Object} component - A Monogatari component that can be rendered
+ * @param {String} [sceneId] - Unique identifier of a scene
+ */
+SceneManager.attachToScene = function (component, sceneId) {
+  var scene = this.scenes.get(sceneId ? sceneId : this.DEFAULT_SCENE_ID);
+  if (scene && component.mesh) {
+    scene.add(component.mesh);
+  }
+};
+
+/**
+ * Detach given component from a scene, if no scene is provided, set to default scene.
+ * @param {Object} component - A Monogatari component that can be rendered
+ * @param {String} [sceneId] - Unique identifier of a scene
+ */
+SceneManager.detachFromScene = function (component, sceneId) {
+  var scene = this.scenes.get(sceneId ? sceneId : this.DEFAULT_SCENE_ID);
+  if (scene && component.mesh) {
+    scene.remove(component.mesh);
+  }
+};
+
+/**
+ * Renders all cameras and scenes to the canvas.
+ */
+SceneManager.render = function () {
+  var camera, scene;
+
+  this.cameraIterator.first();
+
+  // iterate all cameras
+  while (this.cameraIterator.hasNext()) {
+    camera = this.cameraIterator.next();
+
+    // iterate all scenes registered to render on this camera
+    for (var i = 0, len = camera.scenes.length; i < len; i++) {
+      scene = this.scenes.get(camera.scenes[i]);
+
+      if (scene) {
+        this.renderer.render(scene, camera.cam);
+      }
+    }
+  }
+};
+
+module.exports = SceneManager;
+},{"collection/Map":11,"core/Math":20,"link/Three":28,"render/Camera2D":32}],32:[function(require,module,exports){
+var THREE = require('link/Three');
+
+/**
+ * Utility class that holds the THREE camera and the information of which scenes should be rendered in which camera.
+ * @param {Number} left
+ * @param {Number} right
+ * @param {Number} top
+ * @param {Number} bottom
+ * @param {Number} near
+ * @param {Number} far
+ * @requires lib/Three
+ * @exports render/Camera2D
+ */
+var Camera2D = function (left, right, top, bottom, near, far) {
+  /**
+   * A THREE.Camera object.
+   * @type {THREE.OrthographicCamera}
+   */
+  this.cam = new THREE.OrthographicCamera(left, right, top, bottom, near, far);
+
+  // Translates the point of origin (0,0,0), to the top left corner
+  this.cam.position.set(right, bottom, far);
+
+  /**
+   * Array of scenes to be rendered on this camera.
+   * @type {Array}
+   */
+  this.scenes = [];
+};
+
+/**
+ * Add a scene to this Camera.
+ * @param {String} sceneId - Scene ID
+ * @param {THREE.Scene} scene - THREE.Scene object
+ */
+Camera2D.prototype.addScene = function (sceneId, scene) {
+  if (sceneId && typeof sceneId === 'string') {
+    this.scenes.push(sceneId);
+  }
+};
+
+module.exports = Camera2D;
+},{"link/Three":28}]},{},[7])(7)
 });
