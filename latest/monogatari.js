@@ -609,7 +609,6 @@ module.exports = Box2D;
 },{"_process":5,"fs":2,"path":4}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){
-(function (global){
 /*!
  *  howler.js v2.0.4
  *  howlerjs.com
@@ -3412,7 +3411,6 @@ module.exports = Box2D;
   };
 })();
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
