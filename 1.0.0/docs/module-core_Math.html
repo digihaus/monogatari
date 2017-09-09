@@ -1,0 +1,3284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Module: core/Math | Monogatari Docs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-collection_ArrayUtils.html">collection/ArrayUtils</a></li><li><a href="module-collection_LinkedList.html">collection/LinkedList</a></li><li><a href="module-collection_List.html">collection/List</a></li><li><a href="module-collection_Map.html">collection/Map</a></li><li><a href="module-collection_Tree.html">collection/Tree</a></li><li><a href="module-component_Audio.html">component/Audio</a></li><li><a href="module-component_Base.html">component/Base</a></li><li><a href="module-component_Canvas.html">component/Canvas</a></li><li><a href="module-component_RigidBody.html">component/RigidBody</a></li><li><a href="module-component_Sprite.html">component/Sprite</a></li><li><a href="module-core_Common.html">core/Common</a></li><li><a href="module-core_GameObject.html">core/GameObject</a></li><li><a href="module-core_Math.html">core/Math</a></li><li><a href="module-core_Message.html">core/Message</a></li><li><a href="module-core_Random.html">core/Random</a></li><li><a href="module-core_Timer.html">core/Timer</a></li><li><a href="module-input_Keyboard.html">input/Keyboard</a></li><li><a href="module-input_Mouse.html">input/Mouse</a></li><li><a href="module-manager_MessageManager.html">manager/MessageManager</a></li><li><a href="module-manager_PhysicsManager.html">manager/PhysicsManager</a></li><li><a href="module-manager_SceneManager.html">manager/SceneManager</a></li><li><a href="module-Monogatari.html">Monogatari</a></li><li><a href="module-render_Camera2D.html">render/Camera2D</a></li></ul><h3>Classes</h3><ul><li><a href="TreeNode.html">TreeNode</a></li></ul>
+</nav>
+
+<div id="main">
+    <h1 class="page-title">Module: core/Math</h1>
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Complimentary math functions and constants.</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:lib/Three</li>
+        </ul>
+    
+
+<div class="clear"></div>
+
+    
+
+<div class="clear"></div>
+
+     
+
+<div class="clear"></div>
+
+    
+
+<div class="clear"></div>
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".DEGTORAD"><span class="type-signature">(static, constant) </span>DEGTORAD<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    Factor to convert degrees to radians: 0.0174532925199.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ONE_DEGREE"><span class="type-signature">(static, constant) </span>ONE_DEGREE<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    1 degree = PI / 180 = 0.0174532925199.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".ONE_MEGABYTE"><span class="type-signature">(static, constant) </span>ONE_MEGABYTE<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    1024 kilobytes * 1024 bytes = 1048576.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".PI"><span class="type-signature">(static, constant) </span>PI<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    3.14159265358979.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".PI_2"><span class="type-signature">(static, constant) </span>PI_2<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    2 * PI = 6.28318530717958.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".PI_OVER_180"><span class="type-signature">(static, constant) </span>PI_OVER_180<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    PI / 180 = 0.0174532925199.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".PI_OVER_360"><span class="type-signature">(static, constant) </span>PI_OVER_360<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    PI / 360 = 0.0087266462599.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".RADTODEG"><span class="type-signature">(static, constant) </span>RADTODEG<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    Factor to convert radians to degrees: 57.295779513082.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".SQRT_2"><span class="type-signature">(static, constant) </span>SQRT_2<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    1.41421356237.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".VECTOR_ONE"><span class="type-signature">(static) </span>VECTOR_ONE<span class="type-signature"> :THREE.Vector3</span></h4>
+
+
+
+
+<div class="description">
+    THREE.Vector3( 1, 1, 1 )
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".VECTOR_ZERO"><span class="type-signature">(static) </span>VECTOR_ZERO<span class="type-signature"> :THREE.Vector3</span></h4>
+
+
+
+
+<div class="description">
+    THREE.Vector3( 0, 0, 0 )
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".X_ALIGNED_VECTOR"><span class="type-signature">(static) </span>X_ALIGNED_VECTOR<span class="type-signature"> :THREE.Vector3</span></h4>
+
+
+
+
+<div class="description">
+    THREE.Vector3( 1, 0, 0 )
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".Y_ALIGNED_VECTOR"><span class="type-signature">(static) </span>Y_ALIGNED_VECTOR<span class="type-signature"> :THREE.Vector3</span></h4>
+
+
+
+
+<div class="description">
+    THREE.Vector3( 0, 1, 0 )
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".Z_ALIGNED_VECTOR"><span class="type-signature">(static) </span>Z_ALIGNED_VECTOR<span class="type-signature"> :THREE.Vector3</span></h4>
+
+
+
+
+<div class="description">
+    THREE.Vector3( 0, 0, 1 )
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+<div class="clear"></div>
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".abs"><span class="type-signature">(static) </span>abs<span class="signature">(n)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number to get absolute value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Absolute value of n.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".binaryToDecimal"><span class="type-signature">(static) </span>binaryToDecimal<span class="signature">(num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a binary String to a decimal number.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Binary string.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Binary string converted to decimal.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".ceil"><span class="type-signature">(static) </span>ceil<span class="signature">(n)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the nearest upwards integer of n.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number to get ceil.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Nearest upwards integer of n.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".decimalToBinary"><span class="type-signature">(static) </span>decimalToBinary<span class="signature">(num)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a decimal number to a binary String.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Decimal number.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">String</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Number converted to binary string.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".decimalToHex"><span class="type-signature">(static) </span>decimalToHex<span class="signature">(num)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a decimal number to a hexadecimal String.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Decimal number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">String</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Number converted to hex string.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".decimalToOctal"><span class="type-signature">(static) </span>decimalToOctal<span class="signature">(num)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a decimal number to a octal String.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Decimal number.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">String</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Number converted to octal string.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".floor"><span class="type-signature">(static) </span>floor<span class="signature">(n)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the nearest downwards integer of n.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number to get floor.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Nearest downwards integer of n.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".hexToDecimal"><span class="type-signature">(static) </span>hexToDecimal<span class="signature">(num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a hexadecimal String to a decimal number.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Hex string.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Binary string converted to decimal.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".max"><span class="type-signature">(static) </span>max<span class="signature">(a, b)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">First number to be compared.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Second number to be compared.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;The maximum value between a and b.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".min"><span class="type-signature">(static) </span>min<span class="signature">(a, b)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">First number to be compared.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Second number to be compared.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;The minimum value between a and b.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".nearestMultiple"><span class="type-signature">(static) </span>nearestMultiple<span class="signature">(numToRound, multiple)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Rounds the given number to the nearest multiple.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>numToRound</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>multiple</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Nearest multiple.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".octalToDecimal"><span class="type-signature">(static) </span>octalToDecimal<span class="signature">(num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a octal String to a decimal number.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Octal string.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Binary string converted to decimal.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".rotateAroundAxis"><span class="type-signature">(static) </span>rotateAroundAxis<span class="signature">(rotation<span class="signature-attributes">opt</span>, axis<span class="signature-attributes">opt</span>, radians<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Rotate an object around an arbitrary axis (<a href="http://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js">reference</a>).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rotation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The reference rotation vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>axis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The reference axis for rotation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>radians</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Radian degrees to rotate</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example:</h5>
+    
+    <pre class="prettyprint"><code>// rotation of 90 degrees on the x-axis
+var xAxis = new THREE.Vector3(1,0,0);
+rotateAroundWorldAxis( xAxis, Math.PI / 180);</code></pre>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".rotateAroundPivot"><span class="type-signature">(static) </span>rotateAroundPivot<span class="signature">(position<span class="signature-attributes">opt</span>, pivot<span class="signature-attributes">opt</span>, radians<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Rotate an object around a pivot position
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>position</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The reference position vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pivot</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Vector3</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The reference pivot for rotation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>radians</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Radian degrees to rotate</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".round"><span class="type-signature">(static) </span>round<span class="signature">(n)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number to be rounded.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Rounded value of n.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".toDegrees"><span class="type-signature">(static) </span>toDegrees<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a given angle in radians to degrees.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An angle in radians.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Angle converted to degrees.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".toRadians"><span class="type-signature">(static) </span>toRadians<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts a given angle in degrees to radians.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An angle in degrees.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+<dl>
+    <dt>
+        
+<span class="param-type">Number</span>
+
+
+    </dt>
+    <dd>
+        &nbsp;Angle converted to radians.
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+        
+    
+
+    
+
+<div class="clear"></div>
+
+    
+</article>
+
+</section>
+
+
+
+
+
+    <footer>
+        <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
+    </footer>
+</div>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
