@@ -18,26 +18,38 @@ const liveServerParams = {
 
 const browserifyParams = {
     entries: 'src/Monogatari.js', // entry point
-    paths: 'src',
+    paths: ['src'],
     standalone: 'Monogatari', // wrap with UMD
     noParse: [
-        require.resolve('three'), 
-        require.resolve('howler')
+        require.resolve('three'),
+        require.resolve('howler'),
+        require.resolve('../lib/Box2D_v2.3.1_min')
     ]
 };
 
 const compile = () => {
     console.log('Running compile...'.grey);
-    browserify(browserifyParams).bundle(function (err, buf) {
-        if (err) {
-            console.log(err);
-        } else {
-            fs.writeFileSync('monogatari.js', buf);
-            fs.emptyDirSync(distDir);
-            fs.copySync('monogatari.js', distDir + '/monogatari.js');
-            console.log('Done creating '.grey + 'monogatari.js'.cyan + ' file'.grey);
-        }
-    });
+    browserify(browserifyParams)
+        .transform('babelify', {
+            presets: ['es2015'],
+            ignore: 'Box2D_v2.3.1_min*'
+        })
+        .bundle(function (err, buf) {
+            if (err) {
+                console.log(err);
+            } else {
+                var fd = fs.openSync('monogatari.js', 'w+');
+                var versionBuf = new Buffer('// monogatari v' + process.env.npm_package_version + '\n');
+                fs.writeSync(fd, versionBuf, 0, versionBuf.length, 0); 
+                fs.writeSync(fd, buf, 0, buf.length, versionBuf.length); 
+                fs.close(fd);
+
+                fs.emptyDirSync(distDir);
+                fs.copySync('monogatari.js', distDir + '/monogatari.js');
+                
+                console.log('Done creating '.grey + 'monogatari.js'.cyan + ' file'.grey);
+            }
+        });
 };
 
 const args = process.argv.slice(2);
