@@ -1,5 +1,5 @@
+// monogatari v1.0.0-alpha.6
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Monogatari = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (process){
 var Box2D = function(Box2D) {
   Box2D = Box2D || {};
   var Module = Box2D;
@@ -605,10 +605,7 @@ td();b.b2Manifold.e_faceA=rj();b.b2Manifold.e_faceB=sj();b.b2_staticBody=Sl();b.
 
 module.exports = Box2D;
 
-}).call(this,require('_process'))
-},{"_process":5,"fs":2,"path":4}],2:[function(require,module,exports){
-
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 /*!
  *  howler.js v2.0.4
  *  howlerjs.com
@@ -3411,421 +3408,7 @@ module.exports = Box2D;
   };
 })();
 
-},{}],4:[function(require,module,exports){
-(function (process){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// resolves . and .. elements in a path array with directory names there
-// must be no slashes, empty elements, or device names (c:\) in the array
-// (so also no leading and trailing slashes - it does not distinguish
-// relative and absolute paths)
-function normalizeArray(parts, allowAboveRoot) {
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = parts.length - 1; i >= 0; i--) {
-    var last = parts[i];
-    if (last === '.') {
-      parts.splice(i, 1);
-    } else if (last === '..') {
-      parts.splice(i, 1);
-      up++;
-    } else if (up) {
-      parts.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (allowAboveRoot) {
-    for (; up--; up) {
-      parts.unshift('..');
-    }
-  }
-
-  return parts;
-}
-
-// Split a filename into [root, dir, basename, ext], unix version
-// 'root' is just a slash, or nothing.
-var splitPathRe =
-    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-var splitPath = function(filename) {
-  return splitPathRe.exec(filename).slice(1);
-};
-
-// path.resolve([from ...], to)
-// posix version
-exports.resolve = function() {
-  var resolvedPath = '',
-      resolvedAbsolute = false;
-
-  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-    var path = (i >= 0) ? arguments[i] : process.cwd();
-
-    // Skip empty and invalid entries
-    if (typeof path !== 'string') {
-      throw new TypeError('Arguments to path.resolve must be strings');
-    } else if (!path) {
-      continue;
-    }
-
-    resolvedPath = path + '/' + resolvedPath;
-    resolvedAbsolute = path.charAt(0) === '/';
-  }
-
-  // At this point the path should be resolved to a full absolute path, but
-  // handle relative paths to be safe (might happen when process.cwd() fails)
-
-  // Normalize the path
-  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-    return !!p;
-  }), !resolvedAbsolute).join('/');
-
-  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-};
-
-// path.normalize(path)
-// posix version
-exports.normalize = function(path) {
-  var isAbsolute = exports.isAbsolute(path),
-      trailingSlash = substr(path, -1) === '/';
-
-  // Normalize the path
-  path = normalizeArray(filter(path.split('/'), function(p) {
-    return !!p;
-  }), !isAbsolute).join('/');
-
-  if (!path && !isAbsolute) {
-    path = '.';
-  }
-  if (path && trailingSlash) {
-    path += '/';
-  }
-
-  return (isAbsolute ? '/' : '') + path;
-};
-
-// posix version
-exports.isAbsolute = function(path) {
-  return path.charAt(0) === '/';
-};
-
-// posix version
-exports.join = function() {
-  var paths = Array.prototype.slice.call(arguments, 0);
-  return exports.normalize(filter(paths, function(p, index) {
-    if (typeof p !== 'string') {
-      throw new TypeError('Arguments to path.join must be strings');
-    }
-    return p;
-  }).join('/'));
-};
-
-
-// path.relative(from, to)
-// posix version
-exports.relative = function(from, to) {
-  from = exports.resolve(from).substr(1);
-  to = exports.resolve(to).substr(1);
-
-  function trim(arr) {
-    var start = 0;
-    for (; start < arr.length; start++) {
-      if (arr[start] !== '') break;
-    }
-
-    var end = arr.length - 1;
-    for (; end >= 0; end--) {
-      if (arr[end] !== '') break;
-    }
-
-    if (start > end) return [];
-    return arr.slice(start, end - start + 1);
-  }
-
-  var fromParts = trim(from.split('/'));
-  var toParts = trim(to.split('/'));
-
-  var length = Math.min(fromParts.length, toParts.length);
-  var samePartsLength = length;
-  for (var i = 0; i < length; i++) {
-    if (fromParts[i] !== toParts[i]) {
-      samePartsLength = i;
-      break;
-    }
-  }
-
-  var outputParts = [];
-  for (var i = samePartsLength; i < fromParts.length; i++) {
-    outputParts.push('..');
-  }
-
-  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-
-  return outputParts.join('/');
-};
-
-exports.sep = '/';
-exports.delimiter = ':';
-
-exports.dirname = function(path) {
-  var result = splitPath(path),
-      root = result[0],
-      dir = result[1];
-
-  if (!root && !dir) {
-    // No dirname whatsoever
-    return '.';
-  }
-
-  if (dir) {
-    // It has a dirname, strip trailing slash
-    dir = dir.substr(0, dir.length - 1);
-  }
-
-  return root + dir;
-};
-
-
-exports.basename = function(path, ext) {
-  var f = splitPath(path)[2];
-  // TODO: make this comparison case-insensitive on windows?
-  if (ext && f.substr(-1 * ext.length) === ext) {
-    f = f.substr(0, f.length - ext.length);
-  }
-  return f;
-};
-
-
-exports.extname = function(path) {
-  return splitPath(path)[3];
-};
-
-function filter (xs, f) {
-    if (xs.filter) return xs.filter(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        if (f(xs[i], i, xs)) res.push(xs[i]);
-    }
-    return res;
-}
-
-// String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
-    ? function (str, start, len) { return str.substr(start, len) }
-    : function (str, start, len) {
-        if (start < 0) start = str.length + start;
-        return str.substr(start, len);
-    }
-;
-
-}).call(this,require('_process'))
-},{"_process":5}],5:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],6:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -48066,7 +47649,9 @@ process.umask = function() { return 0; };
 
 })));
 
-},{}],7:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
+'use strict';
+
 var Timer = require('core/Timer');
 var Math = require('core/Math');
 var Random = require('core/Random');
@@ -48091,13 +47676,13 @@ var _browser = {};
 _browser.agent = window.navigator.userAgent;
 _browser.version = window.navigator.appVersion;
 _browser.plataform = window.navigator.platform;
-_browser.isFirefox = (_browser.agent.indexOf('Firefox') > -1);
-_browser.isOpera = (window.opera !== null);
-_browser.isChrome = (_browser.agent.indexOf('Chrome') > -1); // Chrome on Android returns true but is a completely different browser
+_browser.isFirefox = _browser.agent.indexOf('Firefox') > -1;
+_browser.isOpera = window.opera !== null;
+_browser.isChrome = _browser.agent.indexOf('Chrome') > -1; // Chrome on Android returns true but is a completely different browser
 _browser.isIOS = _browser.agent.indexOf('iPod') > -1 || _browser.agent.indexOf('iPhone') > -1 || _browser.agent.indexOf('iPad') > -1;
-_browser.isAndroid = (_browser.agent.indexOf('Android') > -1);
-_browser.isBlackberry = (_browser.agent.indexOf('Blackberry') > -1);
-_browser.isIE = (_browser.agent.indexOf('MSIE') > -1);
+_browser.isAndroid = _browser.agent.indexOf('Android') > -1;
+_browser.isBlackberry = _browser.agent.indexOf('Blackberry') > -1;
+_browser.isIE = _browser.agent.indexOf('MSIE') > -1;
 
 /**
  * Core of the engine, bootstraps every other entity and exposes them.
@@ -48143,10 +47728,7 @@ Monogatari.timer = Timer;
  * Any GameObject will only be available to the engine when attached directly or indirectly to world.
  * @type {module:core/GameObject}
  */
-Monogatari.world = new GameObject(
-  'world', function () {
-  }
-);
+Monogatari.world = new GameObject('world', function () {});
 
 /**
  * Exposes the {@link module:manager/SceneManager|SceneManager}.
@@ -48276,35 +47858,24 @@ Monogatari.init = function (bgcolor, width, height, target) {
 
   // Keyboard input setup
   this.keyboard = new Keyboard();
-  window.addEventListener(
-    'keyup', function (event) {
-      ctx.keyboard.onKeyUp(event, ctx.timer);
-    }, false
-  );
-  window.addEventListener(
-    'keydown', function (event) {
-      ctx.keyboard.onKeyDown(event, ctx.timer);
-    }, false
-  );
+  window.addEventListener('keyup', function (event) {
+    ctx.keyboard.onKeyUp(event, ctx.timer);
+  }, false);
+  window.addEventListener('keydown', function (event) {
+    ctx.keyboard.onKeyDown(event, ctx.timer);
+  }, false);
 
   // Mouse input setup
   this.mouse = new Mouse();
-  window.addEventListener(
-    'mousemove', function (event) {
-      ctx.mouse.onMouseMove(event, ctx.timer);
-    }, false
-  );
-  window.addEventListener(
-    'mousedown', function (event) {
-      ctx.mouse.onMouseDown(event, ctx.timer);
-    }, false
-  );
-  window.addEventListener(
-    'mouseup', function (event) {
-      ctx.mouse.onMouseUp(event);
-    }, false
-  );
-
+  window.addEventListener('mousemove', function (event) {
+    ctx.mouse.onMouseMove(event, ctx.timer);
+  }, false);
+  window.addEventListener('mousedown', function (event) {
+    ctx.mouse.onMouseDown(event, ctx.timer);
+  }, false);
+  window.addEventListener('mouseup', function (event) {
+    ctx.mouse.onMouseUp(event);
+  }, false);
 };
 
 /**
@@ -48331,7 +47902,6 @@ Monogatari.run = function (loaded) {
   if (loaded) {
     this.update();
     this.render();
-
   } else {
     var loadPercentage = this.world.load();
     if (loadPercentage == 1) {
@@ -48353,7 +47923,10 @@ Monogatari.loadingProgress = function (percentage) {
 };
 
 module.exports = Monogatari;
-},{"collection/ArrayUtils":8,"collection/LinkedList":9,"collection/List":10,"collection/Map":11,"collection/Tree":12,"component/Audio":13,"component/Base":14,"component/Canvas":15,"component/RigidBody":16,"component/Sprite":17,"core/GameObject":19,"core/Math":20,"core/Random":22,"core/Timer":23,"input/Keyboard":24,"input/Mouse":25,"link/Box2D":26,"link/Three":28,"manager/MessageManager":29,"manager/PhysicsManager":30,"manager/SceneManager":31}],8:[function(require,module,exports){
+
+},{"collection/ArrayUtils":5,"collection/LinkedList":6,"collection/List":7,"collection/Map":8,"collection/Tree":9,"component/Audio":10,"component/Base":11,"component/Canvas":12,"component/RigidBody":13,"component/Sprite":14,"core/GameObject":16,"core/Math":17,"core/Random":19,"core/Timer":20,"input/Keyboard":21,"input/Mouse":22,"link/Box2D":23,"link/Three":25,"manager/MessageManager":26,"manager/PhysicsManager":27,"manager/SceneManager":28}],5:[function(require,module,exports){
+'use strict';
+
 //https://github.com/techfort/PowerArray
 
 var Common = require('core/Common');
@@ -48396,7 +47969,7 @@ ArrayUtils.quicksort = function (array) {
   var pivot = array[0];
 
   for (var i = 1, len = array.length; i < len; i++) {
-    (array[i] < pivot) ? head[head.length] = array[i] : tail[tail.length] = array[i];
+    array[i] < pivot ? head[head.length] = array[i] : tail[tail.length] = array[i];
   }
 
   return this.quicksort(head).concat(pivot, this.quicksort(tail));
@@ -48435,11 +48008,9 @@ ArrayUtils.unique = function (array) {
  */
 ArrayUtils.alphabeticalSort = function (array) {
   if (this.isArray(array)) {
-    array.sort(
-      function (a, b) {
-        return (a.group < b.group) ? -1 : (a.group < b.group) ? 1 : 0;
-      }
-    );
+    array.sort(function (a, b) {
+      return a.group < b.group ? -1 : a.group < b.group ? 1 : 0;
+    });
     return array;
   } else {
     return null;
@@ -48476,7 +48047,8 @@ ArrayUtils.remove = function (array, from, to) {
  * @return {Boolean}
  */
 ArrayUtils.equals = function (arr1, arr2) {
-  var len1 = arr1.length, len2 = arr2.length;
+  var len1 = arr1.length,
+      len2 = arr2.length;
 
   if (len1 != len2) {
     return false;
@@ -48484,7 +48056,8 @@ ArrayUtils.equals = function (arr1, arr2) {
 
   for (var i = 0; i < len2; i++) {
 
-    if (this.isArray(arr1[i])) { // nested array
+    if (this.isArray(arr1[i])) {
+      // nested array
       if (!this.equals(arr1[i], arr2[i])) {
         return false;
       } else {
@@ -48509,11 +48082,9 @@ ArrayUtils.equals = function (arr1, arr2) {
 ArrayUtils.intersection = function (arr1, arr2) {
   var rest = concat.apply(Array.prototype, slice.call(arr2, 1));
 
-  return this.unique(arr1).filter(
-    function (value) {
-      return this.inArray(value, rest);
-    }
-  );
+  return this.unique(arr1).filter(function (value) {
+    return this.inArray(value, rest);
+  });
 };
 
 /**
@@ -48525,11 +48096,9 @@ ArrayUtils.intersection = function (arr1, arr2) {
 ArrayUtils.difference = function (arr1, arr2) {
   var rest = this.concat.apply(Array.prototype, this.slice.call(arr2, 1));
 
-  return this.unique(arr1).filter(
-    function (value) {
-      return !this.inArray(value, rest);
-    }
-  );
+  return this.unique(arr1).filter(function (value) {
+    return !this.inArray(value, rest);
+  });
 };
 
 /**
@@ -48562,288 +48131,291 @@ ArrayUtils.chunk = function (a, s) {
  * [1,2,3,4,5,6,7];
  */
 ArrayUtils.flat = function (arr) {
-  return arr.reduce(
-    function (a, b) {
-      return a.concat(b);
-    }, []
-  );
+  return arr.reduce(function (a, b) {
+    return a.concat(b);
+  }, []);
 };
 
 module.exports = ArrayUtils;
-},{"core/Common":18}],9:[function(require,module,exports){
-    var Common = require('core/Common');
 
-    var LinkedListNode = function( value ) {
-      this.value = ( value ) ? value : null;
-      this.next = null;
-      this.prev = null;
-    };
+},{"core/Common":15}],6:[function(require,module,exports){
+'use strict';
 
-    /**
-     * Collection of data elements, with elements directing to the next node by means of pointer.
-     * Elements can easily be inserted or removed without reallocation or reorganization of the entire
-     * structure because the data items need not be stored contiguously in memory.
-     * @requires module:core/Common
-     * @exports collection/LinkedList
-     */
-    var LinkedList = function() {
-      this._head = null;
-      this._tail = null;
-      this._size = 0;
-    };
+var Common = require('core/Common');
 
-    /**
-     * Adds a value to the list, allows nulls and repeated values.
-     * @param {Object} value - Value to be added
-     */
-    LinkedList.prototype.put = function( value ) {
-      var node = new LinkedListNode( value );
+var LinkedListNode = function LinkedListNode(value) {
+  this.value = value ? value : null;
+  this.next = null;
+  this.prev = null;
+};
 
-      if( this._size === 0 ) {
-        // no items in the list yet
-        this._head = node;
-        this._tail = node;
-      } else {
-        // attach to the tail node
-        this._tail.next = node;
-        node.prev = this._tail;
-        this._tail = node;
+/**
+ * Collection of data elements, with elements directing to the next node by means of pointer.
+ * Elements can easily be inserted or removed without reallocation or reorganization of the entire
+ * structure because the data items need not be stored contiguously in memory.
+ * @requires module:core/Common
+ * @exports collection/LinkedList
+ */
+var LinkedList = function LinkedList() {
+  this._head = null;
+  this._tail = null;
+  this._size = 0;
+};
+
+/**
+ * Adds a value to the list, allows nulls and repeated values.
+ * @param {Object} value - Value to be added
+ */
+LinkedList.prototype.put = function (value) {
+  var node = new LinkedListNode(value);
+
+  if (this._size === 0) {
+    // no items in the list yet
+    this._head = node;
+    this._tail = node;
+  } else {
+    // attach to the tail node
+    this._tail.next = node;
+    node.prev = this._tail;
+    this._tail = node;
+  }
+
+  this._size++;
+};
+
+/**
+ * Remove and returns the last value from the list.
+ * @return {Object}
+ */
+LinkedList.prototype.pop = function () {
+  return this.removeByIndex(this._size - 1);
+};
+
+/**
+ * Checks if the list contains an element equals the value parameter.
+ * @see module:core/Common.equals
+ * @param {Object} value - The value to check
+ * @return {Boolean}
+ */
+LinkedList.prototype.contains = function (value) {
+  if (value) {
+    var node = this._head,
+        i = 0;
+
+    while (node) {
+      if (Common.equals(node.value, value)) return true;
+      node = node.next;
+    }
+    return false;
+  } else {
+    return false;
+  }
+};
+
+/**
+ * Removes a value by a given index and returns it or null if not found.
+ * @param {Number} index - The index position on the list
+ * @return {Object} The object removed from the list.
+ */
+LinkedList.prototype.removeByIndex = function (index) {
+  if (!isNaN(index) && index > -1 && index <= this._size) {
+    var node = this._head,
+        i = 0;
+    if (index === 0) {
+      // removing first item
+      this._head = node.next;
+
+      // If there's only one item in the list and you remove it, then this._head will be null.
+      // In that case, you should also set this._tail to be null to effectively destroy the list.
+      // Otherwise, set the previous pointer on the new this._head to be null.
+      if (!this._head) this._tail = null;else this._head.prev = null;
+    } else if (index === this._size - 1) {
+      // removing last item
+      node = this._tail;
+      this._tail = node.prev;
+      this._tail.next = null;
+    } else {
+      // find the node
+      while (i++ < index) {
+        node = node.next;
       }
 
-      this._size++;
-    };
+      // skip over the item to remove
+      node.prev.next = node.next;
+    }
 
-    /**
-     * Remove and returns the last value from the list.
-     * @return {Object}
-     */
-    LinkedList.prototype.pop = function() {
-      return this.removeByIndex( this._size - 1 );
-    };
+    this._size--;
 
-    /**
-     * Checks if the list contains an element equals the value parameter.
-     * @see module:core/Common.equals
-     * @param {Object} value - The value to check
-     * @return {Boolean}
-     */
-    LinkedList.prototype.contains = function( value ) {
-      if( value ) {
-        var node = this._head, i = 0;
+    return node.value;
+  } else {
+    return null;
+  }
+};
 
-        while( node ) {
-          if( Common.equals( node.value, value ) )
-            return true;
-          node = node.next;
-        }
-        return false;
+/**
+ * Removes a value by an object index and returns it or null if not found.
+ * @param {Object} value - The value on the list
+ * @return {Object}
+ */
+LinkedList.prototype.removeByValue = function (value) {
+  if (value && this._size > 0) {
+
+    var node = this._head,
+        i = 0;
+
+    if (Common.equals(this._head.value, value)) {
+      // removing first item
+      this._head = node.next;
+
+      // If there's only one item in the list and you remove it, then this._head will be null.
+      // In that case, you should also set this._tail to be null to effectively destroy the list.
+      // Otherwise, set the previous pointer on the new this._head to be null.
+      if (!this._head) {
+        this._tail = null;
       } else {
-        return false;
+        this._head.prev = null;
       }
-    };
 
-    /**
-     * Removes a value by a given index and returns it or null if not found.
-     * @param {Number} index - The index position on the list
-     * @return {Object} The object removed from the list.
-     */
-    LinkedList.prototype.removeByIndex = function( index ) {
-      if( !isNaN( index ) && index > -1 && index <= this._size ) {
-        var node = this._head, i = 0;
-        if( index === 0 ) {
-          // removing first item
-          this._head = node.next;
+      // decrease size
+      this._size--;
+    } else if (Common.equals(this._tail.value, value)) {
+      // removing last item
+      node = this._tail;
+      this._tail = node.prev;
+      this._tail.next = null;
 
-          // If there's only one item in the list and you remove it, then this._head will be null.
-          // In that case, you should also set this._tail to be null to effectively destroy the list.
-          // Otherwise, set the previous pointer on the new this._head to be null.
-          if( !this._head )
-            this._tail = null;
-          else
-            this._head.prev = null;
-        } else if( index === this._size - 1 ) {
-          // removing last item
-          node = this._tail;
-          this._tail = node.prev;
-          this._tail.next = null;
-        } else {
-          // find the node
-          while( i++ < index ) {
-            node = node.next;
-          }
-
+      // decrease size
+      this._size--;
+    } else {
+      // find the node
+      while (node) {
+        if (Common.equals(node.value, value)) {
           // skip over the item to remove
           node.prev.next = node.next;
-        }
-
-        this._size--;
-
-        return node.value;
-      } else {
-        return null;
-      }
-    };
-
-    /**
-     * Removes a value by an object index and returns it or null if not found.
-     * @param {Object} value - The value on the list
-     * @return {Object}
-     */
-    LinkedList.prototype.removeByValue = function( value ) {
-      if( value && this._size > 0 ) {
-
-        var node = this._head, i = 0;
-
-        if( Common.equals( this._head.value, value ) ) {
-          // removing first item
-          this._head = node.next;
-
-          // If there's only one item in the list and you remove it, then this._head will be null.
-          // In that case, you should also set this._tail to be null to effectively destroy the list.
-          // Otherwise, set the previous pointer on the new this._head to be null.
-          if( !this._head ) {
-            this._tail = null;
-          } else {
-            this._head.prev = null;
-          }
-
           // decrease size
           this._size--;
-        } else if( Common.equals( this._tail.value, value ) ) {
-          // removing last item
-          node = this._tail;
-          this._tail = node.prev;
-          this._tail.next = null;
-
-          // decrease size
-          this._size--;
-        } else {
-          // find the node
-          while( node ) {
-            if( Common.equals( node.value, value ) ) {
-              // skip over the item to remove
-              node.prev.next = node.next;
-              // decrease size
-              this._size--;
-            }
-
-            node = node.next;
-          }
-
         }
 
-        return ( node && node.value ) ? node.value : null;
-      } else {
-        return null;
+        node = node.next;
+      }
+    }
+
+    return node && node.value ? node.value : null;
+  } else {
+    return null;
+  }
+};
+
+/**
+ * Clears the whole list, removing all references to it and signaling to be garbage collected.
+ */
+LinkedList.prototype.clear = function () {
+  this._head = null;
+  this._tail = null;
+  this._size = 0;
+};
+
+/**
+ * Returns the length of the list.
+ */
+LinkedList.prototype.size = function () {
+  return this._size;
+};
+
+/**
+ * Check if the list is empty.
+ * @return {Boolean}
+ */
+LinkedList.prototype.isEmpty = function () {
+  return this._size > 0;
+};
+
+/**
+ * Returns an array with the values from the list.
+ * @return {Array}
+ */
+LinkedList.prototype.toArray = function () {
+  var result = [],
+      current = this._head;
+
+  while (current) {
+    result.push(current.value);
+    current = current.next;
+  }
+
+  return result;
+};
+
+/**
+ * Returns a JSON object with the values from the list.
+ * @return {JSON}
+ */
+LinkedList.prototype.toJSON = function () {
+  return JSON.stringify(this.toArray());
+};
+
+/**
+ * Returns a stringified object with the values from the list.
+ * @return {String}
+ */
+LinkedList.prototype.toString = function () {
+  return this.toArray().toString();
+};
+
+/**
+ * Creates and returns an object with iterator functionality, allowing to navigate through the values stored on the list.
+ * @return {Object}
+ */
+LinkedList.prototype.iterator = function () {
+  var Iterator = function Iterator(head, tail) {
+    this._head = head;
+    this._current = head;
+    this._tail = tail;
+
+    this.hasNext = function () {
+      return this._current && this._current.next != null;
+    };
+
+    this.next = function () {
+      if (this._current) {
+        this._current = this._current.next;
+        return this._current ? this._current.value : null;
       }
     };
 
-    /**
-     * Clears the whole list, removing all references to it and signaling to be garbage collected.
-     */
-    LinkedList.prototype.clear = function() {
-      this._head = null;
-      this._tail = null;
-      this._size = 0;
+    this.hasPrevious = function () {
+      return this._current && this._current.prev != null;
     };
 
-    /**
-     * Returns the length of the list.
-     */
-    LinkedList.prototype.size = function() {
-      return this._size;
-    };
-
-    /**
-     * Check if the list is empty.
-     * @return {Boolean}
-     */
-    LinkedList.prototype.isEmpty = function() {
-      return ( this._size > 0 );
-    };
-
-    /**
-     * Returns an array with the values from the list.
-     * @return {Array}
-     */
-    LinkedList.prototype.toArray = function() {
-      var result = [], current = this._head;
-
-      while( current ) {
-        result.push( current.value );
-        current = current.next;
+    this.previous = function () {
+      if (this._current) {
+        this._current = this._current.prev;
+        return this._current ? this._current.value : null;
       }
-
-      return result;
     };
 
-    /**
-     * Returns a JSON object with the values from the list.
-     * @return {JSON}
-     */
-    LinkedList.prototype.toJSON = function() {
-      return JSON.stringify( this.toArray() );
+    this.first = function () {
+      if (this._head) {
+        this._current = this._head;
+        return this._current ? this._current.value : null;
+      }
     };
 
-    /**
-     * Returns a stringified object with the values from the list.
-     * @return {String}
-     */
-    LinkedList.prototype.toString = function() {
-      return this.toArray().toString();
+    this.last = function () {
+      if (this._tail) {
+        this._current = this._tail;
+        return this._current ? this._current.value : null;
+      }
     };
+  };
+  return new Iterator(this._head, this._tail);
+};
 
-    /**
-     * Creates and returns an object with iterator functionality, allowing to navigate through the values stored on the list.
-     * @return {Object}
-     */
-    LinkedList.prototype.iterator = function() {
-      var Iterator = function( head, tail ) {
-        this._head = head;
-        this._current = head;
-        this._tail = tail;
+module.exports = LinkedList;
 
-        this.hasNext = function() {
-          return ( this._current && this._current.next != null );
-        };
+},{"core/Common":15}],7:[function(require,module,exports){
+'use strict';
 
-        this.next = function() {
-          if( this._current ) {
-            this._current = this._current.next;
-            return ( this._current ) ? this._current.value : null;
-          }
-        };
-
-        this.hasPrevious = function() {
-          return ( this._current && this._current.prev != null );
-        };
-
-        this.previous = function() {
-          if( this._current ) {
-            this._current = this._current.prev;
-            return ( this._current ) ? this._current.value : null;
-          }
-        };
-
-        this.first = function() {
-          if( this._head ) {
-            this._current = this._head;
-            return ( this._current ) ? this._current.value : null;
-          }
-        };
-
-        this.last = function() {
-          if( this._tail ) {
-            this._current = this._tail;
-            return ( this._current ) ? this._current.value : null;
-          }
-        };
-      };
-      return new Iterator( this._head, this._tail );
-    };
-
-    module.exports = LinkedList;
-},{"core/Common":18}],10:[function(require,module,exports){
 var Common = require('core/Common');
 
 /**
@@ -48853,7 +48425,7 @@ var Common = require('core/Common');
  * @requires module:core/Common
  * @exports collection/List
  */
-var List = function (array) {
+var List = function List(array) {
   this.values = Common.isArray(array) ? array : [];
 };
 
@@ -48937,7 +48509,7 @@ List.prototype.contains = function (value) {
  * @return {Object} Iterator object.
  */
 List.prototype.iterator = function () {
-  var Iterator = function (array) {
+  var Iterator = function Iterator(array) {
     var index = -1;
 
     this.hasNext = function () {
@@ -48958,12 +48530,12 @@ List.prototype.iterator = function () {
 
     this.first = function () {
       index = -1;
-      return (array.length > 0) ? array[0] : null;
+      return array.length > 0 ? array[0] : null;
     };
 
     this.last = function () {
       index = array.length - 1;
-      return (array.length > 0) ? array[index] : null;
+      return array.length > 0 ? array[index] : null;
     };
   };
 
@@ -48972,7 +48544,9 @@ List.prototype.iterator = function () {
 
 module.exports = List;
 
-},{"core/Common":18}],11:[function(require,module,exports){
+},{"core/Common":15}],8:[function(require,module,exports){
+'use strict';
+
 var Common = require('core/Common');
 
 /**
@@ -48981,7 +48555,7 @@ var Common = require('core/Common');
  * @requires core/Common
  * @exports collection/Map
  */
-var Map = function () {
+var Map = function Map() {
   this.keySet = [];
   this.entries = [];
 };
@@ -49069,7 +48643,7 @@ Map.prototype.clear = function () {
  * @returns {Object} Iterator
  */
 Map.prototype.iterator = function () {
-  var Iterator = function (keys, values) {
+  var Iterator = function Iterator(keys, values) {
     this.index = -1;
 
     this.hasNext = function () {
@@ -49090,12 +48664,12 @@ Map.prototype.iterator = function () {
 
     this.first = function () {
       this.index = -1;
-      return (keys.length > 0) ? values[keys[0]] : null;
+      return keys.length > 0 ? values[keys[0]] : null;
     };
 
     this.last = function () {
       this.index = keys.length - 1;
-      return (keys.length > 0) ? values[keys[this.index]] : null;
+      return keys.length > 0 ? values[keys[this.index]] : null;
     };
   };
 
@@ -49104,14 +48678,16 @@ Map.prototype.iterator = function () {
 
 module.exports = Map;
 
-},{"core/Common":18}],12:[function(require,module,exports){
+},{"core/Common":15}],9:[function(require,module,exports){
+'use strict';
+
 var Common = require('core/Common');
 
 /**
  * A specific node used for the {@link module:collection/Tree|collection/Tree}.
  * @class TreeNode
  */
-var TreeNode = function (data, parent) {
+var TreeNode = function TreeNode(data, parent) {
   /**
    * Actual data stored in the node.
    * @memberOf TreeNode
@@ -49139,7 +48715,7 @@ var TreeNode = function (data, parent) {
  * @requires core/Common
  * @exports collection/Tree
  */
-var Tree = function () {
+var Tree = function Tree() {
   this.root = new TreeNode('root');
 };
 
@@ -49152,7 +48728,7 @@ var Tree = function () {
 Tree.prototype.find = function (data, startNode) {
   var sNode = startNode ? startNode : this.root;
 
-  var findAux = function (data, currentNode) {
+  var findAux = function findAux(data, currentNode) {
     if (Common.equals(data, currentNode.data)) {
       return currentNode;
     } else {
@@ -49241,7 +48817,7 @@ Tree.prototype.listChildren = function (data) {
 Tree.prototype.listDescendants = function (data) {
   var node = this.find(data);
 
-  var listDescendantsAux = function (node, result) {
+  var listDescendantsAux = function listDescendantsAux(node, result) {
     for (var i = 0; i < node.children.length; i++) {
       result.push(node.children[i]);
       result = listDescendantsAux(node.children[i], result);
@@ -49265,7 +48841,10 @@ Tree.prototype.toArray = function () {
 };
 
 module.exports = Tree;
-},{"core/Common":18}],13:[function(require,module,exports){
+
+},{"core/Common":15}],10:[function(require,module,exports){
+'use strict';
+
 var Base = require('component/Base');
 var Howler = require('link/Howler');
 
@@ -49275,7 +48854,7 @@ var Howler = require('link/Howler');
  * @extends {module:component/Base}
  * @exports component/Audio
  */
-var Audio = function (source) {
+var Audio = function Audio(source) {
   Base.call(this, Base.TYPE.AUDIO);
 
   /**
@@ -49310,13 +48889,16 @@ Audio.prototype.stop = function () {
 };
 
 module.exports = Audio;
-},{"component/Base":14,"link/Howler":27}],14:[function(require,module,exports){
+
+},{"component/Base":11,"link/Howler":24}],11:[function(require,module,exports){
+"use strict";
+
 /**
  * Base class that all components extend.
  * @abstract
  * @exports component/Base
  */
-var Base = function (type) {
+var Base = function Base(type) {
   /**
    * Actual component type.
    * @type module:component/Base.TYPE
@@ -49367,7 +48949,10 @@ Base.STATE = {
 };
 
 module.exports = Base;
-},{}],15:[function(require,module,exports){
+
+},{}],12:[function(require,module,exports){
+'use strict';
+
 var Common = require('core/Common');
 var Math = require('core/Math');
 var Base = require('component/Base');
@@ -49379,15 +48964,15 @@ var THREE = require('link/Three');
  * @extends {module:component/Base}
  * @exports component/Canvas
  */
-var Canvas = function (width, height, draw, id) {
+var Canvas = function Canvas(width, height, draw, id) {
   Base.call(this, Base.TYPE.CANVAS);
 
-  this.id = (id) ? id : Common.createUniqueId();
+  this.id = id ? id : Common.createUniqueId();
 
   this.canvas = document.createElement('canvas');
 
-  this.w = (width) ? width : 128;
-  this.h = (height) ? height : 128;
+  this.w = width ? width : 128;
+  this.h = height ? height : 128;
 
   this.halfW = this.w / 2;
   this.halfH = this.h / 2;
@@ -49397,7 +48982,7 @@ var Canvas = function (width, height, draw, id) {
 
   this.context = this.canvas.getContext("2d");
 
-  this.draw = (draw) ? draw : function () {
+  this.draw = draw ? draw : function () {
     this.setFill("rgba(255, 45, 21, 0.4)");
     this.setStroke("rgba(255, 45, 21, 0.9)");
 
@@ -49424,12 +49009,10 @@ var Canvas = function (width, height, draw, id) {
    * THREE.Material of the component.
    * @type {THREE.Material}
    */
-  this.material = new THREE.MeshBasicMaterial(
-    {
-      map: this.texture,
-      side: THREE.FrontSide
-    }
-  );
+  this.material = new THREE.MeshBasicMaterial({
+    map: this.texture,
+    side: THREE.FrontSide
+  });
   this.material.transparent = true;
   /**
    * THREE.Geometry of the component.
@@ -49546,9 +49129,9 @@ Canvas.prototype.line = function (x1, y1, x2, y2) {
  */
 Canvas.prototype.circle = function (x, y, radius) {
   // arc(x, y, radius, startAngle, endAngle, anticlockwise)
-  var _x = (x) ? x : this.halfW;
-  var _y = (y) ? y : this.halfH;
-  var r = (radius) ? radius : Math.min(_x, _y);
+  var _x = x ? x : this.halfW;
+  var _y = y ? y : this.halfH;
+  var r = radius ? radius : Math.min(_x, _y);
 
   this.context.beginPath();
   this.context.arc(_x, _y, r, 0, Math.PI_2, true);
@@ -49579,7 +49162,7 @@ Canvas.prototype.polygon = function (arrX, arrY) {
  */
 Canvas.prototype.roundedRect = function (x, y, w, h, radius) {
 
-  var r = (radius) ? radius : 5;
+  var r = radius ? radius : 5;
 
   this.context.beginPath();
 
@@ -49637,8 +49220,8 @@ Canvas.prototype.roundedRect = function (x, y, w, h, radius) {
  */
 Canvas.prototype.ellipse = function (x, y, w, h) {
   var k = .5522848;
-  var ox = (w / 2) * k; // control point offset horizontal
-  var oy = (h / 2) * k; // control point offset vertical
+  var ox = w / 2 * k; // control point offset horizontal
+  var oy = h / 2 * k; // control point offset vertical
   var xe = x + w; // x-end
   var ye = y + h; // y-end
   var xm = x + w / 2; // x-middle
@@ -49654,11 +49237,14 @@ Canvas.prototype.ellipse = function (x, y, w, h) {
 };
 
 Canvas.prototype.setAlpha = function (alpha) {
-  this.context.globalAlpha = (alpha) ? alpha : 0;
+  this.context.globalAlpha = alpha ? alpha : 0;
 };
 
 module.exports = Canvas;
-},{"component/Base":14,"core/Common":18,"core/Math":20,"link/Three":28}],16:[function(require,module,exports){
+
+},{"component/Base":11,"core/Common":15,"core/Math":17,"link/Three":25}],13:[function(require,module,exports){
+'use strict';
+
 var Base = require('component/Base');
 var Box2D = require('link/Box2D');
 
@@ -49680,12 +49266,12 @@ var Box2D = require('link/Box2D');
 // [ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
 // [ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
 
-var RigidBody = function (conversionFactor, bodyDef, materialDef) {
+var RigidBody = function RigidBody(conversionFactor, bodyDef, materialDef) {
   Base.call(this, Base.TYPE.RIGID_BODY);
 
-  this.conversionFactor = (conversionFactor) ? conversionFactor : 1;
-  this.bodyDef = (bodyDef) ? bodyDef : new Box2D.b2BodyDef();
-  this.materialDef = (materialDef) ? materialDef : new Box2D.b2FixtureDef();
+  this.conversionFactor = conversionFactor ? conversionFactor : 1;
+  this.bodyDef = bodyDef ? bodyDef : new Box2D.b2BodyDef();
+  this.materialDef = materialDef ? materialDef : new Box2D.b2FixtureDef();
 
   this.body = null;
 };
@@ -49853,7 +49439,10 @@ RigidBody.prototype.clone = function () {
 };
 
 module.exports = RigidBody;
-},{"component/Base":14,"link/Box2D":26}],17:[function(require,module,exports){
+
+},{"component/Base":11,"link/Box2D":23}],14:[function(require,module,exports){
+'use strict';
+
 var Base = require('component/Base');
 var THREE = require('link/Three');
 
@@ -49867,7 +49456,7 @@ var THREE = require('link/Three');
  * @extends {module:component/Base}
  * @exports component/Sprite
  */
-var Sprite = function (source, width, height, rows, cols, material) {
+var Sprite = function Sprite(source, width, height, rows, cols, material) {
   Base.call(this, Base.TYPE.SPRITE);
 
   /**
@@ -49920,14 +49509,14 @@ var Sprite = function (source, width, height, rows, cols, material) {
    * @type {Number}
    * @default 1
    */
-  this.rows = (rows) ? rows : 1;
+  this.rows = rows ? rows : 1;
 
   /**
    * Number of columns on the sprite sheet, ranges from 1 to N (like array.length).
    * @type {Number}
    * @default 1
    */
-  this.cols = (cols) ? cols : 1;
+  this.cols = cols ? cols : 1;
 
   /**
    * Number of animation frames on the sprite sheet, ranges from 1 to N (like array.length).
@@ -49956,41 +49545,37 @@ var Sprite = function (source, width, height, rows, cols, material) {
   this.lastUpdate = 0;
 
   // initializes the component
-  new THREE.TextureLoader().load(
-    (source) ? source : 'assets/bad-texture.png',
+  new THREE.TextureLoader().load(source ? source : 'assets/bad-texture.png',
 
-    // load callback
-    function (texture) {
-      this.texture = texture;
-      this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
-      this.texture.flipY = true;
-      this.texture.minFilter = THREE.NearestFilter;
-      this.texture.offset.x = this.row / this.cols;
-      this.texture.offset.y = this.col / this.rows;
-      this.texture.repeat.set(1 / this.cols, 1 / this.rows);
-      this.material = new THREE.MeshBasicMaterial(
-        {
-          map: this.texture,
-          side: THREE.FrontSide
-        }
-      );
-      this.material.transparent = true;
-      this.geometry = new THREE.PlaneBufferGeometry(this.w, this.h, 1, 1);
-      this.state = Base.STATE.LOADED;
-    }.bind(this),
+  // load callback
+  function (texture) {
+    this.texture = texture;
+    this.texture.wrapS = this.texture.wrapT = THREE.ClampToEdgeWrapping;
+    this.texture.flipY = true;
+    this.texture.minFilter = THREE.NearestFilter;
+    this.texture.offset.x = this.row / this.cols;
+    this.texture.offset.y = this.col / this.rows;
+    this.texture.repeat.set(1 / this.cols, 1 / this.rows);
+    this.material = new THREE.MeshBasicMaterial({
+      map: this.texture,
+      side: THREE.FrontSide
+    });
+    this.material.transparent = true;
+    this.geometry = new THREE.PlaneBufferGeometry(this.w, this.h, 1, 1);
+    this.state = Base.STATE.LOADED;
+  }.bind(this),
 
-    // download callback
-    function (xhr) {
-      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-      this.state = Base.STATE.BUFFERING;
-    }.bind(this),
+  // download callback
+  function (xhr) {
+    console.log(xhr.loaded / xhr.total * 100 + '% loaded');
+    this.state = Base.STATE.BUFFERING;
+  }.bind(this),
 
-    // error callback
-    function (xhr) {
-      console.log("An exception occurred:" + xhr);
-      this.state = Base.STATE.FAILED;
-    }.bind(this)
-  );
+  // error callback
+  function (xhr) {
+    console.log("An exception occurred:" + xhr);
+    this.state = Base.STATE.FAILED;
+  }.bind(this));
 };
 
 Sprite.prototype = Object.create(Base.prototype);
@@ -50003,7 +49588,7 @@ Sprite.prototype = Object.create(Base.prototype);
 Sprite.prototype.setFrame = function (frame) {
   this.frame = frame ? frame : 1;
 
-  this.col = (Math.ceil(this.frame / this.cols)) - 1;
+  this.col = Math.ceil(this.frame / this.cols) - 1;
   this.row = (this.frame - 1) % this.cols;
 
   this.texture.offset.x = this.row / this.cols;
@@ -50014,14 +49599,14 @@ Sprite.prototype.setFrame = function (frame) {
  * Moves to the next animation frame of the sprite sheet.
  */
 Sprite.prototype.nextFrame = function () {
-  this.setFrame((this.frame % this.numberOfFrames) + 1);
+  this.setFrame(this.frame % this.numberOfFrames + 1);
 };
 
 /**
  * Builds the THREE.Mesh with current geometry and material.
  */
 Sprite.prototype.buildMesh = function () {
-  this.mesh = (this.material && this.geometry) ? new THREE.Mesh(this.geometry, this.material) : null;
+  this.mesh = this.material && this.geometry ? new THREE.Mesh(this.geometry, this.material) : null;
   this.state = Base.STATE.READY;
 };
 
@@ -50054,7 +49639,12 @@ Sprite.prototype.hide = function () {
 };
 
 module.exports = Sprite;
-},{"component/Base":14,"link/Three":28}],18:[function(require,module,exports){
+
+},{"component/Base":11,"link/Three":25}],15:[function(require,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 /**
  * Useful common functions
  * @exports core/Common
@@ -50082,7 +49672,7 @@ Common.equals = function (obj, other) {
     return obj === null && other === null;
   } else if (typeof obj === 'string') {
     return obj === other;
-  } else if (typeof obj !== 'object') {
+  } else if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') {
     return obj === other;
   } else if (obj.equals instanceof Function) {
     return obj.equals(other);
@@ -50143,7 +49733,7 @@ Common.isArray = function (a) {
  * @return {Boolean}
  */
 Common.isGameObject = function (object) {
-  return (object && object.id && object.equals instanceof Function && object.update instanceof Function);
+  return object && object.id && object.equals instanceof Function && object.update instanceof Function;
 };
 
 /**
@@ -50200,11 +49790,9 @@ Common.rgbToHex = function (r, g, b) {
 Common.hexToRgb = function (hex) {
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(
-    shorthandRegex, function (m, r, g, b) {
-      return r + r + g + g + b + b;
-    }
-  );
+  hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+    return r + r + g + g + b + b;
+  });
 
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? {
@@ -50234,7 +49822,10 @@ Common.store = function (key, val, isObject) {
 };
 
 module.exports = Common;
-},{}],19:[function(require,module,exports){
+
+},{}],16:[function(require,module,exports){
+'use strict';
+
 var Common = require('core/Common');
 var Timer = require('core/Timer');
 var Message = require('core/Message');
@@ -50279,7 +49870,7 @@ var THREE = require('link/Three');
  * @requires lib/Three
  * @exports core/GameObject
  */
-var GameObject = function (id, update, position, rotation, scale) {
+var GameObject = function GameObject(id, update, position, rotation, scale) {
 
   /**
    * Unique identifier, created automatically.
@@ -50300,14 +49891,14 @@ var GameObject = function (id, update, position, rotation, scale) {
    * @type {THREE.Vector3}
    * @default THREE.Vector3( 0, 0, 0 )
    */
-  this.position = (position) ? position : new THREE.Vector3(0, 0, 0);
+  this.position = position ? position : new THREE.Vector3(0, 0, 0);
 
   /**
    * Represents rotation (X, Y, Z) in radians.
    * @type {THREE.Euler}
    * @default THREE.Euler( 0, 0, Math.PI, 'XYZ' )
    */
-  this.rotation = (rotation) ? rotation : new THREE.Euler(0, 0, Math.PI, 'XYZ');
+  this.rotation = rotation ? rotation : new THREE.Euler(0, 0, Math.PI, 'XYZ');
 
   /**
    * A direction vector, reference used to rotate objects in 2D space.
@@ -50320,7 +49911,7 @@ var GameObject = function (id, update, position, rotation, scale) {
    * @type {THREE.Vector3}
    * @default THREE.Vector3( 1, 1, 1 )
    */
-  this.scale = (scale) ? scale : new THREE.Vector3(1, 1, 1);
+  this.scale = scale ? scale : new THREE.Vector3(1, 1, 1);
 
   /**
    * Axis with Y flipped to calculate properly according to the engine orthographic camera.
@@ -50364,7 +49955,7 @@ var GameObject = function (id, update, position, rotation, scale) {
 
   this.sceneId = SceneManager.DEFAULT_SCENE_ID;
 
-  if (typeof (update) === 'function') {
+  if (typeof update === 'function') {
     this.update = update;
   }
 };
@@ -50414,7 +50005,7 @@ GameObject.prototype.receiveMessage = function (message) {
  */
 GameObject.prototype.getEulerRotation = function () {
   var angle = this.direction.angleTo(this.axis);
-  return (this.direction.y * this.axis.x > this.direction.x * this.axis.y) ? angle : -angle;
+  return this.direction.y * this.axis.x > this.direction.x * this.axis.y ? angle : -angle;
 };
 
 /**
@@ -50455,7 +50046,7 @@ GameObject.prototype.getEulerRotationToTarget = function (target) {
 
   var angle = direction.angleTo(this.axis);
 
-  return (direction.y * this.axis.x > direction.x * this.axis.y) ? angle : -angle;
+  return direction.y * this.axis.x > direction.x * this.axis.y ? angle : -angle;
 };
 
 /**
@@ -50501,7 +50092,7 @@ GameObject.prototype.clearComponents = function () {
  * @return {Boolean}
  */
 GameObject.prototype.hasComponent = function (type) {
-  return (this.components.contains(type)) ? true : false;
+  return this.components.contains(type) ? true : false;
 };
 
 /**
@@ -50569,17 +50160,15 @@ GameObject.prototype.updateComponents = function () {
         component.mesh.position.set(this.position.x, this.position.y, this.position.z);
         component.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
         component.mesh.scale.set(-this.scale.x, this.scale.y, this.scale.z);
-
       } else if (component.state === Base.STATE.READY) {
         SceneManager.attachToScene(component, this.sceneId);
         component.state = Base.STATE.REGISTERED;
-
       } else if (component.state === Base.STATE.LOADED) {
         component.buildMesh();
       }
     }
     // For components that require an update
-    if (typeof (component.update) === 'function') {
+    if (typeof component.update === 'function') {
       component.update();
     }
   }
@@ -50637,7 +50226,7 @@ GameObject.prototype.findByUid = function (uid) {
  * @return {Boolean}
  */
 GameObject.prototype.equals = function (go) {
-  return (go.uid === this.uid);
+  return go.uid === this.uid;
 };
 
 /**
@@ -50724,7 +50313,10 @@ GameObject.prototype.load = function () {
 };
 
 module.exports = GameObject;
-},{"collection/LinkedList":9,"collection/Map":11,"component/Base":14,"core/Common":18,"core/Math":20,"core/Message":21,"core/Timer":23,"link/Three":28,"manager/MessageManager":29,"manager/PhysicsManager":30,"manager/SceneManager":31}],20:[function(require,module,exports){
+
+},{"collection/LinkedList":6,"collection/Map":8,"component/Base":11,"core/Common":15,"core/Math":17,"core/Message":18,"core/Timer":20,"link/Three":25,"manager/MessageManager":26,"manager/PhysicsManager":27,"manager/SceneManager":28}],17:[function(require,module,exports){
+'use strict';
+
 var THREE = require('link/Three');
 
 /**
@@ -50929,7 +50521,7 @@ Math.nearestMultiple = function (numToRound, multiple) {
  * @returns {Number} The minimum value between a and b.
  */
 Math.min = function (a, b) {
-  return (a < b) ? a : b;
+  return a < b ? a : b;
 };
 
 /**
@@ -50938,7 +50530,7 @@ Math.min = function (a, b) {
  * @returns {Number} The maximum value between a and b.
  */
 Math.max = function (a, b) {
-  return (a > b) ? a : b;
+  return a > b ? a : b;
 };
 
 /**
@@ -51029,7 +50621,10 @@ Math.rotateAroundPivot = function (position, pivot, radians) {
 };
 
 module.exports = Math;
-},{"link/Three":28}],21:[function(require,module,exports){
+
+},{"link/Three":25}],18:[function(require,module,exports){
+'use strict';
+
 var Timer = require('core/Timer');
 
 /**
@@ -51041,7 +50636,7 @@ var Timer = require('core/Timer');
  * @requires core/Timer
  * @exports core/Message
  */
-var Message = function (from, to, type, message) {
+var Message = function Message(from, to, type, message) {
   this.from = from;
   this.to = to;
   this.type = type;
@@ -51055,11 +50650,14 @@ var Message = function (from, to, type, message) {
  * @return {Boolean}
  */
 Message.prototype.equals = function (other) {
-  return (this.from === other.from && this.to === other.to && this.type === other.type && this.timestamp === other.timestamp);
+  return this.from === other.from && this.to === other.to && this.type === other.type && this.timestamp === other.timestamp;
 };
 
 module.exports = Message;
-},{"core/Timer":23}],22:[function(require,module,exports){
+
+},{"core/Timer":20}],19:[function(require,module,exports){
+'use strict';
+
 var Math = require('core/Math');
 
 /**
@@ -51067,7 +50665,7 @@ var Math = require('core/Math');
  * @requires core/Math
  * @exports core/Random
  */
-var Random = function () {
+var Random = function Random() {
   this.init();
 };
 
@@ -51156,7 +50754,7 @@ module.exports = Random;
    http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
-var MersenneTwister = function (seed) {
+var MersenneTwister = function MersenneTwister(seed) {
   if (seed == undefined) {
     seed = new Date().getTime();
   }
@@ -51182,9 +50780,8 @@ var MersenneTwister = function (seed) {
 MersenneTwister.prototype.init_genrand = function (s) {
   this.mt[0] = s >>> 0;
   for (this.mti = 1; this.mti < this.N; this.mti++) {
-    s = this.mt[this.mti - 1] ^ (this.mt[this.mti - 1] >>> 30);
-    this.mt[this.mti] = (((((s & 0xffff0000) >>> 16) * 1812433253) << 16) + (s & 0x0000ffff) * 1812433253)
-      + this.mti;
+    s = this.mt[this.mti - 1] ^ this.mt[this.mti - 1] >>> 30;
+    this.mt[this.mti] = (((s & 0xffff0000) >>> 16) * 1812433253 << 16) + (s & 0x0000ffff) * 1812433253 + this.mti;
     /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
     /* In the previous versions, MSBs of the seed affect   */
     /* only MSBs of the array mt[].                        */
@@ -51204,11 +50801,10 @@ MersenneTwister.prototype.init_by_array = function (init_key, key_length) {
   i = 1;
   j = 0;
   s = 0;
-  k = (this.N > key_length ? this.N : key_length);
+  k = this.N > key_length ? this.N : key_length;
   for (; k; k--) {
-    s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30)
-    this.mt[i] = (this.mt[i] ^ (((((s & 0xffff0000) >>> 16) * 1664525) << 16) + ((s & 0x0000ffff) * 1664525)))
-      + init_key[j] + j;
+    s = this.mt[i - 1] ^ this.mt[i - 1] >>> 30;
+    this.mt[i] = (this.mt[i] ^ (((s & 0xffff0000) >>> 16) * 1664525 << 16) + (s & 0x0000ffff) * 1664525) + init_key[j] + j;
     /* non linear */
     this.mt[i] >>>= 0;
     /* for WORDSIZE > 32 machines */
@@ -51221,9 +50817,8 @@ MersenneTwister.prototype.init_by_array = function (init_key, key_length) {
     if (j >= key_length) j = 0;
   }
   for (k = this.N - 1; k; k--) {
-    s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);
-    this.mt[i] = (this.mt[i] ^ (((((s & 0xffff0000) >>> 16) * 1566083941) << 16) + (s & 0x0000ffff) * 1566083941))
-      - i;
+    s = this.mt[i - 1] ^ this.mt[i - 1] >>> 30;
+    this.mt[i] = (this.mt[i] ^ (((s & 0xffff0000) >>> 16) * 1566083941 << 16) + (s & 0x0000ffff) * 1566083941) - i;
     /* non linear */
     this.mt[i] >>>= 0;
     /* for WORDSIZE > 32 machines */
@@ -51244,23 +50839,24 @@ MersenneTwister.prototype.genrand_int32 = function () {
   var mag01 = new Array(0x0, this.MATRIX_A);
   /* mag01[x] = x * MATRIX_A  for x=0,1 */
 
-  if (this.mti >= this.N) { /* generate N words at one time */
+  if (this.mti >= this.N) {
+    /* generate N words at one time */
     var kk;
 
-    if (this.mti == this.N + 1)   /* if init_genrand() has not been called, */
+    if (this.mti == this.N + 1) /* if init_genrand() has not been called, */
       this.init_genrand(5489);
     /* a default initial seed is used */
 
     for (kk = 0; kk < this.N - this.M; kk++) {
-      y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);
-      this.mt[kk] = this.mt[kk + this.M] ^ (y >>> 1) ^ mag01[y & 0x1];
+      y = this.mt[kk] & this.UPPER_MASK | this.mt[kk + 1] & this.LOWER_MASK;
+      this.mt[kk] = this.mt[kk + this.M] ^ y >>> 1 ^ mag01[y & 0x1];
     }
     for (; kk < this.N - 1; kk++) {
-      y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);
-      this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+      y = this.mt[kk] & this.UPPER_MASK | this.mt[kk + 1] & this.LOWER_MASK;
+      this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ y >>> 1 ^ mag01[y & 0x1];
     }
-    y = (this.mt[this.N - 1] & this.UPPER_MASK) | (this.mt[0] & this.LOWER_MASK);
-    this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+    y = this.mt[this.N - 1] & this.UPPER_MASK | this.mt[0] & this.LOWER_MASK;
+    this.mt[this.N - 1] = this.mt[this.M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 
     this.mti = 0;
   }
@@ -51268,17 +50864,17 @@ MersenneTwister.prototype.genrand_int32 = function () {
   y = this.mt[this.mti++];
 
   /* Tempering */
-  y ^= (y >>> 11);
-  y ^= (y << 7) & 0x9d2c5680;
-  y ^= (y << 15) & 0xefc60000;
-  y ^= (y >>> 18);
+  y ^= y >>> 11;
+  y ^= y << 7 & 0x9d2c5680;
+  y ^= y << 15 & 0xefc60000;
+  y ^= y >>> 18;
 
   return y >>> 0;
 };
 
 /* generates a random number on [0,0x7fffffff]-interval */
 MersenneTwister.prototype.genrand_int31 = function () {
-  return (this.genrand_int32() >>> 1);
+  return this.genrand_int32() >>> 1;
 };
 
 /* generates a random number on [0,1]-real-interval */
@@ -51301,13 +50897,16 @@ MersenneTwister.prototype.genrand_real3 = function () {
 
 /* generates a random number on [0,1) with 53-bit resolution*/
 MersenneTwister.prototype.genrand_res53 = function () {
-  var a = this.genrand_int32() >>> 5, b = this.genrand_int32() >>> 6;
+  var a = this.genrand_int32() >>> 5,
+      b = this.genrand_int32() >>> 6;
   return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
 };
 
 /* These real versions are due to Isaku Wada, 2002/01/09 added */
 
-},{"core/Math":20}],23:[function(require,module,exports){
+},{"core/Math":17}],20:[function(require,module,exports){
+"use strict";
+
 /**
  * @exports core/Timer
  */
@@ -51378,12 +50977,15 @@ Timer.tick = function () {
 };
 
 module.exports = Timer;
-},{}],24:[function(require,module,exports){
+
+},{}],21:[function(require,module,exports){
+"use strict";
+
 /**
  * Map and listens keys for keyboard input.
  * @exports input/Keyboard
  */
-var Keyboard = function () {
+var Keyboard = function Keyboard() {
   /**
    * Array of pressed keys, they Store a timestamp if pressed or -1 of not pressed.
    * @type {Int32Array}
@@ -51399,7 +51001,7 @@ var Keyboard = function () {
  * @enum
  */
 Keyboard.KEY = {
-      /** */ BACKSPACE: 8,
+  /** */BACKSPACE: 8,
   TAB: 9,
   ENTER: 13,
   SHIFT: 16,
@@ -51506,7 +51108,7 @@ Keyboard.KEY = {
  * @return {Number} Timestamp of the last time the key was pressed or null if not pressed
  */
 Keyboard.prototype.isDown = function (keyCode) {
-  return (this.pressed[keyCode] === -1) ? null : this.pressed[keyCode];
+  return this.pressed[keyCode] === -1 ? null : this.pressed[keyCode];
 };
 
 /**
@@ -51516,14 +51118,7 @@ Keyboard.prototype.isDown = function (keyCode) {
 Keyboard.prototype.onKeyDown = function (event, timer) {
   event.stopPropagation();
 
-  if (event.keyCode == Keyboard.KEY.BACKSPACE ||
-    event.keyCode == Keyboard.KEY.UP_ARROW ||
-    event.keyCode == Keyboard.KEY.DOWN_ARROW ||
-    event.keyCode == Keyboard.KEY.LEFT_ARROW ||
-    event.keyCode == Keyboard.KEY.RIGHT_ARROW ||
-    event.keyCode == Keyboard.KEY.PAGE_UP ||
-    event.keyCode == Keyboard.KEY.PAGE_DOWN ||
-    event.keyCode == Keyboard.KEY.SPACE) {
+  if (event.keyCode == Keyboard.KEY.BACKSPACE || event.keyCode == Keyboard.KEY.UP_ARROW || event.keyCode == Keyboard.KEY.DOWN_ARROW || event.keyCode == Keyboard.KEY.LEFT_ARROW || event.keyCode == Keyboard.KEY.RIGHT_ARROW || event.keyCode == Keyboard.KEY.PAGE_UP || event.keyCode == Keyboard.KEY.PAGE_DOWN || event.keyCode == Keyboard.KEY.SPACE) {
     event.preventDefault();
   }
 
@@ -51539,7 +51134,10 @@ Keyboard.prototype.onKeyUp = function (event) {
 };
 
 module.exports = Keyboard;
-},{}],25:[function(require,module,exports){
+
+},{}],22:[function(require,module,exports){
+'use strict';
+
 var THREE = require('link/Three');
 
 /**
@@ -51547,7 +51145,7 @@ var THREE = require('link/Three');
  * @requires lib/Three
  * @exports input/Mouse
  */
-var Mouse = function () {
+var Mouse = function Mouse() {
   /**
    * Array of pressed buttons, they Store a timestamp if pressed or -1 of not pressed.
    * @type {Int32Array}
@@ -51601,7 +51199,7 @@ Mouse.BUTTON = {
  * @return {Number} Timestamp of the last time the key was pressed or null if not pressed
  */
 Mouse.prototype.isDown = function (button) {
-  return (this.pressed[button] === -1) ? null : this.pressed[button];
+  return this.pressed[button] === -1 ? null : this.pressed[button];
 };
 
 /**
@@ -51641,17 +51239,27 @@ Mouse.prototype.getMousePositionOnElement = function (e) {
 };
 
 module.exports = Mouse;
-},{"link/Three":28}],26:[function(require,module,exports){
+
+},{"link/Three":25}],23:[function(require,module,exports){
+'use strict';
+
 //added "module.exports = Box2D;" to original lib file
 var Box2D = require('../../lib/Box2D_v2.3.1_min');
 module.exports = new Box2D();
-},{"../../lib/Box2D_v2.3.1_min":1}],27:[function(require,module,exports){
+
+},{"../../lib/Box2D_v2.3.1_min":1}],24:[function(require,module,exports){
+'use strict';
+
 module.exports = require('howler');
 
-},{"howler":3}],28:[function(require,module,exports){
+},{"howler":2}],25:[function(require,module,exports){
+'use strict';
+
 module.exports = require('three');
 
-},{"three":6}],29:[function(require,module,exports){
+},{"three":3}],26:[function(require,module,exports){
+'use strict';
+
 var Message = require('core/Message');
 var LinkedList = require('collection/LinkedList');
 
@@ -51696,7 +51304,10 @@ MessageManager.sendMessagesTo = function (go) {
 };
 
 module.exports = MessageManager;
-},{"collection/LinkedList":9,"core/Message":21}],30:[function(require,module,exports){
+
+},{"collection/LinkedList":6,"core/Message":18}],27:[function(require,module,exports){
+'use strict';
+
 var Box2D = require('link/Box2D');
 var Timer = require('core/Timer');
 var Message = require('core/Message');
@@ -51775,7 +51386,7 @@ PhysicsManager.contactListener = null;
 PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
   this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep || false);
   this.gameObjectWorld = world;
-  this.listeners = (listeners) ? listeners : this.BEGIN_END_CONTACT; //0011
+  this.listeners = listeners ? listeners : this.BEGIN_END_CONTACT; //0011
   this.createListener(this.physicsWorld);
 };
 
@@ -51804,76 +51415,71 @@ PhysicsManager.destroyBody = function (rigidBody) {
 PhysicsManager.createListener = function (world) {
   this.contactListener = new Box2D.JSContactListener();
 
-  this.contactListener.BeginContact = (this.listeners & this.BEGIN_CONTACT) ?
-    function (_contact) {
-      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
-      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
-      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
+  this.contactListener.BeginContact = this.listeners & this.BEGIN_CONTACT ? function (_contact) {
+    var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
+    var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
+    var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
 
-      if (goA.id === 'world' || goB.id === 'world') {
-        return;
-      }
-      if (goB) {
-        MessageManager.register(new Message(goA.id, goB.id, "BeginContact", { contact: contact, go: goA }));
-      }
-      if (goA) {
-        MessageManager.register(new Message(goB.id, goA.id, "BeginContact", { contact: contact, go: goB }));
-      }
+    if (goA.id === 'world' || goB.id === 'world') {
+      return;
+    }
+    if (goB) {
+      MessageManager.register(new Message(goA.id, goB.id, "BeginContact", { contact: contact, go: goA }));
+    }
+    if (goA) {
+      MessageManager.register(new Message(goB.id, goA.id, "BeginContact", { contact: contact, go: goB }));
+    }
+  } : function () {};
 
-    } : function () { };
+  this.contactListener.EndContact = this.listeners & this.END_CONTACT ? function (_contact) {
+    var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
+    var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
+    var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
 
-  this.contactListener.EndContact = (this.listeners & this.END_CONTACT) ?
-    function (_contact) {
-      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
-      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
-      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
+    if (goA.id === 'world' || goB.id === 'world') {
+      return;
+    }
+    if (goB) {
+      MessageManager.register(new Message(goA.id, goB.id, "EndContact", { contact: contact, go: goA }));
+    }
+    if (goA) {
+      MessageManager.register(new Message(goB.id, goA.id, "EndContact", { contact: contact, go: goB }));
+    }
+  } : function () {};
 
-      if (goA.id === 'world' || goB.id === 'world') {
-        return;
-      }
-      if (goB) {
-        MessageManager.register(new Message(goA.id, goB.id, "EndContact", { contact: contact, go: goA }));
-      }
-      if (goA) {
-        MessageManager.register(new Message(goB.id, goA.id, "EndContact", { contact: contact, go: goB }));
-      }
-    } : function () { };
+  this.contactListener.PreSolve = this.listeners & this.PRE_SOLVE ? function (_contact, _oldManifold) {
+    var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
+    var manifold = Box2D.wrapPointer(_oldManifold, Box2D.b2Manifold);
+    var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
+    var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
 
-  this.contactListener.PreSolve = (this.listeners & this.PRE_SOLVE) ?
-    function (_contact, _oldManifold) {
-      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
-      var manifold = Box2D.wrapPointer(_oldManifold, Box2D.b2Manifold);
-      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
-      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
+    if (goA.id === 'world' || goB.id === 'world') {
+      return;
+    }
+    if (goB) {
+      MessageManager.register(new Message(goA.id, goB.id, "PreSolve", { contact: contact, manifold: manifold, go: goA }));
+    }
+    if (goA) {
+      MessageManager.register(new Message(goB.id, goA.id, "PreSolve", { contact: contact, manifold: manifold, go: goB }));
+    }
+  } : function () {};
 
-      if (goA.id === 'world' || goB.id === 'world') {
-        return;
-      }
-      if (goB) {
-        MessageManager.register(new Message(goA.id, goB.id, "PreSolve", { contact: contact, manifold: manifold, go: goA }));
-      }
-      if (goA) {
-        MessageManager.register(new Message(goB.id, goA.id, "PreSolve", { contact: contact, manifold: manifold, go: goB }));
-      }
-    } : function () { };
+  this.contactListener.PostSolve = this.listeners & this.POST_SOLVE ? function (_contact, _impulse) {
+    var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
+    var impulse = Box2D.wrapPointer(_impulse, Box2D.b2ContactImpulse);
+    var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
+    var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
 
-  this.contactListener.PostSolve = (this.listeners & this.POST_SOLVE) ?
-    function (_contact, _impulse) {
-      var contact = Box2D.wrapPointer(_contact, Box2D.b2Contact);
-      var impulse = Box2D.wrapPointer(_impulse, Box2D.b2ContactImpulse);
-      var goA = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureA().GetUserData());
-      var goB = PhysicsManager.gameObjectWorld.findByUid(contact.GetFixtureB().GetUserData());
-
-      if (goA.id === 'world' || goB.id === 'world') {
-        return;
-      }
-      if (goB) {
-        MessageManager.register(new Message(goA.id, goB.id, "PostSolve", { contact: contact, impulse: impulse, go: goA }));
-      }
-      if (goA) {
-        MessageManager.register(new Message(goB.id, goA.id, "PostSolve", { contact: contact, impulse: impulse, go: goB }));
-      }
-    } : function () { };
+    if (goA.id === 'world' || goB.id === 'world') {
+      return;
+    }
+    if (goB) {
+      MessageManager.register(new Message(goA.id, goB.id, "PostSolve", { contact: contact, impulse: impulse, go: goA }));
+    }
+    if (goA) {
+      MessageManager.register(new Message(goB.id, goA.id, "PostSolve", { contact: contact, impulse: impulse, go: goB }));
+    }
+  } : function () {};
 
   this.physicsWorld.SetContactListener(this.contactListener);
 };
@@ -51886,7 +51492,7 @@ PhysicsManager.update = function () {
     var fps = Timer.fps;
 
     // Frame rate at which to update physics ( 1 / FPS or 1.0 / 60.0 )
-    var physicsFrameRate = (fps) ? 1 / fps : Timer.FRAME_RATE_60FPS;
+    var physicsFrameRate = fps ? 1 / fps : Timer.FRAME_RATE_60FPS;
 
     this.physicsWorld.Step(physicsFrameRate, this.velocityIterations, this.positionIterations);
 
@@ -51897,7 +51503,10 @@ PhysicsManager.update = function () {
 };
 
 module.exports = PhysicsManager;
-},{"core/Message":21,"core/Timer":23,"link/Box2D":26,"manager/MessageManager":29}],31:[function(require,module,exports){
+
+},{"core/Message":18,"core/Timer":20,"link/Box2D":23,"manager/MessageManager":26}],28:[function(require,module,exports){
+'use strict';
+
 var Map = require('collection/Map');
 var Camera2D = require('render/Camera2D');
 var Math = require('core/Math');
@@ -51942,16 +51551,14 @@ SceneManager.DEFAULT_SCENE_ID = 'default_scene_id';
 SceneManager.init = function (bgcolor, width, height, target) {
   // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
   var canvas = document.createElement('canvas');
-  this.renderer = !!window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
-    ? new THREE.WebGLRenderer({ antialias: false })
-    : new THREE.CanvasRenderer();
+  this.renderer = !!window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) ? new THREE.WebGLRenderer({ antialias: false }) : new THREE.CanvasRenderer();
 
   // Set the background color of the renderer, with full opacity
-  this.renderer.setClearColor((bgcolor) ? bgcolor : 0xFFFFFF, 1);
+  this.renderer.setClearColor(bgcolor ? bgcolor : 0xFFFFFF, 1);
 
   // if no dimensions are provided, get the size of the inner window (content area) to create a full size renderer
-  this.canvasWidth = (width) ? width : window.innerWidth;
-  this.canvasHeight = (height) ? height : window.innerHeight;
+  this.canvasWidth = width ? width : window.innerWidth;
+  this.canvasHeight = height ? height : window.innerHeight;
 
   // since the rendering area is actually 3D, a Z translation on camera is required.
   this.z = Math.max(this.canvasWidth, this.canvasHeight);
@@ -51960,7 +51567,7 @@ SceneManager.init = function (bgcolor, width, height, target) {
   this.renderer.setSize(this.canvasWidth, this.canvasHeight);
 
   // attach a canvas tag on the body
-  var body = (target) ? target : document.getElementsByTagName('body')[0];
+  var body = target ? target : document.getElementsByTagName('body')[0];
   body.appendChild(this.renderer.domElement);
 
   this.createScene();
@@ -51983,7 +51590,7 @@ SceneManager.createScene = function (sceneId) {
  * @param {Number} [height] - Height of the camera in pixels. Defaults to canvas height
  */
 SceneManager.createCamera = function (cameraId, sceneId, width, height) {
-  var scene = this.scenes.get((sceneId) ? sceneId : this.DEFAULT_SCENE_ID);
+  var scene = this.scenes.get(sceneId ? sceneId : this.DEFAULT_SCENE_ID);
 
   if (!cameraId) {
     cameraId = this.DEFAULT_CAMERA_ID;
@@ -52001,9 +51608,8 @@ SceneManager.createCamera = function (cameraId, sceneId, width, height) {
     // left, right, top, bottom, near, far
     var camera = new Camera2D(width / -2, width / 2, height / -2, height / 2, Math.max(width, height) / -2, Math.max(width, height) / 2);
 
-    camera.addScene((sceneId) ? sceneId : this.DEFAULT_SCENE_ID, scene);
+    camera.addScene(sceneId ? sceneId : this.DEFAULT_SCENE_ID, scene);
     this.cameras.put(cameraId, camera);
-
   } else {
     console.log('Scene not found:' + sceneId);
   }
@@ -52057,7 +51663,10 @@ SceneManager.render = function () {
 };
 
 module.exports = SceneManager;
-},{"collection/Map":11,"core/Math":20,"link/Three":28,"render/Camera2D":32}],32:[function(require,module,exports){
+
+},{"collection/Map":8,"core/Math":17,"link/Three":25,"render/Camera2D":29}],29:[function(require,module,exports){
+'use strict';
+
 var THREE = require('link/Three');
 
 /**
@@ -52071,7 +51680,7 @@ var THREE = require('link/Three');
  * @requires lib/Three
  * @exports render/Camera2D
  */
-var Camera2D = function (left, right, top, bottom, near, far) {
+var Camera2D = function Camera2D(left, right, top, bottom, near, far) {
   /**
    * A THREE.Camera object.
    * @type {THREE.OrthographicCamera}
@@ -52100,5 +51709,6 @@ Camera2D.prototype.addScene = function (sceneId, scene) {
 };
 
 module.exports = Camera2D;
-},{"link/Three":28}]},{},[7])(7)
+
+},{"link/Three":25}]},{},[4])(4)
 });
