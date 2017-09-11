@@ -1,6 +1,8 @@
 config/
+dist/
 lib/
 src/
 test/
 .gitignore
 .travis.yml
+monogatari.min.js

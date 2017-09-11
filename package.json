@@ -4,6 +4,10 @@
   "description": "JavaScript game engine",
   "license": "MIT",
   "main": "monogatari.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digihaus/monogatari.git"
+  },
   "scripts": {
     "build": "node config/build.js",
     "test": "node-qunit-phantomjs test/unit/execute.html --verbose",
@@ -24,6 +28,7 @@
     "live-server": "^1.2.0",
     "node-qunit-phantomjs": "^1.4.0",
     "three": "^0.87.1",
+    "uglify-js": "^3.1.0",
     "watch": "^1.0.2"
   }
 }

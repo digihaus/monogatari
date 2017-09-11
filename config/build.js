@@ -4,8 +4,11 @@ const browserify = require('browserify');
 const liveServer = require('live-server');
 const watch = require('watch');
 const colors = require('colors');
+const uglifyJS = require('uglify-js');
 
 const distDir = 'dist/latest';
+
+const HEADER_TEXT = '// monogatari v' + process.env.npm_package_version + '\n';
 
 const liveServerParams = {
     port: 8080,
@@ -27,46 +30,46 @@ const browserifyParams = {
     ]
 };
 
-const compile = () => {
+const compile = (runMinify) => {
     console.log('Running compile...'.grey);
     browserify(browserifyParams)
         .transform('babelify', {
             presets: ['es2015'],
             ignore: 'Box2D_v2.3.1_min*'
         })
-        .bundle(function (err, buf) {
+        .bundle(function (err, bundleBuf) {
             if (err) {
                 console.log(err);
             } else {
-                var fd = fs.openSync('monogatari.js', 'w+');
-                var versionBuf = new Buffer('// monogatari v' + process.env.npm_package_version + '\n');
-                fs.writeSync(fd, versionBuf, 0, versionBuf.length, 0); 
-                fs.writeSync(fd, buf, 0, buf.length, versionBuf.length); 
-                fs.close(fd);
-
+                var content = HEADER_TEXT + bundleBuf.toString('utf-8');
+                fs.writeFileSync('monogatari.js', content);
                 fs.emptyDirSync(distDir);
                 fs.copySync('monogatari.js', distDir + '/monogatari.js');
-                
                 console.log('Done creating '.grey + 'monogatari.js'.cyan + ' file'.grey);
+                if (runMinify) {
+                    minify();
+                }
             }
         });
+};
+
+const minify = () => {
+    console.log('Running minify...'.grey);
+    var buf = fs.readFileSync('monogatari.js', 'utf-8');
+    var minified = uglifyJS.minify(buf);
+    var content = HEADER_TEXT + minified.code;
+    fs.writeFileSync('monogatari.min.js', content);
+    fs.copySync('monogatari.min.js', distDir + '/monogatari.min.js');
+    console.log('Done creating minified '.grey + 'monogatari.min.js'.cyan + ' file'.grey);
 };
 
 const args = process.argv.slice(2);
 
 if (args[0] === '-live') {
     watch.watchTree('./src', function (f, curr, prev) {
-        if (typeof f == 'object' && prev === null && curr === null) {
-            compile();
-        } else if (curr.nlink === 0) { // f was deleted
-            compile();
-        } else if (prev === null) { // f was created
-            compile();
-        } else { // f was changed
-            compile();
-        }
+        compile();
     });
     liveServer.start(liveServerParams);
 } else {
-    compile();
+    compile(true);
 }
