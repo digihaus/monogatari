@@ -14,6 +14,7 @@ const liveServerParams = {
     port: 8080,
     host: '0.0.0.0',
     root: './',
+    watch: ['monogatari*.js', 'test'],
     open: false,
     wait: 1000,
     logLevel: 2
@@ -66,7 +67,7 @@ const minify = () => {
 const args = process.argv.slice(2);
 
 if (args[0] === '-live') {
-    watch.watchTree('./src', function (f, curr, prev) {
+    watch.watchTree('./src', { interval: 1 }, function (f, curr, prev) {
         compile();
     });
     liveServer.start(liveServerParams);
