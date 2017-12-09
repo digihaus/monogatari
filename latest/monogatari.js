@@ -51574,9 +51574,9 @@ SceneManager.init = function (bgcolor, width, height, target) {
 };
 
 /**
- * Calculates the size ratio to strech the renderer proportionaly
- * @param {Number} [width] - Width of the camera in pixels. Defaults to screen resolution
- * @param {Number} [height] - Height of the camera in pixels. Defaults to screen resolution
+ * Streches the canvas according to the calculated ratio.
+ * @param {Number} [width] - Width of the camera in pixels
+ * @param {Number} [height] - Height of the camera in pixels
  */
 SceneManager.calculateSize = function (width, height) {
   var ratioWidth = window.innerWidth / width;
@@ -51586,8 +51586,9 @@ SceneManager.calculateSize = function (width, height) {
   this.canvasWidth = width * ratio;
   this.canvasHeight = height * ratio;
 
-  // since the rendering area is actually 3D, a Z translation on camera is required.
+  // Since the rendering area is actually 3D, a Z translation on camera is required.
   this.z = Math.max(this.canvasWidth, this.canvasHeight);
+
   this.renderer.setSize(this.canvasWidth, this.canvasHeight);
 };
 
