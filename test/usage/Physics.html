@@ -14,7 +14,7 @@
 <script>
   var m = Monogatari;
 
-  m.init();
+  m.init("#000", 800, 600);
 
   m.physicsManager.createWorld(new m.THREE.Vector2(0, 10), true, null, m.world);
 
@@ -127,19 +127,19 @@
 
   // ground
   var ground = new m.GameObject('ground');
-  var groundBody = new m.RigidBody(50);
+  var groundBody = new m.RigidBody();
 
   groundBody.setType(m.RigidBody.TYPE.STATIC);
   groundBody.setDensity(1);
   groundBody.setFriction(0);
   groundBody.setBounciness(1);
-  groundBody.setPosition(0, 10);
+  groundBody.setPosition(0, 12);
   groundBody.setUserData(ground.uid);
 
   ground.addComponent(groundBody);
 
   var groundShape = new m.Box2D.b2PolygonShape();
-  groundShape.SetAsBox(100, 0.5);
+  groundShape.SetAsBox(100, 0.01);
   groundBody.setShape(groundShape);
   groundBody.createFixture();
 
@@ -147,7 +147,7 @@
 
   // wall shape
   var wallShape = new m.Box2D.b2PolygonShape();
-  wallShape.SetAsBox(0.5, 100);
+  wallShape.SetAsBox(0.01, 100);
 
   // left wall
   var lWall = new m.GameObject('lWall');
@@ -175,7 +175,7 @@
   rWallBody.setDensity(1);
   rWallBody.setFriction(0);
   rWallBody.setBounciness(1);
-  rWallBody.setPosition(10, 0);
+  rWallBody.setPosition(16, 0);
   rWallBody.setUserData(rWall.uid);
 
   rWall.addComponent(rWallBody);

@@ -40,6 +40,11 @@ SceneManager.DEFAULT_SCENE_ID = 'default_scene_id';
  * @param {DOMElement} [target] - Target node of the Dom tree to create a canvas renderer. It is attached to the body if not provided
  */
 SceneManager.init = function (bgcolor, width, height, target) {
+  bgcolor = bgcolor ? bgcolor : 0xFFFFFF;
+  width = width ? width : window.innerWidth;
+  height = height ? height : window.innerHeight;
+  target = target ? target : document.getElementsByTagName('body')[0];
+
   // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
   var canvas = document.createElement('canvas');
   this.renderer = !!window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
@@ -47,25 +52,37 @@ SceneManager.init = function (bgcolor, width, height, target) {
     : new THREE.CanvasRenderer();
 
   // Set the background color of the renderer, with full opacity
-  this.renderer.setClearColor((bgcolor) ? bgcolor : 0xFFFFFF, 1);
+  this.renderer.setClearColor(bgcolor, 1);
 
-  // if no dimensions are provided, get the size of the inner window (content area) to create a full size renderer
-  this.canvasWidth = (width) ? width : window.innerWidth;
-  this.canvasHeight = (height) ? height : window.innerHeight;
+  target.appendChild(this.renderer.domElement);
+
+  this.createScene();
+  this.createCamera(width, height);
+
+  this.calculateSize(width, height);
+
+  window.addEventListener('resize', function () {
+    this.calculateSize(width, height);
+  }.bind(this), true);
+};
+
+/**
+ * Calculates the size ratio to strech the renderer proportionaly
+ * @param {Number} [width] - Width of the camera in pixels. Defaults to screen resolution
+ * @param {Number} [height] - Height of the camera in pixels. Defaults to screen resolution
+ */ 
+SceneManager.calculateSize = function (width, height) {
+  var ratioWidth = window.innerWidth / width;
+  var ratioHeight = window.innerHeight / height;
+  var ratio = (ratioWidth > ratioHeight) ? ratioHeight : ratioWidth;
+
+  this.canvasWidth = width * ratio;
+  this.canvasHeight = height * ratio;
 
   // since the rendering area is actually 3D, a Z translation on camera is required.
   this.z = Math.max(this.canvasWidth, this.canvasHeight);
-
-  // set the renderer size
   this.renderer.setSize(this.canvasWidth, this.canvasHeight);
-
-  // attach a canvas tag on the body
-  var body = (target) ? target : document.getElementsByTagName('body')[0];
-  body.appendChild(this.renderer.domElement);
-
-  this.createScene();
-  this.createCamera();
-};
+}
 
 /**
  * Creates a Scene.
@@ -82,28 +99,18 @@ SceneManager.createScene = function (sceneId) {
  * @param {Number} [width] - Width of the camera in pixels. Defaults to canvas width
  * @param {Number} [height] - Height of the camera in pixels. Defaults to canvas height
  */
-SceneManager.createCamera = function (cameraId, sceneId, width, height) {
+SceneManager.createCamera = function (width, height, cameraId, sceneId) {
   var scene = this.scenes.get((sceneId) ? sceneId : this.DEFAULT_SCENE_ID);
 
-  if (!cameraId) {
-    cameraId = this.DEFAULT_CAMERA_ID;
-  }
-
-  if (!width) {
-    width = this.canvasWidth;
-  }
-
-  if (!height) {
-    height = this.canvasHeight;
-  }
+  cameraId = cameraId ? cameraId : this.DEFAULT_CAMERA_ID;
+  width = width ? width : this.canvasWidth;
+  height = height ? height : this.canvasHeight;
 
   if (scene) {
     // left, right, top, bottom, near, far
     var camera = new Camera2D(width / -2, width / 2, height / -2, height / 2, Math.max(width, height) / -2, Math.max(width, height) / 2);
-
     camera.addScene((sceneId) ? sceneId : this.DEFAULT_SCENE_ID, scene);
     this.cameras.put(cameraId, camera);
-
   } else {
     console.log('Scene not found:' + sceneId);
   }

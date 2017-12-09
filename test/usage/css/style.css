@@ -6,3 +6,8 @@ body {
     font-family: consolas, menlo, monaco, monospace;
     font-size: 12px;
 }
+
+canvas {
+    margin: 0 auto;
+    display: block;
+}
