@@ -3,8 +3,6 @@ var Camera2D = require('render/Camera2D');
 var Math = require('core/Math');
 var THREE = require('link/Three');
 
-var instance = null;
-
 /**
  * @requires collection/Map
  * @requires render/Camera2D
