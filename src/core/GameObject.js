@@ -317,8 +317,8 @@ GameObject.prototype.updateComponents = function () {
   // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
   var rigidBody = this.findComponent(Base.TYPE.RIGID_BODY);
   if (rigidBody) {
-    this.position.x = rigidBody.body.GetPosition().get_x() * rigidBody.conversionFactor;
-    this.position.y = rigidBody.body.GetPosition().get_y() * rigidBody.conversionFactor;
+    this.position.x = rigidBody.body.GetPosition().get_x() * PhysicsManager.conversionFactor;
+    this.position.y = rigidBody.body.GetPosition().get_y() * PhysicsManager.conversionFactor;
   }
 
   this.componentsIt.first();

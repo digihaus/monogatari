@@ -60,6 +60,12 @@ PhysicsManager.POST_SOLVE = 8; // 1000
 /** @constant */
 PhysicsManager.ALL_LISTENERS = 15; //1111
 
+/**
+ * Default conversion factor between physics world and game world
+ * @constant 
+ */
+PhysicsManager.CONVERSION_FACTOR = 64;
+
 /** */
 PhysicsManager.listeners = 0; //0000
 
@@ -72,12 +78,14 @@ PhysicsManager.contactListener = null;
  * @param {Boolean} allowSleep - Flags if an object can sleep outside the boundaries of the physics world
  * @param {String} listeners - Constants to signal which listeners will be active
  * @param {module:core/GameObject} world - Root node of GameObject tree
+ * @param {Number} conversionFactor - Convertion factor for coordinates between game world and physics world
  */
-PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
+PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world, conversionFactor = PhysicsManager.CONVERSION_FACTOR) {
   this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep || false);
   this.gameObjectWorld = world;
   this.listeners = (listeners) ? listeners : this.BEGIN_END_CONTACT; //0011
   this.createListener(this.physicsWorld);
+  this.conversionFactor = conversionFactor;
 };
 
 /**
