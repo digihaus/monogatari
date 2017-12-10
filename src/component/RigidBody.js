@@ -14,21 +14,12 @@ var Box2D = require('link/Box2D');
  * @exports component/RigidBody
  */
 var RigidBody = function (type, shape) {
+  Base.call(this, Base.TYPE.RIGID_BODY);
   if (type === undefined) throw new Error('Param type is required.');
   if (shape === undefined) throw new Error('Param shape is required.');
 
-  Base.call(this, Base.TYPE.RIGID_BODY);
-
-  // [ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
-  this.bodyDef = new Box2D.b2BodyDef();
   this.bodyDef.set_type(type);
-
-  // [ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
-  this.materialDef = new Box2D.b2FixtureDef();
   this.materialDef.set_shape(shape);
-
-  this.conversionFactor = 64;
-  this.body = null; // Used to bind this rigid body to the physics world
 };
 
 RigidBody.prototype = Object.create(Base.prototype);
@@ -46,6 +37,27 @@ RigidBody.TYPE = {
   /** A <b>dynamic body</b> is a body which is affected by world forces and react to collisions. */
   DYNAMIC: Box2D.b2_dynamicBody
 };
+
+/**
+ * The physics body definition (Box2D.BodyDef) from this component.
+ * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html|b2BodyDef}
+ * @type {Box2D.b2BodyDef} Body definition from Box2D
+ */
+RigidBody.prototype.bodyDef = new Box2D.b2BodyDef();
+
+/**
+ * The Material (Box2D.FixtureDef) from this component.
+ * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html|b2FixtureDef}
+ * @type {Box2D.b2FixtureDef} Fixture definition from Box2D
+ */
+RigidBody.prototype.materialDef = new Box2D.b2FixtureDef();
+
+/**
+ * The physics body used to bind this component to the physics world.
+ * It's created by the Physics Manager.
+ * @return {Box2D.b2Body} Body from Box2D
+ */
+RigidBody.prototype.body = null;
 
 /**
  * Sets the density of the material.
@@ -121,30 +133,6 @@ RigidBody.prototype.setAllowRotation = function (allowRotation) {
  */
 RigidBody.prototype.setUserData = function (userData) {
   this.materialDef.set_userData(userData);
-};
-
-/**
- * Returns the Box2D.BodyDef from this component, null if not set.
- * @return {b2BodyDef} Body Definition from Box2D
- */
-RigidBody.prototype.getBodyDef = function () {
-  return this.bodyDef;
-};
-
-/**
- * Returns the Material (Box2D.FixtureDef)from this component, null if not set.
- * @return {b2FixtureDef} Fixture Definition from Box2D
- */
-RigidBody.prototype.getMaterialDef = function () {
-  return this.materialDef;
-};
-
-/**
- * Returns the Physics Body (Box2D.BodyDef) from this component, null if not set.
- * @return {b2Body} Body from Box2D
- */
-RigidBody.prototype.getPhysicsBody = function () {
-  return this.body;
 };
 
 /**
