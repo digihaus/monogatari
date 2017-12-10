@@ -86,6 +86,7 @@ PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
  */
 PhysicsManager.attachToWorld = function (rigidBody) {
   rigidBody.body = this.physicsWorld.CreateBody(rigidBody.bodyDef);
+  rigidBody.body.CreateFixture(rigidBody.materialDef);
 };
 
 /**
