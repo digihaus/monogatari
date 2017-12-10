@@ -50130,21 +50130,12 @@ var Box2D = require('link/Box2D');
  * @exports component/RigidBody
  */
 var RigidBody = function RigidBody(type, shape) {
+  Base.call(this, Base.TYPE.RIGID_BODY);
   if (type === undefined) throw new Error('Param type is required.');
   if (shape === undefined) throw new Error('Param shape is required.');
 
-  Base.call(this, Base.TYPE.RIGID_BODY);
-
-  // [ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
-  this.bodyDef = new Box2D.b2BodyDef();
   this.bodyDef.set_type(type);
-
-  // [ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
-  this.materialDef = new Box2D.b2FixtureDef();
   this.materialDef.set_shape(shape);
-
-  this.conversionFactor = 64;
-  this.body = null; // Used to bind this rigid body to the physics world
 };
 
 RigidBody.prototype = Object.create(Base.prototype);
@@ -50162,6 +50153,27 @@ RigidBody.TYPE = {
   /** A <b>dynamic body</b> is a body which is affected by world forces and react to collisions. */
   DYNAMIC: Box2D.b2_dynamicBody
 };
+
+/**
+ * The physics body definition (Box2D.BodyDef) from this component.
+ * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html|b2BodyDef}
+ * @type {Box2D.b2BodyDef} Body definition from Box2D
+ */
+RigidBody.prototype.bodyDef = new Box2D.b2BodyDef();
+
+/**
+ * The Material (Box2D.FixtureDef) from this component.
+ * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html|b2FixtureDef}
+ * @type {Box2D.b2FixtureDef} Fixture definition from Box2D
+ */
+RigidBody.prototype.materialDef = new Box2D.b2FixtureDef();
+
+/**
+ * The physics body used to bind this component to the physics world.
+ * It's created by the Physics Manager.
+ * @return {Box2D.b2Body} Body from Box2D
+ */
+RigidBody.prototype.body = null;
 
 /**
  * Sets the density of the material.
@@ -50237,30 +50249,6 @@ RigidBody.prototype.setAllowRotation = function (allowRotation) {
  */
 RigidBody.prototype.setUserData = function (userData) {
   this.materialDef.set_userData(userData);
-};
-
-/**
- * Returns the Box2D.BodyDef from this component, null if not set.
- * @return {b2BodyDef} Body Definition from Box2D
- */
-RigidBody.prototype.getBodyDef = function () {
-  return this.bodyDef;
-};
-
-/**
- * Returns the Material (Box2D.FixtureDef)from this component, null if not set.
- * @return {b2FixtureDef} Fixture Definition from Box2D
- */
-RigidBody.prototype.getMaterialDef = function () {
-  return this.materialDef;
-};
-
-/**
- * Returns the Physics Body (Box2D.BodyDef) from this component, null if not set.
- * @return {b2Body} Body from Box2D
- */
-RigidBody.prototype.getPhysicsBody = function () {
-  return this.body;
 };
 
 /**
@@ -50978,8 +50966,8 @@ GameObject.prototype.updateComponents = function () {
   // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
   var rigidBody = this.findComponent(Base.TYPE.RIGID_BODY);
   if (rigidBody) {
-    this.position.x = rigidBody.body.GetPosition().get_x() * rigidBody.conversionFactor;
-    this.position.y = rigidBody.body.GetPosition().get_y() * rigidBody.conversionFactor;
+    this.position.x = rigidBody.body.GetPosition().get_x() * PhysicsManager.conversionFactor;
+    this.position.y = rigidBody.body.GetPosition().get_y() * PhysicsManager.conversionFactor;
   }
 
   this.componentsIt.first();
@@ -52203,6 +52191,12 @@ PhysicsManager.POST_SOLVE = 8; // 1000
 /** @constant */
 PhysicsManager.ALL_LISTENERS = 15; //1111
 
+/**
+ * Default conversion factor between physics world and game world
+ * @constant 
+ */
+PhysicsManager.CONVERSION_FACTOR = 64;
+
 /** */
 PhysicsManager.listeners = 0; //0000
 
@@ -52215,12 +52209,16 @@ PhysicsManager.contactListener = null;
  * @param {Boolean} allowSleep - Flags if an object can sleep outside the boundaries of the physics world
  * @param {String} listeners - Constants to signal which listeners will be active
  * @param {module:core/GameObject} world - Root node of GameObject tree
+ * @param {Number} conversionFactor - Convertion factor for coordinates between game world and physics world
  */
 PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
+  var conversionFactor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : PhysicsManager.CONVERSION_FACTOR;
+
   this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep || false);
   this.gameObjectWorld = world;
   this.listeners = listeners ? listeners : this.BEGIN_END_CONTACT; //0011
   this.createListener(this.physicsWorld);
+  this.conversionFactor = conversionFactor;
 };
 
 /**
