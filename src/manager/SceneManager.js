@@ -46,9 +46,9 @@ SceneManager.init = function (bgcolor, width, height, target) {
   // If its not supported, instantiate the canvas renderer to support all non WebGL browsers
   var canvas = document.createElement('canvas');
   this.renderer = !!window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
-    ? new THREE.WebGLRenderer({ antialias: false })
+    ? new THREE.WebGLRenderer({ antialias: true })
     : new THREE.CanvasRenderer();
-
+  
   // Set the background color of the renderer, with full opacity
   this.renderer.setClearColor(bgcolor, 1);
 
