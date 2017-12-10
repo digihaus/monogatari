@@ -9,20 +9,19 @@ var Box2D = require('link/Box2D');
  * Static objects may be up to 50 meters big without too much trouble.
  * Box2D is tuned for meters, kilograms, and seconds.
  *
- * @param {Number} conversionFactor - Multiplies the position from physics world (meters) to screen coordinates (pixels). Defaults to 1 (probably not what you expect).
  * @param {b2BodyDef} bodyDef - Box2D physics body definition
  * @param {b2FixtureDef} materialDef - Box2D physics material definition
+ * @param {Number} conversionFactor - Multiplies the position from physics world (meters) to screen coordinates (pixels). Defaults to 64
  * @extends component/Base
  * @exports component/RigidBody
  */
-
-// [ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
-// [ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
-
-var RigidBody = function (conversionFactor, bodyDef, materialDef) {
+var RigidBody = function (bodyDef, materialDef, conversionFactor) {
   Base.call(this, Base.TYPE.RIGID_BODY);
 
-  this.conversionFactor = (conversionFactor) ? conversionFactor : 1;
+  // [ b2BodyDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html
+  // [ b2FixtureDef ] http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html
+
+  this.conversionFactor = (conversionFactor) ? conversionFactor : 64;
   this.bodyDef = (bodyDef) ? bodyDef : new Box2D.b2BodyDef();
   this.materialDef = (materialDef) ? materialDef : new Box2D.b2FixtureDef();
 

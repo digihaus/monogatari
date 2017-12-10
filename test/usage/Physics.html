@@ -24,7 +24,7 @@
 
   // zombie1
   var zombie = new m.GameObject('zombie1');
-  var rb1 = new m.RigidBody(50);
+  var rb1 = new m.RigidBody();
 
   rb1.setType(m.RigidBody.TYPE.DYNAMIC);
   rb1.setDensity(1);
@@ -54,7 +54,7 @@
 
   // zombie2
   var zombie2 = new m.GameObject('zombie2');
-  var rb2 = new m.RigidBody(50);
+  var rb2 = new m.RigidBody();
 
   rb2.setType(m.RigidBody.TYPE.DYNAMIC);
   rb2.setDensity(1);
@@ -89,7 +89,7 @@
 
   //zombie3
   var zombie3 = new m.GameObject('zombie3');
-  var rb3 = new m.RigidBody(50);
+  var rb3 = new m.RigidBody();
 
   rb3.setType(m.RigidBody.TYPE.DYNAMIC);
   rb3.setDensity(1);
@@ -108,7 +108,7 @@
 
   //zombie4
   var zombie4 = new m.GameObject('zombie4');
-  var rb4 = new m.RigidBody(50);
+  var rb4 = new m.RigidBody();
 
   rb4.setType(m.RigidBody.TYPE.DYNAMIC);
   rb4.setDensity(1);
@@ -133,7 +133,7 @@
   groundBody.setDensity(1);
   groundBody.setFriction(0);
   groundBody.setBounciness(1);
-  groundBody.setPosition(0, 12);
+  groundBody.setPosition(0, 9.375);
   groundBody.setUserData(ground.uid);
 
   ground.addComponent(groundBody);
@@ -151,7 +151,7 @@
 
   // left wall
   var lWall = new m.GameObject('lWall');
-  var lWallBody = new m.RigidBody(50);
+  var lWallBody = new m.RigidBody();
 
   lWallBody.setType(m.RigidBody.TYPE.STATIC);
   lWallBody.setDensity(1);
@@ -169,13 +169,13 @@
 
   // right wall
   var rWall = new m.GameObject('rWall');
-  var rWallBody = new m.RigidBody(50);
+  var rWallBody = new m.RigidBody();
 
   rWallBody.setType(m.RigidBody.TYPE.STATIC);
   rWallBody.setDensity(1);
   rWallBody.setFriction(0);
   rWallBody.setBounciness(1);
-  rWallBody.setPosition(16, 0);
+  rWallBody.setPosition(12.5, 0);
   rWallBody.setUserData(rWall.uid);
 
   rWall.addComponent(rWallBody);
