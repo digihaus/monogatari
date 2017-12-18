@@ -50114,6 +50114,14 @@ module.exports = Canvas;
 },{"component/Base":11,"core/Common":15,"core/Math":17,"link/Three":25}],13:[function(require,module,exports){
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var Base = require('component/Base');
 var Box2D = require('link/Box2D');
 
@@ -50129,30 +50137,48 @@ var Box2D = require('link/Box2D');
  * @extends component/Base
  * @exports component/RigidBody
  */
-var RigidBody = function RigidBody(type, shape) {
-  Base.call(this, Base.TYPE.RIGID_BODY);
-  if (type === undefined) throw new Error('Param type is required.');
-  if (shape === undefined) throw new Error('Param shape is required.');
 
-  this.bodyDef.set_type(type);
-  this.materialDef.set_shape(shape);
-};
+var RigidBody = function (_Base) {
+  _inherits(RigidBody, _Base);
 
-RigidBody.prototype = Object.create(Base.prototype);
+  _createClass(RigidBody, null, [{
+    key: 'TYPE',
 
-/**
- * Enumeration of rigid body types.
- * @type {Number}
- * @enum
- */
-RigidBody.TYPE = {
-  /** A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved. */
-  STATIC: Box2D.b2_staticBody,
-  /** A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body. */
-  KINEMATIC: Box2D.b2_kinematicBody,
-  /** A <b>dynamic body</b> is a body which is affected by world forces and react to collisions. */
-  DYNAMIC: Box2D.b2_dynamicBody
-};
+
+    /**
+     * Enumeration of rigid body types.
+     * @type {Number}
+     * @enum
+     */
+    get: function get() {
+      return {
+        /** A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved. */
+        STATIC: Box2D.b2_staticBody,
+        /** A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body. */
+        KINEMATIC: Box2D.b2_kinematicBody,
+        /** A <b>dynamic body</b> is a body which is affected by world forces and react to collisions. */
+        DYNAMIC: Box2D.b2_dynamicBody
+      };
+    }
+  }]);
+
+  function RigidBody(type, shape) {
+    _classCallCheck(this, RigidBody);
+
+    var _this = _possibleConstructorReturn(this, (RigidBody.__proto__ || Object.getPrototypeOf(RigidBody)).call(this, Base.TYPE.RIGID_BODY));
+
+    if (!Object.values(RigidBody.TYPE).includes(type)) throw new Error('Param "type" is invalid.');
+    if (shape === undefined) throw new Error('Param shape is required.');
+
+    _this.bodyDef.set_type(type);
+    _this.materialDef.set_shape(shape);
+    return _this;
+  }
+
+  return RigidBody;
+}(Base);
+
+;
 
 /**
  * The physics body definition (Box2D.BodyDef) from this component.
