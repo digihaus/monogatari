@@ -31,8 +31,6 @@
 <header>
     
         
-            
-        
     
 </header>
 
@@ -40,135 +38,6 @@
     <div class="container-overview">
     
         
-            <div class="description">Component used for interaction with the <a href="https://github.com/kripken/box2d.js/">box2d.js Emscripten port</a>.
-Box2D has been tuned to work well with moving objects between 0.1 and 10 meters. 
-This means objects between soup cans and buses in size should work well. 
-Static objects may be up to 50 meters big without too much trouble.
-Box2D is tuned for meters, kilograms, and seconds.</div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">RigidBody.TYPE</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Type of this Rigid Body: static, kinematic or dynamic</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>shape</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">b2Shape</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Geometrical shape of this Rigid Body</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
 
         
     
@@ -217,89 +86,6 @@ Box2D is tuned for meters, kilograms, and seconds.</div>
     Enumeration of rigid body types.
 </div>
 
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>STATIC</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>KINEMATIC</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>DYNAMIC</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A <b>dynamic body</b> is a body which is affected by world forces and react to collisions.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -466,6 +252,171 @@ It's created by the Physics Manager.
 <div class="description">
     The Material (Box2D.FixtureDef) from this component.
 <a href="http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html">b2FixtureDef</a>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~DYNAMIC"><span class="type-signature">(inner) </span>DYNAMIC<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    A <b>dynamic body</b> is a body which is affected by world forces and react to collisions.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~KINEMATIC"><span class="type-signature">(inner) </span>KINEMATIC<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~STATIC"><span class="type-signature">(inner) </span>STATIC<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved.
 </div>
 
 
