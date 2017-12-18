@@ -13,29 +13,33 @@ var Box2D = require('link/Box2D');
  * @extends component/Base
  * @exports component/RigidBody
  */
-var RigidBody = function (type, shape) {
-  Base.call(this, Base.TYPE.RIGID_BODY);
-  if (type === undefined) throw new Error('Param type is required.');
-  if (shape === undefined) throw new Error('Param shape is required.');
+class RigidBody extends Base {
 
-  this.bodyDef.set_type(type);
-  this.materialDef.set_shape(shape);
-};
+  /**
+   * Enumeration of rigid body types.
+   * @type {Number}
+   * @enum
+   */
+  static get TYPE() {
+    return {
+      /** A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved. */
+      STATIC: Box2D.b2_staticBody,
+      /** A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body. */
+      KINEMATIC: Box2D.b2_kinematicBody,
+      /** A <b>dynamic body</b> is a body which is affected by world forces and react to collisions. */
+      DYNAMIC: Box2D.b2_dynamicBody
+    }
+  };
 
-RigidBody.prototype = Object.create(Base.prototype);
+  constructor(type, shape) {
+    super(Base.TYPE.RIGID_BODY);
 
-/**
- * Enumeration of rigid body types.
- * @type {Number}
- * @enum
- */
-RigidBody.TYPE = {
-  /** A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved. */
-  STATIC: Box2D.b2_staticBody,
-  /** A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body. */
-  KINEMATIC: Box2D.b2_kinematicBody,
-  /** A <b>dynamic body</b> is a body which is affected by world forces and react to collisions. */
-  DYNAMIC: Box2D.b2_dynamicBody
+    if (!Object.values(RigidBody.TYPE).includes(type)) throw new Error('Param "type" is invalid.');
+    if (shape === undefined) throw new Error('Param shape is required.');
+
+    this.bodyDef.set_type(type);
+    this.materialDef.set_shape(shape);
+  }
 };
 
 /**
