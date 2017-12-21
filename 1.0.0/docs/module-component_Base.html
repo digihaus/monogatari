@@ -31,8 +31,6 @@
 <header>
     
         
-            
-        
     
 </header>
 
@@ -40,74 +38,6 @@
     <div class="container-overview">
     
         
-            <div class="description">Base class that all components extend.</div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
 
         
     
@@ -145,181 +75,6 @@
     Enumeration of component states.
 </div>
 
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>INITIALIZING</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Component was created and may need further steps before use</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>BUFFERING</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Component is buffering resources</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>LOADED</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Component resources are loaded</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>READY</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Component is built and ready to use</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>RUNNING</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Component is active</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>REGISTERED</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Component is registered for internal management</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>FAILED</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">An error occurred and the component cannot be used</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -375,112 +130,6 @@
     Enumeration of component types.
 </div>
 
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>SPRITE</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Managed 2D asset renderable by THREE</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>RIGID_BODY</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Physics for Box2d</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>AUDIO</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Audio source</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>CANVAS</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">canvas2D for primitives</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -589,6 +238,611 @@
 
 <div class="description">
     Actual component type.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~AUDIO"><span class="type-signature">(inner) </span>AUDIO<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Audio source
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~BUFFERING"><span class="type-signature">(inner) </span>BUFFERING<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Component is buffering resources
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~CANVAS"><span class="type-signature">(inner) </span>CANVAS<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    canvas2D for primitives
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~FAILED"><span class="type-signature">(inner) </span>FAILED<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    An error occurred and the component cannot be used
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~INITIALIZING"><span class="type-signature">(inner) </span>INITIALIZING<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Component was created and may need further steps before use
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~LOADED"><span class="type-signature">(inner) </span>LOADED<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Component resources are loaded
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~READY"><span class="type-signature">(inner) </span>READY<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Component is built and ready to use
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~REGISTERED"><span class="type-signature">(inner) </span>REGISTERED<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Component is registered for internal management
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~RIGID_BODY"><span class="type-signature">(inner) </span>RIGID_BODY<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Physics for Box2d
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~RUNNING"><span class="type-signature">(inner) </span>RUNNING<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Component is active
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~SPRITE"><span class="type-signature">(inner) </span>SPRITE<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Managed 2D asset renderable by THREE
 </div>
 
 
