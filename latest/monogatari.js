@@ -49762,60 +49762,84 @@ module.exports = Audio;
 },{"component/Base":11,"link/Howler":24}],11:[function(require,module,exports){
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 /**
  * Base class that all components extend.
  * @abstract
  * @exports component/Base
  */
-var Base = function Base(type) {
-  /**
-   * Actual component type.
-   * @type module:component/Base.TYPE
-   */
-  this.type = type;
+var Base = function () {
+  _createClass(Base, null, [{
+    key: "TYPE",
 
-  /**
-   * Current component state.
-   * @type module:component/Base.STATE
-   */
-  this.state = Base.STATE.INITIALIZING;
-};
 
-/**
- * Enumeration of component types.
- * @enum {Number}
- */
-Base.TYPE = {
-  /** Managed 2D asset renderable by THREE */
-  SPRITE: 0,
-  /** Physics for Box2d */
-  RIGID_BODY: 1,
-  /** Audio source */
-  AUDIO: 2,
-  /** canvas2D for primitives */
-  CANVAS: 3
-};
+    /**
+     * Enumeration of component types.
+     * @enum {Number}
+     */
+    get: function get() {
+      return {
+        /** Managed 2D asset renderable by THREE */
+        SPRITE: 0,
+        /** Physics for Box2d */
+        RIGID_BODY: 1,
+        /** Audio source */
+        AUDIO: 2,
+        /** canvas2D for primitives */
+        CANVAS: 3
+      };
+    }
 
-/**
- * Enumeration of component states.
- * @enum {Number}
- */
-Base.STATE = {
-  /** Component was created and may need further steps before use */
-  INITIALIZING: 0,
-  /** Component is buffering resources */
-  BUFFERING: 1,
-  /** Component resources are loaded */
-  LOADED: 2,
-  /** Component is built and ready to use */
-  READY: 3,
-  /** Component is active */
-  RUNNING: 4,
-  /** Component is registered for internal management */
-  REGISTERED: 5,
-  /** An error occurred and the component cannot be used */
-  FAILED: -1
-};
+    /**
+     * Enumeration of component states.
+     * @enum {Number}
+     */
+
+  }, {
+    key: "STATE",
+    get: function get() {
+      return {
+        /** Component was created and may need further steps before use */
+        INITIALIZING: 0,
+        /** Component is buffering resources */
+        BUFFERING: 1,
+        /** Component resources are loaded */
+        LOADED: 2,
+        /** Component is built and ready to use */
+        READY: 3,
+        /** Component is active */
+        RUNNING: 4,
+        /** Component is registered for internal management */
+        REGISTERED: 5,
+        /** An error occurred and the component cannot be used */
+        FAILED: -1
+      };
+    }
+  }]);
+
+  function Base(type) {
+    _classCallCheck(this, Base);
+
+    /**
+     * Actual component type.
+     * @type module:component/Base.TYPE
+     */
+    this.type = type;
+
+    /**
+     * Current component state.
+     * @type module:component/Base.STATE
+     */
+    this.state = Base.STATE.INITIALIZING;
+  }
+
+  return Base;
+}();
+
+;
 
 module.exports = Base;
 
@@ -50170,120 +50194,152 @@ var RigidBody = function (_Base) {
     if (!Object.values(RigidBody.TYPE).includes(type)) throw new Error('Param "type" is invalid.');
     if (shape === undefined) throw new Error('Param shape is required.');
 
+    /**
+     * The physics body definition (Box2D.BodyDef) from this component.
+     * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html|b2BodyDef}
+     * @type {Box2D.b2BodyDef}
+     */
+    _this.bodyDef = new Box2D.b2BodyDef();
+
+    /**
+     * The Material (Box2D.FixtureDef) from this component.
+     * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html|b2FixtureDef}
+     * @type {Box2D.b2FixtureDef}
+     */
+    _this.materialDef = new Box2D.b2FixtureDef();
+
+    /**
+     * The physics body used to bind this component to the physics world.
+     * It's created by the Physics Manager.
+     * @return {Box2D.b2Body} Body from Box2D
+     */
+    _this.body = null;
+
     _this.bodyDef.set_type(type);
     _this.materialDef.set_shape(shape);
     return _this;
   }
 
+  /**
+   * Sets the density of the material.
+   * @param {number} density - Density in kg/m^2
+   */
+
+
+  _createClass(RigidBody, [{
+    key: 'setDensity',
+    value: function setDensity(density) {
+      this.materialDef.set_density(density);
+    }
+
+    /**
+     * Sets the friction of the material.
+     * @param {number} friction - Usually in the range [0,1]
+     */
+
+  }, {
+    key: 'setFriction',
+    value: function setFriction(friction) {
+      this.materialDef.set_friction(friction);
+    }
+
+    /**
+     * Sets the bounciness of the material
+     * @param {number} bounciness - Usually in the range [0,1]
+     */
+
+  }, {
+    key: 'setBounciness',
+    value: function setBounciness(bounciness) {
+      this.materialDef.set_restitution(bounciness);
+    }
+
+    /**
+     * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+     * @param {Number} x Coordinate X
+     * @param {Number} y Coordinate Y
+     */
+
+  }, {
+    key: 'setPosition',
+    value: function setPosition(x, y) {
+      this.bodyDef.get_position().set_x(x);
+      this.bodyDef.get_position().set_y(y);
+    }
+
+    /**
+     * Sets the angle (rotation) of the body.
+     * @param {number} angle - Rotation angle in radians
+     */
+
+  }, {
+    key: 'setRotation',
+    value: function setRotation(angle) {
+      this.bodyDef.angle.set_angle(angle);
+    }
+
+    /**
+     * Prevents the collision to be resolved by Box2D, but retains collision information.
+     * @param {boolean} isSensor
+     */
+
+  }, {
+    key: 'setSensor',
+    value: function setSensor(isSensor) {
+      this.materialDef.set_isSensor(isSensor);
+    }
+
+    /**
+     * Prevents the collision to be resolved through other objects.
+     * <b>Expensive! Use with care.</b>
+     * @param {boolean} preventTunneling
+     */
+
+  }, {
+    key: 'setPreventTunneling',
+    value: function setPreventTunneling(preventTunneling) {
+      this.bodyDef.set_bullet(preventTunneling);
+    }
+
+    /**
+     * Prevents or allows the rotation on this RigidBody.
+     * @param {boolean} allowRotation
+     */
+
+  }, {
+    key: 'setAllowRotation',
+    value: function setAllowRotation(allowRotation) {
+      this.bodyDef.set_fixedRotation(!allowRotation);
+    }
+
+    /**
+     * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
+     * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
+     * @param {Object} userData
+     */
+
+  }, {
+    key: 'setUserData',
+    value: function setUserData(userData) {
+      this.materialDef.set_userData(userData);
+    }
+
+    /**
+     * Returns a new instance of a RigidBody with the same values.
+     * @return {module:component/RigidBody} a clone of this RigidBody
+     */
+
+  }, {
+    key: 'clone',
+    value: function clone() {
+      return new RigidBody(this.type, this.shape);
+    }
+  }]);
+
   return RigidBody;
 }(Base);
 
 ;
-
-/**
- * The physics body definition (Box2D.BodyDef) from this component.
- * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html|b2BodyDef}
- * @type {Box2D.b2BodyDef} Body definition from Box2D
- */
-RigidBody.prototype.bodyDef = new Box2D.b2BodyDef();
-
-/**
- * The Material (Box2D.FixtureDef) from this component.
- * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html|b2FixtureDef}
- * @type {Box2D.b2FixtureDef} Fixture definition from Box2D
- */
-RigidBody.prototype.materialDef = new Box2D.b2FixtureDef();
-
-/**
- * The physics body used to bind this component to the physics world.
- * It's created by the Physics Manager.
- * @return {Box2D.b2Body} Body from Box2D
- */
-RigidBody.prototype.body = null;
-
-/**
- * Sets the density of the material.
- * @param {number} density - Density in kg/m^2
- */
-RigidBody.prototype.setDensity = function (density) {
-  this.materialDef.set_density(density);
-};
-
-/**
- * Sets the friction of the material.
- * @param {number} friction - Usually in the range [0,1]
- */
-RigidBody.prototype.setFriction = function (friction) {
-  this.materialDef.set_friction(friction);
-};
-
-/**
- * Sets the bounciness of the material
- * @param {number} bounciness - Usually in the range [0,1]
- */
-RigidBody.prototype.setBounciness = function (bounciness) {
-  this.materialDef.set_restitution(bounciness);
-};
-
-/**
- * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
- * @param {Number} x Coordinate X
- * @param {Number} y Coordinate Y
- */
-RigidBody.prototype.setPosition = function (x, y) {
-  this.bodyDef.get_position().set_x(x);
-  this.bodyDef.get_position().set_y(y);
-};
-
-/**
- * Sets the angle (rotation) of the body.
- * @param {number} angle - Rotation angle in radians
- */
-RigidBody.prototype.setRotation = function (angle) {
-  this.bodyDef.angle.set_angle(angle);
-};
-
-/**
- * Prevents the collision to be resolved by Box2D, but retains collision information.
- * @param {boolean} isSensor
- */
-RigidBody.prototype.setSensor = function (isSensor) {
-  this.materialDef.set_isSensor(isSensor);
-};
-
-/**
- * Prevents the collision to be resolved through other objects.
- * <b>Expensive! Use with care.</b>
- * @param {boolean} preventTunneling
- */
-RigidBody.prototype.setPreventTunneling = function (preventTunneling) {
-  this.bodyDef.set_bullet(preventTunneling);
-};
-
-/**
- * Prevents or allows the rotation on this RigidBody.
- * @param {boolean} allowRotation
- */
-RigidBody.prototype.setAllowRotation = function (allowRotation) {
-  this.bodyDef.set_fixedRotation(!allowRotation);
-};
-
-/**
- * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
- * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
- * @param {Object} userData
- */
-RigidBody.prototype.setUserData = function (userData) {
-  this.materialDef.set_userData(userData);
-};
-
-/**
- * Returns a new instance of a RigidBody with the same values.
- * @return {module:component/RigidBody} a clone of this RigidBody
- */
-RigidBody.prototype.clone = function () {
-  return new RigidBody(this.type, this.shape);
-};
 
 module.exports = RigidBody;
 
@@ -50680,6 +50736,7 @@ var Math = require('core/Math');
 var Map = require('collection/Map');
 var LinkedList = require('collection/LinkedList');
 var Base = require('component/Base');
+var RigidBody = require('component/RigidBody');
 var MessageManager = require('manager/MessageManager');
 var PhysicsManager = require('manager/PhysicsManager');
 var SceneManager = require('manager/SceneManager');
@@ -50902,7 +50959,7 @@ GameObject.prototype.getEulerRotationToTarget = function (target) {
  */
 GameObject.prototype.addComponent = function (component) {
 
-  if (component.type === Base.TYPE.RIGID_BODY) {
+  if (component instanceof RigidBody) {
     PhysicsManager.attachToWorld(component);
   }
 
@@ -50988,30 +51045,29 @@ GameObject.prototype.rotateAroundPivot = function (pivot, radians) {
  * Iterate and update all components. Automatically called from the postUpdate method.
  */
 GameObject.prototype.updateComponents = function () {
-  // Updates object position from Box2D to the engine based on physics simulation (if applicable).
-  // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
-  var rigidBody = this.findComponent(Base.TYPE.RIGID_BODY);
-  if (rigidBody) {
-    this.position.x = rigidBody.body.GetPosition().get_x() * PhysicsManager.conversionFactor;
-    this.position.y = rigidBody.body.GetPosition().get_y() * PhysicsManager.conversionFactor;
-  }
-
   this.componentsIt.first();
   while (this.componentsIt.hasNext()) {
     var component = this.componentsIt.next();
 
-    // For renderable components, updates engine transformations to Three.js
-    if (component.type === Base.TYPE.SPRITE || component.type === Base.TYPE.CANVAS) {
+    if (component instanceof RigidBody) {
+      // Updates object position from Box2D to the engine based on physics simulation (if applicable).
+      // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
+      this.position.x = component.body.GetPosition().get_x() * PhysicsManager.conversionFactor;
+      this.position.y = component.body.GetPosition().get_y() * PhysicsManager.conversionFactor;
+    } else {
+      // For renderable components, updates engine transformations to Three.js
+      if (component.type === Base.TYPE.SPRITE || component.type === Base.TYPE.CANVAS) {
 
-      if (component.state === Base.STATE.REGISTERED) {
-        component.mesh.position.set(this.position.x, this.position.y, this.position.z);
-        component.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
-        component.mesh.scale.set(-this.scale.x, this.scale.y, this.scale.z);
-      } else if (component.state === Base.STATE.READY) {
-        SceneManager.attachToScene(component, this.sceneId);
-        component.state = Base.STATE.REGISTERED;
-      } else if (component.state === Base.STATE.LOADED) {
-        component.buildMesh();
+        if (component.state === Base.STATE.REGISTERED) {
+          component.mesh.position.set(this.position.x, this.position.y, this.position.z);
+          component.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
+          component.mesh.scale.set(-this.scale.x, this.scale.y, this.scale.z);
+        } else if (component.state === Base.STATE.READY) {
+          SceneManager.attachToScene(component, this.sceneId);
+          component.state = Base.STATE.REGISTERED;
+        } else if (component.state === Base.STATE.LOADED) {
+          component.buildMesh();
+        }
       }
     }
     // For components that require an update
@@ -51161,7 +51217,7 @@ GameObject.prototype.load = function () {
 
 module.exports = GameObject;
 
-},{"collection/LinkedList":6,"collection/Map":8,"component/Base":11,"core/Common":15,"core/Math":17,"core/Message":18,"core/Timer":20,"link/Three":25,"manager/MessageManager":26,"manager/PhysicsManager":27,"manager/SceneManager":28}],17:[function(require,module,exports){
+},{"collection/LinkedList":6,"collection/Map":8,"component/Base":11,"component/RigidBody":13,"core/Common":15,"core/Math":17,"core/Message":18,"core/Timer":20,"link/Three":25,"manager/MessageManager":26,"manager/PhysicsManager":27,"manager/SceneManager":28}],17:[function(require,module,exports){
 'use strict';
 
 var THREE = require('link/Three');
