@@ -5,6 +5,7 @@ var Math = require('core/Math');
 var Map = require('collection/Map');
 var LinkedList = require('collection/LinkedList');
 var Base = require('component/Base');
+var RigidBody = require('component/RigidBody');
 var MessageManager = require('manager/MessageManager');
 var PhysicsManager = require('manager/PhysicsManager');
 var SceneManager = require('manager/SceneManager');
@@ -227,7 +228,7 @@ GameObject.prototype.getEulerRotationToTarget = function (target) {
  */
 GameObject.prototype.addComponent = function (component) {
 
-  if (component.type === Base.TYPE.RIGID_BODY) {
+  if (component instanceof RigidBody) {
     PhysicsManager.attachToWorld(component);
   }
 
@@ -313,32 +314,32 @@ GameObject.prototype.rotateAroundPivot = function (pivot, radians) {
  * Iterate and update all components. Automatically called from the postUpdate method.
  */
 GameObject.prototype.updateComponents = function () {
-  // Updates object position from Box2D to the engine based on physics simulation (if applicable).
-  // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
-  var rigidBody = this.findComponent(Base.TYPE.RIGID_BODY);
-  if (rigidBody) {
-    this.position.x = rigidBody.body.GetPosition().get_x() * PhysicsManager.conversionFactor;
-    this.position.y = rigidBody.body.GetPosition().get_y() * PhysicsManager.conversionFactor;
-  }
-
   this.componentsIt.first();
   while (this.componentsIt.hasNext()) {
     var component = this.componentsIt.next();
 
-    // For renderable components, updates engine transformations to Three.js
-    if (component.type === Base.TYPE.SPRITE || component.type === Base.TYPE.CANVAS) {
+    if (component instanceof RigidBody) {
+      // Updates object position from Box2D to the engine based on physics simulation (if applicable).
+      // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
+      this.position.x = component.body.GetPosition().get_x() * PhysicsManager.conversionFactor;
+      this.position.y = component.body.GetPosition().get_y() * PhysicsManager.conversionFactor;
+      
+    } else {
+      // For renderable components, updates engine transformations to Three.js
+      if (component.type === Base.TYPE.SPRITE || component.type === Base.TYPE.CANVAS) {
 
-      if (component.state === Base.STATE.REGISTERED) {
-        component.mesh.position.set(this.position.x, this.position.y, this.position.z);
-        component.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
-        component.mesh.scale.set(-this.scale.x, this.scale.y, this.scale.z);
+        if (component.state === Base.STATE.REGISTERED) {
+          component.mesh.position.set(this.position.x, this.position.y, this.position.z);
+          component.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
+          component.mesh.scale.set(-this.scale.x, this.scale.y, this.scale.z);
 
-      } else if (component.state === Base.STATE.READY) {
-        SceneManager.attachToScene(component, this.sceneId);
-        component.state = Base.STATE.REGISTERED;
+        } else if (component.state === Base.STATE.READY) {
+          SceneManager.attachToScene(component, this.sceneId);
+          component.state = Base.STATE.REGISTERED;
 
-      } else if (component.state === Base.STATE.LOADED) {
-        component.buildMesh();
+        } else if (component.state === Base.STATE.LOADED) {
+          component.buildMesh();
+        }
       }
     }
     // For components that require an update

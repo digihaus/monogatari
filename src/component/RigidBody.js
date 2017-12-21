@@ -37,114 +37,114 @@ class RigidBody extends Base {
     if (!Object.values(RigidBody.TYPE).includes(type)) throw new Error('Param "type" is invalid.');
     if (shape === undefined) throw new Error('Param shape is required.');
 
+    /**
+     * The physics body definition (Box2D.BodyDef) from this component.
+     * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html|b2BodyDef}
+     * @type {Box2D.b2BodyDef}
+     */
+    this.bodyDef = new Box2D.b2BodyDef();
+
+    /**
+     * The Material (Box2D.FixtureDef) from this component.
+     * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html|b2FixtureDef}
+     * @type {Box2D.b2FixtureDef}
+     */
+    this.materialDef = new Box2D.b2FixtureDef();
+
+    /**
+     * The physics body used to bind this component to the physics world.
+     * It's created by the Physics Manager.
+     * @return {Box2D.b2Body} Body from Box2D
+     */
+    this.body = null;
+
     this.bodyDef.set_type(type);
     this.materialDef.set_shape(shape);
   }
-};
 
-/**
- * The physics body definition (Box2D.BodyDef) from this component.
- * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2BodyDef.html|b2BodyDef}
- * @type {Box2D.b2BodyDef} Body definition from Box2D
- */
-RigidBody.prototype.bodyDef = new Box2D.b2BodyDef();
+  /**
+   * Sets the density of the material.
+   * @param {number} density - Density in kg/m^2
+   */
+  setDensity(density) {
+    this.materialDef.set_density(density);
+  }
 
-/**
- * The Material (Box2D.FixtureDef) from this component.
- * {@link http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2FixtureDef.html|b2FixtureDef}
- * @type {Box2D.b2FixtureDef} Fixture definition from Box2D
- */
-RigidBody.prototype.materialDef = new Box2D.b2FixtureDef();
+  /**
+   * Sets the friction of the material.
+   * @param {number} friction - Usually in the range [0,1]
+   */
+  setFriction(friction) {
+    this.materialDef.set_friction(friction);
+  }
 
-/**
- * The physics body used to bind this component to the physics world.
- * It's created by the Physics Manager.
- * @return {Box2D.b2Body} Body from Box2D
- */
-RigidBody.prototype.body = null;
+  /**
+   * Sets the bounciness of the material
+   * @param {number} bounciness - Usually in the range [0,1]
+   */
+  setBounciness(bounciness) {
+    this.materialDef.set_restitution(bounciness);
+  }
 
-/**
- * Sets the density of the material.
- * @param {number} density - Density in kg/m^2
- */
-RigidBody.prototype.setDensity = function (density) {
-  this.materialDef.set_density(density);
-};
+  /**
+   * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+   * @param {Number} x Coordinate X
+   * @param {Number} y Coordinate Y
+   */
+  setPosition(x, y) {
+    this.bodyDef.get_position().set_x(x);
+    this.bodyDef.get_position().set_y(y);
+  }
 
-/**
- * Sets the friction of the material.
- * @param {number} friction - Usually in the range [0,1]
- */
-RigidBody.prototype.setFriction = function (friction) {
-  this.materialDef.set_friction(friction);
-};
+  /**
+   * Sets the angle (rotation) of the body.
+   * @param {number} angle - Rotation angle in radians
+   */
+  setRotation(angle) {
+    this.bodyDef.angle.set_angle(angle);
+  }
 
-/**
- * Sets the bounciness of the material
- * @param {number} bounciness - Usually in the range [0,1]
- */
-RigidBody.prototype.setBounciness = function (bounciness) {
-  this.materialDef.set_restitution(bounciness);
-};
+  /**
+   * Prevents the collision to be resolved by Box2D, but retains collision information.
+   * @param {boolean} isSensor
+   */
+  setSensor(isSensor) {
+    this.materialDef.set_isSensor(isSensor);
+  }
 
-/**
- * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
- * @param {Number} x Coordinate X
- * @param {Number} y Coordinate Y
- */
-RigidBody.prototype.setPosition = function (x, y) {
-  this.bodyDef.get_position().set_x(x);
-  this.bodyDef.get_position().set_y(y);
-};
+  /**
+   * Prevents the collision to be resolved through other objects.
+   * <b>Expensive! Use with care.</b>
+   * @param {boolean} preventTunneling
+   */
+  setPreventTunneling(preventTunneling) {
+    this.bodyDef.set_bullet(preventTunneling);
+  }
 
-/**
- * Sets the angle (rotation) of the body.
- * @param {number} angle - Rotation angle in radians
- */
-RigidBody.prototype.setRotation = function (angle) {
-  this.bodyDef.angle.set_angle(angle);
-};
+  /**
+   * Prevents or allows the rotation on this RigidBody.
+   * @param {boolean} allowRotation
+   */
+  setAllowRotation(allowRotation) {
+    this.bodyDef.set_fixedRotation(!allowRotation);
+  }
 
-/**
- * Prevents the collision to be resolved by Box2D, but retains collision information.
- * @param {boolean} isSensor
- */
-RigidBody.prototype.setSensor = function (isSensor) {
-  this.materialDef.set_isSensor(isSensor);
-};
+  /**
+   * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
+   * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
+   * @param {Object} userData
+   */
+  setUserData(userData) {
+    this.materialDef.set_userData(userData);
+  }
 
-/**
- * Prevents the collision to be resolved through other objects.
- * <b>Expensive! Use with care.</b>
- * @param {boolean} preventTunneling
- */
-RigidBody.prototype.setPreventTunneling = function (preventTunneling) {
-  this.bodyDef.set_bullet(preventTunneling);
-};
-
-/**
- * Prevents or allows the rotation on this RigidBody.
- * @param {boolean} allowRotation
- */
-RigidBody.prototype.setAllowRotation = function (allowRotation) {
-  this.bodyDef.set_fixedRotation(!allowRotation);
-};
-
-/**
- * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
- * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
- * @param {Object} userData
- */
-RigidBody.prototype.setUserData = function (userData) {
-  this.materialDef.set_userData(userData);
-};
-
-/**
- * Returns a new instance of a RigidBody with the same values.
- * @return {module:component/RigidBody} a clone of this RigidBody
- */
-RigidBody.prototype.clone = function () {
-  return new RigidBody(this.type, this.shape);
+  /**
+   * Returns a new instance of a RigidBody with the same values.
+   * @return {module:component/RigidBody} a clone of this RigidBody
+   */
+  clone() {
+    return new RigidBody(this.type, this.shape);
+  }
 };
 
 module.exports = RigidBody;
