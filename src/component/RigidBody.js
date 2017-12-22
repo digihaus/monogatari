@@ -26,7 +26,15 @@ class RigidBody extends Base {
       KINEMATIC: Box2D.b2_kinematicBody,
       DYNAMIC: Box2D.b2_dynamicBody
     }
-  };
+  }
+
+  /**
+   * Conversion factor between physics world and game world
+   * @constant {number}
+   */
+  static get FACTOR() {
+    return 50;
+  }
 
   /**
    * Creates a RigidBody.
@@ -80,6 +88,23 @@ class RigidBody extends Base {
     if (options.isSensor) this.materialDef.set_isSensor(options.isSensor);
   }
 
+  getPosition() {
+    return {
+      x: this.body.GetPosition().get_x() * RigidBody.FACTOR,
+      y: this.body.GetPosition().get_y() * RigidBody.FACTOR
+    }
+  }
+
+  /**
+   * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+   * @param {Number} x Coordinate X
+   * @param {Number} y Coordinate Y
+   */
+  setPosition(x, y) {
+    this.bodyDef.get_position().set_x(x / RigidBody.FACTOR);
+    this.bodyDef.get_position().set_y(y / RigidBody.FACTOR);
+  }
+
   /**
    * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
    * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
@@ -90,22 +115,12 @@ class RigidBody extends Base {
   }
 
   /**
-   * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
-   * @param {Number} x Coordinate X
-   * @param {Number} y Coordinate Y
-   */
-  setPosition(x, y) {
-    this.bodyDef.get_position().set_x(x);
-    this.bodyDef.get_position().set_y(y);
-  }
-
-  /**
    * Returns a new instance of a RigidBody with the same values.
    * @return {module:component/RigidBody} a clone of this RigidBody
    */
   clone() {
     return new RigidBody(this.type, this.shape);
   }
-};
+}
 
 module.exports = RigidBody;

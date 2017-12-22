@@ -26,15 +26,13 @@
 
   // zombieShape
   var zombieShape = new m.Box2D.b2CircleShape();
-  zombieShape.set_m_radius(0.5);
+  zombieShape.set_m_radius(0.4);
 
   // zombie1
   var zombie = new m.GameObject('zombie1');
 
   var rb1 = new m.RigidBody(m.RigidBody.TYPE.DYNAMIC, zombieShape, rbOpts);
-
-  rb1.setPosition(3, 1);
-  rb1.setUserData(zombie.uid);
+  rb1.setPosition(32, 128);
 
   var sprite = new m.Sprite('../assets/zombies.png', 64, 64, 1, 3);
 
@@ -56,27 +54,10 @@
   var zombie2 = new m.GameObject('zombie2');
   var rb2 = new m.RigidBody(m.RigidBody.TYPE.DYNAMIC, zombieShape, rbOpts);
 
-  rb2.setPosition(2.7, 0.5);
-  rb2.setUserData(zombie2.uid);
+  rb2.setPosition(0, 0);
 
   zombie2.addComponent(new m.Sprite('../assets/zombies.png', 64, 64, 1, 3));
   zombie2.addComponent(rb2);
-
-  //<hacking>
-  //          var buffer = Box2D.allocate( Box2D.intArrayFromString( "bolovo" ), 'i8', Box2D.ALLOC_STACK );
-  //
-  //          rb2.body.SetUserData( buffer );
-  //          //rb2.body.SetUserData( 35 );
-  //          //console.log(  rb2.body.GetUserData() );
-  //
-  //          var userData = rb2.body.GetUserData();
-  //          console.log( String.fromCharCode( Box2D.getValue( userData, 'i8' ) ) ); // b
-  //          console.log( String.fromCharCode( Box2D.getValue( userData + 1, 'i8' ) ) ); // o
-  //          console.log( String.fromCharCode( Box2D.getValue( userData + 2, 'i8' ) ) ); // l
-  //          console.log( String.fromCharCode( Box2D.getValue( userData + 3, 'i8' ) ) ); // o
-  //          console.log( String.fromCharCode( Box2D.getValue( userData + 4, 'i8' ) ) ); // v
-  //          console.log( String.fromCharCode( Box2D.getValue( userData + 5, 'i8' ) ) ); // o
-  //</hacking>
 
   m.world.children.push(zombie2);
 
@@ -84,8 +65,7 @@
   var zombie3 = new m.GameObject('zombie3');
   var rb3 = new m.RigidBody(m.RigidBody.TYPE.DYNAMIC, zombieShape, rbOpts);
 
-  rb3.setPosition(1.7, 0.5);
-  rb3.setUserData(zombie3.uid);
+  rb3.setPosition(96, 64);
 
   zombie3.addComponent(new m.Sprite('../assets/zombies.png', 64, 64, 1, 3));
   zombie3.addComponent(rb3);
@@ -96,8 +76,7 @@
   var zombie4 = new m.GameObject('zombie4');
   var rb4 = new m.RigidBody(m.RigidBody.TYPE.DYNAMIC, zombieShape, rbOpts);
 
-  rb4.setPosition(2.1, 0.5);
-  rb4.setUserData(zombie4.uid);
+  rb4.setPosition(64, 32);
 
   zombie4.addComponent(new m.Sprite('../assets/zombies.png', 64, 64, 1, 3));
   zombie4.addComponent(rb4);
@@ -111,8 +90,7 @@
   var ground = new m.GameObject('ground');
   var groundBody = new m.RigidBody(m.RigidBody.TYPE.STATIC, groundShape, rbOpts);
 
-  groundBody.setPosition(0, 9.375);
-  groundBody.setUserData(ground.uid);
+  groundBody.setPosition(0, 600);
 
   ground.addComponent(groundBody);
 
@@ -127,7 +105,6 @@
   var lWallBody = new m.RigidBody(m.RigidBody.TYPE.STATIC, wallShape, rbOpts);
 
   lWallBody.setPosition(0, 0);
-  lWallBody.setUserData(lWall.uid);
 
   lWall.addComponent(lWallBody);
 
@@ -137,8 +114,7 @@
   var rWall = new m.GameObject('rWall');
   var rWallBody = new m.RigidBody(m.RigidBody.TYPE.STATIC, wallShape, rbOpts);
 
-  rWallBody.setPosition(12.5, 0);
-  rWallBody.setUserData(rWall.uid);
+  rWallBody.setPosition(800, 0);
 
   rWall.addComponent(rWallBody);
 

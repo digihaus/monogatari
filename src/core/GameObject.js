@@ -229,6 +229,7 @@ GameObject.prototype.getEulerRotationToTarget = function (target) {
 GameObject.prototype.addComponent = function (component) {
 
   if (component instanceof RigidBody) {
+    component.setUserData(this.uid);
     PhysicsManager.attachToWorld(component);
   }
 
@@ -321,8 +322,9 @@ GameObject.prototype.updateComponents = function () {
     if (component instanceof RigidBody) {
       // Updates object position from Box2D to the engine based on physics simulation (if applicable).
       // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
-      this.position.x = component.body.GetPosition().get_x() * PhysicsManager.conversionFactor;
-      this.position.y = component.body.GetPosition().get_y() * PhysicsManager.conversionFactor;
+      var position = component.getPosition();
+      this.position.x = position.x;
+      this.position.y = position.y;
       
     } else {
       // For renderable components, updates engine transformations to Three.js
