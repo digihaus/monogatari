@@ -84,7 +84,8 @@ PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
  * Attaches a given Rigid Body to the Physics World of Box2D.
  * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
  */
-PhysicsManager.attachToWorld = function (rigidBody) {
+PhysicsManager.attachToWorld = function (rigidBody, userData) {
+  rigidBody.materialDef.set_userData(userData);
   rigidBody.body = this.physicsWorld.CreateBody(rigidBody.bodyDef);
   rigidBody.body.CreateFixture(rigidBody.materialDef);
 };

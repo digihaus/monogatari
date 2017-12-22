@@ -88,30 +88,22 @@ class RigidBody extends Base {
     if (options.isSensor) this.materialDef.set_isSensor(options.isSensor);
   }
 
-  getPosition() {
-    return {
-      x: this.body.GetPosition().get_x() * RigidBody.FACTOR,
-      y: this.body.GetPosition().get_y() * RigidBody.FACTOR
-    }
+  getPositionX() {
+    return this.body.GetPosition().get_x() * RigidBody.FACTOR;
+  }
+
+  getPositionY() {
+    return this.body.GetPosition().get_y() * RigidBody.FACTOR;
   }
 
   /**
-   * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+   * Sets the position of the body in the game world scale.
    * @param {Number} x Coordinate X
    * @param {Number} y Coordinate Y
    */
   setPosition(x, y) {
     this.bodyDef.get_position().set_x(x / RigidBody.FACTOR);
     this.bodyDef.get_position().set_y(y / RigidBody.FACTOR);
-  }
-
-  /**
-   * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
-   * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
-   * @param {Object} userData
-   */
-  setUserData(userData) {
-    this.materialDef.set_userData(userData);
   }
 
   /**
