@@ -50181,21 +50181,34 @@ var RigidBody = function (_Base) {
         DYNAMIC: Box2D.b2_dynamicBody
       };
     }
+
+    /**
+     * Conversion factor between physics world and game world
+     * @constant {number}
+     */
+
+  }, {
+    key: 'FACTOR',
+    get: function get() {
+      return 50;
+    }
+
+    /**
+     * Creates a RigidBody.
+     * @param {RigidBody.TYPE} type - Type of the body: static, kinematic or dynamic
+     * @param {b2Shape} shape - Geometrical shape of the body
+     * @param {Object} [options]
+     * @param {number} [options.density] - Material density in kg/m^2
+     * @param {number} [options.friction] - Material friction, usually in the range [0,1]
+     * @param {number} [options.bounciness] - Material bounciness, usually in the range [0,1]
+     * @param {number} [options.angle] - Body rotation angle in radians
+     * @param {boolean} [options.isSensor] - Prevents the collision to be resolved by Box2D, but retains collision information
+     * @param {boolean} [options.preventTunneling] - Prevents the collision to be resolved through other objects. <b>Expensive! Use with care.</b>
+     * @param {boolean} [options.allowRotation] - Prevents or allows the rotation on the body
+     */
+
   }]);
 
-  /**
-   * Creates a RigidBody.
-   * @param {RigidBody.TYPE} type - Type of the body: static, kinematic or dynamic
-   * @param {b2Shape} shape - Geometrical shape of the body
-   * @param {Object} [options]
-   * @param {number} [options.density] - Material density in kg/m^2
-   * @param {number} [options.friction] - Material friction, usually in the range [0,1]
-   * @param {number} [options.bounciness] - Material bounciness, usually in the range [0,1]
-   * @param {number} [options.angle] - Body rotation angle in radians
-   * @param {boolean} [options.isSensor] - Prevents the collision to be resolved by Box2D, but retains collision information
-   * @param {boolean} [options.preventTunneling] - Prevents the collision to be resolved through other objects. <b>Expensive! Use with care.</b>
-   * @param {boolean} [options.allowRotation] - Prevents or allows the rotation on the body
-   */
   function RigidBody(type, shape) {
     var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
@@ -50240,17 +50253,13 @@ var RigidBody = function (_Base) {
     return _this;
   }
 
-  /**
-   * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
-   * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
-   * @param {Object} userData
-   */
-
-
   _createClass(RigidBody, [{
-    key: 'setUserData',
-    value: function setUserData(userData) {
-      this.materialDef.set_userData(userData);
+    key: 'getPosition',
+    value: function getPosition() {
+      return {
+        x: this.body.GetPosition().get_x() * RigidBody.FACTOR,
+        y: this.body.GetPosition().get_y() * RigidBody.FACTOR
+      };
     }
 
     /**
@@ -50262,8 +50271,20 @@ var RigidBody = function (_Base) {
   }, {
     key: 'setPosition',
     value: function setPosition(x, y) {
-      this.bodyDef.get_position().set_x(x);
-      this.bodyDef.get_position().set_y(y);
+      this.bodyDef.get_position().set_x(x / RigidBody.FACTOR);
+      this.bodyDef.get_position().set_y(y / RigidBody.FACTOR);
+    }
+
+    /**
+     * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
+     * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
+     * @param {Object} userData
+     */
+
+  }, {
+    key: 'setUserData',
+    value: function setUserData(userData) {
+      this.materialDef.set_userData(userData);
     }
 
     /**
@@ -50280,8 +50301,6 @@ var RigidBody = function (_Base) {
 
   return RigidBody;
 }(Base);
-
-;
 
 module.exports = RigidBody;
 
@@ -50902,6 +50921,7 @@ GameObject.prototype.getEulerRotationToTarget = function (target) {
 GameObject.prototype.addComponent = function (component) {
 
   if (component instanceof RigidBody) {
+    component.setUserData(this.uid);
     PhysicsManager.attachToWorld(component);
   }
 
@@ -50994,8 +51014,9 @@ GameObject.prototype.updateComponents = function () {
     if (component instanceof RigidBody) {
       // Updates object position from Box2D to the engine based on physics simulation (if applicable).
       // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
-      this.position.x = component.body.GetPosition().get_x() * PhysicsManager.conversionFactor;
-      this.position.y = component.body.GetPosition().get_y() * PhysicsManager.conversionFactor;
+      var position = component.getPosition();
+      this.position.x = position.x;
+      this.position.y = position.y;
     } else {
       // For renderable components, updates engine transformations to Three.js
       if (component.type === Base.TYPE.SPRITE || component.type === Base.TYPE.CANVAS) {
@@ -52215,12 +52236,6 @@ PhysicsManager.POST_SOLVE = 8; // 1000
 /** @constant */
 PhysicsManager.ALL_LISTENERS = 15; //1111
 
-/**
- * Default conversion factor between physics world and game world
- * @constant 
- */
-PhysicsManager.CONVERSION_FACTOR = 64;
-
 /** */
 PhysicsManager.listeners = 0; //0000
 
@@ -52233,16 +52248,12 @@ PhysicsManager.contactListener = null;
  * @param {Boolean} allowSleep - Flags if an object can sleep outside the boundaries of the physics world
  * @param {String} listeners - Constants to signal which listeners will be active
  * @param {module:core/GameObject} world - Root node of GameObject tree
- * @param {Number} conversionFactor - Convertion factor for coordinates between game world and physics world
  */
 PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
-  var conversionFactor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : PhysicsManager.CONVERSION_FACTOR;
-
   this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep || false);
   this.gameObjectWorld = world;
   this.listeners = listeners ? listeners : this.BEGIN_END_CONTACT; //0011
   this.createListener(this.physicsWorld);
-  this.conversionFactor = conversionFactor;
 };
 
 /**
