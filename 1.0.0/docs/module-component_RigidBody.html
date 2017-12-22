@@ -31,6 +31,14 @@
 <header>
     
         
+            
+                <div class="class-description">Component used for interaction with the <a href="https://github.com/kripken/box2d.js/">box2d.js Emscripten port</a>.
+Box2D has been tuned to work well with moving objects between 0.1 and 10 meters. 
+This means objects between soup cans and buses in size should work well. 
+Static objects may be up to 50 meters big without too much trouble.
+Considered units are meters, kilograms and seconds.</div>
+            
+        
     
 </header>
 
@@ -38,6 +46,422 @@
     <div class="container-overview">
     
         
+            <div class="description">Creates a RigidBody.</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">RigidBody.TYPE</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Type of the body: static, kinematic or dynamic</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>shape</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">b2Shape</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Geometrical shape of the body</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>density</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Material density in kg/m^2</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>friction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Material friction, usually in the range [0,1]</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bounciness</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Material bounciness, usually in the range [0,1]</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>angle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Body rotation angle in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isSensor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Prevents the collision to be resolved by Box2D, but retains collision information</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>preventTunneling</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Prevents the collision to be resolved through other objects. <b>Expensive! Use with care.</b></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>allowRotation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Prevents or allows the rotation on the body</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
         
     
@@ -77,7 +501,7 @@
 
         
             
-<h4 class="name" id=".TYPE"><span class="type-signature">(static) </span>TYPE<span class="type-signature"> :Number</span></h4>
+<h4 class="name" id=".TYPE"><span class="type-signature">(static) </span>TYPE<span class="type-signature"> :number</span></h4>
 
 
 
@@ -86,6 +510,89 @@
     Enumeration of rigid body types.
 </div>
 
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>STATIC</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A body which isn’t affected by world forces, it does not react to collisions. It can’t be moved.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>KINEMATIC</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An hybrid body which is not affected by forces and collisions like a static body but can be moved with a linear velocity like a dynamic body.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DYNAMIC</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A body which is affected by world forces and reacts to collisions.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -299,171 +806,6 @@ It's created by the Physics Manager.
 
 
         
-            
-<h4 class="name" id="~DYNAMIC"><span class="type-signature">(inner) </span>DYNAMIC<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    A <b>dynamic body</b> is a body which is affected by world forces and react to collisions.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~KINEMATIC"><span class="type-signature">(inner) </span>KINEMATIC<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    A <b>kinematic body</b> is an hybrid body which is not affected by forces and collisions like a static body but can moved with a linear velocity like a dynamic body.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~STATIC"><span class="type-signature">(inner) </span>STATIC<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    A <b>static body</b> is a body which isn’t affected by world forces it does not react to collisions. It can’t be moved.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
     
 
 <div class="clear"></div>
@@ -523,446 +865,6 @@ It's created by the Physics Manager.
 </dl>
 
     
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
-            
-
-    
-
-    <h4 class="name" id="setAllowRotation"><span class="type-signature"></span>setAllowRotation<span class="signature">(allowRotation)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Prevents or allows the rotation on this RigidBody.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>allowRotation</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
-            
-
-    
-
-    <h4 class="name" id="setBounciness"><span class="type-signature"></span>setBounciness<span class="signature">(bounciness)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Sets the bounciness of the material
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>bounciness</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Usually in the range [0,1]</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
-            
-
-    
-
-    <h4 class="name" id="setDensity"><span class="type-signature"></span>setDensity<span class="signature">(density)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Sets the density of the material.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>density</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Density in kg/m^2</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
-            
-
-    
-
-    <h4 class="name" id="setFriction"><span class="type-signature"></span>setFriction<span class="signature">(friction)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Sets the friction of the material.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>friction</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Usually in the range [0,1]</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1077,337 +979,6 @@ It's created by the Physics Manager.
             
 
             <td class="description last">Coordinate Y</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
-            
-
-    
-
-    <h4 class="name" id="setPreventTunneling"><span class="type-signature"></span>setPreventTunneling<span class="signature">(preventTunneling)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Prevents the collision to be resolved through other objects.
-<b>Expensive! Use with care.</b>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>preventTunneling</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
-            
-
-    
-
-    <h4 class="name" id="setRotation"><span class="type-signature"></span>setRotation<span class="signature">(angle)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Sets the angle (rotation) of the body.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>angle</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Rotation angle in radians</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-        
-            
-
-    
-
-    <h4 class="name" id="setSensor"><span class="type-signature"></span>setSensor<span class="signature">(isSensor)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Prevents the collision to be resolved by Box2D, but retains collision information.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>isSensor</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
         </tr>
 
     
