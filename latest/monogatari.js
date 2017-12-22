@@ -50254,16 +50254,18 @@ var RigidBody = function (_Base) {
   }
 
   _createClass(RigidBody, [{
-    key: 'getPosition',
-    value: function getPosition() {
-      return {
-        x: this.body.GetPosition().get_x() * RigidBody.FACTOR,
-        y: this.body.GetPosition().get_y() * RigidBody.FACTOR
-      };
+    key: 'getPositionX',
+    value: function getPositionX() {
+      return this.body.GetPosition().get_x() * RigidBody.FACTOR;
+    }
+  }, {
+    key: 'getPositionY',
+    value: function getPositionY() {
+      return this.body.GetPosition().get_y() * RigidBody.FACTOR;
     }
 
     /**
-     * Sets the setPosition of the body, in the physics world, NOT in pixels or game world, a proper scale is required to draw.
+     * Sets the position of the body in the game world scale.
      * @param {Number} x Coordinate X
      * @param {Number} y Coordinate Y
      */
@@ -50273,18 +50275,6 @@ var RigidBody = function (_Base) {
     value: function setPosition(x, y) {
       this.bodyDef.get_position().set_x(x / RigidBody.FACTOR);
       this.bodyDef.get_position().set_y(y / RigidBody.FACTOR);
-    }
-
-    /**
-     * Allows to store a data (in the means of a pointer) of an object to work with the internal memory of the Box2D.
-     * It is (kinda) bugged on emscripten port, but can be {@link https://github.com/kripken/box2d.js/issues/35|worked around}.
-     * @param {Object} userData
-     */
-
-  }, {
-    key: 'setUserData',
-    value: function setUserData(userData) {
-      this.materialDef.set_userData(userData);
     }
 
     /**
@@ -50919,10 +50909,8 @@ GameObject.prototype.getEulerRotationToTarget = function (target) {
  * @param {module:component/Base} component - Any valid component
  */
 GameObject.prototype.addComponent = function (component) {
-
   if (component instanceof RigidBody) {
-    component.setUserData(this.uid);
-    PhysicsManager.attachToWorld(component);
+    PhysicsManager.attachToWorld(component, this.uid);
   }
 
   this.components.put(component.type, component);
@@ -51012,11 +51000,10 @@ GameObject.prototype.updateComponents = function () {
     var component = this.componentsIt.next();
 
     if (component instanceof RigidBody) {
-      // Updates object position from Box2D to the engine based on physics simulation (if applicable).
+      // Updates object position based on physics simulation (if applicable).
       // Only affect X and Y for safety reasons, messing with Z on 2D is probably not expected.
-      var position = component.getPosition();
-      this.position.x = position.x;
-      this.position.y = position.y;
+      this.position.x = component.getPositionX();
+      this.position.y = component.getPositionY();
     } else {
       // For renderable components, updates engine transformations to Three.js
       if (component.type === Base.TYPE.SPRITE || component.type === Base.TYPE.CANVAS) {
@@ -52260,7 +52247,8 @@ PhysicsManager.createWorld = function (gravity, allowSleep, listeners, world) {
  * Attaches a given Rigid Body to the Physics World of Box2D.
  * @param {module:component/RigidBody} rigidBody - A Monogatari RigidBody component to be attached
  */
-PhysicsManager.attachToWorld = function (rigidBody) {
+PhysicsManager.attachToWorld = function (rigidBody, userData) {
+  rigidBody.materialDef.set_userData(userData);
   rigidBody.body = this.physicsWorld.CreateBody(rigidBody.bodyDef);
   rigidBody.body.CreateFixture(rigidBody.materialDef);
 };
