@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+
+<head>
+    <title>Simple Usage - Monogatari</title>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="../../monogatari.js"></script>
+</head>
+
+<body>
+
+</body>
+<script>
+    var m = new Monogatari({ width: 800, height: 600 });
+
+    var zombie = new m.GameObject('zombie1', {
+        position: new m.Vector3(400, -150, 0), 
+        update: function () {
+            var sprite = this.find(m.Sprite);
+            if ((m.engine.time - sprite.lastUpdateTime) > 300) {
+                sprite.nextFrame();
+                sprite.lastUpdateTime = m.engine.time;
+            }
+        }
+    });
+    zombie.include(new m.Sprite('../assets/zombies.png', 64, 64, { rols: 1, cols: 3 }));
+    zombie.include(new m.Circle(m.Circle.TYPE.DYNAMIC, 20, { density: 1, friction: 0, bounciness: 0.95 }));
+
+    var zombie2 = zombie.clone('zombie2');
+    zombie2.position = new m.Vector3(370, -150, 0);
+
+    var zombie3 = zombie.clone('zombie3');
+    zombie3.position = new m.Vector3(430, -150, 0);
+
+    var zombie4 = zombie.clone('zombie4');
+    zombie4.position = new m.Vector3(390, -100, 0);
+
+    var zombie5 = zombie.clone('zombie5');
+    zombie5.position = new m.Vector3(410, -100, 0);
+
+    var zombie6 = zombie.clone('zombie6');
+    zombie6.position = new m.Vector3(420, -150, 0);
+
+    var ground = new m.GameObject('ground', { position: new m.Vector3(0, 600, 0) })
+        .include(new m.Box(m.Box.TYPE.STATIC, 800, 1, { density: 1, friction: 0, bounciness: 0.5 }));
+
+    var leftWall = new m.GameObject('leftWall', { position: new m.Vector3(0, 0, 0) })
+        .include(new m.Box(m.Box.TYPE.STATIC, 1, 600, { density: 1, friction: 0, bounciness: 0.5 }));
+
+    var rightWall = new m.GameObject('rightWall', { position: new m.Vector3(800, 0, 0) })
+        .include(new m.Box(m.Box.TYPE.STATIC, 1, 600, { density: 1, friction: 0, bounciness: 0.5 }));
+
+    m.engine.add(zombie);
+    m.engine.add(zombie2);
+    m.engine.add(zombie3);
+    m.engine.add(zombie4);
+    m.engine.add(zombie5);
+    m.engine.add(zombie6);
+    m.engine.add(ground);
+    m.engine.add(leftWall);
+    m.engine.add(rightWall);
+    m.engine.run();
+</script>
+
+</html>
