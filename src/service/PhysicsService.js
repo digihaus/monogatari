@@ -1,5 +1,6 @@
 const GameState = require('model/core/GameState');
 const Body = require('model/component/Body');
+const Vector2 = require('model/math/Vector2');
 const Box2D = require('link/Box2D');
 
 var physicsWorld = null;
@@ -30,14 +31,14 @@ class PhysicsService {
         return physicsWorld.DestroyBody(body.bodyDef);
     }
 
-    update(body, gameObject) {
+    update(body, go) {
         if (body.state === Body.STATE.REGISTERED) {
-            gameObject.position.x = body.getPositionX();
-            gameObject.position.y = body.getPositionY();
+            go.position.x = body.position.x;
+            go.position.y = body.position.y;
 
         } else if (body.state === Body.STATE.CREATED) {
-            body.materialDef.set_userData(gameObject.id);
-            body.setPosition(gameObject.position.x, gameObject.position.y);
+            body.materialDef.set_userData(go.id);
+            body.position = Vector2(go.position.x, go.position.y);
             body.body = physicsWorld.CreateBody(body.bodyDef);
             body.body.CreateFixture(body.materialDef);
             body.state = Body.STATE.REGISTERED;

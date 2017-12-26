@@ -1,15 +1,13 @@
-class Vector3 {
-
+class Vector3Class {
     constructor(x, y, z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
+}
 
-    clone() {
-        return new Vector3(this.x, this.y, this.z);
-    }
-
+const Vector3 = function (x, y, z) {
+    return new Vector3Class(x, y, z);
 }
 
 module.exports = Vector3;

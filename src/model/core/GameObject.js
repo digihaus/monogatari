@@ -4,23 +4,19 @@ class GameObject {
 
     constructor(id, {
         update = () => { },
-        position = new Vector3(0, 0, 0),
-        rotation = new Vector3(0, 0, Math.PI),
-        scale = new Vector3(1, 1, 1),
-        children = new Array(),
-        components = new Array() } = {}) {
+        position = Vector3(0, 0, 0),
+        rotation = Vector3(0, 0, Math.PI),
+        scale = Vector3(1, 1, 1) } = {}) {
+
         this.id = id;
         this.update = update;
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
+
         this.children = new Array();
         this.components = new Array();
-    }
-
-    setPosition(position = new Vector3(0, 0, 0)) {
-        this.position = position;
-        return this;
+        this.messages = new Array();
     }
 
     include(component) {
@@ -38,7 +34,6 @@ class GameObject {
         this.components.forEach(component => clone.components.push(component.clone()));
         return clone;
     }
-
 }
 
 module.exports = GameObject;
