@@ -1,4 +1,4 @@
-const Vector3 = require('model/math/Vector3');
+const Vector3 = require('commons/math/Vector3');
 
 class GameObject {
 

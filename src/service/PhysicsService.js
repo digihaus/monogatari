@@ -1,6 +1,6 @@
 const GameState = require('model/core/GameState');
 const Body = require('model/component/Body');
-const Vector2 = require('model/math/Vector2');
+const Vector2 = require('commons/math/Vector2');
 const Box2D = require('link/Box2D');
 
 var physicsWorld = null;

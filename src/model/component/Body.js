@@ -1,5 +1,5 @@
 const Box2D = require('link/Box2D');
-const Vector2 = require('model/math/Vector2');
+const Vector2 = require('commons/math/Vector2');
 
 class Body {
 
