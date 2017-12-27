@@ -1,4 +1,5 @@
 const GameState = require('model/core/GameState');
+const Message = require('model/core/Message');
 const Sprite = require('model/component/Sprite');
 const Body = require('model/component/Body');
 const RenderService = require('service/RenderService');
@@ -46,6 +47,12 @@ class GameEngine {
             frameCounter = 0;
             lastFrameCountTime = GameState.time;
         }
+
+        this.physicsService.events.forEach(event => {
+            var idA = event.contact.GetFixtureA().GetUserData();
+            var idB = event.contact.GetFixtureB().GetUserData();
+            messageManager.messages.push(new Message(idA, idB, new Date(), Message.TYPE.PHYSICS, event));
+        });
 
         this.physicsService.simulate();
         this.update(GameState.world);

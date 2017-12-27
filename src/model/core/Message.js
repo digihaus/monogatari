@@ -1,9 +1,18 @@
 class Message {
-    constructor(senderId, recipientId, content, timestamp) {
+
+    static get TYPE() {
+        return {
+            GAME: 0,
+            PHYSICS: 1
+        }
+    }
+
+    constructor(senderId, recipientId, timestamp, type, content) {
         this.senderId = senderId;
         this.recipientId = recipientId;
-        this.content = content;
         this.timestamp = timestamp;
+        this.type = type;
+        this.content = content;
     }
 }
 
