@@ -5,8 +5,8 @@ class MessageService {
     }
 
     deliver(go) {
-        go.messages.push(this.messages.filter(msg => msg.recipientId === go.id));
-        this.messages = this.messages.filter(msg => msg.recipientId !== go.id);
+        go.messages.concat(this.messages.filter(msg => msg.recipientId === go.uid));
+        this.messages = new Array(this.messages.filter(msg => msg.recipientId !== go.uid));
     }
 }
 
