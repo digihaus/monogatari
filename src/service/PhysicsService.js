@@ -58,7 +58,7 @@ class PhysicsService {
             go.position.y = body.position.y;
 
         } else if (body.state === Body.STATE.CREATED) {
-            body.materialDef.set_userData(go.id);
+            body.materialDef.set_userData(go.uid);
             body.position = Vector2(go.position.x, go.position.y);
             body.body = world.CreateBody(body.bodyDef);
             body.body.CreateFixture(body.materialDef);

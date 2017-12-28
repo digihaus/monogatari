@@ -15,9 +15,13 @@
     var m = new Monogatari({ width: 800, height: 600 });
 
     var zombie = new m.GameObject('zombie1', {
-        position: m.Vector3(400, -150, 0), 
+        position: m.Vector3(400, -150, 0),
         update: function () {
             var sprite = this.find(m.Sprite);
+            var message = this.messages.pop();
+            if (message) {
+                console.log(message);
+            }
             if ((m.engine.time - sprite.lastUpdateTime) > 300) {
                 sprite.nextFrame();
                 sprite.lastUpdateTime = m.engine.time;

@@ -2,13 +2,15 @@ const Vector3 = require('commons/math/Vector3');
 
 class GameObject {
 
-    constructor(id, {
+    constructor(name, {
         update = () => { },
         position = Vector3(0, 0, 0),
         rotation = Vector3(0, 0, Math.PI),
         scale = Vector3(1, 1, 1) } = {}) {
 
-        this.id = id;
+        this.uid = -1;
+
+        this.name = name;
         this.update = update;
         this.position = position;
         this.rotation = rotation;
@@ -28,8 +30,8 @@ class GameObject {
         return this.components.find(x => x instanceof type);
     }
 
-    clone(id = this.id + '_copy') {
-        var clone = new GameObject(id, { update: this.update, position: this.position, rotation: this.rotation, scale: this.scale });
+    clone(name = this.name + '_copy') {
+        var clone = new GameObject(name, { update: this.update, position: this.position, rotation: this.rotation, scale: this.scale });
         this.children.forEach(child => clone.children.push(child.clone()));
         this.components.forEach(component => clone.components.push(component.clone()));
         return clone;

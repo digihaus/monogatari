@@ -55,7 +55,7 @@ class GameEngine {
         this.physicsService.events.forEach(event => {
             var idA = event.contact.GetFixtureA().GetUserData();
             var idB = event.contact.GetFixtureB().GetUserData();
-            messageService.messages.push(new Message(idA, idB, new Date(), Message.TYPE.PHYSICS, event));
+            this.messageService.messages.push(new Message(idA, idB, new Date(), Message.TYPE.PHYSICS, event));
         });
 
         this.physicsService.simulate(fps);
@@ -79,7 +79,7 @@ class GameEngine {
     }
 
     add(go) {
-        go.uid = sequece++;
+        go.uid = sequence++;
         world.children.push(go);
     }
 }
