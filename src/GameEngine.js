@@ -1,4 +1,4 @@
-const GameState = require('model/core/GameState');
+const GameObject = require('model/core/GameObject');
 const Message = require('model/core/Message');
 const Sprite = require('model/component/Sprite');
 const Body = require('model/component/Body');
@@ -6,9 +6,13 @@ const RenderService = require('service/RenderService');
 const PhysicsService = require('service/PhysicsService');
 const MessageService = require('service/MessageService');
 
+const world = new GameObject('world');
+var sequence = 0;
 var frameCounter = 0;
 var lastCycleTime = 0;
 var lastFrameCountTime = 0;
+var time = 0;
+var fps = 60;
 
 class GameEngine {
 
@@ -25,11 +29,11 @@ class GameEngine {
     }
 
     get time() {
-        return GameState.time;
+        return time;
     }
 
     get fps() {
-        return GameState.fps;
+        return fps;
     }
 
     run() {
@@ -37,25 +41,25 @@ class GameEngine {
 
         frameCounter++;
 
-        GameState.time += now - lastCycleTime;
+        time += now - lastCycleTime;
         lastCycleTime = now;
 
-        if (lastFrameCountTime === 0) lastFrameCountTime = GameState.time;
+        if (lastFrameCountTime === 0) lastFrameCountTime = time;
 
-        if ((GameState.time - lastFrameCountTime) >= 1000) {
-            GameState.fps = frameCounter;
+        if ((time - lastFrameCountTime) >= 1000) {
+            fps = frameCounter;
             frameCounter = 0;
-            lastFrameCountTime = GameState.time;
+            lastFrameCountTime = time;
         }
 
         this.physicsService.events.forEach(event => {
             var idA = event.contact.GetFixtureA().GetUserData();
             var idB = event.contact.GetFixtureB().GetUserData();
-            messageManager.messages.push(new Message(idA, idB, new Date(), Message.TYPE.PHYSICS, event));
+            messageService.messages.push(new Message(idA, idB, new Date(), Message.TYPE.PHYSICS, event));
         });
 
-        this.physicsService.simulate();
-        this.update(GameState.world);
+        this.physicsService.simulate(fps);
+        this.update(world);
         this.renderService.render();
 
         requestAnimationFrame(this.run.bind(this));
@@ -74,10 +78,10 @@ class GameEngine {
         });
     }
 
-    add(gameObject) {
-        GameState.world.children.push(gameObject);
+    add(go) {
+        go.uid = sequece++;
+        world.children.push(go);
     }
-
 }
 
 module.exports = GameEngine;

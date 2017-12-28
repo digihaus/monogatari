@@ -1,4 +1,3 @@
-const GameState = require('model/core/GameState');
 const Body = require('model/component/Body');
 const PhysicsEvent = require('model/core/PhysicsEvent');
 const Vector2 = require('commons/math/Vector2');
@@ -67,8 +66,8 @@ class PhysicsService {
         }
     }
 
-    simulate() {
-        world.Step(1 / GameState.fps, this.velocityIterations, this.positionIterations);
+    simulate(fps) {
+        world.Step(1 / fps, this.velocityIterations, this.positionIterations);
         if (this.clearForcesOnUpdate) {
             world.ClearForces();
         }

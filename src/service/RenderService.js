@@ -1,4 +1,3 @@
-const GameState = require('model/core/GameState');
 const Sprite = require('model/component/Sprite');
 const Camera2D = require('model/render/Camera2D');
 const Three = require('link/Three');
