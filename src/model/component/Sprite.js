@@ -44,11 +44,15 @@ class Sprite {
     }
 
     show() {
-        if (this.mesh) this.mesh.material.visible = true;
+        if (this.state === Sprite.STATE.REGISTERED) {
+            this.mesh.material.visible = true;
+        }
     }
 
     hide() {
-        if (this.mesh) this.mesh.material.visible = false;
+        if (this.state === Sprite.STATE.REGISTERED) {
+            this.mesh.material.visible = false;
+        }
     }
 
     clone() {

@@ -1,6 +1,7 @@
 const Sprite = require('model/component/Sprite');
 const Camera2D = require('model/render/Camera2D');
 const Three = require('link/Three');
+const Logger = require('commons/Logger');
 
 const cameras = new Map();
 const scenes = new Map();
@@ -19,6 +20,8 @@ class RenderService {
     }
 
     constructor(canvas, width, height, targetWidth, targetHeight) {
+        this.logger = new Logger(RenderService.name);
+
         gameWidth = width;
         gameHeight = height;
 
@@ -70,6 +73,7 @@ class RenderService {
 
         } else if (sprite.state === Sprite.STATE.CREATED) {
             sprite.sceneId = sprite.sceneId ? sprite.sceneId : RenderService.DEFAULT_SCENE_ID;
+            sprite.state = Sprite.STATE.BUFFERING;
             new Three.TextureLoader().load(
                 sprite.source,
                 function (texture) { // load callback
@@ -85,15 +89,15 @@ class RenderService {
                     sprite.geometry = new Three.PlaneBufferGeometry(sprite.w, sprite.h, 1, 1);
                     sprite.mesh = new Three.Mesh(sprite.geometry, sprite.material);
                     sprite.state = Sprite.STATE.LOADED;
-                },
+                    this.logger.debug("texture loaded", sprite.source);
+                }.bind(this),
                 function (xhr) { // download callback
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                    sprite.state = Sprite.STATE.BUFFERING;
-                },
+                    this.logger.debug("texture " + (xhr.loaded / xhr.total * 100) + "% loaded", sprite);
+                }.bind(this),
                 function (xhr) { // error callback
-                    console.log("An exception occurred:" + xhr);
                     sprite.state = Sprite.STATE.FAILED;
-                }
+                    this.logger.error("error while loading texture", sprite.source, xhr);
+                }.bind(this)
             );
 
         } else if (sprite.state === Sprite.STATE.FAILED) {

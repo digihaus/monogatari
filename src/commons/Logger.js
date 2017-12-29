@@ -1,10 +1,10 @@
 var _level = 0;
 
-const log = function (level, reference, message) {
-    console.log("[" + level + "][" + new Date().toISOString() + "]", reference, message);
+const log = function (level, reference, text, ...args) {
+    console.log("[" + level + "][" + new Date().toISOString() + "] " + reference + ": " + text, ...args);
 }
 
-class LoggerClass {
+class Logger {
 
     static get LEVEL() {
         return {
@@ -23,22 +23,16 @@ class LoggerClass {
         _level = level;
     }
 
-    error(message) {
-        if (_level >= LoggerClass.LEVEL.ERROR) log("ERROR", this.reference, message);
+    error(text, ...args) {
+        if (_level >= Logger.LEVEL.ERROR) log("ERROR", this.reference, text, ...args);
     }
 
-    info(message) {
-        if (_level >= LoggerClass.LEVEL.INFO) log("INFO", this.reference, message);
+    info(text, ...args) {
+        if (_level >= Logger.LEVEL.INFO) log("INFO", this.reference, text, ...args);
     }
 
-    debug(message) {
-        if (_level >= LoggerClass.LEVEL.DEBUG) log("DEBUG", this.reference, message);
-    }
-}
-
-const Logger = function () {
-    function instance(reference) {
-        return new LoggerClass(reference);
+    debug(text, ...args) {
+        if (_level >= Logger.LEVEL.DEBUG) log("DEBUG", this.reference, text, ...args);
     }
 }
 

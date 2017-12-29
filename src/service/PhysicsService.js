@@ -2,6 +2,7 @@ const Body = require('model/component/Body');
 const PhysicsEvent = require('model/core/PhysicsEvent');
 const Vector2 = require('commons/math/Vector2');
 const Box2D = require('link/Box2D');
+const Logger = require('commons/Logger');
 
 var world = null;
 var events = new Array();
@@ -20,8 +21,10 @@ class PhysicsService {
     }
 
     constructor(gravity, allowSleep, listeners) {
-        this.velocityIterations = 10;
-        this.positionIterations = 10;
+        this.logger = new Logger(PhysicsService.name);
+
+        this.velocityIterations = 2;
+        this.positionIterations = 2;
         this.clearForcesOnUpdate = false;
         this.listeners = listeners;
 
@@ -39,6 +42,8 @@ class PhysicsService {
             (contact, impulse) => events.push(new PhysicsEvent("PostSolve", contact, { impulse: impulse })) : () => { };
 
         world.SetContactListener(listener);
+
+        this.logger.debug("physics world ready with listeners", listener);
     }
 
     get events() {
