@@ -5,7 +5,7 @@
 <head>
     <title>Simple Usage - Monogatari</title>
     <link href="css/style.css" rel="stylesheet">
-    <script src="../../monogatari.js"></script>
+    <script src="../monogatari.js"></script>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
     var m = new Monogatari({ width: 800, height: 600 });
 
     var zombie = new m.GameObject('zombie1', { position: m.Vector3(400, -150, 0), });
-    zombie.include(new m.Sprite('../assets/zombies.png', 64, 64, { rols: 1, cols: 3 }));
+    zombie.include(new m.Sprite('assets/zombies.png', 64, 64, { rols: 1, cols: 3 }));
     zombie.include(new m.Circle(m.Circle.TYPE.DYNAMIC, 20, { density: 1, friction: 0, bounciness: 0.9 }));
 
     var zombie2 = zombie.clone('zombie2');
