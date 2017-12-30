@@ -18,7 +18,15 @@ class GameObject {
 
         this.children = new Array();
         this.components = new Array();
-        this.messages = new Array();
+        this._messages = new Array();
+    }
+
+    get messages() {
+        return this._messages.splice(0);
+    }
+
+    receive(message) {
+        this._messages.push(message);
     }
 
     include(component) {
@@ -27,7 +35,7 @@ class GameObject {
     }
 
     find(type) {
-        return this.components.find(x => x instanceof type);
+        return this.components.find(component => component instanceof type);
     }
 
     clone(name = this.name + '_copy') {
