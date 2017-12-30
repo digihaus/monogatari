@@ -4,9 +4,6 @@ const Vector2 = require('commons/math/Vector2');
 const Box2D = require('link/Box2D');
 const Logger = require('commons/Logger');
 
-var world = null;
-var events = new Array();
-
 class PhysicsService {
 
     static get LISTENER() {
@@ -28,33 +25,31 @@ class PhysicsService {
         this.clearForcesOnUpdate = false;
         this.listeners = listeners;
 
-        world = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep);
+        this._events = new Array();
+        this._world = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep);
 
         var listener = new Box2D.JSContactListener();
 
         listener.BeginContact = (this.listeners & PhysicsService.LISTENER.BEGIN_CONTACT) ?
-            (contact) => events.push(new PhysicsEvent("BeginContact", contact)) : () => { };
+            (contact) => this._events.push(new PhysicsEvent("BeginContact", contact)) : () => { };
         listener.EndContact = (this.listeners & PhysicsService.LISTENER.END_CONTACT) ?
-            (contact) => events.push(new PhysicsEvent("EndContact", contact)) : () => { };
+            (contact) => this._events.push(new PhysicsEvent("EndContact", contact)) : () => { };
         listener.PreSolve = (this.listeners & PhysicsService.LISTENER.PRE_SOLVE) ?
-            (contact, manifold) => events.push(new PhysicsEvent("PreSolve", contact, { manifold: manifold })) : () => { };
+            (contact, manifold) => this._events.push(new PhysicsEvent("PreSolve", contact, { manifold: manifold })) : () => { };
         listener.PostSolve = (this.listeners & PhysicsService.LISTENER.POST_SOLVE) ?
-            (contact, impulse) => events.push(new PhysicsEvent("PostSolve", contact, { impulse: impulse })) : () => { };
+            (contact, impulse) => this._events.push(new PhysicsEvent("PostSolve", contact, { impulse: impulse })) : () => { };
 
-        world.SetContactListener(listener);
+        this._world.SetContactListener(listener);
 
         this.logger.debug("physics world ready with listeners", listener);
     }
 
-    get events() {
-        var evts = events.slice();
-        events = new Array();
-        return evts;
+    get events() { 
+        return this._events.splice(0); 
     }
 
     destroy(body) {
-        // TODO: Verificar fluxo para remoção do body 
-        return world.DestroyBody(body.bodyDef);
+        return this._world.DestroyBody(body.bodyDef);
     }
 
     update(body, go) {
@@ -65,16 +60,16 @@ class PhysicsService {
         } else if (body.state === Body.STATE.CREATED) {
             body.materialDef.set_userData(go.uid);
             body.position = Vector2(go.position.x, go.position.y);
-            body.body = world.CreateBody(body.bodyDef);
+            body.body = this._world.CreateBody(body.bodyDef);
             body.body.CreateFixture(body.materialDef);
             body.state = Body.STATE.REGISTERED;
         }
     }
 
     simulate(fps) {
-        world.Step(1 / fps, this.velocityIterations, this.positionIterations);
+        this._world.Step(1 / fps, this.velocityIterations, this.positionIterations);
         if (this.clearForcesOnUpdate) {
-            world.ClearForces();
+            this._world.ClearForces();
         }
     }
 }

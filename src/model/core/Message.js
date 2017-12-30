@@ -7,9 +7,9 @@ class Message {
         }
     }
 
-    constructor(senderId, recipientId, timestamp, type, content) {
-        this.senderId = senderId;
-        this.recipientId = recipientId;
+    constructor(sender, receiver, timestamp, type, content) {
+        this.sender = sender;
+        this.receiver = receiver;
         this.timestamp = timestamp;
         this.type = type;
         this.content = content;

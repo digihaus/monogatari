@@ -16,15 +16,15 @@
 
     var zombie = new m.GameObject('zombie1', { position: m.Vector3(400, -150, 0), });
     zombie.include(new m.Sprite('../assets/zombies.png', 64, 64, { rols: 1, cols: 3 }));
-    zombie.include(new m.Circle(m.Circle.TYPE.DYNAMIC, 20, { density: 1, friction: 0, bounciness: 0.7 }));
+    zombie.include(new m.Circle(m.Circle.TYPE.DYNAMIC, 20, { density: 1, friction: 0, bounciness: 0.9 }));
 
     var zombie2 = zombie.clone('zombie2');
     zombie2.position = m.Vector3(370, -150, 0);
     zombie2.update = function () {
-        var sprite = this.find(m.Sprite);
         this.messages.forEach(function (message) {
-            console.log(message.content.contact);
+            console.log(message.sender.name, message.content);
         });
+        var sprite = this.findComponent(m.Sprite);
         if ((m.engine.time - sprite.lastUpdateTime) > 300) {
             sprite.nextFrame();
             sprite.lastUpdateTime = m.engine.time;

@@ -6,14 +6,6 @@ const RenderService = require('service/RenderService');
 const PhysicsService = require('service/PhysicsService');
 const MessageService = require('service/MessageService');
 
-const world = new GameObject('world');
-var sequence = 0;
-var frameCounter = 0;
-var lastCycleTime = 0;
-var lastFrameCountTime = 0;
-var time = 0;
-var fps = 60;
-
 class GameEngine {
 
     constructor(target, width, height) {
@@ -26,40 +18,48 @@ class GameEngine {
         window.addEventListener('resize', function () {
             this.renderService.resize(target.offsetWidth, target.offsetHeight);
         }.bind(this), true);
+
+        this._world = new GameObject('world');
+        this._sequence = 0;
+        this._frameCounter = 0;
+        this._lastCycleTime = 0;
+        this._lastFrameCountTime = 0;
+        this._time = 0;
+        this._fps = 60;
     }
 
     get time() {
-        return time;
+        return this._time;
     }
 
     get fps() {
-        return fps;
+        return this._fps;
     }
 
     run() {
         var now = Date.now();
 
-        frameCounter++;
+        this._frameCounter++;
 
-        time += now - lastCycleTime;
-        lastCycleTime = now;
+        this._time += now - this._lastCycleTime;
+        this._lastCycleTime = now;
 
-        if (lastFrameCountTime === 0) lastFrameCountTime = time;
+        if (this._lastFrameCountTime === 0) this._lastFrameCountTime = this._time;
 
-        if ((time - lastFrameCountTime) >= 1000) {
-            fps = frameCounter;
-            frameCounter = 0;
-            lastFrameCountTime = time;
+        if ((this._time - this._lastFrameCountTime) >= 1000) {
+            this._fps = this._frameCounter;
+            this._frameCounter = 0;
+            this._lastFrameCountTime = this._time;
         }
 
         this.physicsService.events.forEach(event => {
-            var idA = event.contact.GetFixtureA().GetUserData();
-            var idB = event.contact.GetFixtureB().GetUserData();
-            this.messageService.messages.push(new Message(idA, idB, new Date(), Message.TYPE.PHYSICS, event));
+            var goA = this._world.findChild(event.contact.GetFixtureA().GetUserData());
+            var goB = this._world.findChild(event.contact.GetFixtureB().GetUserData());
+            this.messageService.messages.push(new Message(goA, goB, new Date(), Message.TYPE.PHYSICS, event));
         });
 
-        this.physicsService.simulate(fps);
-        this.update(world);
+        this.physicsService.simulate(this._fps);
+        this.update(this._world);
         this.renderService.render();
 
         requestAnimationFrame(this.run.bind(this));
@@ -67,7 +67,7 @@ class GameEngine {
 
     update(go) {
         go.children.forEach(child => this.update(child));
-        this.messageService.deliver(go);
+        this.messageService.update(go);
         go.update();
         go.components.forEach(component => {
             if (component instanceof Sprite) {
@@ -79,8 +79,8 @@ class GameEngine {
     }
 
     add(go) {
-        go.uid = sequence++;
-        world.children.push(go);
+        go.uid = this._sequence++;
+        this._world.attach(go);
     }
 }
 

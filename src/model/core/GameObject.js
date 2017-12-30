@@ -16,32 +16,51 @@ class GameObject {
         this.rotation = rotation;
         this.scale = scale;
 
-        this.children = new Array();
-        this.components = new Array();
-        this._messages = new Array();
+        this._children = new Array();
+        this._components = new Array();
+        this._inbox = new Array();
+    }
+
+    get children() {
+        return this._children;
+    }
+
+    get components() {
+        return this._components;
     }
 
     get messages() {
-        return this._messages.splice(0);
+        return this._inbox.splice(0);
     }
 
-    receive(message) {
-        this._messages.push(message);
+    findChild(uid) {
+        var child = this._children.find(go => go.uid === uid);
+        if (child) return child;
+        else return this._children.forEach(go => go.findChild(uid));
     }
 
-    include(component) {
-        this.components.push(component);
+    findComponent(type) {
+        return this._components.find(component => component instanceof type);
+    }
+
+    attach(go) {
+        this._children.push(go);
         return this;
     }
 
-    find(type) {
-        return this.components.find(component => component instanceof type);
+    include(component) {
+        this._components.push(component);
+        return this;
+    }
+
+    receive(message) {
+        this._inbox.push(message);
     }
 
     clone(name = this.name + '_copy') {
         var clone = new GameObject(name, { update: this.update, position: this.position, rotation: this.rotation, scale: this.scale });
-        this.children.forEach(child => clone.children.push(child.clone()));
-        this.components.forEach(component => clone.components.push(component.clone()));
+        this._children.forEach(child => clone._children.push(child.clone()));
+        this._components.forEach(component => clone._components.push(component.clone()));
         return clone;
     }
 }
