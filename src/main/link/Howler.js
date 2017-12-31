@@ -1,1 +1,1 @@
-module.exports = require('howler');
+export const Howler = require('howler');

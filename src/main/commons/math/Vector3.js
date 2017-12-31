@@ -1,4 +1,4 @@
-class Vector3Class {
+export class Vector3Class {
     constructor(x, y, z) {
         this.x = x;
         this.y = y;
@@ -6,8 +6,6 @@ class Vector3Class {
     }
 }
 
-const Vector3 = function (x, y, z) {
+export function Vector3(x, y, z) {
     return new Vector3Class(x, y, z);
 }
-
-module.exports = Vector3;

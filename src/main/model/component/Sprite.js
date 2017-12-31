@@ -1,4 +1,4 @@
-class Sprite {
+export class Sprite {
 
     static get STATE() {
         return {
@@ -58,6 +58,5 @@ class Sprite {
     clone() {
         return new Sprite(this.source, this.w, this.h, { rows: this.rows, cols: this.cols, sceneId: this.sceneId });
     }
-}
 
-module.exports = Sprite;
+}

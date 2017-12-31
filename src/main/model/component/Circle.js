@@ -1,7 +1,7 @@
-const Box2D = require('link/Box2D');
-const Body = require('model/component/Body');
+import { Box2D } from 'link/Box2D';
+import { Body } from 'model/component/Body';
 
-class Circle extends Body {
+export class Circle extends Body {
 
     constructor(type, radius, options = {}) {
         var shape = new Box2D.b2CircleShape();
@@ -14,5 +14,3 @@ class Circle extends Body {
         return new Circle(this.type, this.radius, this.options);
     }
 }
-
-module.exports = Circle;

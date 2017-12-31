@@ -1,4 +1,4 @@
-class Message {
+export class Message {
 
     static get TYPE() {
         return {
@@ -14,6 +14,5 @@ class Message {
         this.type = type;
         this.content = content;
     }
-}
 
-module.exports = Message;
+}

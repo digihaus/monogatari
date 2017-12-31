@@ -1,6 +1,6 @@
-const Three = require('link/Three');
+import { Three } from 'link/Three';
 
-class Camera2D {
+export class Camera2D {
 
     constructor(id, left, right, top, bottom, near, far) {
         this.id = id;
@@ -10,5 +10,3 @@ class Camera2D {
     }
 
 }
-
-module.exports = Camera2D;

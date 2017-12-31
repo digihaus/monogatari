@@ -1,1 +1,1 @@
-module.exports = require('three');
+export const Three = require('three');

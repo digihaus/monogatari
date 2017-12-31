@@ -1,6 +1,6 @@
-const Vector3 = require('commons/math/Vector3');
+import { Vector3 } from 'commons/math/Vector3';
 
-class GameObject {
+export class GameObject {
 
     constructor(name, {
         update = () => { },
@@ -64,5 +64,3 @@ class GameObject {
         return clone;
     }
 }
-
-module.exports = GameObject;

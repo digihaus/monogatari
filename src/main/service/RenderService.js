@@ -1,7 +1,7 @@
-const Sprite = require('model/component/Sprite');
-const Camera2D = require('model/render/Camera2D');
-const Three = require('link/Three');
-const Logger = require('commons/Logger');
+import { Sprite } from 'model/component/Sprite';
+import { Camera2D } from 'model/render/Camera2D';
+import { Three } from 'link/Three';
+import { Logger } from 'commons/Logger';
 
 const cameras = new Map();
 const scenes = new Map();
@@ -9,7 +9,7 @@ var renderer = null;
 var gameWidth = 0;
 var gameHeight = 0;
 
-class RenderService {
+export class RenderService {
 
     static get DEFAULT_SCENE_ID() {
         return 'default_scene_id';
@@ -112,6 +112,5 @@ class RenderService {
             });
         });
     }
-}
 
-module.exports = RenderService;
+}

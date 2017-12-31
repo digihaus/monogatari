@@ -1,7 +1,7 @@
-const Box2D = require('link/Box2D');
-const Body = require('model/component/Body');
+import { Box2D } from 'link/Box2D';
+import { Body } from 'model/component/Body';
 
-class Box extends Body {
+export class Box extends Body {
 
     constructor(type, width, height, options = {}) {
         var shape = new Box2D.b2PolygonShape();
@@ -16,5 +16,3 @@ class Box extends Body {
     }
 
 }
-
-module.exports = Box;

@@ -1,10 +1,10 @@
-const Body = require('model/component/Body');
-const PhysicsEvent = require('model/core/PhysicsEvent');
-const Vector2 = require('commons/math/Vector2');
-const Box2D = require('link/Box2D');
-const Logger = require('commons/Logger');
+import { Body } from 'model/component/Body';
+import { PhysicsEvent } from 'model/core/PhysicsEvent';
+import { Vector2 } from 'commons/math/Vector2';
+import { Box2D } from 'link/Box2D';
+import { Logger } from 'commons/Logger';
 
-class PhysicsService {
+export class PhysicsService {
 
     static get LISTENER() {
         return {
@@ -44,8 +44,8 @@ class PhysicsService {
         this.logger.debug("physics world ready with listeners", listener);
     }
 
-    get events() { 
-        return this._events.splice(0); 
+    get events() {
+        return this._events.splice(0);
     }
 
     destroy(body) {
@@ -72,6 +72,5 @@ class PhysicsService {
             this._world.ClearForces();
         }
     }
-}
 
-module.exports = PhysicsService;
+}

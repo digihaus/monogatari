@@ -34,13 +34,10 @@ const BROWSERIFY_CONFIG = {
 };
 
 const ESDOC_CONFIG = {
-    "source": "src/",
+    "source": "src/main",
     "destination": DIST_DIR + "docs",
     "plugins": [{
         "name": "esdoc-standard-plugin"
-    }, {
-        "name": "esdoc-lint-plugin",
-        "option": { "enable": false }
     }]
 }
 

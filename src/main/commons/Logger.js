@@ -4,7 +4,7 @@ const log = function (level, reference, text, ...args) {
     console.log("[" + level + "][" + new Date().toISOString() + "] " + reference + ": " + text, ...args);
 }
 
-class Logger {
+export class Logger {
 
     static get LEVEL() {
         return {
@@ -34,6 +34,5 @@ class Logger {
     debug(text, ...args) {
         if (_level >= Logger.LEVEL.DEBUG) log("DEBUG", this.reference, text, ...args);
     }
-}
 
-module.exports = Logger;
+}

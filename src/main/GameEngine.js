@@ -1,12 +1,12 @@
-const GameObject = require('model/core/GameObject');
-const Message = require('model/core/Message');
-const Sprite = require('model/component/Sprite');
-const Body = require('model/component/Body');
-const RenderService = require('service/RenderService');
-const PhysicsService = require('service/PhysicsService');
-const MessageService = require('service/MessageService');
+import { GameObject } from 'model/core/GameObject';
+import { Message } from 'model/core/Message';
+import { Sprite } from 'model/component/Sprite';
+import { Body } from 'model/component/Body';
+import { RenderService } from 'service/RenderService';
+import { PhysicsService } from 'service/PhysicsService';
+import { MessageService } from 'service/MessageService';
 
-class GameEngine {
+export class GameEngine {
 
     constructor(target, width, height) {
         this.renderService = new RenderService(document.createElement('canvas'), width, height, target.offsetWidth, target.offsetHeight);
@@ -82,6 +82,5 @@ class GameEngine {
         go.uid = this._sequence++;
         this._world.attach(go);
     }
-}
 
-module.exports = GameEngine;
+}

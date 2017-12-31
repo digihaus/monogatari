@@ -1,7 +1,7 @@
-const Box2D = require('link/Box2D');
-const Vector2 = require('commons/math/Vector2');
+import { Box2D } from 'link/Box2D';
+import { Vector2 } from 'commons/math/Vector2';
 
-class Body {
+export class Body {
 
     static get TYPE() {
         return {
@@ -65,5 +65,3 @@ class Body {
     }
 
 }
-
-module.exports = Body;
