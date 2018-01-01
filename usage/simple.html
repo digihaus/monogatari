@@ -16,20 +16,32 @@
 
     var zombie = new m.GameObject('zombie1', { position: m.Vector3(400, -150, 0), });
     zombie.include(new m.Sprite('assets/zombies.png', 64, 64, { rols: 1, cols: 3 }));
-    zombie.include(new m.Circle(m.Circle.TYPE.DYNAMIC, 20, { density: 1, friction: 0, bounciness: 0.9 }));
+    zombie.include(new m.Circle(m.Circle.TYPE.DYNAMIC, 20, { density: 1, friction: 0.5, bounciness: 0.9 }));
+    zombie.include(new m.Audio('assets/ploink.wav'));
 
     var zombie2 = zombie.clone('zombie2');
     zombie2.position = m.Vector3(370, -150, 0);
     zombie2.update = function () {
-        this.messages.forEach(function (message) {
-            console.log(message.sender.name, message.content);
-        });
+        var audio = this.findComponent(m.Audio);
         var sprite = this.findComponent(m.Sprite);
+
+        this.messages.forEach(function (message) {
+            if (message.type === m.Message.TYPE.PHYSICS) {
+                if (message.content.type === "BeginContact") {
+                    if (message.sender.name === 'ground' || message.sender.name === 'wall') {
+                        console.log(message.sender.name, message.content);
+                        audio.play();
+                    }
+                }
+            }
+        });
+
         if ((m.engine.time - sprite.lastUpdateTime) > 300) {
             sprite.nextFrame();
             sprite.lastUpdateTime = m.engine.time;
         }
     }
+
 
     var zombie3 = zombie.clone('zombie3');
     zombie3.position = m.Vector3(430, -150, 0);
@@ -44,13 +56,13 @@
     zombie6.position = m.Vector3(420, -150, 0);
 
     var ground = new m.GameObject('ground', { position: m.Vector3(0, 600, 0) })
-        .include(new m.Box(m.Box.TYPE.STATIC, 800, 1, { density: 1, friction: 0, bounciness: 0 }));
+        .include(new m.Box(m.Box.TYPE.STATIC, 800, 1, { density: 1, friction: 1, bounciness: 0 }));
 
-    var leftWall = new m.GameObject('leftWall', { position: m.Vector3(0, 0, 0) })
+    var leftWall = new m.GameObject('wall', { position: m.Vector3(0, 0, 0) })
         .include(new m.Box(m.Box.TYPE.STATIC, 1, 600, { density: 1, friction: 0, bounciness: 0 }));
 
-    var rightWall = new m.GameObject('rightWall', { position: m.Vector3(800, 0, 0) })
-        .include(new m.Box(m.Box.TYPE.STATIC, 1, 600, { density: 1, friction: 0, bounciness: 0 }));
+    var rightWall = leftWall.clone();
+    rightWall.position = m.Vector3(800, 0, 0);
 
     m.engine.add(zombie);
     m.engine.add(zombie2);

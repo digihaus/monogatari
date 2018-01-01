@@ -2,9 +2,11 @@ import { GameObject } from 'model/core/GameObject';
 import { Message } from 'model/core/Message';
 import { Sprite } from 'model/component/Sprite';
 import { Body } from 'model/component/Body';
+import { Audio } from 'model/component/Audio';
 import { RenderService } from 'service/RenderService';
 import { PhysicsService } from 'service/PhysicsService';
 import { MessageService } from 'service/MessageService';
+import { AudioService } from 'service/AudioService';
 
 export class GameEngine {
 
@@ -12,6 +14,7 @@ export class GameEngine {
         this.renderService = new RenderService(document.createElement('canvas'), width, height, target.offsetWidth, target.offsetHeight);
         this.physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
         this.messageService = new MessageService();
+        this.audioService = new AudioService();
 
         target.appendChild(this.renderService.renderer.domElement);
 
@@ -56,6 +59,7 @@ export class GameEngine {
             var goA = this._world.findChild(event.contact.GetFixtureA().GetUserData());
             var goB = this._world.findChild(event.contact.GetFixtureB().GetUserData());
             this.messageService.messages.push(new Message(goA, goB, new Date(), Message.TYPE.PHYSICS, event));
+            this.messageService.messages.push(new Message(goB, goA, new Date(), Message.TYPE.PHYSICS, event));
         });
 
         this.physicsService.simulate(this._fps);
@@ -74,6 +78,8 @@ export class GameEngine {
                 this.renderService.update(component, go.position, go.rotation, go.scale);
             } else if (component instanceof Body) {
                 this.physicsService.update(component, go);
+            } else if (component instanceof Audio) {
+                this.audioService.update(component);
             }
         });
     }

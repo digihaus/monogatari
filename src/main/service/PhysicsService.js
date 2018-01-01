@@ -18,10 +18,10 @@ export class PhysicsService {
     }
 
     constructor(gravity, allowSleep, listeners) {
-        this.logger = new Logger(PhysicsService.name);
+        this._logger = new Logger(PhysicsService.name);
 
-        this.velocityIterations = 2;
-        this.positionIterations = 2;
+        this.velocityIterations = 10;
+        this.positionIterations = 10;
         this.clearForcesOnUpdate = false;
         this.listeners = listeners;
 
@@ -41,7 +41,7 @@ export class PhysicsService {
 
         this._world.SetContactListener(listener);
 
-        this.logger.debug("physics world ready with listeners", listener);
+        this._logger.debug("physics world ready with listeners", listener);
     }
 
     get events() {

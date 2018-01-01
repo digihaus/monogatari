@@ -10,6 +10,7 @@ const DIST_DIR = 'dist/';
 const COMPILED_FILENAME = 'monogatari.js';
 const MINIFIED_FILENAME = 'monogatari.min.js';
 const VERSION = process.env.npm_package_version;
+const DIST_DIR_VERSION = DIST_DIR + VERSION;
 const HEADER_TEXT = '// monogatari v' + VERSION + '\n';
 
 const LIVE_SERVER_CONFIG = {
@@ -35,7 +36,7 @@ const BROWSERIFY_CONFIG = {
 
 const ESDOC_CONFIG = {
     "source": "src/main",
-    "destination": DIST_DIR + "docs",
+    "destination": DIST_DIR_VERSION + "docs",
     "plugins": [{
         "name": "esdoc-standard-plugin"
     }]
@@ -63,18 +64,13 @@ const package = () => {
     esdoc.default.generate(ESDOC_CONFIG);
     var compiled = fs.readFileSync(COMPILED_FILENAME, 'utf-8');
     var minified = uglifyJS.minify(compiled).code;
-    var dirLatest = DIST_DIR + "latest/";
-    var dirVersion = DIST_DIR + VERSION;
-    fs.emptyDirSync(dirLatest);
-    fs.writeFileSync(dirLatest + MINIFIED_FILENAME, HEADER_TEXT + minified);
-    fs.copySync(dirLatest, dirVersion);
+    fs.writeFileSync(DIST_DIR_VERSION + MINIFIED_FILENAME, HEADER_TEXT + minified);
 }
 
 const deploy = () => {
     package();
     var repo = process.env.GH_TOKEN ? 'https://' + process.env.GH_TOKEN + '@github.com/digihaus/monogatari.git' : undefined;
-    ghpages.publish('dist/latest', { dest: 'latest', repo: repo }, (err) => { if (err) throw err });
-    ghpages.publish('dist/' + VERSION, { dest: VERSION, repo: repo }, (err) => { if (err) throw err });
+    ghpages.publish(DIST_DIR_VERSION, { dest: VERSION, repo: repo }, (err) => { if (err) throw err });
 };
 
 const live = () => {

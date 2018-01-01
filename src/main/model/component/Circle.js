@@ -13,4 +13,5 @@ export class Circle extends Body {
     clone() {
         return new Circle(this.type, this.radius, this.options);
     }
+    
 }

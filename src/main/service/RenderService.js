@@ -20,7 +20,7 @@ export class RenderService {
     }
 
     constructor(canvas, width, height, targetWidth, targetHeight) {
-        this.logger = new Logger(RenderService.name);
+        this._logger = new Logger(RenderService.name);
 
         gameWidth = width;
         gameHeight = height;
@@ -89,14 +89,14 @@ export class RenderService {
                     sprite.geometry = new Three.PlaneBufferGeometry(sprite.w, sprite.h, 1, 1);
                     sprite.mesh = new Three.Mesh(sprite.geometry, sprite.material);
                     sprite.state = Sprite.STATE.LOADED;
-                    this.logger.debug("texture loaded", sprite.source);
+                    this._logger.debug("texture loaded", sprite.source);
                 }.bind(this),
                 function (xhr) { // download callback
-                    this.logger.debug("texture " + (xhr.loaded / xhr.total * 100) + "% loaded", sprite);
+                    this._logger.debug("texture " + (xhr.loaded / xhr.total * 100) + "% loaded", sprite);
                 }.bind(this),
                 function (xhr) { // error callback
                     sprite.state = Sprite.STATE.FAILED;
-                    this.logger.error("error while loading texture", sprite.source, xhr);
+                    this._logger.error("error while loading texture", sprite.source, xhr);
                 }.bind(this)
             );
 
