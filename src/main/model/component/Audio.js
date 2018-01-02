@@ -5,8 +5,9 @@ export class Audio {
     static get STATE() {
         return {
             CREATED: 0,
-            LOADED: 1,
-            RUNNING: 2
+            BUFFERING: 1,
+            LOADED: 2,
+            RUNNING: 3
         }
     }
 
@@ -16,10 +17,14 @@ export class Audio {
         this.loop = loop;
 
         this.sound = null;
-    };
+    }
+
+    get loaded() {
+        return this.state >= Audio.STATE.LOADED;
+    }
 
     play() {
-        if (this.state > Audio.STATE.CREATED) {
+        if (this.state > Audio.STATE.BUFFERING) {
             this.state = Audio.STATE.RUNNING;
             this.sound.play();
         }

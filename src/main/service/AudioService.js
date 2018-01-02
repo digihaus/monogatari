@@ -10,14 +10,15 @@ export class AudioService {
 
     update(audio) {
         if (audio.state === Audio.STATE.CREATED) {
+            audio.state = Audio.STATE.BUFFERING;
             audio.sound = new Howler.Howl({
                 src: [audio.source],
                 autoplay: false,
                 loop: audio.loop,
-                onload: function () {
+                onload: () => {
                     audio.state = Audio.STATE.LOADED;
                     this._logger.debug("audio loaded", audio.source);
-                }.bind(this)
+                }
             });
         }
     }

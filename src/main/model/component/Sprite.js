@@ -29,6 +29,10 @@ export class Sprite {
         this.mesh = null;
     }
 
+    get loaded() {
+        return this.state >= Sprite.STATE.LOADED;
+    }
+
     setFrame(frame = 1) {
         if (this.state === Sprite.STATE.REGISTERED) {
             this.frame = frame;

@@ -4,4 +4,4 @@
 .vscode
 node_modules/
 dist/
-monogatari*.js
+/monogatari.js
