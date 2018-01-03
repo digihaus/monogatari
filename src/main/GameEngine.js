@@ -7,6 +7,7 @@ import { RenderService } from 'service/RenderService';
 import { PhysicsService } from 'service/PhysicsService';
 import { MessageService } from 'service/MessageService';
 import { AudioService } from 'service/AudioService';
+import { InputService } from 'service/InputService';
 import { Logger } from 'commons/Logger';
 
 export class GameEngine {
@@ -25,12 +26,16 @@ export class GameEngine {
         this.physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
         this.messageService = new MessageService();
         this.audioService = new AudioService();
+        this.inputService = new InputService();
 
         target.appendChild(this.renderService.renderer.domElement);
 
-        window.addEventListener('resize', function () {
-            this.renderService.resize(target.offsetWidth, target.offsetHeight);
-        }.bind(this), true);
+        window.addEventListener('resize', () => this.renderService.resize(target.offsetWidth, target.offsetHeight), true)
+        window.addEventListener('keyup', (event) => this.inputService.onKeyUp(event, this._time), false);
+        window.addEventListener('keydown', (event) => this.inputService.onKeyDown(event, this._time), false);
+        window.addEventListener('mousemove', (event) => this.inputService.onMouseMove(event, this._time), false);
+        window.addEventListener('mousedown', (event) => this.inputService.onMouseDown(event, this._time), false);
+        window.addEventListener('mouseup', (event) => this.inputService.onMouseUp(event), false);
     }
 
     get time() {

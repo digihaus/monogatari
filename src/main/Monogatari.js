@@ -1,6 +1,6 @@
 import { GameEngine } from 'GameEngine';
 import { GameObject } from 'model/core/GameObject';
-import { Message } from 'model/core/Message'; 
+import { Message } from 'model/core/Message';
 import { Sprite } from 'model/component/Sprite';
 import { Box } from 'model/component/Box';
 import { Circle } from 'model/component/Circle';
@@ -9,6 +9,10 @@ import { Vector3 } from 'commons/math/Vector3';
 import { Logger } from 'commons/Logger';
 
 export class Monogatari {
+
+    static get LOG_LEVEL() {
+        return Logger.LEVEL;
+    }
 
     constructor({
         target = document.getElementsByTagName('body')[0],

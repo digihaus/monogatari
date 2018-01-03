@@ -1,5 +1,5 @@
 import { Sprite } from 'model/component/Sprite';
-import { Camera2D } from 'model/render/Camera2D';
+import { Camera2D } from 'model/core/Camera2D';
 import { Three } from 'link/Three';
 import { Logger } from 'commons/Logger';
 
