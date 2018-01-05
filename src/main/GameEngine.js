@@ -1,3 +1,4 @@
+import { GameState } from 'GameState';
 import { GameObject } from 'model/core/GameObject';
 import { Message } from 'model/core/Message';
 import { Sprite } from 'model/component/Sprite';
@@ -8,19 +9,17 @@ import { PhysicsService } from 'service/PhysicsService';
 import { MessageService } from 'service/MessageService';
 import { AudioService } from 'service/AudioService';
 import { InputService } from 'service/InputService';
+import { KeyboardHandler } from 'handler/KeyboardHandler';
 import { Logger } from 'commons/Logger';
+
+var _frameCounter = 0;
+var _lastCycleTime = 0;
+var _lastFrameCountTime = 0;
 
 export class GameEngine {
 
     constructor(target, width, height) {
         this._logger = new Logger(GameEngine.name);
-        this._world = new GameObject('world');
-        this._sequence = 0;
-        this._frameCounter = 0;
-        this._lastCycleTime = 0;
-        this._lastFrameCountTime = 0;
-        this._time = 0;
-        this._fps = 60;
 
         this.renderService = new RenderService(document.createElement('canvas'), width, height, target.offsetWidth, target.offsetHeight);
         this.physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
@@ -28,55 +27,42 @@ export class GameEngine {
         this.audioService = new AudioService();
         this.inputService = new InputService();
 
+        this.keyboardHandler = new KeyboardHandler();
+
         target.appendChild(this.renderService.renderer.domElement);
 
         window.addEventListener('resize', () => this.renderService.resize(target.offsetWidth, target.offsetHeight), true)
-        window.addEventListener('keyup', (event) => this.inputService.onKeyUp(event, this._time), false);
-        window.addEventListener('keydown', (event) => this.inputService.onKeyDown(event, this._time), false);
-        window.addEventListener('mousemove', (event) => this.inputService.onMouseMove(event, this._time), false);
-        window.addEventListener('mousedown', (event) => this.inputService.onMouseDown(event, this._time), false);
+        window.addEventListener('mousemove', (event) => this.inputService.onMouseMove(event, GameState.time), false);
+        window.addEventListener('mousedown', (event) => this.inputService.onMouseDown(event, GameState.time), false);
         window.addEventListener('mouseup', (event) => this.inputService.onMouseUp(event), false);
-    }
-
-    get time() {
-        return this._time;
-    }
-
-    get fps() {
-        return this._fps;
-    }
-
-    add(go) {
-        go.uid = this._sequence++;
-        this._world.attach(go);
     }
 
     run(loaded) {
         if (loaded) {
             var now = Date.now();
-            this._frameCounter++;
-            this._time += now - this._lastCycleTime;
-            this._lastCycleTime = now;
-            if (this._lastFrameCountTime === 0) this._lastFrameCountTime = this._time;
-            if ((this._time - this._lastFrameCountTime) >= 1000) {
-                this._fps = this._frameCounter;
-                this._frameCounter = 0;
-                this._lastFrameCountTime = this._time;
+            _frameCounter++;
+            GameState.time += now - _lastCycleTime;
+            _lastCycleTime = now;
+            if (_lastFrameCountTime === 0) _lastFrameCountTime = GameState.time;
+            if ((GameState.time - _lastFrameCountTime) >= 1000) {
+                GameState.fps = _frameCounter;
+                _frameCounter = 0;
+                _lastFrameCountTime = GameState.time;
             }
 
             this.physicsService.events.forEach(event => {
-                var goA = this._world.findChild(event.contact.GetFixtureA().GetUserData());
-                var goB = this._world.findChild(event.contact.GetFixtureB().GetUserData());
+                var goA = GameState.world.findChild(event.contact.GetFixtureA().GetUserData());
+                var goB = GameState.world.findChild(event.contact.GetFixtureB().GetUserData());
                 this.messageService.messages.push(new Message(goA, goB, new Date(), Message.TYPE.PHYSICS, event));
                 this.messageService.messages.push(new Message(goB, goA, new Date(), Message.TYPE.PHYSICS, event));
             });
 
-            this.physicsService.simulate(this._fps);
-            this.update(this._world);
+            this.physicsService.simulate(GameState.fps);
+            this.update(GameState.world);
             this.renderService.render();
 
         } else {
-            var loadedPercentage = this.load(this._world);
+            var loadedPercentage = this.load(GameState.world);
             if (loadedPercentage === 1) {
                 loaded = true;
             }

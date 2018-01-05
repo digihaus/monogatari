@@ -1,4 +1,5 @@
 import { GameEngine } from 'GameEngine';
+import { GameState } from 'GameState';
 import { GameObject } from 'model/core/GameObject';
 import { Message } from 'model/core/Message';
 import { Sprite } from 'model/component/Sprite';
@@ -35,6 +36,9 @@ export class Monogatari {
         this._logger.debug("engine ready");
     }
 
+    attach(go) {
+        GameState.attach(go);
+    }
 }
 
 module.exports = Monogatari;
