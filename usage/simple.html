@@ -30,15 +30,19 @@
                 if (message.content.type === "BeginContact") {
                     if (message.sender.name === 'ground' || message.sender.name === 'wall') {
                         console.log(message.sender.name, message.content);
-                        audio.play();
+                        //audio.play();
                     }
                 }
             }
         });
 
-        if ((m.engine.time - sprite.lastUpdateTime) > 300) {
+        if (m.keyboard.isDown(m.KEY.SPACE) && audio.state !== m.Audio.STATE.RUNNING) {
+            audio.play();
+        }
+
+        if ((m.time - sprite.lastUpdateTime) > 300) {
             sprite.nextFrame();
-            sprite.lastUpdateTime = m.engine.time;
+            sprite.lastUpdateTime = m.time;
         }
     }
 
@@ -64,15 +68,15 @@
     var rightWall = leftWall.clone();
     rightWall.position = m.Vector3(800, 0, 0);
 
-    m.engine.add(zombie);
-    m.engine.add(zombie2);
-    m.engine.add(zombie3);
-    m.engine.add(zombie4);
-    m.engine.add(zombie5);
-    m.engine.add(zombie6);
-    m.engine.add(ground);
-    m.engine.add(leftWall);
-    m.engine.add(rightWall);
+    m.attach(zombie);
+    m.attach(zombie2);
+    m.attach(zombie3);
+    m.attach(zombie4);
+    m.attach(zombie5);
+    m.attach(zombie6);
+    m.attach(ground);
+    m.attach(leftWall);
+    m.attach(rightWall);
 
     m.engine.run();
 

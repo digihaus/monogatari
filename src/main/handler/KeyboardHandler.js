@@ -1,4 +1,3 @@
-import { Keyboard } from 'model/input/Keyboard';
 import { GameState } from 'GameState';
 
 export class KeyboardHandler {
@@ -117,21 +116,21 @@ export class KeyboardHandler {
 
         window.addEventListener('keydown', (event) => {
             event.stopPropagation();
-            if (event.keyCode === Keyboard.KEY.BACKSPACE ||
-                event.keyCode === Keyboard.KEY.UP_ARROW ||
-                event.keyCode === Keyboard.KEY.DOWN_ARROW ||
-                event.keyCode === Keyboard.KEY.LEFT_ARROW ||
-                event.keyCode === Keyboard.KEY.RIGHT_ARROW ||
-                event.keyCode === Keyboard.KEY.PAGE_UP ||
-                event.keyCode === Keyboard.KEY.PAGE_DOWN ||
-                event.keyCode === Keyboard.KEY.SPACE) {
+            if (event.keyCode === KeyboardHandler.KEY.BACKSPACE ||
+                event.keyCode === KeyboardHandler.KEY.UP_ARROW ||
+                event.keyCode === KeyboardHandler.KEY.DOWN_ARROW ||
+                event.keyCode === KeyboardHandler.KEY.LEFT_ARROW ||
+                event.keyCode === KeyboardHandler.KEY.RIGHT_ARROW ||
+                event.keyCode === KeyboardHandler.KEY.PAGE_UP ||
+                event.keyCode === KeyboardHandler.KEY.PAGE_DOWN ||
+                event.keyCode === KeyboardHandler.KEY.SPACE) {
                 event.preventDefault();
             }
             this._keys.set(event.keyCode, GameState.time);
         }, false);
     }
 
-    isKeyDown(key) {
+    isDown(key) {
         return this._keys.get(key);
     }
 

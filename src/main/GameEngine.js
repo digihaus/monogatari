@@ -8,7 +8,7 @@ import { RenderService } from 'service/RenderService';
 import { PhysicsService } from 'service/PhysicsService';
 import { MessageService } from 'service/MessageService';
 import { AudioService } from 'service/AudioService';
-import { InputService } from 'service/InputService';
+import { BrowserHandler } from 'handler/BrowserHandler';
 import { KeyboardHandler } from 'handler/KeyboardHandler';
 import { Logger } from 'commons/Logger';
 
@@ -18,23 +18,22 @@ var _lastFrameCountTime = 0;
 
 export class GameEngine {
 
-    constructor(target, width, height) {
+    constructor(container, width, height) {
         this._logger = new Logger(GameEngine.name);
 
-        this.renderService = new RenderService(document.createElement('canvas'), width, height, target.offsetWidth, target.offsetHeight);
+        this.renderService = new RenderService(document.createElement('canvas'), width, height, container.offsetWidth, container.offsetHeight);
         this.physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
         this.messageService = new MessageService();
         this.audioService = new AudioService();
-        this.inputService = new InputService();
 
+        this.browserHandler = new BrowserHandler({ onResize: () => this.renderService.resize(container.offsetWidth, container.offsetHeight) });
         this.keyboardHandler = new KeyboardHandler();
 
-        target.appendChild(this.renderService.renderer.domElement);
+        container.appendChild(this.renderService.renderer.domElement);
 
-        window.addEventListener('resize', () => this.renderService.resize(target.offsetWidth, target.offsetHeight), true)
-        window.addEventListener('mousemove', (event) => this.inputService.onMouseMove(event, GameState.time), false);
-        window.addEventListener('mousedown', (event) => this.inputService.onMouseDown(event, GameState.time), false);
-        window.addEventListener('mouseup', (event) => this.inputService.onMouseUp(event), false);
+        //  window.addEventListener('mousemove', (event) => this.inputService.onMouseMove(event, GameState.time), false);
+        //  window.addEventListener('mousedown', (event) => this.inputService.onMouseDown(event, GameState.time), false);
+        //  window.addEventListener('mouseup', (event) => this.inputService.onMouseUp(event), false);
     }
 
     run(loaded) {

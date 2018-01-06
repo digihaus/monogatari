@@ -25,14 +25,12 @@ export class Audio {
 
     play() {
         if (this.state > Audio.STATE.BUFFERING) {
-            this.state = Audio.STATE.RUNNING;
             this.sound.play();
         }
     }
 
     stop() {
         if (this.state === Audio.STATE.RUNNING) {
-            this.state = Audio.STATE.LOADED;
             this.sound.stop();
         }
     }

@@ -18,6 +18,15 @@ export class AudioService {
                 onload: () => {
                     audio.state = Audio.STATE.LOADED;
                     this._logger.debug("audio loaded", audio.source);
+                },
+                onplay: () => {
+                    audio.state = Audio.STATE.RUNNING;
+                },
+                onstop: () => {
+                    audio.state = Audio.STATE.LOADED;
+                },
+                onend: () => {
+                    audio.state = Audio.STATE.LOADED;
                 }
             });
         }
