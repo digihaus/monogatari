@@ -21,99 +21,88 @@ export class GameEngine {
     constructor(container, width, height) {
         this._logger = new Logger(GameEngine.name);
 
-        this.renderService = new RenderService(document.createElement('canvas'), width, height, container.offsetWidth, container.offsetHeight);
-        this.physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
-        this.messageService = new MessageService();
-        this.audioService = new AudioService();
+        this._renderService = new RenderService(document.createElement('canvas'), width, height, container.offsetWidth, container.offsetHeight);
+        this._physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
+        this._messageService = new MessageService();
+        this._audioService = new AudioService();
 
-        this.browserHandler = new BrowserHandler({ onResize: () => this.renderService.resize(container.offsetWidth, container.offsetHeight) });
+        this.browserHandler = new BrowserHandler(() => this._renderService.resize(container.offsetWidth, container.offsetHeight));
         this.keyboardHandler = new KeyboardHandler();
 
-        container.appendChild(this.renderService.renderer.domElement);
+        container.appendChild(this._renderService.renderer.domElement);
 
         //  window.addEventListener('mousemove', (event) => this.inputService.onMouseMove(event, GameState.time), false);
         //  window.addEventListener('mousedown', (event) => this.inputService.onMouseDown(event, GameState.time), false);
         //  window.addEventListener('mouseup', (event) => this.inputService.onMouseUp(event), false);
     }
 
-    run(loaded) {
-        if (loaded) {
-            var now = Date.now();
-            _frameCounter++;
-            GameState.time += now - _lastCycleTime;
-            _lastCycleTime = now;
-            if (_lastFrameCountTime === 0) _lastFrameCountTime = GameState.time;
-            if ((GameState.time - _lastFrameCountTime) >= 1000) {
-                GameState.fps = _frameCounter;
-                _frameCounter = 0;
-                _lastFrameCountTime = GameState.time;
-            }
+    run() {
+        var now = Date.now();
 
-            this.physicsService.events.forEach(event => {
+        _frameCounter++;
+
+        GameState.time += now - _lastCycleTime;
+        _lastCycleTime = now;
+
+        if (_lastFrameCountTime === 0) {
+            _lastFrameCountTime = GameState.time;
+        }
+        if ((GameState.time - _lastFrameCountTime) >= 1000) {
+            GameState.fps = _frameCounter;
+            _frameCounter = 0;
+            _lastFrameCountTime = GameState.time;
+        }
+
+        if (GameState.loaded) {
+            this._physicsService.events.forEach(event => {
                 var goA = GameState.world.findChild(event.contact.GetFixtureA().GetUserData());
                 var goB = GameState.world.findChild(event.contact.GetFixtureB().GetUserData());
-                this.messageService.messages.push(new Message(goA, goB, new Date(), Message.TYPE.PHYSICS, event));
-                this.messageService.messages.push(new Message(goB, goA, new Date(), Message.TYPE.PHYSICS, event));
+                this._messageService.messages.push(new Message(goA, goB, new Date(), Message.TYPE.PHYSICS, event));
+                this._messageService.messages.push(new Message(goB, goA, new Date(), Message.TYPE.PHYSICS, event));
             });
-
-            this.physicsService.simulate(GameState.fps);
-            this.update(GameState.world);
-            this.renderService.render();
+            this._physicsService.simulate(GameState.fps);
+            this._renderService.render();
 
         } else {
-            var loadedPercentage = this.load(GameState.world);
-            if (loadedPercentage === 1) {
-                loaded = true;
-            }
-            this._logger.info(loadedPercentage * 100);
+            var resources = this._countResources(GameState.world);
+            var loadedResources = this._countLoadedResources(GameState.world);
+            var percentage = loadedResources ? (loadedResources / resources) : 0;
+            GameState.loaded = percentage >= 1;
+            this._logger.info("loading: " + loadedResources + "/" + resources);
         }
-        requestAnimationFrame(this.run.bind(this, loaded));
+
+        this._update(GameState.world);
+
+        requestAnimationFrame(this.run.bind(this));
     }
 
-    update(go) {
-        go.children.forEach(child => this.update(child));
-        this.messageService.update(go);
-        go.update();
+    _countResources(go) {
+        return go.components.reduce((acc, comp) => {
+            return (comp instanceof Sprite || comp instanceof Audio) ? acc + 1 : acc;
+        }, go.children.reduce((acc, child) => { return acc + this._countResources(child) }, 0));
+    }
+
+    _countLoadedResources(go) {
+        return go.components.reduce((acc, comp) => {
+            return (comp.loaded) ? acc + 1 : acc;
+        }, go.children.reduce((acc, child) => { return acc + this._countLoadedResources(child) }, 0));
+    }
+
+    _update(go) {
+        go.children.forEach(child => this._update(child));
         go.components.forEach(component => {
             if (component instanceof Sprite) {
-                this.renderService.update(component, go.position, go.rotation, go.scale);
+                this._renderService.update(component, go.position, go.rotation, go.scale);
             } else if (component instanceof Body) {
-                this.physicsService.update(component, go);
+                this._physicsService.update(component, go);
             } else if (component instanceof Audio) {
-                this.audioService.update(component);
+                this._audioService.update(component);
             }
         });
+        if (GameState.loaded) {
+            this._messageService.update(go);
+            go.update();
+        }
     }
 
-    load(go) {
-        var resources = 0;
-        var loadedResources = 0;
-        var totalLoadedPercentage = 0;
-        var childrenLoadedPercentage = 0;
-
-        go.components.forEach(component => {
-            if (component instanceof Sprite || component instanceof Audio) {
-                resources++;
-                if (component.loaded) {
-                    loadedResources++;
-                }
-            }
-        });
-
-        if (go.children > 0) {
-            go.children.forEach(child => {
-                childrenLoadedPercentage += this.load(child) / go.children.length;
-            }, this);
-        } else {
-            childrenLoadedPercentage = 1;
-        }
-
-        if (resources === 0) totalLoadedPercentage = childrenLoadedPercentage;
-        else {
-            if (loadedResources === 0) totalLoadedPercentage = 0;
-            else totalLoadedPercentage = (resources / loadedResources + childrenLoadedPercentage) / 2;
-        }
-
-        return totalLoadedPercentage;
-    }
 }

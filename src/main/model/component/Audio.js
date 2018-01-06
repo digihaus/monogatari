@@ -15,7 +15,6 @@ export class Audio {
         this.state = Audio.STATE.CREATED;
         this.source = source;
         this.loop = loop;
-
         this.sound = null;
     }
 

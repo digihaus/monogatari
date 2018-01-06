@@ -1,6 +1,6 @@
 export class BrowserHandler {
 
-    constructor({ onResize = () => { } } = {}) {
+    constructor(onResize = () => { }) {
         this.agent = window.navigator.userAgent;
         this.version = window.navigator.appVersion;
         this.platform = window.navigator.platform;
