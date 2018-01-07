@@ -1,4 +1,4 @@
-export class Vector2Class {
+class Vector2Class {
     constructor(x, y) {
         this.x = x;
         this.y = y;

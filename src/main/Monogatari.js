@@ -1,6 +1,7 @@
 import { GameEngine } from 'GameEngine';
 import { GameState } from 'GameState';
 import { KeyboardHandler } from 'handler/KeyboardHandler';
+import { MoueHandler } from 'handler/MouseHandler'; 
 import { GameObject } from 'model/core/GameObject';
 import { Message } from 'model/core/Message';
 import { Sprite } from 'model/component/Sprite';
@@ -12,7 +13,7 @@ import { Logger } from 'commons/Logger';
 
 export class Monogatari {
 
-    static get LOG_LEVEL() {
+    static get LOG_LEVELS() {
         return Logger.LEVEL;
     }
 
@@ -38,12 +39,20 @@ export class Monogatari {
         this._logger.debug("engine ready");
     }
 
-    get KEY() {
-        return KeyboardHandler.KEY;
+    get KEYS() {
+        return KeyboardHandler.KEYS;
+    }
+
+    get MOUSE_BUTTONS() {
+        return MouseHandler.BUTTONS;
     }
 
     get keyboard() {
         return this._engine.keyboardHandler;
+    }
+
+    get mouse() {
+        return this._engine.mouseHandler;
     }
 
     get engine() {

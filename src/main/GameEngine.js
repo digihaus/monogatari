@@ -10,6 +10,7 @@ import { MessageService } from 'service/MessageService';
 import { AudioService } from 'service/AudioService';
 import { BrowserHandler } from 'handler/BrowserHandler';
 import { KeyboardHandler } from 'handler/KeyboardHandler';
+import { MouseHandler } from 'handler/MouseHandler';
 import { Logger } from 'commons/Logger';
 
 var _frameCounter = 0;
@@ -20,7 +21,6 @@ export class GameEngine {
 
     constructor(container, width, height) {
         this._logger = new Logger(GameEngine.name);
-
         this._renderService = new RenderService(document.createElement('canvas'), width, height, container.offsetWidth, container.offsetHeight);
         this._physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
         this._messageService = new MessageService();
@@ -28,12 +28,9 @@ export class GameEngine {
 
         this.browserHandler = new BrowserHandler(() => this._renderService.resize(container.offsetWidth, container.offsetHeight));
         this.keyboardHandler = new KeyboardHandler();
+        this.mouseHandler = new MouseHandler();
 
         container.appendChild(this._renderService.renderer.domElement);
-
-        //  window.addEventListener('mousemove', (event) => this.inputService.onMouseMove(event, GameState.time), false);
-        //  window.addEventListener('mousedown', (event) => this.inputService.onMouseDown(event, GameState.time), false);
-        //  window.addEventListener('mouseup', (event) => this.inputService.onMouseUp(event), false);
     }
 
     run() {
@@ -53,6 +50,8 @@ export class GameEngine {
             _lastFrameCountTime = GameState.time;
         }
 
+        this._update(GameState.world);
+
         if (GameState.loaded) {
             this._physicsService.events.forEach(event => {
                 var goA = GameState.world.findChild(event.contact.GetFixtureA().GetUserData());
@@ -68,24 +67,10 @@ export class GameEngine {
             var loadedResources = this._countLoadedResources(GameState.world);
             var percentage = loadedResources ? (loadedResources / resources) : 0;
             GameState.loaded = percentage >= 1;
-            this._logger.info("loading: " + loadedResources + "/" + resources);
+            this._logger.info("loading: " + Math.round(percentage * 100) + "% (" + loadedResources + "/" + resources + ")");
         }
 
-        this._update(GameState.world);
-
         requestAnimationFrame(this.run.bind(this));
-    }
-
-    _countResources(go) {
-        return go.components.reduce((acc, comp) => {
-            return (comp instanceof Sprite || comp instanceof Audio) ? acc + 1 : acc;
-        }, go.children.reduce((acc, child) => { return acc + this._countResources(child) }, 0));
-    }
-
-    _countLoadedResources(go) {
-        return go.components.reduce((acc, comp) => {
-            return (comp.loaded) ? acc + 1 : acc;
-        }, go.children.reduce((acc, child) => { return acc + this._countLoadedResources(child) }, 0));
     }
 
     _update(go) {
@@ -103,6 +88,18 @@ export class GameEngine {
             this._messageService.update(go);
             go.update();
         }
+    }
+
+    _countResources(go) {
+        return go.components.reduce((acc, comp) => {
+            return (comp instanceof Sprite || comp instanceof Audio) ? acc + 1 : acc;
+        }, go.children.reduce((acc, child) => { return acc + this._countResources(child) }, 0));
+    }
+
+    _countLoadedResources(go) {
+        return go.components.reduce((acc, comp) => {
+            return (comp.loaded) ? acc + 1 : acc;
+        }, go.children.reduce((acc, child) => { return acc + this._countLoadedResources(child) }, 0));
     }
 
 }

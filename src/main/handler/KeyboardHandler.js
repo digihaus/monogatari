@@ -2,7 +2,7 @@ import { GameState } from 'GameState';
 
 export class KeyboardHandler {
 
-    static get KEY() {
+    static get KEYS() {
         return {
             BACKSPACE: 8,
             TAB: 9,
@@ -116,14 +116,14 @@ export class KeyboardHandler {
 
         window.addEventListener('keydown', (event) => {
             event.stopPropagation();
-            if (event.keyCode === KeyboardHandler.KEY.BACKSPACE ||
-                event.keyCode === KeyboardHandler.KEY.UP_ARROW ||
-                event.keyCode === KeyboardHandler.KEY.DOWN_ARROW ||
-                event.keyCode === KeyboardHandler.KEY.LEFT_ARROW ||
-                event.keyCode === KeyboardHandler.KEY.RIGHT_ARROW ||
-                event.keyCode === KeyboardHandler.KEY.PAGE_UP ||
-                event.keyCode === KeyboardHandler.KEY.PAGE_DOWN ||
-                event.keyCode === KeyboardHandler.KEY.SPACE) {
+            if (event.keyCode === KeyboardHandler.KEYS.BACKSPACE ||
+                event.keyCode === KeyboardHandler.KEYS.UP_ARROW ||
+                event.keyCode === KeyboardHandler.KEYS.DOWN_ARROW ||
+                event.keyCode === KeyboardHandler.KEYS.LEFT_ARROW ||
+                event.keyCode === KeyboardHandler.KEYS.RIGHT_ARROW ||
+                event.keyCode === KeyboardHandler.KEYS.PAGE_UP ||
+                event.keyCode === KeyboardHandler.KEYS.PAGE_DOWN ||
+                event.keyCode === KeyboardHandler.KEYS.SPACE) {
                 event.preventDefault();
             }
             this._keys.set(event.keyCode, GameState.time);
