@@ -21,16 +21,17 @@ export class GameEngine {
 
     constructor(container, width, height) {
         this._logger = new Logger(GameEngine.name);
-        this._renderService = new RenderService(document.createElement('canvas'), width, height, container.offsetWidth, container.offsetHeight);
+      
+        this._renderService = new RenderService(width, height, container.offsetWidth, container.offsetHeight);
         this._physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
         this._messageService = new MessageService();
         this._audioService = new AudioService();
 
-        this.browserHandler = new BrowserHandler(() => this._renderService.resize(container.offsetWidth, container.offsetHeight));
+        container.appendChild(this._renderService.domElement);
+        
+        this.browserHandler = new BrowserHandler(container);
         this.keyboardHandler = new KeyboardHandler();
-        this.mouseHandler = new MouseHandler();
-
-        container.appendChild(GameState.renderer.domElement);
+        this.mouseHandler = new MouseHandler(this._renderService.domElement);
     }
 
     run() {

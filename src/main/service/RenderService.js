@@ -6,8 +6,6 @@ import { GameState } from 'GameState';
 
 const cameras = new Map();
 const scenes = new Map();
-var gameWidth = 0;
-var gameHeight = 0;
 
 export class RenderService {
 
@@ -19,28 +17,32 @@ export class RenderService {
         return 'default_camera_id';
     }
 
-    constructor(canvas, width, height, targetWidth, targetHeight) {
+    constructor(width, height, targetWidth, targetHeight) {
         this._logger = new Logger(RenderService.name);
 
-        gameWidth = width;
-        gameHeight = height;
+        GameState.width = width;
+        GameState.height = height;
 
-        GameState.renderer = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+        var canvas = document.createElement("canvas");
+
+        this._renderer = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
             ? new Three.WebGLRenderer({ antialias: true })
             : new Three.CanvasRenderer();
-
-        GameState.renderer.setClearColor(0x000000, 1);
+        this._renderer.setClearColor(0x000000, 1);
 
         this.createScene(RenderService.DEFAULT_SCENE_ID);
         this.createCamera(RenderService.DEFAULT_CAMERA_ID);
-        this.resize(targetWidth, targetHeight);
+    }
+
+    get domElement() {
+        return this._renderer.domElement;
     }
 
     createScene(sceneId) {
         scenes.set(sceneId, new Three.Scene());
     }
 
-    createCamera(cameraId, { width = gameWidth, height = gameHeight, sceneId = RenderService.DEFAULT_SCENE_ID } = {}) {
+    createCamera(cameraId, { width = GameState.width, height = GameState.height, sceneId = RenderService.DEFAULT_SCENE_ID } = {}) {
         if (scenes.has(sceneId)) {
             var camera = new Camera2D(cameraId, width / -2, width / 2, height / -2, height / 2, Math.max(width, height) / -2, Math.max(width, height) / 2);
             camera.sceneIds.add(sceneId);
@@ -48,13 +50,6 @@ export class RenderService {
         } else {
             throw Error("Invalid scene " + sceneId);
         }
-    }
-
-    resize(width, height) {
-        var ratioWidth = width / gameWidth;
-        var ratioHeight = height / gameHeight;
-        var ratio = (ratioWidth > ratioHeight) ? ratioHeight : ratioWidth;
-        GameState.renderer.setSize(gameWidth * ratio, gameHeight * ratio);
     }
 
     update(sprite, position, rotation, scale) {
@@ -102,9 +97,10 @@ export class RenderService {
     }
 
     render() {
+        this._renderer.setSize(GameState.width * GameState.ratio, GameState.height * GameState.ratio);
         cameras.forEach(camera => {
             camera.sceneIds.forEach(sceneId => {
-                GameState.renderer.render(scenes.get(sceneId), camera.cam);
+                this._renderer.render(scenes.get(sceneId), camera.cam);
             });
         });
     }

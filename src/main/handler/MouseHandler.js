@@ -1,5 +1,6 @@
 import { Vector3 } from 'commons/Math/Vector3';
 import { GameState } from 'GameState';
+import { Logger } from 'commons/Logger';
 
 export class MouseHandler {
 
@@ -16,29 +17,31 @@ export class MouseHandler {
         }
     }
 
-    constructor() {
+    constructor(domElement) {
+        this._logger = new Logger(MouseHandler.name);
         this._buttons = new Map();
         this._position = Vector3(0, 0, 0);
 
-        window.addEventListener('mousemove', (event) => {
-            this._position = Vector3(event.clientX, event.clientY, 0);
+        domElement.addEventListener('mousemove', (event) => {
+            var rect = domElement.getBoundingClientRect()
+            this._position = Vector3(event.clientX - rect.left, event.clientY - rect.top, 0);
+            this._logger.debug("position " + this._position.x + ", " + this.position.y);
         }, false);
 
-        window.addEventListener('mousedown', (event) => {
+        domElement.addEventListener('mousedown', (event) => {
             event.preventDefault();
             event.stopPropagation();
             this._buttons.set(event.button, GameState.time);
         }, false);
 
-        window.addEventListener('mouseup', (event) => {
+        domElement.addEventListener('mouseup', (event) => {
             event.stopPropagation();
             this._buttons.delete(event.button);
         }, false);
     }
 
     get position() {
-        var rect = GameState.renderer.domElement.getBoundingClientRect();
-        return Vector3(this._position.x - rect.left, this._position.y - rect.top, 0);
+        return Vector3(this._position.x / GameState.ratio, this._position.y / GameState.ratio, this._position.z);
     }
 
 }
