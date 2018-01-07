@@ -37,11 +37,7 @@ export class MouseHandler {
     }
 
     get position() {
-        return this._position;
-    }
-
-    getPositionOnElement(element) {
-        var rect = element.getBoundingClientRect();
+        var rect = GameState.renderer.domElement.getBoundingClientRect();
         return Vector3(this._position.x - rect.left, this._position.y - rect.top, 0);
     }
 

@@ -2,10 +2,10 @@ import { Sprite } from 'model/component/Sprite';
 import { Camera2D } from 'model/core/Camera2D';
 import { Three } from 'link/Three';
 import { Logger } from 'commons/Logger';
+import { GameState } from 'GameState';
 
 const cameras = new Map();
 const scenes = new Map();
-var renderer = null;
 var gameWidth = 0;
 var gameHeight = 0;
 
@@ -25,19 +25,15 @@ export class RenderService {
         gameWidth = width;
         gameHeight = height;
 
-        renderer = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+        GameState.renderer = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
             ? new Three.WebGLRenderer({ antialias: true })
             : new Three.CanvasRenderer();
 
-        renderer.setClearColor(0x000000, 1);
+        GameState.renderer.setClearColor(0x000000, 1);
 
         this.createScene(RenderService.DEFAULT_SCENE_ID);
         this.createCamera(RenderService.DEFAULT_CAMERA_ID);
         this.resize(targetWidth, targetHeight);
-    }
-
-    get renderer() {
-        return renderer;
     }
 
     createScene(sceneId) {
@@ -58,7 +54,7 @@ export class RenderService {
         var ratioWidth = width / gameWidth;
         var ratioHeight = height / gameHeight;
         var ratio = (ratioWidth > ratioHeight) ? ratioHeight : ratioWidth;
-        renderer.setSize(gameWidth * ratio, gameHeight * ratio);
+        GameState.renderer.setSize(gameWidth * ratio, gameHeight * ratio);
     }
 
     update(sprite, position, rotation, scale) {
@@ -108,7 +104,7 @@ export class RenderService {
     render() {
         cameras.forEach(camera => {
             camera.sceneIds.forEach(sceneId => {
-                renderer.render(scenes.get(sceneId), camera.cam);
+                GameState.renderer.render(scenes.get(sceneId), camera.cam);
             });
         });
     }

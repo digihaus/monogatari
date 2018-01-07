@@ -4,6 +4,7 @@ var _sequence = 0;
 var _time = 0;
 var _fps = 60;
 var _loaded = false;
+var _renderer = null;
 
 var _world = new GameObject('world');
 _world.uid = _sequence++;
@@ -15,11 +16,13 @@ export class GameState {
     static get time() { return _time; }
     static get fps() { return _fps; }
     static get loaded() { return _loaded; }
+    static get renderer() { return _renderer; } 
 
     static set sequence(sequence) { _sequence = sequence; }
     static set time(time) { _time = time; }
     static set fps(fps) { _fps = fps; }
     static set loaded(loaded) { _loaded = loaded; }
+    static set renderer(renderer) { _renderer = renderer; }
 
     static attach(go) {
         go.uid = _sequence++;

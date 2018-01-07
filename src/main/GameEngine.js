@@ -30,7 +30,7 @@ export class GameEngine {
         this.keyboardHandler = new KeyboardHandler();
         this.mouseHandler = new MouseHandler();
 
-        container.appendChild(this._renderService.renderer.domElement);
+        container.appendChild(GameState.renderer.domElement);
     }
 
     run() {

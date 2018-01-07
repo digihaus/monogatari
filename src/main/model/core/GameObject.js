@@ -15,9 +15,9 @@ export class GameObject {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
-        this.axis = Vector3(0, -1, 0);
-        this.direction = Vector3(0, 1, 0);
-
+        
+        this._axis = Vector3(0, 1, 0);
+        this._direction = Vector3(0, 1, 0);
         this._children = new Array();
         this._components = new Array();
         this._inbox = new Array();
@@ -60,15 +60,15 @@ export class GameObject {
     }
 
     lookAt(position) {
-        this.direction.x = position.x - this.position.x;
-        this.direction.y = position.y - this.position.y;
-        this.direction.normalize();
+        this._direction.x = position.x - this.position.x;
+        this._direction.y = position.y - this.position.y;
+        this._direction.normalize();
         this.rotation.z = this.getEulerRotation();
     }
 
     getEulerRotation() {
-        var angle = this.direction.angleTo(this.axis);
-        return (this.direction.y * this.axis.x > this.direction.x * this.axis.y) ? angle : -angle;
+        var angle = this._direction.angleTo(this._axis);
+        return (this._direction.y * this._axis.x > this._direction.x * this._axis.y) ? angle : -angle;
     }
 
     clone(name = this.name + '_copy') {
