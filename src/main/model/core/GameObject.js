@@ -72,7 +72,7 @@ export class GameObject {
     }
 
     clone(name = this.name + '_copy') {
-        var clone = new GameObject(name, { update: this.update, position: this.position, rotation: this.rotation, scale: this.scale });
+        var clone = new GameObject(name, { update: this.update, position: this.position.clone(), rotation: this.rotation.clone(), scale: this.scale.clone() });
         this._children.forEach(child => clone._children.push(child.clone()));
         this._components.forEach(component => clone._components.push(component.clone()));
         return clone;
