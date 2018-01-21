@@ -107,6 +107,8 @@ export class KeyboardHandler {
     }
 
     constructor() {
+        // TODO: Ver como registrar os eventos apenas para o canvas (domElement)
+
         this._keys = new Map();
 
         window.addEventListener('keyup', (event) => {

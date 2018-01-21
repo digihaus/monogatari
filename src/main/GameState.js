@@ -33,6 +33,7 @@ export class GameState {
     static set ratio(ratio) { _ratio = ratio; }
 
     static attach(go) {
+        // TODO: Verificar UID de todos os filhos também, desde que já não estejam no world
         go.uid = _sequence++;
         _world.attach(go);
     }

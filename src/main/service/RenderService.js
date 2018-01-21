@@ -53,6 +53,7 @@ export class RenderService {
     }
 
     update(sprite, position, rotation, scale) {
+        // TODO: Considerar componente de Canvas
         if (sprite.state === Sprite.STATE.REGISTERED) {
             sprite.mesh.position.set(position.x, position.y, position.z);
             sprite.mesh.rotation.set(rotation.x, rotation.y, rotation.z);

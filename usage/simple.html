@@ -14,10 +14,10 @@
 <script>
     var m = new Monogatari({ width: 800, height: 600, logLevel: Monogatari.LOG_LEVELS.DEBUG });
 
-    var zombie = new m.GameObject('zombie1', { position: m.Vector3(400, -150, 0), });
-    zombie.include(new m.Sprite('assets/zombies.png', 64, 64, { rols: 1, cols: 3 }));
-    zombie.include(new m.Circle(m.Circle.TYPE.DYNAMIC, 20, { density: 1, friction: 0.5, bounciness: 0.9 }));
-    zombie.include(new m.Audio('assets/ploink.wav'));
+    var zombie = new m.GameObject('zombie1', { position: m.Vector3(400, -150, 0), })
+        .include(new m.Sprite('assets/zombies.png', 64, 64, { rols: 1, cols: 3 }))
+        .include(new m.Circle(m.Circle.TYPE.DYNAMIC, 20, { density: 1, friction: 0.5, bounciness: 0.9 }))
+        .include(new m.Audio('assets/ploink.wav'));
 
     var zombie2 = zombie.clone('zombie2');
     zombie2.position = m.Vector3(370, -150, 0);
