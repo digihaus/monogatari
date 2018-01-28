@@ -1,17 +1,9 @@
-export class Sprite {
+import { Graphic } from 'model/component/Graphic'
 
-    static get STATE() {
-        return {
-            CREATED: 0,
-            BUFFERING: 1,
-            LOADED: 2,
-            REGISTERED: 3,
-            FAILED: -1
-        }
-    }
+export class Sprite extends Graphic {
 
     constructor(source, width, height, { rows = 1, cols = 1, sceneId } = {}) {
-        this.state = Sprite.STATE.CREATED;
+        super(width, height, sceneId);
         this.source = source;
         this.w = width;
         this.h = height;
@@ -23,18 +15,10 @@ export class Sprite {
         this.col = 0;
         this.frame = 1;
         this.lastUpdateTime = 0;
-        this.texture = null;
-        this.material = null;
-        this.geometry = null;
-        this.mesh = null;
-    }
-
-    get loaded() {
-        return this.state >= Sprite.STATE.LOADED;
     }
 
     setFrame(frame = 1) {
-        if (this.state === Sprite.STATE.REGISTERED) {
+        if (this.state === Graphic.STATE.REGISTERED) {
             this.frame = frame;
             this.col = (Math.ceil(this.frame / this.cols)) - 1;
             this.row = (this.frame - 1) % this.cols;
@@ -48,13 +32,13 @@ export class Sprite {
     }
 
     show() {
-        if (this.state === Sprite.STATE.REGISTERED) {
+        if (this.state === Graphic.STATE.REGISTERED) {
             this.mesh.material.visible = true;
         }
     }
 
     hide() {
-        if (this.state === Sprite.STATE.REGISTERED) {
+        if (this.state === Graphic.STATE.REGISTERED) {
             this.mesh.material.visible = false;
         }
     }

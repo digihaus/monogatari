@@ -1,6 +1,7 @@
 import { GameState } from 'GameState';
 import { GameObject } from 'model/core/GameObject';
 import { Message } from 'model/core/Message';
+import { Graphic } from 'model/component/Graphic';
 import { Sprite } from 'model/component/Sprite';
 import { Canvas } from 'model/component/Canvas';
 import { Body } from 'model/component/Body';
@@ -82,7 +83,7 @@ export class GameEngine {
     _update(go) {
         go.children.forEach(child => this._update(child));
         go.components.forEach(component => {
-            if (component instanceof Sprite || component instanceof Canvas) {
+            if (component instanceof Graphic) {
                 this._renderService.update(component, go.position, go.rotation, go.scale);
             } else if (component instanceof Body) {
                 this._physicsService.update(component, go);

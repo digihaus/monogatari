@@ -1,3 +1,4 @@
+import { Graphic } from 'model/component/Graphic';
 import { Sprite } from 'model/component/Sprite';
 import { Canvas } from 'model/component/Canvas';
 import { Camera2D } from 'model/core/Camera2D';
@@ -55,18 +56,18 @@ export class RenderService {
 
     update(component, position, rotation, scale) {
         if (component instanceof Sprite) {
-            if (component.state === Sprite.STATE.REGISTERED) {
+            if (component.state === Graphic.STATE.REGISTERED) {
                 component.mesh.position.set(position.x, position.y, position.z);
                 component.mesh.rotation.set(rotation.x, rotation.y, rotation.z);
                 component.mesh.scale.set(-scale.x, scale.y, scale.z);
 
-            } else if (component.state === Sprite.STATE.LOADED) {
+            } else if (component.state === Graphic.STATE.LOADED) {
                 scenes.get(component.sceneId).add(component.mesh);
-                component.state = Sprite.STATE.REGISTERED;
+                component.state = Graphic.STATE.REGISTERED;
 
-            } else if (component.state === Sprite.STATE.CREATED) {
+            } else if (component.state === Graphic.STATE.CREATED) {
                 component.sceneId = component.sceneId ? component.sceneId : RenderService.DEFAULT_SCENE_ID;
-                component.state = Sprite.STATE.BUFFERING;
+                component.state = Graphic.STATE.BUFFERING;
                 new Three.TextureLoader().load(
                     component.source,
                     function (texture) { // load callback
@@ -81,24 +82,36 @@ export class RenderService {
                         component.material.transparent = true;
                         component.geometry = new Three.PlaneBufferGeometry(component.w, component.h, 1, 1);
                         component.mesh = new Three.Mesh(component.geometry, component.material);
-                        component.state = Sprite.STATE.LOADED;
+                        component.state = Graphic.STATE.LOADED;
                         this._logger.debug("texture loaded", component.source);
                     }.bind(this),
                     function (xhr) { // download callback
                         this._logger.debug("texture " + (xhr.loaded / xhr.total * 100) + "% loaded", component);
                     }.bind(this),
                     function (xhr) { // error callback
-                        component.state = Sprite.STATE.FAILED;
+                        component.state = Graphic.STATE.FAILED;
                         this._logger.error("error while loading texture", component.source, xhr);
                     }.bind(this)
                 );
 
-            } else if (component.state === Sprite.STATE.FAILED) {
+            } else if (component.state === Graphic.STATE.FAILED) {
                 throw Error("Sprite failed to load with source " + component.source);
             }
 
         } else if (component instanceof Canvas) {
-            component.update();
+            if (component.state === Canvas.STATE.CREATED) {
+                scenes.get(RenderService.DEFAULT_SCENE_ID).add(component.mesh);
+                component.state = Canvas.STATE.REGISTERED;
+            } else {
+                component.context.imageSmoothingEnabled = false;
+                component.context.webkitImageSmoothingEnabled = false;
+                component.context.mozImageSmoothingEnabled = false;
+                component.clear();
+                component.draw();
+                // This makes the textures created during execution to work properly
+                //component.texture.needsUpdate = true;
+                component.texture.image = this.canvas;
+            }
         }
     }
 
