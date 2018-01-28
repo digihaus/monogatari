@@ -277,28 +277,4 @@ Math.rotateAroundAxis = function (rotation, axis, radians) {
   return result;
 };
 
-/**
- * Rotate an object around a pivot position
- *
- * @param {THREE.Vector3} [position] - The reference position vector
- * @param {THREE.Vector3} [pivot] - The reference pivot for rotation
- * @param {Number} [radians] - Radian degrees to rotate
- */
-Math.rotateAroundPivot = function (position, pivot, radians) {
-  var c = window.Math.cos(radians);
-  var s = window.Math.sin(radians);
-  var result = position.clone();
-
-  var oldX = result.x - pivot.x;
-  var oldy = result.y - pivot.y;
-
-  var newX = oldX * c - oldy * s;
-  var newY = oldX * s + oldy * c;
-
-  result.x = newX + pivot.x;
-  result.y = newY + pivot.y;
-
-  return result;
-};
-
 module.exports = Math;

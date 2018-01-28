@@ -25,13 +25,13 @@ export class MouseHandler {
         domElement.addEventListener('mousemove', (event) => {
             var rect = domElement.getBoundingClientRect()
             this._position = Vector3(event.clientX - rect.left, event.clientY - rect.top, 0);
-            this._logger.debug("position " + this._position.x + ", " + this.position.y);
         }, false);
 
         domElement.addEventListener('mousedown', (event) => {
             event.preventDefault();
             event.stopPropagation();
             this._buttons.set(event.button, GameState.time);
+            this._logger.debug("down on position " + this._position.x + ", " + this.position.y);
         }, false);
 
         domElement.addEventListener('mouseup', (event) => {

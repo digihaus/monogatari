@@ -1,4 +1,5 @@
 import { Sprite } from 'model/component/Sprite';
+import { Canvas } from 'model/component/Canvas';
 import { Camera2D } from 'model/core/Camera2D';
 import { Three } from 'link/Three';
 import { Logger } from 'commons/Logger';
@@ -52,48 +53,52 @@ export class RenderService {
         }
     }
 
-    update(sprite, position, rotation, scale) {
-        // TODO: Considerar componente de Canvas
-        if (sprite.state === Sprite.STATE.REGISTERED) {
-            sprite.mesh.position.set(position.x, position.y, position.z);
-            sprite.mesh.rotation.set(rotation.x, rotation.y, rotation.z);
-            sprite.mesh.scale.set(-scale.x, scale.y, scale.z);
+    update(component, position, rotation, scale) {
+        if (component instanceof Sprite) {
+            if (component.state === Sprite.STATE.REGISTERED) {
+                component.mesh.position.set(position.x, position.y, position.z);
+                component.mesh.rotation.set(rotation.x, rotation.y, rotation.z);
+                component.mesh.scale.set(-scale.x, scale.y, scale.z);
 
-        } else if (sprite.state === Sprite.STATE.LOADED) {
-            scenes.get(sprite.sceneId).add(sprite.mesh);
-            sprite.state = Sprite.STATE.REGISTERED;
+            } else if (component.state === Sprite.STATE.LOADED) {
+                scenes.get(component.sceneId).add(component.mesh);
+                component.state = Sprite.STATE.REGISTERED;
 
-        } else if (sprite.state === Sprite.STATE.CREATED) {
-            sprite.sceneId = sprite.sceneId ? sprite.sceneId : RenderService.DEFAULT_SCENE_ID;
-            sprite.state = Sprite.STATE.BUFFERING;
-            new Three.TextureLoader().load(
-                sprite.source,
-                function (texture) { // load callback
-                    sprite.texture = texture;
-                    sprite.texture.wrapS = sprite.texture.wrapT = Three.ClampToEdgeWrapping;
-                    sprite.texture.flipY = true;
-                    sprite.texture.minFilter = Three.NearestFilter;
-                    sprite.texture.offset.x = sprite.row / sprite.cols;
-                    sprite.texture.offset.y = sprite.col / sprite.rows;
-                    sprite.texture.repeat.set(1 / sprite.cols, 1 / sprite.rows);
-                    sprite.material = new Three.MeshBasicMaterial({ map: sprite.texture, side: Three.FrontSide });
-                    sprite.material.transparent = true;
-                    sprite.geometry = new Three.PlaneBufferGeometry(sprite.w, sprite.h, 1, 1);
-                    sprite.mesh = new Three.Mesh(sprite.geometry, sprite.material);
-                    sprite.state = Sprite.STATE.LOADED;
-                    this._logger.debug("texture loaded", sprite.source);
-                }.bind(this),
-                function (xhr) { // download callback
-                    this._logger.debug("texture " + (xhr.loaded / xhr.total * 100) + "% loaded", sprite);
-                }.bind(this),
-                function (xhr) { // error callback
-                    sprite.state = Sprite.STATE.FAILED;
-                    this._logger.error("error while loading texture", sprite.source, xhr);
-                }.bind(this)
-            );
+            } else if (component.state === Sprite.STATE.CREATED) {
+                component.sceneId = component.sceneId ? component.sceneId : RenderService.DEFAULT_SCENE_ID;
+                component.state = Sprite.STATE.BUFFERING;
+                new Three.TextureLoader().load(
+                    component.source,
+                    function (texture) { // load callback
+                        component.texture = texture;
+                        component.texture.wrapS = component.texture.wrapT = Three.ClampToEdgeWrapping;
+                        component.texture.flipY = true;
+                        component.texture.minFilter = Three.NearestFilter;
+                        component.texture.offset.x = component.row / component.cols;
+                        component.texture.offset.y = component.col / component.rows;
+                        component.texture.repeat.set(1 / component.cols, 1 / component.rows);
+                        component.material = new Three.MeshBasicMaterial({ map: component.texture, side: Three.FrontSide });
+                        component.material.transparent = true;
+                        component.geometry = new Three.PlaneBufferGeometry(component.w, component.h, 1, 1);
+                        component.mesh = new Three.Mesh(component.geometry, component.material);
+                        component.state = Sprite.STATE.LOADED;
+                        this._logger.debug("texture loaded", component.source);
+                    }.bind(this),
+                    function (xhr) { // download callback
+                        this._logger.debug("texture " + (xhr.loaded / xhr.total * 100) + "% loaded", component);
+                    }.bind(this),
+                    function (xhr) { // error callback
+                        component.state = Sprite.STATE.FAILED;
+                        this._logger.error("error while loading texture", component.source, xhr);
+                    }.bind(this)
+                );
 
-        } else if (sprite.state === Sprite.STATE.FAILED) {
-            throw Error("Sprite failed to load with source " + sprite.source);
+            } else if (component.state === Sprite.STATE.FAILED) {
+                throw Error("Sprite failed to load with source " + component.source);
+            }
+
+        } else if (component instanceof Canvas) {
+            component.update();
         }
     }
 

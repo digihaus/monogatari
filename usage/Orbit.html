@@ -3,102 +3,90 @@
 <html>
 
 <head>
-  <title>Orbit - Monogatari</title>
-  <link href="css/style.css" rel="stylesheet">
-  <script src="../../monogatari.js"></script>
+    <title>Monogatari</title>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="../monogatari.js"></script>
 </head>
 
 <body>
-  <script>
-    var m = Monogatari;
+    <script>
+        var m = new Monogatari({ width: 800, height: 600, logLevel: Monogatari.LOG_LEVELS.DEBUG });
 
-    m.init("#000");
+        var sun = new m.GameObject('sun');
+        sun.include(new m.Canvas(256, 256));
+        sun.position = m.Vector3(400, 300, 0);
 
-    var sun = new m.GameObject('sun');
+        var planet = new m.GameObject('planet');
+        var planetDraw = function () { // custom render
+            var hw = this.width / 2;
+            var hh = this.height / 2;
+            var radius = Math.min(hw, hh);
+            this.context.beginPath();
+            this.context.moveTo(radius, 0);
+            this.context.lineTo(hw - radius, 0);
+            this.context.quadraticCurveTo(hw, 0, hw, 0 + radius);
+            this.context.lineTo(hw, hh - radius);
+            this.context.quadraticCurveTo(hw, hh, hw - radius, hh);
+            this.context.lineTo(radius, hh);
+            this.context.quadraticCurveTo(0, hh, 0, hh - radius);
+            this.context.lineTo(0, radius);
+            this.context.quadraticCurveTo(0, 0, radius, 0);
+            this.context.lineWidth = 1;
+            this.context.fillStyle = "rgba(25, 110, 255, 0.4)";
+            this.context.strokeStyle = "rgba(25, 110, 255, 0.9)";
+            this.context.fill();
+            this.context.stroke();
+            this.context.closePath();
+        };
+        planet.include(new m.Canvas(128, 128, planetDraw));
 
-    sun.addComponent(new m.Canvas(256, 256));
-    sun.position.set(m.sceneManager.canvasWidth / 2, m.sceneManager.canvasHeight / 2, 0);
+        sun.attach(planet);
 
-    m.world.children.push(sun);
+        sun.update = function () {
+            this.rotation.z += 0.01;
+        };
 
-    var planet = new m.GameObject('planet');
+        var a1 = 0;
+        planet.update = function () {
+            this.position = m.Vector3(sun.position.x, sun.position.y + 350, 1);
+            this.rotation.z += 0.01;
+            a1 += 0.01;
+            this.rotateAroundPivot(sun.position, a1);
+        };
 
-    // custom render
-    var drawCallback = function () {
-      var hw = this.w / 2;
-      var hh = this.h / 2;
-      var radius = Math.min(hw, hh);
+        var moon = new m.GameObject('moon');
+        moon.include(new m.Canvas(128, 128));
 
-      this.context.beginPath();
+        moon.scale.x = 0.3;
+        moon.scale.y = 0.3;
 
-      this.context.moveTo(radius, 0);
-      this.context.lineTo(hw - radius, 0);
-      this.context.quadraticCurveTo(hw, 0, hw, 0 + radius);
-      this.context.lineTo(hw, hh - radius);
-      this.context.quadraticCurveTo(hw, hh, hw - radius, hh);
-      this.context.lineTo(radius, hh);
-      this.context.quadraticCurveTo(0, hh, 0, hh - radius);
-      this.context.lineTo(0, radius);
-      this.context.quadraticCurveTo(0, 0, radius, 0);
+        planet.attach(moon);
+        var a2 = 0;
+        moon.update = function () {
+            moon.position = m.Vector3(planet.position.x, planet.position.y + 150, 1);
+            this.rotation.z += 0.02;
+            a2 += 0.03;
+            this.rotateAroundPivot(planet.position, a2);
+        };
 
-      this.context.lineWidth = 1;
-      this.context.fillStyle = "rgba(25, 110, 255, 0.4)";
-      this.context.strokeStyle = "rgba(25, 110, 255, 0.9)";
+        var moonMoon = new m.GameObject('moonMoon');
+        moonMoon.include(new m.Canvas(128, 128));
 
-      this.context.fill();
+        moonMoon.scale.x = 0.1;
+        moonMoon.scale.y = 0.1;
 
-      this.context.stroke();
+        moon.attach(moonMoon);
+        var a3 = 0;
+        moonMoon.update = function () {
+            moonMoon.position = m.Vector3(moon.position.x, moon.position.y + 50, 1);
+            this.rotation.z += 0.02;
+            a3 += 0.05;
+            this.rotateAroundPivot(moon.position, a3);
+        };
 
-      this.context.closePath();
-    };
-    planet.addComponent(new m.Canvas(128, 128, drawCallback));
-
-    sun.children.push(planet);
-
-    sun.update = function () {
-      this.rotation.z += 0.01;
-    };
-
-    var a1 = 0;
-    planet.update = function () {
-      this.position.set(sun.position.x, sun.position.y + 350, 1);
-      this.rotation.z += 0.01;
-      a1 += 0.01;
-      this.rotateAroundPivot(sun.position, a1);
-    };
-
-    var moon = new m.GameObject('moon');
-    moon.addComponent(new m.Canvas(128, 128));
-
-    moon.scale.x = 0.3;
-    moon.scale.y = 0.3;
-
-    planet.children.push(moon);
-    var a2 = 0;
-    moon.update = function () {
-      moon.position.set(planet.position.x, planet.position.y + 150, 1);
-      this.rotation.z += 0.02;
-      a2 += 0.03;
-      this.rotateAroundPivot(planet.position, a2);
-    };
-
-    var moonMoon = new m.GameObject('moonMoon');
-    moonMoon.addComponent(new m.Canvas(128, 128));
-
-    moonMoon.scale.x = 0.1;
-    moonMoon.scale.y = 0.1;
-
-    moon.children.push(moonMoon);
-    var a3 = 0;
-    moonMoon.update = function () {
-      moonMoon.position.set(moon.position.x, moon.position.y + 50, 1);
-      this.rotation.z += 0.02;
-      a3 += 0.05;
-      this.rotateAroundPivot(moon.position, a3);
-    };
-
-    m.run();
-  </script>
+        m.attach(sun);
+        m.engine.run();
+    </script>
 </body>
 
 </html>

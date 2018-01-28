@@ -71,6 +71,23 @@ export class GameObject {
         return (this._direction.y * this._axis.x > this._direction.x * this._axis.y) ? angle : -angle;
     }
 
+    rotateAroundPivot(pivot, radians) {
+        var c = Math.cos(radians);
+        var s = Math.sin(radians);
+        var result = this.position.clone();
+      
+        var oldX = result.x - pivot.x;
+        var oldy = result.y - pivot.y;
+      
+        var newX = oldX * c - oldy * s;
+        var newY = oldX * s + oldy * c;
+      
+        result.x = newX + pivot.x;
+        result.y = newY + pivot.y;
+      
+        this.position = result;
+    }
+
     clone(name = this.name + '_copy') {
         var clone = new GameObject(name, { update: this.update, position: this.position.clone(), rotation: this.rotation.clone(), scale: this.scale.clone() });
         this._children.forEach(child => clone._children.push(child.clone()));

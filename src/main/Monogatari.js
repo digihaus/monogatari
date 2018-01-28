@@ -8,6 +8,8 @@ import { Sprite } from 'model/component/Sprite';
 import { Box } from 'model/component/Box';
 import { Circle } from 'model/component/Circle';
 import { Audio } from 'model/component/Audio';
+import { Canvas } from 'model/component/Canvas';
+import { Random } from 'commons/math/Random';
 import { Vector3 } from 'commons/math/Vector3';
 import { Logger } from 'commons/Logger';
 
@@ -34,7 +36,9 @@ export class Monogatari {
         this.Box = Box;
         this.Circle = Circle;
         this.Audio = Audio;
+        this.Canvas = Canvas;
         this.Vector3 = Vector3;
+        this.Random = Random;
 
         this._logger.debug("engine ready");
     }

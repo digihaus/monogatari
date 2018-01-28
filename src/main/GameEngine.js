@@ -2,6 +2,7 @@ import { GameState } from 'GameState';
 import { GameObject } from 'model/core/GameObject';
 import { Message } from 'model/core/Message';
 import { Sprite } from 'model/component/Sprite';
+import { Canvas } from 'model/component/Canvas';
 import { Body } from 'model/component/Body';
 import { Audio } from 'model/component/Audio';
 import { RenderService } from 'service/RenderService';
@@ -21,14 +22,14 @@ export class GameEngine {
 
     constructor(container, width, height) {
         this._logger = new Logger(GameEngine.name);
-      
+
         this._renderService = new RenderService(width, height, container.offsetWidth, container.offsetHeight);
         this._physicsService = new PhysicsService({ x: 0, y: 10 }, true, PhysicsService.LISTENER.BEGIN_END_CONTACT);
         this._messageService = new MessageService();
         this._audioService = new AudioService();
 
         container.appendChild(this._renderService.domElement);
-        
+
         this.browserHandler = new BrowserHandler(container);
         this.keyboardHandler = new KeyboardHandler();
         this.mouseHandler = new MouseHandler(this._renderService.domElement);
@@ -65,10 +66,14 @@ export class GameEngine {
 
         } else {
             var resources = this._countResources(GameState.world);
-            var loadedResources = this._countLoadedResources(GameState.world);
-            var percentage = loadedResources ? (loadedResources / resources) : 0;
-            GameState.loaded = percentage >= 1;
-            this._logger.info("loading: " + Math.round(percentage * 100) + "% (" + loadedResources + "/" + resources + ")");
+            if (resources > 0) {
+                var loadedResources = this._countLoadedResources(GameState.world);
+                var percentage = loadedResources ? (loadedResources / resources) : 0;
+                this._logger.info("loading: " + Math.round(percentage * 100) + "% (" + loadedResources + "/" + resources + ")");
+                GameState.loaded = percentage >= 1;
+            } else {
+                GameState.loaded = true;
+            }
         }
 
         requestAnimationFrame(this.run.bind(this));
@@ -77,7 +82,7 @@ export class GameEngine {
     _update(go) {
         go.children.forEach(child => this._update(child));
         go.components.forEach(component => {
-            if (component instanceof Sprite) {
+            if (component instanceof Sprite || component instanceof Canvas) {
                 this._renderService.update(component, go.position, go.rotation, go.scale);
             } else if (component instanceof Body) {
                 this._physicsService.update(component, go);
