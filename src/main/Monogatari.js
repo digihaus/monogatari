@@ -1,5 +1,6 @@
 import { GameEngine } from 'GameEngine';
 import { GameState } from 'GameState';
+import { Three } from 'link/Three';
 import { KeyboardHandler } from 'handler/KeyboardHandler';
 import { MoueHandler } from 'handler/MouseHandler'; 
 import { GameObject } from 'model/core/GameObject';
@@ -39,6 +40,7 @@ export class Monogatari {
         this.Canvas = Canvas;
         this.Vector3 = Vector3;
         this.Random = Random;
+        this.Three = Three;
 
         this._logger.debug("engine ready");
     }

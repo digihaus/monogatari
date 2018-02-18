@@ -38,6 +38,13 @@ class Vector3Class {
         return Math.acos(Math.max(-1, Math.min(1, theta)));
     }
 
+    sub(v) {
+        this.x -= v.x;
+        this.y -= v.y;
+        this.z -= v.z;
+        return this;
+    }
+    
     clone() {
         return new Vector3Class(this.x, this.y, this.z);
     }
