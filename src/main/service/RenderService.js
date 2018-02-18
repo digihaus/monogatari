@@ -99,10 +99,7 @@ export class RenderService {
             }
 
         } else if (component instanceof Canvas) {
-            if (component.state === Canvas.STATE.CREATED) {
-                scenes.get(RenderService.DEFAULT_SCENE_ID).add(component.mesh);
-                component.state = Canvas.STATE.REGISTERED;
-            } else {
+            if (component.state === Graphic.STATE.REGISTERED) {
                 component.context.imageSmoothingEnabled = false;
                 component.context.webkitImageSmoothingEnabled = false;
                 component.context.mozImageSmoothingEnabled = false;
@@ -110,7 +107,27 @@ export class RenderService {
                 component.draw();
                 // This makes the textures created during execution to work properly
                 //component.texture.needsUpdate = true;
-                component.texture.image = this.canvas;
+                component.texture.image = component.canvas;
+            } else if (component.state === Graphic.STATE.CREATED) {
+                component.canvas = document.createElement('canvas');
+                component.canvas.width = component.width;
+                component.canvas.height = component.height;
+                component.context = component.canvas.getContext("2d");
+                component.texture = new Three.Texture(this.canvas);
+                component.texture.flipY = true;
+                component.texture.wrapS = component.texture.wrapT = Three.ClampToEdgeWrapping;
+                component.texture.minFilter = Three.NearestFilter;
+                component.material = new Three.MeshBasicMaterial({
+                    map: component.texture,
+                    side: Three.FrontSide
+                });
+                component.material.transparent = true;
+                component.geometry = new Three.PlaneBufferGeometry(component.width, component.height, 1, 1);
+                component.mesh = new Three.Mesh(component.geometry, component.material);
+
+                scenes.get(RenderService.DEFAULT_SCENE_ID).add(component.mesh);
+                
+                component.state = Graphic.STATE.REGISTERED;
             }
         }
     }

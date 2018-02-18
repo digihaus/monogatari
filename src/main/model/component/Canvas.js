@@ -1,4 +1,5 @@
-import { Three } from 'link/Three'
+import { Graphic } from 'model/component/Graphic';
+import { Three } from 'link/Three';
 
 function defaultDraw() {
     this.setFill("rgba(255, 45, 21, 0.4)");
@@ -10,43 +11,14 @@ function defaultDraw() {
     this.stroke();
 }
 
-export class Canvas {
+export class Canvas extends Graphic {
 
-    static get STATE() {
-        return {
-            CREATED: 0,
-            REGISTERED: 1
-        }
-    }
-
-    constructor(width = 128, height = 128, draw = defaultDraw) {
-        this.state = Canvas.STATE.CREATED;
-        this.width = width;
-        this.height = height;
+    constructor(width = 128, height = 128, draw = defaultDraw, { sceneId } = {}) {
+        super(width, height, sceneId);
         this.draw = draw;
-        //this.sceneId = sceneId;
-
         this.draw.bind(this);
-
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
-
-        this.context = this.canvas.getContext("2d");
-
-        this.draw();
-
-        this.texture = new Three.Texture(this.canvas);
-        this.texture.flipY = true;
-        this.texture.wrapS = this.texture.wrapT = Three.ClampToEdgeWrapping;
-        this.texture.minFilter = Three.NearestFilter;
-        this.material = new Three.MeshBasicMaterial({
-            map: this.texture,
-            side: Three.FrontSide
-        });
-        this.material.transparent = true;
-        this.geometry = new Three.PlaneBufferGeometry(this.width, this.height, 1, 1);
-        this.mesh = new Three.Mesh(this.geometry, this.material);
+        this.canvas = null;
+        this.context = null;
     }
 
     clear(color) {
