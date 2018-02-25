@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+
+<head>
+    <title>Fractals - Monogatari</title>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="../../monogatari.js"></script>
+</head>
+
+<body>
+    <script>
+        var m = new Monogatari({ width: 800, height: 600, logLevel: Monogatari.LOG_LEVELS.DEBUG });
+        var rand = new m.Random();
+
+        var tree = new m.GameObject('tree', { position: m.Vector3(800, 600, 0) });
+
+        var Branch = function (begin, end) {
+            this.begin = begin ? begin : new m.Three.Vector3(0, 0, 0);
+            this.end = end ? end : new m.Three.Vector3(0, 0, 0);
+            this.done = false;
+
+            this.grow = function (side) {
+                var dir = this.end.clone().sub(this.begin);
+                var axis = new m.Vector3(0, 0, 1);
+                var angle = side ? Math.random() : -Math.random();
+
+                dir.applyAxisAngle(axis, angle);
+
+                dir.multiplyScalar(0.9);
+
+                return new Branch(this.end, dir.add(this.end));
+            };
+
+        };
+
+        var branches = [];
+        branches[0] = new Branch(
+            new m.Three.Vector3(400, 500, 0),
+            new m.Three.Vector3(400, 400, 0)
+        );
+
+        tree.update = function () {
+            for (var i = 0, len = 100; i < len; i++) {
+                if (!branches[i].done) {
+                    branches.push(branches[i].grow(0));
+                    branches.push(branches[i].grow(1));
+                    branches[i].done = true;
+                }
+
+                branches[i].end.x += rand.integer(-1, 1);
+                branches[i].end.y += rand.integer(-1, 1);
+            }
+        };
+
+        var draw = function () {
+            this.setColor("#FFFFFF");
+
+            for (var i = 0, len = branches.length; i < len; i++) {
+                this.line(
+                    branches[i].begin.x,
+                    branches[i].begin.y,
+                    branches[i].end.x,
+                    branches[i].end.y
+                );
+            }
+        };
+
+        tree.include(new m.Canvas(800, 600, draw));
+
+        m.attach(tree);
+
+        m.engine.run();
+    </script>
+</body>
+
+</html>
