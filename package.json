@@ -1,6 +1,6 @@
 {
     "name": "@digihaus/monogatari",
-    "version": "1.0.0-alpha.6",
+    "version": "1.0.0-beta.1",
     "description": "JavaScript game engine",
     "license": "MIT",
     "main": "monogatari.js",
@@ -15,11 +15,7 @@
         "package": "node scripts.js package",
         "deploy": "node scripts.js deploy",
         "release": "",
-        "live": "node scripts.js live",
-        "--build": "node config/build.js",
-        "--test": "node-qunit-phantomjs test/unit/execute.html --verbose",
-        "--docs": "jsdoc -c config/jsdoc/conf.json src/",
-        "--integrate": "npm run build && npm run docs && npm test && npm run deploy"
+        "live": "node scripts.js live"
     },
     "devDependencies": {
         "babel-preset-es2015": "^6.24.1",
@@ -32,8 +28,6 @@
         "gh-pages": "^1.0.0",
         "howler": "^2.0.7",
         "live-server": "^1.2.0",
-        "node-qunit-phantomjs": "^1.6.2",
-        "qunitjs": "^2.4.1",
         "three": "^0.88.0",
         "uglify-js": "^3.1.0",
         "watch": "^1.0.2"

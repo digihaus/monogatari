@@ -1,5 +1,4 @@
 import { Graphic } from 'model/component/Graphic';
-import { Three } from 'link/Three';
 
 function defaultDraw() {
     this.setFill("rgba(255, 45, 21, 0.4)");
