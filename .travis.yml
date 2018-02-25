@@ -5,6 +5,3 @@ env:
   - GH_TOKEN=$GITHUB_TOKEN
 script:
   - "npm run deploy"
-cache:
-  directories:
-    - "node_modules"
