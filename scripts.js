@@ -10,7 +10,7 @@ const DIST_DIR = 'dist/';
 const COMPILED_FILENAME = 'monogatari.js';
 const MINIFIED_FILENAME = 'monogatari.min.js';
 const VERSION = process.env.npm_package_version;
-const DIST_DIR_VERSION = DIST_DIR + VERSION;
+const DIST_DIR_VERSION = DIST_DIR + VERSION + '/';
 const HEADER_TEXT = '// monogatari v' + VERSION + '\n';
 
 const LIVE_SERVER_CONFIG = {
@@ -47,7 +47,7 @@ const clean = () => {
     fs.removeSync(COMPILED_FILENAME);
 }
 
-const compile = () => {
+const compile = (callback) => {
     browserify(BROWSERIFY_CONFIG)
         .transform('babelify', {
             presets: ['es2015'],
@@ -55,22 +55,28 @@ const compile = () => {
         })
         .bundle(function (err, bundleBuf) {
             if (err) throw err;
-            else fs.writeFileSync(COMPILED_FILENAME, HEADER_TEXT + bundleBuf.toString('utf-8'));
+            else {
+                fs.writeFileSync(COMPILED_FILENAME, HEADER_TEXT + bundleBuf.toString('utf-8'));
+                if (callback) callback();
+            }
         });
 };
 
-const package = () => {
-    compile();
-    esdoc.default.generate(ESDOC_CONFIG);
-    var compiled = fs.readFileSync(COMPILED_FILENAME, 'utf-8');
-    var minified = uglifyJS.minify(compiled).code;
-    fs.writeFileSync(DIST_DIR_VERSION + MINIFIED_FILENAME, HEADER_TEXT + minified);
+const package = (callback) => {
+    compile(() => {
+        esdoc.default.generate(ESDOC_CONFIG);
+        var compiled = fs.readFileSync(COMPILED_FILENAME, 'utf-8');
+        var minified = uglifyJS.minify(compiled).code;
+        fs.writeFileSync(DIST_DIR_VERSION + MINIFIED_FILENAME, HEADER_TEXT + minified);
+        if (callback) callback();
+    });
 }
 
 const deploy = () => {
-    package();
-    var repo = process.env.GH_TOKEN ? 'https://' + process.env.GH_TOKEN + '@github.com/digihaus/monogatari.git' : undefined;
-    ghpages.publish(DIST_DIR_VERSION, { dest: VERSION, repo: repo }, (err) => { if (err) throw err });
+    package(() => {
+        var repo = process.env.GH_TOKEN ? 'https://' + process.env.GH_TOKEN + '@github.com/digihaus/monogatari.git' : undefined;
+        ghpages.publish(DIST_DIR_VERSION, { dest: VERSION, repo: repo }, (err) => { if (err) throw err });
+    });
 };
 
 const live = () => {
