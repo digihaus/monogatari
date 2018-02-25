@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">main/commons/math/Random.js | @digihaus/monogatari</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="JavaScript game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@digihaus/monogatari"><meta property="twitter:description" content="JavaScript game engine"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/digihaus/monogatari.git"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/GameEngine.js~GameEngine.html">GameEngine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/GameState.js~GameState.html">GameState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/Monogatari.js~Monogatari.html">Monogatari</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commons">commons</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/commons/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commons-math">commons/math</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/commons/math/Random.js~Random.html">Random</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Vector2">Vector2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Vector3">Vector3</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#handler">handler</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/handler/BrowserHandler.js~BrowserHandler.html">BrowserHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/handler/KeyboardHandler.js~KeyboardHandler.html">KeyboardHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/handler/MouseHandler.js~MouseHandler.html">MouseHandler</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#link">link</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Box2D">Box2D</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Howler">Howler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Three">Three</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#model-component">model/component</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Audio.js~Audio.html">Audio</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Body.js~Body.html">Body</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Box.js~Box.html">Box</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Circle.js~Circle.html">Circle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Graphic.js~Graphic.html">Graphic</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Sprite.js~Sprite.html">Sprite</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#model-core">model/core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/core/Camera2D.js~Camera2D.html">Camera2D</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/core/GameObject.js~GameObject.html">GameObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/core/Message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/core/PhysicsEvent.js~PhysicsEvent.html">PhysicsEvent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#service">service</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/service/AudioService.js~AudioService.html">AudioService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/service/MessageService.js~MessageService.html">MessageService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/service/PhysicsService.js~PhysicsService.html">PhysicsService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/service/RenderService.js~RenderService.html">RenderService</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">main/commons/math/Random.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export class Random {
+
+    constructor(seed = new Date().getTime()) {
+        this.mt = new MersenneTwister(seed);
+    }
+
+    bool() {
+        return this.mt.random() * 100 &lt; 50;
+    }
+
+    integer(min, max) {
+        var _min = min || 0;
+        var _max = max || 100;
+        return Math.floor(this.mt.random() * (_max - _min + 1) + _min);
+    }
+
+    percentage(chance) {
+        return this.mt.random() * 100 &lt; chance;
+    }
+
+}
+
+/*
+   A C-program for MT19937, with initialization improved 2002/1/26.
+   Coded by Takuji Nishimura and Makoto Matsumoto.
+
+   Before using, initialize the state by using init_genrand(seed)
+   or init_by_array(init_key, key_length).
+
+   Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions
+   are met:
+
+     1. Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+
+     2. Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+
+     3. The names of its contributors may not be used to endorse or promote
+        products derived from this software without specific prior written
+        permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+   &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+   A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+   Any feedback is very welcome.
+   http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
+   email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
+*/
+class MersenneTwister {
+
+    constructor(seed) {
+        if (seed == undefined) {
+            seed = new Date().getTime();
+        }
+        /* Period parameters */
+        this.N = 624;
+        this.M = 397;
+        this.MATRIX_A = 0x9908b0df;
+        /* constant vector a */
+        this.UPPER_MASK = 0x80000000;
+        /* most significant w-r bits */
+        this.LOWER_MASK = 0x7fffffff;
+        /* least significant r bits */
+
+        this.mt = new Array(this.N);
+        /* the array for the state vector */
+        this.mti = this.N + 1;
+        /* mti==N+1 means mt[N] is not initialized */
+
+        this.init_genrand(seed);
+    }
+
+    /* initializes mt[N] with a seed */
+    init_genrand(s) {
+        this.mt[0] = s &gt;&gt;&gt; 0;
+        for (this.mti = 1; this.mti &lt; this.N; this.mti++) {
+            s = this.mt[this.mti - 1] ^ (this.mt[this.mti - 1] &gt;&gt;&gt; 30);
+            this.mt[this.mti] = (((((s &amp; 0xffff0000) &gt;&gt;&gt; 16) * 1812433253) &lt;&lt; 16) + (s &amp; 0x0000ffff) * 1812433253)
+                + this.mti;
+            /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
+            /* In the previous versions, MSBs of the seed affect   */
+            /* only MSBs of the array mt[].                        */
+            /* 2002/01/09 modified by Makoto Matsumoto             */
+            this.mt[this.mti] &gt;&gt;&gt;= 0;
+            /* for &gt;32 bit machines */
+        }
+    }
+
+    /* initialize by an array with array-length */
+    /* init_key is the array for initializing keys */
+    /* key_length is its length */
+    /* slight change for C++, 2004/2/26 */
+    init_by_array(init_key, key_length) {
+        var i, j, k;
+        this.init_genrand(19650218);
+        i = 1;
+        j = 0;
+        s = 0;
+        k = (this.N &gt; key_length ? this.N : key_length);
+        for (; k; k--) {
+            s = this.mt[i - 1] ^ (this.mt[i - 1] &gt;&gt;&gt; 30)
+            this.mt[i] = (this.mt[i] ^ (((((s &amp; 0xffff0000) &gt;&gt;&gt; 16) * 1664525) &lt;&lt; 16) + ((s &amp; 0x0000ffff) * 1664525)))
+                + init_key[j] + j;
+            /* non linear */
+            this.mt[i] &gt;&gt;&gt;= 0;
+            /* for WORDSIZE &gt; 32 machines */
+            i++;
+            j++;
+            if (i &gt;= this.N) {
+                this.mt[0] = this.mt[this.N - 1];
+                i = 1;
+            }
+            if (j &gt;= key_length) j = 0;
+        }
+        for (k = this.N - 1; k; k--) {
+            s = this.mt[i - 1] ^ (this.mt[i - 1] &gt;&gt;&gt; 30);
+            this.mt[i] = (this.mt[i] ^ (((((s &amp; 0xffff0000) &gt;&gt;&gt; 16) * 1566083941) &lt;&lt; 16) + (s &amp; 0x0000ffff) * 1566083941))
+                - i;
+            /* non linear */
+            this.mt[i] &gt;&gt;&gt;= 0;
+            /* for WORDSIZE &gt; 32 machines */
+            i++;
+            if (i &gt;= this.N) {
+                this.mt[0] = this.mt[this.N - 1];
+                i = 1;
+            }
+        }
+
+        this.mt[0] = 0x80000000;
+        /* MSB is 1; assuring non-zero initial array */
+    }
+
+    /* generates a random number on [0,0xffffffff]-interval */
+    genrand_int32() {
+        var y;
+        var mag01 = new Array(0x0, this.MATRIX_A);
+        /* mag01[x] = x * MATRIX_A  for x=0,1 */
+
+        if (this.mti &gt;= this.N) { /* generate N words at one time */
+            var kk;
+
+            if (this.mti == this.N + 1)   /* if init_genrand() has not been called, */
+                this.init_genrand(5489);
+            /* a default initial seed is used */
+
+            for (kk = 0; kk &lt; this.N - this.M; kk++) {
+                y = (this.mt[kk] &amp; this.UPPER_MASK) | (this.mt[kk + 1] &amp; this.LOWER_MASK);
+                this.mt[kk] = this.mt[kk + this.M] ^ (y &gt;&gt;&gt; 1) ^ mag01[y &amp; 0x1];
+            }
+            for (; kk &lt; this.N - 1; kk++) {
+                y = (this.mt[kk] &amp; this.UPPER_MASK) | (this.mt[kk + 1] &amp; this.LOWER_MASK);
+                this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y &gt;&gt;&gt; 1) ^ mag01[y &amp; 0x1];
+            }
+            y = (this.mt[this.N - 1] &amp; this.UPPER_MASK) | (this.mt[0] &amp; this.LOWER_MASK);
+            this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y &gt;&gt;&gt; 1) ^ mag01[y &amp; 0x1];
+
+            this.mti = 0;
+        }
+
+        y = this.mt[this.mti++];
+
+        /* Tempering */
+        y ^= (y &gt;&gt;&gt; 11);
+        y ^= (y &lt;&lt; 7) &amp; 0x9d2c5680;
+        y ^= (y &lt;&lt; 15) &amp; 0xefc60000;
+        y ^= (y &gt;&gt;&gt; 18);
+
+        return y &gt;&gt;&gt; 0;
+    };
+
+    /* generates a random number on [0,0x7fffffff]-interval */
+    genrand_int31() {
+        return (this.genrand_int32() &gt;&gt;&gt; 1);
+    }
+
+    /* generates a random number on [0,1]-real-interval */
+    genrand_real1() {
+        return this.genrand_int32() * (1.0 / 4294967295.0);
+        /* divided by 2^32-1 */
+    }
+
+    /* generates a random number on [0,1)-real-interval */
+    random() {
+        return this.genrand_int32() * (1.0 / 4294967296.0);
+        /* divided by 2^32 */
+    }
+
+    /* generates a random number on (0,1)-real-interval */
+    genrand_real3() {
+        return (this.genrand_int32() + 0.5) * (1.0 / 4294967296.0);
+        /* divided by 2^32 */
+    }
+
+    /* generates a random number on [0,1) with 53-bit resolution*/
+    genrand_res53() {
+        var a = this.genrand_int32() &gt;&gt;&gt; 5, b = this.genrand_int32() &gt;&gt;&gt; 6;
+        return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
+    }
+
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

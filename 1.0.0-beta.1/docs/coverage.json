@@ -1,0 +1,484 @@
+{
+  "coverage": "0.32%",
+  "expectCount": 310,
+  "actualCount": 1,
+  "files": {
+    "main/GameEngine.js": {
+      "expectCount": 17,
+      "actualCount": 0,
+      "undocumentLines": [
+        18,
+        19,
+        20,
+        22,
+        24,
+        25,
+        27,
+        28,
+        29,
+        30,
+        34,
+        35,
+        36,
+        39,
+        83,
+        100,
+        106
+      ]
+    },
+    "main/GameState.js": {
+      "expectCount": 27,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        35
+      ]
+    },
+    "main/Monogatari.js": {
+      "expectCount": 23,
+      "actualCount": 0,
+      "undocumentLines": [
+        17,
+        19,
+        23,
+        31,
+        32,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        48,
+        52,
+        56,
+        60,
+        64,
+        68,
+        72,
+        76
+      ]
+    },
+    "main/commons/Logger.js": {
+      "expectCount": 10,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3,
+        7,
+        9,
+        18,
+        19,
+        22,
+        26,
+        30,
+        34
+      ]
+    },
+    "main/commons/math/Random.js": {
+      "expectCount": 23,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3,
+        4,
+        7,
+        11,
+        17,
+        65,
+        67,
+        72,
+        73,
+        74,
+        76,
+        78,
+        81,
+        83,
+        90,
+        109,
+        150,
+        188,
+        193,
+        199,
+        205,
+        211
+      ]
+    },
+    "main/commons/math/Vector2.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ]
+    },
+    "main/commons/math/Vector3.js": {
+      "expectCount": 15,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        9,
+        13,
+        17,
+        24,
+        28,
+        32,
+        36,
+        41,
+        48,
+        54
+      ]
+    },
+    "main/handler/BrowserHandler.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        18
+      ]
+    },
+    "main/handler/KeyboardHandler.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        109,
+        112,
+        135
+      ]
+    },
+    "main/handler/MouseHandler.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        7,
+        20,
+        21,
+        22,
+        23,
+        43
+      ]
+    },
+    "main/link/Box2D.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        3
+      ]
+    },
+    "main/link/Howler.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "main/link/Three.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "main/model/component/Audio.js": {
+      "expectCount": 11,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        14,
+        15,
+        16,
+        17,
+        18,
+        21,
+        25,
+        31,
+        37
+      ]
+    },
+    "main/model/component/Body.js": {
+      "expectCount": 15,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        6,
+        14,
+        21,
+        25,
+        26,
+        28,
+        29,
+        31,
+        38,
+        44,
+        47,
+        51,
+        55,
+        62
+      ]
+    },
+    "main/model/component/Box.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        6,
+        10,
+        11,
+        14
+      ]
+    },
+    "main/model/component/Canvas.js": {
+      "expectCount": 21,
+      "actualCount": 1,
+      "undocumentLines": [
+        3,
+        13,
+        15,
+        17,
+        19,
+        20,
+        23,
+        27,
+        35,
+        40,
+        44,
+        48,
+        52,
+        56,
+        60,
+        68,
+        74,
+        85,
+        151,
+        155
+      ]
+    },
+    "main/model/component/Circle.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        6,
+        10,
+        13
+      ]
+    },
+    "main/model/component/Graphic.js": {
+      "expectCount": 14,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        24,
+        28,
+        32
+      ]
+    },
+    "main/model/component/Sprite.js": {
+      "expectCount": 18,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        20,
+        30,
+        34,
+        40,
+        46
+      ]
+    },
+    "main/model/core/Camera2D.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        6,
+        7,
+        9
+      ]
+    },
+    "main/model/core/GameObject.js": {
+      "expectCount": 25,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        11,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        26,
+        30,
+        34,
+        38,
+        44,
+        48,
+        53,
+        58,
+        62,
+        69,
+        74,
+        91
+      ]
+    },
+    "main/model/core/Message.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "main/model/core/PhysicsEvent.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "main/service/AudioService.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        7,
+        8,
+        11
+      ]
+    },
+    "main/service/MessageService.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3,
+        4,
+        7
+      ]
+    },
+    "main/service/PhysicsService.js": {
+      "expectCount": 14,
+      "actualCount": 0,
+      "undocumentLines": [
+        7,
+        9,
+        20,
+        21,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        47,
+        51,
+        55,
+        69
+      ]
+    },
+    "main/service/RenderService.js": {
+      "expectCount": 13,
+      "actualCount": 0,
+      "undocumentLines": [
+        9,
+        10,
+        12,
+        14,
+        18,
+        22,
+        23,
+        30,
+        39,
+        43,
+        47,
+        57,
+        135
+      ]
+    }
+  }
+}

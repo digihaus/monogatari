@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">main/service/PhysicsService.js | @digihaus/monogatari</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="JavaScript game engine"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@digihaus/monogatari"><meta property="twitter:description" content="JavaScript game engine"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/digihaus/monogatari.git"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/GameEngine.js~GameEngine.html">GameEngine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/GameState.js~GameState.html">GameState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/Monogatari.js~Monogatari.html">Monogatari</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commons">commons</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/commons/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#commons-math">commons/math</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/commons/math/Random.js~Random.html">Random</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Vector2">Vector2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Vector3">Vector3</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#handler">handler</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/handler/BrowserHandler.js~BrowserHandler.html">BrowserHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/handler/KeyboardHandler.js~KeyboardHandler.html">KeyboardHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/handler/MouseHandler.js~MouseHandler.html">MouseHandler</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#link">link</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Box2D">Box2D</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Howler">Howler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Three">Three</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#model-component">model/component</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Audio.js~Audio.html">Audio</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Body.js~Body.html">Body</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Box.js~Box.html">Box</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Circle.js~Circle.html">Circle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Graphic.js~Graphic.html">Graphic</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/component/Sprite.js~Sprite.html">Sprite</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#model-core">model/core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/core/Camera2D.js~Camera2D.html">Camera2D</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/core/GameObject.js~GameObject.html">GameObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/core/Message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/model/core/PhysicsEvent.js~PhysicsEvent.html">PhysicsEvent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#service">service</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/service/AudioService.js~AudioService.html">AudioService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/service/MessageService.js~MessageService.html">MessageService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/service/PhysicsService.js~PhysicsService.html">PhysicsService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/main/service/RenderService.js~RenderService.html">RenderService</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">main/service/PhysicsService.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Body } from &apos;model/component/Body&apos;;
+import { PhysicsEvent } from &apos;model/core/PhysicsEvent&apos;;
+import { Vector2 } from &apos;commons/math/Vector2&apos;;
+import { Box2D } from &apos;link/Box2D&apos;;
+import { Logger } from &apos;commons/Logger&apos;;
+
+export class PhysicsService {
+
+    static get LISTENER() {
+        return {
+            BEGIN_CONTACT: 1, // 0001
+            END_CONTACT: 2, // 0010
+            BEGIN_END_CONTACT: 3, // 0011
+            PRE_SOLVE: 4, // 0100
+            POST_SOLVE: 8, // 1000
+            ALL_LISTENERS: 15 //1111
+        }
+    }
+
+    constructor(gravity, allowSleep, listeners) {
+        this._logger = new Logger(PhysicsService.name);
+
+        this.velocityIterations = 10;
+        this.positionIterations = 10;
+        this.clearForcesOnUpdate = false;
+        this.listeners = listeners;
+
+        this._events = new Array();
+        this._world = new Box2D.b2World(new Box2D.b2Vec2(gravity.x, gravity.y), allowSleep);
+
+        var listener = new Box2D.JSContactListener();
+
+        listener.BeginContact = (this.listeners &amp; PhysicsService.LISTENER.BEGIN_CONTACT) ?
+            (contact) =&gt; this._events.push(new PhysicsEvent(&quot;BeginContact&quot;, contact)) : () =&gt; { };
+        listener.EndContact = (this.listeners &amp; PhysicsService.LISTENER.END_CONTACT) ?
+            (contact) =&gt; this._events.push(new PhysicsEvent(&quot;EndContact&quot;, contact)) : () =&gt; { };
+        listener.PreSolve = (this.listeners &amp; PhysicsService.LISTENER.PRE_SOLVE) ?
+            (contact, manifold) =&gt; this._events.push(new PhysicsEvent(&quot;PreSolve&quot;, contact, { manifold: manifold })) : () =&gt; { };
+        listener.PostSolve = (this.listeners &amp; PhysicsService.LISTENER.POST_SOLVE) ?
+            (contact, impulse) =&gt; this._events.push(new PhysicsEvent(&quot;PostSolve&quot;, contact, { impulse: impulse })) : () =&gt; { };
+
+        this._world.SetContactListener(listener);
+
+        this._logger.debug(&quot;physics world ready with listeners&quot;, listener);
+    }
+
+    get events() {
+        return this._events.splice(0);
+    }
+
+    destroy(body) {
+        return this._world.DestroyBody(body.bodyDef);
+    }
+
+    update(body, go) {
+        if (body.state === Body.STATE.REGISTERED) {
+            go.position.x = body.position.x;
+            go.position.y = body.position.y;
+
+        } else if (body.state === Body.STATE.CREATED) {
+            body.materialDef.set_userData(go.uid);
+            body.position = Vector2(go.position.x, go.position.y);
+            body.body = this._world.CreateBody(body.bodyDef);
+            body.body.CreateFixture(body.materialDef);
+            body.state = Body.STATE.REGISTERED;
+        }
+    }
+
+    simulate(fps) {
+        this._world.Step(1 / fps, this.velocityIterations, this.positionIterations);
+        if (this.clearForcesOnUpdate) {
+            this._world.ClearForces();
+        }
+    }
+
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
