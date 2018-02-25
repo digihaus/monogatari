@@ -14,7 +14,8 @@
         "test": "",
         "package": "node scripts.js package",
         "deploy": "node scripts.js deploy",
-        "release": "npm publish && npm version prerelease",
+        "prerelease": "npm publish && npm version prerelease",
+        "release": "",
         "live": "node scripts.js live"
     },
     "devDependencies": {
