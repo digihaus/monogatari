@@ -50,7 +50,7 @@ const clean = () => {
 const compile = (callback) => {
     browserify(BROWSERIFY_CONFIG)
         .transform('babelify', {
-            presets: ['es2015'],
+            presets: ['env'],
             ignore: 'Box2D_v2.3.1_min*'
         })
         .bundle(function (err, bundleBuf) {
