@@ -26,6 +26,7 @@ const LIVE_SERVER_CONFIG = {
 const BROWSERIFY_CONFIG = {
     entries: 'src/main/Monogatari.js',
     paths: ['src/main/'],
+    fullPaths: false,
     standalone: 'Monogatari', // wrap with UMD
     noParse: [
         require.resolve('three'),
@@ -53,7 +54,7 @@ const compile = (callback) => {
             presets: ['env'],
             ignore: 'Box2D_v2.3.1_min*'
         })
-        .bundle(function (err, bundleBuf) {
+        .bundle((err, bundleBuf) => {
             if (err) throw err;
             else {
                 fs.writeFileSync(COMPILED_FILENAME, HEADER_TEXT + bundleBuf.toString('utf-8'));
