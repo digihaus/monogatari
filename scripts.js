@@ -76,7 +76,10 @@ const package = (callback) => {
 const deploy = () => {
     package(() => {
         var repo = process.env.GH_TOKEN ? 'https://' + process.env.GH_TOKEN + '@github.com/digihaus/monogatari.git' : undefined;
-        ghpages.publish(DIST_DIR_VERSION, { dest: VERSION, repo: repo }, (err) => { if (err) throw err });
+        ghpages.publish(DIST_DIR_VERSION, { dest: VERSION, repo: repo }, (err) => {
+            if (err) throw err;
+            else console.log('Successfully deployed to branch ghpages');
+        });
     });
 };
 
