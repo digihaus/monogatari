@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | @digihaus/monogatari</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">main/model/core/GameObject.js | @digihaus/monogatari</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -61,12 +61,105 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="monogatari--a-href--https---travis-ci-org-digihaus-monogatari---img-src--https---travis-ci-org-digihaus-monogatari-svg-branch-master--alt--build-status----a-">Monogatari <a href="https://travis-ci.org/digihaus/monogatari"><img src="https://travis-ci.org/digihaus/monogatari.svg?branch=master" alt="Build Status"></a></h1><h3 id="javascript-game-engine">JavaScript game engine</h3><p>This project aims to facilitate game programming for browsers.
-Currently supports 2D games and it&apos;s composed by the libraries <a href="http://threejs.org/">three.js</a>, <a href="https://github.com/kripken/box2d.js/">box2d.js</a> and <a href="https://github.com/goldfire/howler.js/">howler.js</a>.</p>
-<p>You can check a simple game project <a href="http://digi.haus/demo/zombies">here</a> or read the generated API <a href="http://digi.haus/monogatari/latest/docs">documentation</a>.</p>
-<p>Latest build from master is available <a href="http://digi.haus/monogatari/latest/monogatari.min.js">here</a>.</p>
-<h3 id="license">License</h3><p><a href="https://github.com/digihaus/monogatari/blob/master/LICENSE">MIT</a></p>
-</div>
+<div class="content" data-ice="content"><h1 data-ice="title">main/model/core/GameObject.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Vector3 } from &apos;commons/math/Vector3&apos;;
+
+export class GameObject {
+
+    constructor(name, {
+        update = () =&gt; { },
+        position = Vector3(0, 0, 0),
+        rotation = Vector3(0, 0, Math.PI),
+        scale = Vector3(1, 1, 1) } = {}) {
+
+        this.uid = -1;
+
+        this.name = name;
+        this.update = update;
+        this.position = position;
+        this.rotation = rotation;
+        this.scale = scale;
+        
+        this._axis = Vector3(0, 1, 0);
+        this._direction = Vector3(0, 1, 0);
+        this._children = new Array();
+        this._components = new Array();
+        this._inbox = new Array();
+    }
+
+    get children() {
+        return this._children;
+    }
+
+    get components() {
+        return this._components;
+    }
+
+    get messages() {
+        return this._inbox.splice(0);
+    }
+
+    findChild(uid) {
+        var child = this._children.find(go =&gt; go.uid === uid);
+        if (child) return child;
+        else return this._children.forEach(go =&gt; go.findChild(uid));
+    }
+
+    findComponent(type) {
+        return this._components.find(component =&gt; component instanceof type);
+    }
+
+    attach(go) {
+        this._children.push(go);
+        return this;
+    }
+
+    include(component) {
+        this._components.push(component);
+        return this;
+    }
+
+    receive(message) {
+        this._inbox.push(message);
+    }
+
+    lookAt(position) {
+        this._direction.x = position.x - this.position.x;
+        this._direction.y = position.y - this.position.y;
+        this._direction.normalize();
+        this.rotation.z = this.getEulerRotation();
+    }
+
+    getEulerRotation() {
+        var angle = this._direction.angleTo(this._axis);
+        return (this._direction.y * this._axis.x &gt; this._direction.x * this._axis.y) ? angle : -angle;
+    }
+
+    rotateAroundPivot(pivot, radians) {
+        var c = Math.cos(radians);
+        var s = Math.sin(radians);
+        var result = this.position.clone();
+      
+        var oldX = result.x - pivot.x;
+        var oldy = result.y - pivot.y;
+      
+        var newX = oldX * c - oldy * s;
+        var newY = oldX * s + oldy * c;
+      
+        result.x = newX + pivot.x;
+        result.y = newY + pivot.y;
+      
+        this.position = result;
+    }
+
+    clone(name = this.name + &apos;_copy&apos;) {
+        var clone = new GameObject(name, { update: this.update, position: this.position.clone(), rotation: this.rotation.clone(), scale: this.scale.clone() });
+        this._children.forEach(child =&gt; clone._children.push(child.clone()));
+        this._components.forEach(component =&gt; clone._components.push(component.clone()));
+        return clone;
+    }
+}</code></pre>
+
 </div>
 
 <footer class="footer">

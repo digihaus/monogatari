@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | @digihaus/monogatari</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">main/model/component/Audio.js | @digihaus/monogatari</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -61,12 +61,49 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="monogatari--a-href--https---travis-ci-org-digihaus-monogatari---img-src--https---travis-ci-org-digihaus-monogatari-svg-branch-master--alt--build-status----a-">Monogatari <a href="https://travis-ci.org/digihaus/monogatari"><img src="https://travis-ci.org/digihaus/monogatari.svg?branch=master" alt="Build Status"></a></h1><h3 id="javascript-game-engine">JavaScript game engine</h3><p>This project aims to facilitate game programming for browsers.
-Currently supports 2D games and it&apos;s composed by the libraries <a href="http://threejs.org/">three.js</a>, <a href="https://github.com/kripken/box2d.js/">box2d.js</a> and <a href="https://github.com/goldfire/howler.js/">howler.js</a>.</p>
-<p>You can check a simple game project <a href="http://digi.haus/demo/zombies">here</a> or read the generated API <a href="http://digi.haus/monogatari/latest/docs">documentation</a>.</p>
-<p>Latest build from master is available <a href="http://digi.haus/monogatari/latest/monogatari.min.js">here</a>.</p>
-<h3 id="license">License</h3><p><a href="https://github.com/digihaus/monogatari/blob/master/LICENSE">MIT</a></p>
-</div>
+<div class="content" data-ice="content"><h1 data-ice="title">main/model/component/Audio.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Howler } from &apos;link/Howler&apos;;
+
+export class Audio {
+
+    static get STATE() {
+        return {
+            CREATED: 0,
+            BUFFERING: 1,
+            LOADED: 2,
+            RUNNING: 3
+        }
+    }
+
+    constructor(source, { loop = false } = {}) {
+        this.state = Audio.STATE.CREATED;
+        this.source = source;
+        this.loop = loop;
+        this.sound = null;
+    }
+
+    get loaded() {
+        return this.state &gt;= Audio.STATE.LOADED;
+    }
+
+    play() {
+        if (this.state &gt; Audio.STATE.BUFFERING) {
+            this.sound.play();
+        }
+    }
+
+    stop() {
+        if (this.state === Audio.STATE.RUNNING) {
+            this.sound.stop();
+        }
+    }
+
+    clone() {
+        return new Audio(this.source, { loop: this.loop });
+    }
+
+}</code></pre>
+
 </div>
 
 <footer class="footer">
