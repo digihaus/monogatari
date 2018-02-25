@@ -108,10 +108,10 @@
             }
           },
           "extra": {
-            "rawValue": "commons/Math/Vector3",
-            "raw": "'commons/Math/Vector3'"
+            "rawValue": "commons/math/Vector3",
+            "raw": "'commons/math/Vector3'"
           },
-          "value": "commons/Math/Vector3"
+          "value": "commons/math/Vector3"
         }
       },
       {
@@ -4024,7 +4024,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "commons/Math/Vector3",
+      "value": "commons/math/Vector3",
       "start": 24,
       "end": 46,
       "loc": {
