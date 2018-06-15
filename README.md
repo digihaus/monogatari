@@ -1,5 +1,5 @@
 # DEPRECATED
-This project is no longer maintaned. Please, consider using [Impact](http://impactjs.com/), [Phaser](https://phaser.io/) or even combination of [matter.js](http://brm.io/matter-js/) and [PixiJS](http://www.pixijs.com/).
+This project is no longer maintaned. Please, consider using [Impact](http://impactjs.com/), [Phaser](https://phaser.io/) or even some combination like [matter.js](http://brm.io/matter-js/) with [PixiJS](http://www.pixijs.com/).
 
 Monogatari [![Build Status](https://travis-ci.org/digihaus/monogatari.svg?branch=master)](https://travis-ci.org/digihaus/monogatari)
 ==========
